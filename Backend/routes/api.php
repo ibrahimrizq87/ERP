@@ -19,3 +19,13 @@ Route::get('/users/get-user/{id}', [AuthController::class, 'getUser'])->middlewa
 Route::get('/users/get-users', [AuthController::class, 'getAllUsers'])->middleware('auth:sanctum');
 Route::get('/users/get-users/{role}', [AuthController::class, 'getAllUsersByRole'])->middleware('auth:sanctum');
 
+use App\Http\Controllers\ProductController;
+
+Route::apiResource('products', ProductController::class);
+
+
+use App\Http\Controllers\MachineController;
+
+Route::apiResource('machines', MachineController::class);
+
+

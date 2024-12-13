@@ -25,6 +25,7 @@ class Shift extends Model
         'total_cash',
         'total_payed_online',
         'total_client_deposit',
+        'machine_id',
     ];
 
 
@@ -36,6 +37,12 @@ class Shift extends Model
     public function onlinePayments()
     {
         return $this->hasMany(OnlinePayment::class, 'shift_id');
+    }
+
+
+    public function machine()
+    {
+        return $this->belongsTo(Machine::class);
     }
 
     public function clientCounters()
