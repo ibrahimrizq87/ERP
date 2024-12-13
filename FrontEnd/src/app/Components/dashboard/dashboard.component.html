@@ -21,6 +21,26 @@
                
               </ul>
             </li>
+
+
+            <li class="nav-item">
+              <a class="nav-link">
+                <div class="d-flex justify-content-around align-items-center" (click)="toggleDropdown('products')">
+                  <i class="fa-regular fa-user"></i>
+                  <span>Products</span>
+                  <i [ngClass]="isDropdownOpen('products') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+                </div>
+              </a>
+              <ul class="nav flex-column" *ngIf="isDropdownOpen('products')">
+                <li class="nav-item nested">
+                  <a class="nav-link" routerLinkActive="active" routerLink="products">Products</a>
+                </li>
+                <li class="nav-item nested">
+                  <a class="nav-link" routerLinkActive="active" routerLink="machines">Machines </a>
+                </li>
+               
+              </ul>
+            </li>
             <li class="nav-item">
                 <a class="nav-link">
                   <div class="d-flex justify-content-around align-items-center" (click)="toggleDropdown('accounting')">
@@ -38,6 +58,7 @@
               </li>
           </ul>
         </div>
+
   
         <!-- Profile Content -->
         <div class="col-md-10 profile-content vh-100">

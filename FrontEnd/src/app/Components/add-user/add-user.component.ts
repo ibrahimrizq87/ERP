@@ -18,12 +18,7 @@ export class AddUserComponent {
   constructor(private _UserService:UserService , private _Router: Router) {
    
   }
-  // 'name' => 'required|string|max:255',
-  // 'username' => 'required|string|max:255|unique:users,username',
-  // 'password' => 'required|string|min:8',
-  // 'role' => 'required|in:accountant,worker,admin',
-  // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-
+ 
   userForm: FormGroup = new FormGroup({
     name:new FormControl(null, [Validators.required,Validators.maxLength(255)]),
     username: new FormControl(null, [Validators.required,Validators.maxLength(255)]),
