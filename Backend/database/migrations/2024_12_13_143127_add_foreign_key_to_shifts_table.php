@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::table('shifts', function (Blueprint $table) {
             $table->foreignId('machine_id') 
             ->constrained('machines')
-            ->onDelete('cascade');        
+            ->onDelete('cascade');  
+                $table->date('date'); 
+
   });
 }
     
@@ -26,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('shifts', function (Blueprint $table) {
             $table->dropForeign(['machine_id']);
-            $table->dropColumn('machine_id');
+            $table->dropColumn(['machine_id' ,'date']);
         });
     }
 };

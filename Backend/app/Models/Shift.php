@@ -26,6 +26,7 @@ class Shift extends Model
         'total_payed_online',
         'total_client_deposit',
         'machine_id',
+        'date',
     ];
 
 
