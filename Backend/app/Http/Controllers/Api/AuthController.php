@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
+
 use App\Models\User;  
 
 use App\Http\Resources\UserResource;
@@ -41,7 +44,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'username not found.'], 404);
         }
     
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('username', 'password'))) {
             return response()->json(['error' => 'Invalid password.'], 401);
         }
 
