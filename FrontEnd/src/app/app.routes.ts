@@ -18,6 +18,10 @@ import { MachinesComponent } from './Components/machines/machines.component';
 import { AddMachineComponent } from './Components/add-machine/add-machine.component';
 import { UpdateMachineComponent } from './Components/update-machine/update-machine.component';
 import { ShowMachineComponent } from './Components/show-machine/show-machine.component';
+import { ShiftsComponent } from './Components/shifts/shifts.component';
+import { AddShiftComponent } from './Components/add-shift/add-shift.component';
+import { UpdateShiftComponent } from './Components/update-shift/update-shift.component';
+import { ShowShiftComponent } from './Components/show-shift/show-shift.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -39,6 +43,11 @@ export const routes: Routes = [
     {path:"updateMachine/:id",component:UpdateMachineComponent},
     {path:"showMachine/:id",component:ShowMachineComponent},
 
+
+    {path:"shifts",component:ShiftsComponent},  
+    {path:"addShift",component:AddShiftComponent},
+    {path:"updateShift/:id",component:UpdateShiftComponent},
+    {path:"showShift/:id",component:ShowShiftComponent},
 
     {path:"recieptDocuments",component:RecieptDocumentsComponent},  
     {path:"addReciept",component:AddRecieptComponent},
