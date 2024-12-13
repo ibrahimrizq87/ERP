@@ -11,6 +11,7 @@ class AccountsTableSeeder extends Seeder
     {
         DB::table('accounts')->insert([
             [
+                // 'id' => 1,
                 'account_name' => 'الخزينه',
                 'phone' => null,
                 'parent_id' => null, 
@@ -22,6 +23,8 @@ class AccountsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                // 'id' => 2,
+
                 'account_name' => 'الزبائن',
                 'phone' => null,
                 'parent_id' => null, 
@@ -33,6 +36,8 @@ class AccountsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                // 'id' => 3,
+
                 'account_name' => 'الموردين',
                 'phone' => null,
                 'parent_id' => null, 
@@ -44,6 +49,8 @@ class AccountsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                // 'id' => 4,
+
                 'account_name' => 'حسابات البنوك',
                 'phone' => null,
                 'parent_id' => null, 
@@ -55,6 +62,8 @@ class AccountsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                // 'id' => 5,
+
                 'account_name' => 'حساب المصاريف العمومية و الادارية',
                 'phone' => null,
                 'parent_id' => null, 
@@ -66,6 +75,8 @@ class AccountsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                // 'id' => 6,
+
                 'account_name' => 'حساب المصاريف التسويقية',
                 'phone' => null,
                 'parent_id' => null, 
