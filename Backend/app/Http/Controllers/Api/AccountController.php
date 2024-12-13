@@ -44,6 +44,19 @@ class AccountController extends Controller
         return new AccountResource($account);
     }
 
+    
+    public function mainAccount()
+    {
+        $accounts = Account::where('parent_id' ,null)->get();
+        return AccountResource::collection($accounts);
+    }
+
+    public function getAccountsByParent($parent_id)
+    {
+        $accounts = Account::where('parent_id' ,$parent_id)->get();
+        return AccountResource::collection($accounts);
+    }
+
     public function update(Request $request, Account $account)
     {
 
