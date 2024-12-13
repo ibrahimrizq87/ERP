@@ -26,7 +26,7 @@ export class ShiftsComponent implements OnInit {
       next: (response) => {
         if (response) {
           console.log(response);
-          this.shifts = response; 
+          this.shifts = response.data; 
         
         }
       },

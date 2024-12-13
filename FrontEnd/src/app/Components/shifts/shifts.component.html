@@ -32,11 +32,19 @@
         <tbody>
             <tr *ngFor="let shift of shifts; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
-                <td>{{ shift.user_id }}</td>
-                <td>{{ shift.opening_image }}</td>
+                <td>{{ shift.user?.name }}</td>
+                <td>
+                    <img 
+                      [src]="shift.opening_image ? shift.opening_image : 'images/default.jpg'" 
+                      alt="{{ shift.name_ar || 'Default image' }}" 
+                      width="50" 
+                      height="50" 
+                    />
+                  </td>
+                <!-- <td>{{ shift.opening_image }}</td> -->
                 <td>{{ shift.opening_amount }}</td>
                 <td>{{ shift.shift }}</td>
-                <td>{{ shift.machine_id }}</td>
+                <td>{{ shift.machine?.machine_number}}</td>
                
                   <td >
                     <div class="d-flex justify-content-around align-items-center">
