@@ -12,9 +12,9 @@ class ShiftController extends Controller
 
     $rules = [
         'user_id' => 'required|exists:users,id',
-        'opening_image' => 'required|string|max:10',
+        'opening_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'opening_amount' => 'required|numeric|min:0',
-        'ending_image' => 'nullable|string|max:10',
+        'ending_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'ending_amount' => 'nullable|numeric|min:0',
         'shift' => 'required|in:1,2',
         'status' => 'required|in:open,closed',
@@ -52,16 +52,16 @@ $data = $validator->validated();
     
     $shift->user_id = $data['user_id'];
     $shift->opening_image = $data['opening_image'];
-    // $shift->opening_amount= 
-    // $shift->ending_image= 
-    // $shift->ending_amount= 
-    // $shift->shift= 
-    // $shift->status= 
-    // $shift->amount= 
-    // $shift->total_money= 
-    // $shift->total_cash= 
-    // $shift->total_payed_online= 
-    // $shift->total_client_deposit= 
+    $shift->opening_amount= $data['opening_amount'];
+    $shift->ending_image= $data['opening_amount'];
+    $shift->ending_amount= $data['opening_amount'];
+    $shift->shift= $data['opening_amount'];
+    $shift->status= $data['opening_amount'];
+    $shift->amount= $data['opening_amount'];
+    $shift->total_money= $data['opening_amount'];
+    $shift->total_cash= $data['opening_amount'];
+    $shift->total_payed_online= $data['opening_amount'];
+    $shift->total_client_deposit= $data['opening_amount'];
     
 // to be complete 
     // Save related online payments
