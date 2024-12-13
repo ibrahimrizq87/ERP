@@ -1,0 +1,49 @@
+
+#home {
+    background-size: cover;
+    background-position:center center;
+    overflow: auto;
+    /* background-image: url('/images/login.jpg'); */
+    background-image:linear-gradient(rgba(0, 0, 0, 0.521),rgba(0,0,0, 0.521)) ,url('/images/login.jpg') ; /* Replace with your image URL */
+}
+h2{
+    font-weight: 600;
+    font-size: 28px;
+}
+label{
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    background-color: #FFFFFF !important;
+}
+
+.card .input-group-text {
+    border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.card .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.card .btn-success {
+    background-color: #145388 !important ;
+    border-color: #145388 !important;
+    border-radius: 5px;
+}
+.input-group .bg-success{
+    background-color: #145388 !important ;  
+}
+.forget{
+    color:#145388 !important ; 
+    text-decoration: none !important;
+    font-weight: 400;
+    font-size: 14px;
+}
+

@@ -1,0 +1,50 @@
+<app-header></app-header>
+<section id="dashboard">
+    <div class="container-fluid">
+      <div class="row">
+    
+        <div class="col-md-2 sidebar">
+          <ul class="nav flex-column">
+           
+              <li class="nav-item">
+              <a class="nav-link">
+                <div class="d-flex justify-content-around align-items-center" (click)="toggleDropdown('HRM')">
+                  <i class="fa-regular fa-user"></i>
+                  <span>HRM System</span>
+                  <i [ngClass]="isDropdownOpen('HRM') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+                </div>
+              </a>
+              <ul class="nav flex-column" *ngIf="isDropdownOpen('HRM')">
+                <li class="nav-item nested">
+                  <a class="nav-link" routerLinkActive="active" routerLink="users">Users</a>
+                </li>
+               
+              </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">
+                  <div class="d-flex justify-content-around align-items-center" (click)="toggleDropdown('accounting')">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Accounting</span>
+                    <i [ngClass]="isDropdownOpen('accounting') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+                  </div>
+                </a>
+                <ul class="nav flex-column" *ngIf="isDropdownOpen('accounting')">
+                  <li class="nav-item nested">
+                    <a class="nav-link" routerLinkActive="active" routerLink="recieptDocuments">Reciept Document</a>
+                  </li>
+                 
+                </ul>
+              </li>
+          </ul>
+        </div>
+  
+        <!-- Profile Content -->
+        <div class="col-md-10 profile-content vh-100">
+          <div class="container mycontainer">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
