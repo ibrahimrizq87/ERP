@@ -190,47 +190,18 @@ class PaymentDocumentController extends Controller
 
 
 
-    // public function update(PaymentDocumentRequest $request, PaymentDocument $paymentDocument)
-    // {
-    //     $validated = $request->validated();
-
-    //     if($request->hasFile("image")){
-    //         $image = $request->file("image");
-    //         $my_path=$image->store('payment_documents','uploads');
-    //         $my_path= asset('uploads/' . $my_path); 
-    //         $validated['image'] = $my_path;
-    //     }
-
-    //     $paymentDocument->update($validated);
-
-    //     return new PaymentDocumentResource($paymentDocument);
-    // }
-
-
-    // public function destroy(PaymentDocument $paymentDocument)
-    // {
-
-        
-    //     $paymentDocument->delete();
-
-    //     return response()->json(['message' => 'Payment document deleted successfully.']);
-    // }
-
-
     public function destroy(PaymentDocument $paymentDocument)
 {
-    // Find the accounts involved
+    
     $accountCompany = Account::find($paymentDocument->company_account_id);
     $accountCustomer = Account::find($paymentDocument->customer_account_id);
     $accountCompanyParent = Account::find($accountCompany->parent_id);
     $accountCustomerParent = Account::find($accountCustomer->parent_id);
 
-    // Validate the accounts
     if (!$accountCompany || !$accountCustomer || !$accountCompanyParent || !$accountCustomerParent) {
         return response()->json(['message' => 'Account not found'], 404);
     }
 
-    // Revert the balance changes based on the document type
     if ($paymentDocument->type == 'payment') {
         $accountCompany->net_debit -= $paymentDocument->amount;
         $accountCompanyParent->net_debit -= $paymentDocument->amount;
@@ -245,30 +216,25 @@ class PaymentDocumentController extends Controller
         $accountCustomerParent->net_debit -= $paymentDocument->amount;
     }
 
-    // Save the accounts after reverting the balance changes
     $accountCompany->save();
     $accountCustomer->save();
     $accountCompanyParent->save();
     $accountCustomerParent->save();
 
-    // Recalculate the current balance for all accounts
     $accountCompany->current_balance = $accountCompany->net_credit - $accountCompany->net_debit;
     $accountCustomer->current_balance = $accountCustomer->net_credit - $accountCustomer->net_debit;
     $accountCompanyParent->current_balance = $accountCompanyParent->net_credit - $accountCompanyParent->net_debit;
     $accountCustomerParent->current_balance = $accountCustomerParent->net_credit - $accountCustomerParent->net_debit;
 
-    // Save the updated balances
     $accountCompany->save();
     $accountCustomer->save();
     $accountCompanyParent->save();
     $accountCustomerParent->save();
 
-    // Delete the image if it exists
     if ($paymentDocument->image && Storage::disk('uploads')->exists($paymentDocument->image)) {
         Storage::disk('uploads')->delete($paymentDocument->image);
     }
 
-    // Delete the payment document
     $paymentDocument->delete();
 
     return response()->json(['message' => 'Payment document deleted successfully.'], 200);
