@@ -17,7 +17,7 @@ export class UserService {
   viewAllUsers(): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.get(`${this.baseURL}/users`,{ headers })
+    return this._HttpClient.get(`${this.baseURL}/users/get-users`,{ headers })
   }
   deleteUser(userId: number): Observable<any> {
     const token = localStorage.getItem('Gtoken');
@@ -27,7 +27,7 @@ export class UserService {
   addUser(userData: FormData): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.post(`${this.baseURL}/users`, userData ,{ headers })
+    return this._HttpClient.post(`${this.baseURL}/users/add-user`, userData ,{ headers })
   } 
   getUserById(id:any): Observable<any>{
     const token = localStorage.getItem('Token');
