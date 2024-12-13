@@ -18,19 +18,27 @@
                 <div class="row">
 
                   <div class="form-group col-md-6">
-                    <label for="user_name"  class="form-label">User user_name</label>
-                    <input id="user_name" formControluser_name="user_name" type="text" class="form-control" placeholder="Enter user_name" required/>
-                    <div class="alert alert-danger" *ngIf="userForm.get('user_name')?.errors && userForm.get('user_name')?.touched">
-                      <p *ngIf="userForm.get('user_name')?.getError('required')">user_name is Required</p>
-                    
+                    <label for="name"  class="form-label">Name</label>
+                    <input id="name" formControlName="name" type="text" class="form-control" placeholder="Enter name" required/>
+                    <div class="alert alert-danger" *ngIf="userForm.get('name')?.errors && userForm.get('name')?.touched">
+                      <p *ngIf="userForm.get('name')?.getError('required')">name is Required</p>
+                      <p *ngIf="userForm.get('name')?.getError('maxLength')">maxLength is 255</p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="username"  class="form-label">User Name</label>
+                    <input id="username" formControlName="username" type="text" class="form-control" placeholder="Enter User Name" required/>
+                    <div class="alert alert-danger" *ngIf="userForm.get('username')?.errors && userForm.get('username')?.touched">
+                      <p *ngIf="userForm.get('username')?.getError('required')">username is Required</p>
+                      <p *ngIf="userForm.get('username')?.getError('maxLength')">maxLength is 255</p>
                     </div>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="password"  class="form-label">User password</label>
-                    <input id="password" formControlpassword="password" type="text" class="form-control" placeholder="Enter password" required/>
+                    <input id="password" formControlName="password" type="password" class="form-control" placeholder="Enter password" required/>
                     <div class="alert alert-danger" *ngIf="userForm.get('password')?.errors && userForm.get('password')?.touched">
                       <p *ngIf="userForm.get('password')?.getError('required')">password is Required</p>
-                    
+                      <p *ngIf="userForm.get('password')?.getError('minLength')">minLength is 8</p>
                     </div>
                   </div>
                   <div class="form-group col-md-6">
@@ -44,11 +52,30 @@
                       <p *ngIf="userForm.get('role')?.hasError('required')">Role is required</p>
                     </div>
                   </div>
+                  <div class="form-group text-center">
+                    <label for="image" class="form-label"><i class="fa-solid fa-image"></i> Product Image (Optional)</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+                      <label for="image" class="btn btn-image">
+                        <i class="fa-solid fa-file-arrow-up"></i> Choose File
+                      </label>
+                      <span id="file-name">{{ selectedFile?.name || 'No file chosen' }}</span>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="userForm.get('image')?.errors && userForm.get('image')?.touched">
+                      <p *ngIf="userForm.get('image')?.getError('invalidFileType')">Invalid image format</p>
+                      <p *ngIf="userForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</p>
+                    </div>
+                  </div>
                 </div>   
                 
             </div>
            
             </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
           </div>
           <div class=" mt-4 mb-4">
             <button [disabled]="userForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save</button>
