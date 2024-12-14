@@ -1,1 +1,63 @@
-<p>show-user works!</p>
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>User Details</h5>
+            </div>
+            <div class="card-body pb-5">
+              <div class="row">
+                <!-- User Details -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="fw-bold">Name:</label>
+                    <p class="text-muted">{{ userData?.name || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Username:</label>
+                    <p class="text-muted">{{ userData?.username || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Role:</label>
+                    <p class="text-muted">{{ userData?.role || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Email Verified At:</label>
+                    <p class="text-muted">{{ userData?.email_verified_at || 'N/A' }}</p>
+                  </div>
+                </div>
+  
+                <!-- User Metadata -->
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="fw-bold">Image:</label>
+                        <div *ngIf="userData?.image">
+                          <img [src]="userData?.image" alt="User Image" class="img-fluid rounded">
+                        </div>
+                        <p *ngIf="!userData?.image" class="text-muted"><img src="images/default.jpg" alt="No image"/></p>
+                      </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Created At:</label>
+                    <p class="text-muted">{{ userData?.created_at || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Updated At:</label>
+                    <p class="text-muted">{{ userData?.updated_at || 'N/A' }}</p>
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="mt-4 mb-4">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/users">
+          <button type="button" class="btn btn-primary px-4">Back</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  

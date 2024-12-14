@@ -16,7 +16,7 @@ class ShiftResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            // 'user_id' => $this->user_id,
             'opening_image' => $this->opening_image,
             'opening_amount' => $this->opening_amount,
             'ending_image' => $this->ending_image,
@@ -30,6 +30,8 @@ class ShiftResource extends JsonResource
             'total_client_deposit' => $this->total_client_deposit,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'machine' => new MachineResource($this->whenLoaded('machine')),
             'online_payments' => OnlinePaymentResource::collection($this->whenLoaded('onlinePayments')),
             'client_counters' => ClientCounterResource::collection($this->whenLoaded('clientCounters')),
         ];

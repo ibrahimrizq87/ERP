@@ -22,7 +22,8 @@ class ShiftController extends Controller
 
     public function index()
     {
-        $shifts = Shift::all();
+        $shifts = Shift::with(['machine','user'])->get();
+    
         return ShiftResource::collection($shifts);
 
     }
@@ -262,6 +263,7 @@ if(request()->hasFile("opening_image")){
     $shift->shift= $data['shift'];
     $shift->date= $data['date'];
 
+    $shift->machine_id= $data['machine_id'];
     $shift->status= 'open';
     $shift->amount= 0;
     $shift->total_money= 0;
@@ -273,7 +275,7 @@ if(request()->hasFile("opening_image")){
     return response()->json([
         'success' => true,
         'message' => 'Shift created successfully',
-        'data' => new ShiftResource($shift->load('onlinePayments', 'clientCounters')),
+        'data' => new ShiftResource($shift->load('onlinePayments', 'clientCounters','machine')),
     ]);
 }
 
