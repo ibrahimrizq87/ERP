@@ -29,7 +29,7 @@
                   <div class="form-group col-md-6">
                     <label class="form-label">Select Product</label>
                     <select class="form-control" formControlName="product_id">
-                      <option>Select Product</option>
+                      <option value="" disabled> Select Product</option>
                       <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
                     </select>
                   </div>

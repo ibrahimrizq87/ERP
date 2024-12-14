@@ -54,9 +54,10 @@
               <li *ngFor="let error of msgError">{{ error }}</li>
             </ul>
           </div>
-          <div class=" mt-4 mb-4">
+          <div class=" mt-4 mb-4 d-flex justify-content-around w-25">
             <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save</button>
-         </div>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
       
         </div>
       

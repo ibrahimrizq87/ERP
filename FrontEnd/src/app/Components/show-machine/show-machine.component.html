@@ -1,1 +1,39 @@
-<p>show-machine works!</p>
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>Machinr Details</h5>
+            </div>
+            <div class="card-body pb-5">
+              <div class="row">
+                <!-- User Details -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="fw-bold">Name:</label>
+                    <p class="text-muted">{{ machineData?.machine_number || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Price:</label>
+                    <p class="text-muted">{{ machineData?.product?.name || 'N/A' }}</p>
+                  </div>
+               
+                
+                </div>
+  
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="mt-4 mb-4">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/machines">
+          <button type="button" class="btn btn-primary px-4">Back</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  
