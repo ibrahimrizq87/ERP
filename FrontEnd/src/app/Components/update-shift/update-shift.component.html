@@ -1,1 +1,113 @@
-<p>update-shift works!</p>
+<form [formGroup]="shiftForm" (ngSubmit)="handleForm()">
+  
+  
+    <!-- Online Payments -->
+    <div formArrayName="online_payments" class="mt-4">
+      <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="mb-3">
+        <div class="row">
+          <!-- Payment Amount Input -->
+          <div class="col-md-4">
+            <label for="amount">Payment Amount</label>
+            <input
+              formControlName="amount"
+              type="number"
+              class="form-control"
+              (input)="calculatePaymentTotal(i)"
+            />
+            <small class="text-muted"> paymentResults: {{ paymentResults[i] }} </small>
+          </div>
+  
+          <!-- Client Name -->
+          <div class="col-md-4">
+            <label for="client_name">Client Name</label>
+            <input formControlName="client_name" type="text" class="form-control" />
+          </div>
+  
+          <!-- Image Upload -->
+          <div class="col-md-4">
+            <label for="image">Payment Image</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
+          </div>
+  
+          <!-- Remove Button -->
+          <div class="col-md-12">
+            <button type="button" class="btn btn-danger mt-2" (click)="removeOnlinePayment(i)">
+              <i class="fa-solid fa-trash"></i> Remove Payment
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
+        <i class="fa-solid fa-plus"></i> Add Payment
+      </button>
+    </div>
+  <!-- Total Payment -->
+<!-- <div class="form-group col-md-12 mt-4">
+  <label for="totalOnlinePayment">Total Online Payment</label>
+  <input
+    id="totalOnlinePayment"
+    type="number"
+    class="form-control"
+    [value]="totalOnlinePayment"
+    readonly
+  />
+</div> -->
+<div class="form-group col-md-12 mt-4 ">
+  <label for="totalOnlinePayment">Total Online Payment:  <small>{{totalOnlinePayment}}</small></label>
+ 
+</div>
+   
+  
+    <!-- Client Counters -->
+    <div formArrayName="client_counters" class="mt-4">
+      <div *ngFor="let counter of clientCounters.controls; let i = index" [formGroupName]="i" class="mb-3">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="amount">Counter Amount</label>
+            <input
+              formControlName="amount"
+              type="number"
+              class="form-control"
+              (input)="calculateCounterTotal(i)"
+            />
+            <small class="text-muted"> Counter Result: {{ clientsResult[i] }} </small>
+          </div>
+          <div class="col-md-4">
+            <label for="account_id">Account ID</label>
+            <input formControlName="account_id" type="text" class="form-control" />
+          </div>
+  
+         
+          
+  
+          <div class="col-md-4">
+            <label for="image">Counter Image</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event, 'client_counter', i)" />
+          </div>
+  
+          <div class="col-md-12">
+            <button type="button" class="btn btn-danger mt-2" (click)="removeClientCounter(i)">
+              <i class="fa-solid fa-trash"></i> Remove Counter
+            </button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary mt-3" (click)="addClientCounter()">
+        <i class="fa-solid fa-plus"></i> Add Counter
+      </button>
+    </div>
+    <div class="form-group col-md-12 mt-4">
+      <label for="total_client_deposit">Total Client Deposit : <small>{{total_client_deposit}}</small></label>
+     
+    </div>
+    <div class="form-group col-md-12 mt-4">
+      <label for="amountTotal">Total Amount : <small>{{amountTotal}}</small></label>
+     
+    </div> 
+  
+    <button type="submit" class="btn btn-success mt-3" [disabled]="isLoading">
+      <i class="fa-solid fa-save"></i> Save Changes
+    </button>
+  </form>
+  

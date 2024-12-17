@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ShiftResource;
 use App\Models\ClientCounter;  
 use App\Models\Shift;  
+use App\Models\Machine;  
+use App\Models\Product;  
+
 use App\Models\OnlinePayment;  
 
 class ShiftController extends Controller
@@ -30,18 +33,31 @@ class ShiftController extends Controller
 
 
 
+    // public function show($id)
+    // {
+    //     $shift = Shift::find($id);
+    //     if(!$shift){
+    //         return response()->json([
+    //                     'message' => 'shift not found'
+    //                 ], 404);
+    //     }
+    
+    //     return new ShiftResource($shift->load('onlinePayments', 'clientCounters'));
+
+    // }
     public function show($id)
     {
         $shift = Shift::find($id);
-        if(!$shift){
+        if (!$shift) {
             return response()->json([
-                        'message' => 'shift not found'
-                    ], 404);
+                'message' => 'Shift not found',
+            ], 404);
         }
     
-        return new ShiftResource($shift->load('onlinePayments', 'clientCounters'));
-
+        return new ShiftResource($shift->load(['machine.product', 'user', 'onlinePayments', 'clientCounters']));
     }
+    
+
 
 
 
@@ -57,7 +73,7 @@ class ShiftController extends Controller
 
     $rules = [
  
-       'amount' => 'required|numeric|min:0',
+        'amount' => 'required|numeric|min:0',
 
         'total_payed_online' => 'required|numeric|min:0',
         'total_client_deposit' => 'required|numeric|min:0',
@@ -153,8 +169,8 @@ $totalCustomer = $shift->total_client_deposit;
   
     
 
-    $shift->total_payed_online = $totalOnline; 
-     $shift->total_client_deposit =$totalCustomer ;
+    $shift->total_payed_online = $data['total_payed_online']; 
+     $shift->total_client_deposit =$data['total_client_deposit'] ;
      $shift->amount += $data['amount'];
      $shift->save();
     return response()->json([
