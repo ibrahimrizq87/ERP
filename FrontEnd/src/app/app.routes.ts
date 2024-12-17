@@ -22,6 +22,10 @@ import { ShiftsComponent } from './Components/shifts/shifts.component';
 import { AddShiftComponent } from './Components/add-shift/add-shift.component';
 import { UpdateShiftComponent } from './Components/update-shift/update-shift.component';
 import { ShowShiftComponent } from './Components/show-shift/show-shift.component';
+import { AccountingComponent } from './Components/accounting/accounting.component';
+import { AddAccountComponent } from './Components/add-account/add-account.component';
+import { PaymentDocumentComponent } from './Components/payment-document/payment-document.component';
+import { AddPaymentDocumentComponent } from './Components/add-payment-document/add-payment-document.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -37,6 +41,11 @@ export const routes: Routes = [
     {path:"updateProduct/:id",component:UpdateProductComponent},
     {path:"showProduct/:id",component:ShowProductComponent},
 
+    {path:"accounting/:id",component:AccountingComponent},
+    {path:"addAccount/:id",component:AddAccountComponent},
+    {path:"paymentDocument/:type",component:PaymentDocumentComponent},
+
+    {path:"addPaymentDocument/:type",component:AddPaymentDocumentComponent},
 
     {path:"machines",component:MachinesComponent},  
     {path:"addMachine",component:AddMachineComponent},

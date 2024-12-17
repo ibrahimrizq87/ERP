@@ -7,8 +7,10 @@ use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\PaymentDocumentController;
 
 
+Route::get('payment-documents/by-type/{type}', [PaymentDocumentController::class , 'getByType']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
@@ -27,4 +29,5 @@ Route::get('accounts/main', [AccountController::class , 'mainAccount']);
 Route::apiResource('accounts', AccountController::class);
 Route::get('accounts/by-parent/{parent_id}', [AccountController::class , 'getAccountsByParent']);
 
+Route::get('accounts/get-parent/{id}', [AccountController::class , 'getAccountById']);
 
