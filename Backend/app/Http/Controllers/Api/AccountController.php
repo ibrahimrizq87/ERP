@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Account;
 use App\Http\Resources\AccountResource;
@@ -23,10 +24,9 @@ class AccountController extends Controller
             'account_name' => 'required|string|max:255|unique:accounts,account_name',
             'phone' => 'nullable|string|max:255',
             'parent_id' => 'nullable|exists:accounts,id',
-            'can_delete' => 'required|boolean',
             'current_balance' => 'required|numeric|min:0',
-            'net_debit' => 'required|numeric|min:0',
-            'net_credit' => 'required|numeric|min:0',
+            'net_debit' => 'nullable|numeric|min:0',
+            'net_credit' => 'nullable|numeric|min:0',
 
         ]);
     
@@ -34,7 +34,19 @@ class AccountController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $account = Account::create($request->validated());
+
+        $data =$request->all();
+        $account = Account::create(
+       [
+        'account_name' => $data['account_name'],
+        'phone' => $data['phone'] ?? '',
+        'parent_id' => $data['parent_id'],
+        'can_delete' => true,
+        'current_balance' => $data['current_balance'] ?? 0,
+        'net_debit' => $data['net_debit']?? 0,
+        'net_credit' => $data['net_credit']??0,
+       ]
+        );
         return new AccountResource($account);
     }
 
@@ -44,6 +56,18 @@ class AccountController extends Controller
         return new AccountResource($account);
     }
 
+    public function getAccountById($id)
+    {
+
+        $account = Account::find($id);
+        if (!$account){
+            return response()->json(['errors' => 'account not found'], 404);
+
+        }
+        $account->load('parent');
+        return new AccountResource($account);
+    }
+    
     
     public function mainAccount()
     {

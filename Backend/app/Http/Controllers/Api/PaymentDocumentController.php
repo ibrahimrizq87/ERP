@@ -95,6 +95,15 @@ class PaymentDocumentController extends Controller
 
 
 
+    public function getByType($type)
+    {
+
+        $documents = PaymentDocument::where('type', $type)->get();
+        return PaymentDocumentResource::collection($documents);
+    }
+
+
+
     public function update(PaymentDocumentRequest $request, PaymentDocument $paymentDocument)
 {
     $validated = $request->validated();
