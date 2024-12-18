@@ -28,7 +28,7 @@ export class ProductService {
     return this._HttpClient.post(`${this.baseURL}/products`, userData ,{ headers })
   } 
   getProductById(id:any): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -36,7 +36,7 @@ export class ProductService {
    
   }
   updateProduct(productId: string, productData: FormData): Observable<any> {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     productData.append('_method', 'PUT');
     return this._HttpClient.post(`${this.baseURL}/products/${productId}`, productData, { headers })

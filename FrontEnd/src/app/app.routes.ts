@@ -13,7 +13,7 @@ import { ProductsComponent } from './Components/products/products.component';
 import { AddProductComponent } from './Components/add-product/add-product.component';
 import { UpdateProductComponent } from './Components/update-product/update-product.component';
 import { ShowProductComponent } from './Components/show-product/show-product.component';
-import { MachineService } from './shared/services/machine.service';
+
 import { MachinesComponent } from './Components/machines/machines.component';
 import { AddMachineComponent } from './Components/add-machine/add-machine.component';
 import { UpdateMachineComponent } from './Components/update-machine/update-machine.component';
@@ -26,6 +26,7 @@ import { AccountingComponent } from './Components/accounting/accounting.componen
 import { AddAccountComponent } from './Components/add-account/add-account.component';
 import { PaymentDocumentComponent } from './Components/payment-document/payment-document.component';
 import { AddPaymentDocumentComponent } from './Components/add-payment-document/add-payment-document.component';
+import { CloseShiftComponent } from './Components/close-shift/close-shift.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -57,6 +58,7 @@ export const routes: Routes = [
     {path:"addShift",component:AddShiftComponent},
     {path:"updateShift/:id",component:UpdateShiftComponent},
     {path:"showShift/:id",component:ShowShiftComponent},
+    {path:"closeShift/:id",component:CloseShiftComponent},
 
     {path:"recieptDocuments",component:RecieptDocumentsComponent},  
     {path:"addReciept",component:AddRecieptComponent},

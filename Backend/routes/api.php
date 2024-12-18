@@ -23,7 +23,7 @@ Route::get('/users/get-users', [AuthController::class, 'getAllUsers'])->middlewa
 Route::get('/users/get-users/{role}', [AuthController::class, 'getAllUsersByRole'])->middleware('auth:sanctum');
 Route::apiResource('products', ProductController::class);
 Route::apiResource('shifts', ShiftController::class);
-Route::get('shifts/closeShift/{shift_id}', [ShiftController::class , 'closeShift']);
+Route::put('shifts/closeShift/{shift_id}', [ShiftController::class , 'closeShift']);
 Route::apiResource('machines', MachineController::class);
 Route::get('accounts/main', [AccountController::class , 'mainAccount']);
 Route::apiResource('accounts', AccountController::class);

@@ -28,7 +28,7 @@ export class MachineService {
     return this._HttpClient.post(`${this.baseURL}/machines`, machineData ,{ headers })
   } 
   getMachineById(id:any): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -36,7 +36,7 @@ export class MachineService {
    
   }
   updateMachine(machineId: string, machineData: FormData): Observable<any> {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     machineData.append('_method', 'PUT');
     return this._HttpClient.post(`${this.baseURL}/machines/${machineId}`, machineData, { headers })

@@ -182,7 +182,7 @@ $totalCustomer = $shift->total_client_deposit;
 
 
 
-public function closeShift($shift_id)
+public function closeShift(Request $request ,$shift_id)
 {
 
     $shift = Shift::find($shift_id);
@@ -194,12 +194,16 @@ public function closeShift($shift_id)
 
     $rules = [
     'amount' => 'required|numeric|min:0',
+    'ending_amount' => 'required|numeric|min:0',
+    'ending_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+
     'total_money' => 'required|numeric|min:0',
     'total_cash' => 'required|numeric|min:0',
     'total_payed_online' => 'required|numeric|min:0',
     'total_client_deposit' => 'required|numeric|min:0',
     ];
-
+ 
+    
 
     $validator = Validator::make($request->all(), $rules);
 
@@ -212,13 +216,21 @@ public function closeShift($shift_id)
         ], 422);
     }
 
-
+    $end_path = '';
+    if(request()->hasFile("ending_image")){
+        $image = request()->file("ending_image");
+        $end_path=$image->store('shiftEndImages','uploads');
+        $end_path= asset('uploads/' . $open_path); 
+    }
 
     $data = $validator->validated();
 
    
 $shift->total_payed_online = $data['total_payed_online'];
 $shift->total_client_deposit = $data['total_client_deposit'];
+$shift->ending_image = $end_path;
+$shift->ending_amount = $data['ending_amount'];
+
 $shift->amount = $data['amount'];
 $shift->total_money = $data['total_money'];
 $shift->total_cash = $data['total_cash'];

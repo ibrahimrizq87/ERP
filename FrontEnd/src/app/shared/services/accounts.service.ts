@@ -13,7 +13,7 @@ export class AccountingService {
   }
  
     getParentAccounts(): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -23,7 +23,7 @@ export class AccountingService {
 
 
   getAccountsByParent(id:string): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -32,7 +32,7 @@ export class AccountingService {
   }
 
   getParentAccount(id:string): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 

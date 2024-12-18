@@ -58,4 +58,20 @@ export class ShiftsComponent implements OnInit {
       });
     }
   }
+  // changeStatus(shiftId: number): void {
+  //   if (confirm('Are you sure you want to Close this Shift?')) {
+  //     this._ShiftService.storeStatusOfShift(shiftId).subscribe({
+  //       next: (response) => {
+  //         if (response) {
+  //           this.router.navigate(['/dashboard/shifts']);
+  //           this.loadShifts();
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error(err);
+  //         alert('An error occurred while Close the Shift.');
+  //       }
+  //     });
+  //   }
+  // }
 }

@@ -28,7 +28,7 @@ export class ShiftService {
     return this._HttpClient.post(`${this.baseURL}/shifts`, shiftData ,{ headers })
   } 
   getShiftById(id:any): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -36,9 +36,16 @@ export class ShiftService {
    
   }
   updateShift(shiftId: string, shiftData: FormData): Observable<any> {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     shiftData.append('_method', 'PUT');
     return this._HttpClient.post(`${this.baseURL}/shifts/${shiftId}`, shiftData, { headers })
   }
+  closeShift(shiftId: string, shiftData: FormData): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    shiftData.append('_method', 'PUT');
+    return this._HttpClient.post(`${this.baseURL}/hifts/closeShift/${shiftId}`, shiftData, { headers })
+  }
+ 
 }

@@ -27,7 +27,7 @@ export class PaymentDocumentService {
     return this._HttpClient.post(`${this.baseURL}/documents`, documentData ,{ headers })
   }
   getDocumentById(id:any): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -35,7 +35,7 @@ export class PaymentDocumentService {
    
   }
   updateDocument(documentId: string, documentData: FormData): Observable<any> {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     documentData.append('_method', 'PUT');
     return this._HttpClient.post(`${this.baseURL}/documents/${documentId}`, documentData, { headers })
