@@ -84,6 +84,7 @@ class AccountController extends Controller
 
     public function getCompanyAccount()
     {
+
         $accounts = Account::whereIn('parent_id', [1, 4])->get();
         return AccountResource::collection($accounts);
     }
@@ -92,8 +93,10 @@ class AccountController extends Controller
 
     public function getCustomerAccounts()
 {
-    $accounts = Account::whereIn('parent_id', [2,3,5,6,7,8])->get();
-    return AccountResource::collection($accoun);
+    // return response().json('herererererer');
+
+    $accounts = Account::whereIn('parent_id', [2,3,5,6])->get();
+    return AccountResource::collection($accounts);
 }
 
     public function update(Request $request, Account $account)

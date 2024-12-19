@@ -48,4 +48,14 @@ export class AccountingService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.post(`${this.baseURL}/accounts`, accountData ,{ headers })
   } 
+  viewAllCompanyAccounts(): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/accounts/company-accounts`,{ headers })
+  }
+  viewAllCustomerAccounts(): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/accounts/customer-accounts`,{ headers })
+  }
 }

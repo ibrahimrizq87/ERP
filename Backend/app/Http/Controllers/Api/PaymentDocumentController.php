@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 use App\Http\Requests\PaymentDocumentRequest;
 use App\Http\Resources\PaymentDocumentResource;
 use App\Models\PaymentDocument;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Account;
 class PaymentDocumentController extends Controller
 {
 
