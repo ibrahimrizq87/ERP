@@ -7,3 +7,51 @@
 .navbar{
     background-color: #FFFFFF;
 }
+.stylish-navbar {
+    width: 90%;
+    margin: 20px auto;
+    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+    border-radius: 10px;
+    padding: 10px 20px;
+  }
+  
+  .stylish-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .logout-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .logout-button:hover {
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    color: #fff;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+  }
+  
+  .logout-button:active {
+    transform: scale(0.95);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+  }
+  
