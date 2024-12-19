@@ -22,6 +22,10 @@ export class CloseShiftComponent implements OnInit {
   totalOnlinePayment: number = 0;
   totalClientCounter:number=0;
   public resultAmount: number=0 
+  
+  isSubmitDisabled: boolean = false;
+  errorMessage: string | null = null;
+
   formSubscription: Subscription | null = null;
   public totalMoney: number = 0; 
   public totalCash: number = 0; 
@@ -63,8 +67,7 @@ export class CloseShiftComponent implements OnInit {
     }
     return null;
   }
- 
-    ngOnInit(): void {
+  ngOnInit(): void {
     const closeId = this.route.snapshot.paramMap.get('id'); 
     if (closeId) {
       this.fetchShiftData(closeId);
@@ -73,24 +76,59 @@ export class CloseShiftComponent implements OnInit {
     const endingAmountControl = this.closeForm.get('ending_amount');
     if (endingAmountControl) {
       this.formSubscription = endingAmountControl.valueChanges.subscribe((endingAmount) => {
-        if (endingAmount != null && this.openingAmount != null) {
-          this.resultAmount = +endingAmount - this.openingAmount; // Calculate the result
-          this.totalMoney = this.resultAmount * this.price;      // Calculate totalMoney
-          this.totalCash = this.totalMoney - (this.totalOnlinePayment + this.totalClientCounter); // Calculate totalCash
+        if (endingAmount != null) {
+          // Validate endingAmount
+          const requiredMinimum = this.openingAmount + this.totalAmount;
+          if (endingAmount < requiredMinimum) {
+            this.isSubmitDisabled = true;
+            this.errorMessage = `Ending Amount must be greater than or equal to ${requiredMinimum}`;
+          } else {
+            this.isSubmitDisabled = false;
+            this.errorMessage = null;
+          }
 
-          console.log("totalMoney:", this.totalMoney);     
-          console.log("resultAmount:", this.resultAmount);   
-          console.log("totalCash:", this.totalCash);
+          // Update calculated fields
+          this.resultAmount = +endingAmount - this.openingAmount;
+          this.totalMoney = this.resultAmount * this.price;
+          this.totalCash = this.totalMoney - (this.totalOnlinePayment + this.totalClientCounter);
         } else {
-          this.resultAmount = 0; // Reset if values are invalid
-          this.totalMoney = 0;  // Reset totalMoney
-          this.totalCash = 0;   // Reset totalCash
+          // Reset values if invalid
+          this.resultAmount = 0;
+          this.totalMoney = 0;
+          this.totalCash = 0;
+          this.isSubmitDisabled = true;
+          this.errorMessage = "Ending Amount is required";
         }
       });
-    } else {
-      this.formSubscription = null; // Ensure the property is either null or a Subscription
     }
   }
+  //   ngOnInit(): void {
+  //   const closeId = this.route.snapshot.paramMap.get('id'); 
+  //   if (closeId) {
+  //     this.fetchShiftData(closeId);
+  //   }
+
+  //   const endingAmountControl = this.closeForm.get('ending_amount');
+  //   if (endingAmountControl) {
+  //     this.formSubscription = endingAmountControl.valueChanges.subscribe((endingAmount) => {
+  //       if (endingAmount != null && this.openingAmount != null) {
+  //         this.resultAmount = +endingAmount - this.openingAmount; // Calculate the result
+  //         this.totalMoney = this.resultAmount * this.price;      // Calculate totalMoney
+  //         this.totalCash = this.totalMoney - (this.totalOnlinePayment + this.totalClientCounter); // Calculate totalCash
+
+  //         console.log("totalMoney:", this.totalMoney);     
+  //         console.log("resultAmount:", this.resultAmount);   
+  //         console.log("totalCash:", this.totalCash);
+  //       } else {
+  //         this.resultAmount = 0; // Reset if values are invalid
+  //         this.totalMoney = 0;  // Reset totalMoney
+  //         this.totalCash = 0;   // Reset totalCash
+  //       }
+  //     });
+  //   } else {
+  //     this.formSubscription = null; // Ensure the property is either null or a Subscription
+  //   }
+  // }
   
   fetchShiftData(userId: string): void {
     this._ShiftService.getShiftById(userId).subscribe({

@@ -1,75 +1,124 @@
 <div class="mt-3 mb-3">
-    <h5>Manage Users</h5>
-    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> User <i class="fa-solid fa-angle-right"></i> Update User</span>
+  <h5 class="text-primary fw-bold">Manage Shifts</h5>
+  <span class="text-muted">
+    Dashboard <i class="fa-solid fa-angle-right"></i> Shift <i class="fa-solid fa-angle-right"></i> Close Shift
+  </span>
 </div>
+
 <div class="mt-4 mb-4">
-  <form  [formGroup]="closeForm" (ngSubmit)="handleForm()">
+  <form [formGroup]="closeForm" (ngSubmit)="handleForm()">
     <div class="container">
-        <div class="row">
-        
-          <div class="col-md-12">
-            <div class="card shadow em-card rounded-lg">
-              <div class="card-header bg-white text-black rounded-top pt-3 ">
-                <h5>Update User</h5>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header  py-3">
+              <h5 class="mb-0">Close Shift</h5>
+            </div>
+
+            <div class="card-body pb-5">
+              <div class="row">
+                <!-- Ending Amount Field -->
+                <div class="form-group col-md-6">
+                  <label for="ending_amount" class="form-label fw-bold">Ending Amount</label>
+                  <input
+                    id="ending_amount"
+                    formControlName="ending_amount"
+                    type="text"
+                    class="form-control rounded-pill"
+                    placeholder="Enter Ending Amount"
+                    required
+                  />
+                  <div
+                    class="alert alert-danger mt-2 py-1 px-2"
+                    *ngIf="closeForm.get('ending_amount')?.errors && closeForm.get('ending_amount')?.touched"
+                  >
+                    <small *ngIf="closeForm.get('ending_amount')?.getError('required')">Ending Amount is Required</small>
+                    <small *ngIf="closeForm.get('ending_amount')?.getError('min')">Max Length is 0</small>
+                  </div>
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-warning mt-2">
+                  {{ errorMessage }}
+                </div>
+                <!-- File Upload Section -->
+                <div class="form-group text-center col-md-12">
+                  <label for="image" class="form-label d-block fw-bold">
+                    <i class="fa-solid fa-image"></i> Close Image
+                  </label>
+                  <div class="custom-file position-relative">
+                    <input
+                      type="file"
+                      class="custom-file-input d-none"
+                      id="image"
+                      (change)="onFileSelected($event)"
+                      accept="image/*"
+                    />
+                    <label for="image" class="btn btn-outline-primary rounded-pill px-4 py-2">
+                      <i class="fa-solid fa-file-arrow-up"></i> Choose File
+                    </label>
+                    <span id="file-name" class="d-block mt-2 text-muted">{{ selectedFile?.name || 'No file chosen' }}</span>
+                  </div>
+                  <div
+                    class="alert alert-danger mt-2 py-1 px-2"
+                    *ngIf="closeForm.get('image')?.errors && closeForm.get('image')?.touched"
+                  >
+                    <small *ngIf="closeForm.get('image')?.getError('invalidFileType')">Invalid image format</small>
+                    <small *ngIf="closeForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</small>
+                  </div>
+                </div>
               </div>
-            
-              <div class="card-body pb-5">
 
-                <div class="row">
-
-                  <div class="form-group col-md-6">
-                    <label for="ending_amount"  class="form-label">Ending Amount</label>
-                    <input id="ending_amount" formControlName="ending_amount" type="text" class="form-control" placeholder="Enter Ending Amount" required/>
-                    <div class="alert alert-danger" *ngIf="closeForm.get('ending_amount')?.errors && closeForm.get('Ending Amount')?.touched">
-                      <p *ngIf="closeForm.get('ending_amount')?.getError('required')">Ending Amount is Required</p>
-                      <p *ngIf="closeForm.get('ending_amount')?.getError('min')">maxLength is 0</p>
-                    </div>
-                  </div>
-                 
-                
-                 
-                  <div class="form-group text-center">
-                    <label for="image" class="form-label"><i class="fa-solid fa-image"></i> Close Image</label>
-                    
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
-                      <label for="image" class="btn btn-image">
-                        <i class="fa-solid fa-file-arrow-up"></i> Choose File
-                      </label>
-                      <span id="file-name">{{ selectedFile?.name || 'No file chosen' }}</span>
-                    </div>
-                    <div class="alert alert-danger" *ngIf="closeForm.get('image')?.errors && closeForm.get('image')?.touched">
-                      
-                      <p *ngIf="closeForm.get('image')?.getError('invalidFileType')">Invalid image format</p>
-                      <p *ngIf="closeForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</p>
-                    </div>
-                  </div>
-                </div>   
-                
-            </div>
-           
+              <!-- Shift Details -->
+              <div class="mt-4">
+                <h6 class="text-primary fw-bold">Shift Details</h6>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Price: <span class="text-muted">{{ price }}</span></li>
+                  <li class="list-group-item">Opening Amount: <span class="text-muted">{{ openingAmount }}</span></li>
+                  <li class="list-group-item">Total Amount: <span class="text-muted">{{ totalAmount }}</span></li>
+                  <li class="list-group-item">Total Online Payment: <span class="text-muted">{{ totalOnlinePayment }}</span></li>
+                  <li class="list-group-item">Total Client Counter: <span class="text-muted">{{ totalClientCounter }}</span></li>
+                  <li class="list-group-item">Result Amount: <span class="text-muted">{{ resultAmount }}</span></li>
+                  <li class="list-group-item">Total Money: <span class="text-muted">{{ totalMoney }}</span></li>
+                  <li class="list-group-item">Total Cash: <span class="text-muted">{{ totalCash }}</span></li>
+                </ul>
+              </div>
             </div>
           </div>
-          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
-            <ul>
-              <li *ngFor="let error of msgError">{{ error }}</li>
-            </ul>
-          </div>
-          <div class=" mt-4 mb-4 d-flex justify-content-around w-25">
-            <button [disabled]="closeForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save</button>
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-          </div>
-        
         </div>
-      
-    
-       
+
+        <!-- Error Messages -->
+        <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger mt-3">
+          <ul>
+            <li *ngFor="let error of msgError">{{ error }}</li>
+          </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-4 d-flex justify-content-center gap-3">
+          <button
+          type="submit"
+          class="btn btn-primary rounded-pill px-5"
+          [disabled]="isSubmitDisabled || closeForm.invalid"
+        >
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> 
+          Save
+        </button>
+          <!-- <button
+
+            [disabled]="closeForm.invalid"
+            type="submit"
+            class="btn btn-primary rounded-pill px-4 py-2"
+          >
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save
+          </button> -->
+          <button
+            type="button"
+            class="btn btn-secondary rounded-pill px-4 py-2"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-    </form>
-
+    </div>
+  </form>
 </div>
-
-
-  
-  
-

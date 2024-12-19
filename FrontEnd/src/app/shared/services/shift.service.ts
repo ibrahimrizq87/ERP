@@ -45,7 +45,7 @@ export class ShiftService {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     shiftData.append('_method', 'PUT');
-    return this._HttpClient.post(`${this.baseURL}/hifts/closeShift/${shiftId}`, shiftData, { headers })
+    return this._HttpClient.post(`${this.baseURL}/shifts/closeShift/${shiftId}`, shiftData, { headers })
   }
  
 }
