@@ -18,9 +18,10 @@ export class CloseShiftComponent implements OnInit {
   closeImageUrl: string | null = null;
   price: number = 0;
   openingAmount:number=0;
+  totalAmount:number=0;
   totalOnlinePayment: number = 0;
   totalClientCounter:number=0;
- public resultAmount: number=0 // To store the calculated result
+  public resultAmount: number=0 
   formSubscription: Subscription | null = null;
   public totalMoney: number = 0; 
   public totalCash: number = 0; 
@@ -106,7 +107,9 @@ export class CloseShiftComponent implements OnInit {
             this.totalOnlinePayment=parseFloat(response?.data?.total_payed_online)||0;
             console.log("totalOnlinePayment",this.totalOnlinePayment);
             this.totalClientCounter=parseFloat(response?.data?.total_client_deposit);
-            console.log("totalClientCounter", this.totalClientCounter)
+            console.log("totalClientCounter", this.totalClientCounter);
+            this.totalAmount=parseFloat(response?.data?.amount);
+            console.log(this.totalAmount)
 
           }
         }
@@ -116,9 +119,6 @@ export class CloseShiftComponent implements OnInit {
       }
     });
   }
- 
-
-  
   handleForm() {
     if (this.closeForm.valid) {
       this.isLoading = true;
@@ -126,7 +126,9 @@ export class CloseShiftComponent implements OnInit {
       formData.append('amount', this.resultAmount.toString());
       formData.append('ending_amount', this.closeForm.get('ending_amount')?.value);
       formData.append('total_money', this.totalMoney.toString());
-      formData.append('total_cash',this.totalCash.toString())
+      formData.append('total_cash',this.totalCash.toString());
+      formData.append('total_payed_online',this.totalOnlinePayment.toString());
+      formData.append('total_client_deposit',this.totalClientCounter.toString());
      
       if (this.selectedFile) {
         formData.append('ending_image', this.selectedFile);
