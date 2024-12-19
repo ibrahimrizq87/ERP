@@ -136,7 +136,7 @@ export class UpdateShiftComponent implements OnInit {
     // Populate the FormArray with valid data
     onlinePayments.forEach(payment => {
       onlinePaymentsFormArray.push(this.fb.group({
-        amount: [payment.amount || null, [Validators.required, Validators.min(0)]],
+        amount: [+payment.amount || null, [Validators.required, Validators.min(0)]],
         client_name: [payment.client_name || null, [Validators.maxLength(255)]],
         image: [payment.image || null]
       }));
@@ -191,7 +191,7 @@ export class UpdateShiftComponent implements OnInit {
     clientCounters.forEach(counter => {
       clientCountersFormArray.push(this.fb.group({
         account_id: [counter.account_id, [Validators.required]],
-        amount: [counter.amount, [Validators.required, Validators.min(0)]],
+        amount: [+counter.amount, [Validators.required, Validators.min(0)]],
         image: [counter.image]
       }));
     });
