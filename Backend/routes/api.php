@@ -29,5 +29,10 @@ Route::get('accounts/main', [AccountController::class , 'mainAccount']);
 Route::apiResource('accounts', AccountController::class);
 Route::get('accounts/by-parent/{parent_id}', [AccountController::class , 'getAccountsByParent']);
 
+Route::get('accounts/company-accounts', [AccountController::class , 'getCompanyAccount']);
+
+Route::get('accounts/customer-accounts', [AccountController::class , 'getCustomerAccounts']);
+
+
 Route::get('accounts/get-parent/{id}', [AccountController::class , 'getAccountById']);
 

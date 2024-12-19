@@ -84,9 +84,18 @@ class AccountController extends Controller
 
     public function getCompanyAccount()
     {
-        $accounts = Account::where('parent_id' , [1,4])->get();
+        $accounts = Account::whereIn('parent_id', [1, 4])->get();
         return AccountResource::collection($accounts);
     }
+    
+
+
+    public function getCustomerAccounts()
+{
+    $accounts = Account::whereIn('parent_id', [2,3,5,6,7,8])->get();
+    return AccountResource::collection($accoun);
+}
+
     public function update(Request $request, Account $account)
     {
 
