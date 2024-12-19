@@ -15,6 +15,21 @@
   
               <div class="card-body pb-5">
                 <div class="row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label">Select Users</label>
+                    <select class="form-control" formControlName="user_id">
+                      <option value="" disabled>Select User</option>
+                      <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                    </select>
+                    <div
+                    class="alert alert-danger"
+                    *ngIf="transactionForm.get('user_id')?.errors && transactionForm.get('user_id')?.touched"
+                  >
+                    <p *ngIf="transactionForm.get('user_id')?.hasError('required')">user is required</p>
+                    
+                  </div>
+                
+                  </div>
                   <!-- Amount -->
                   <div class="form-group col-md-6">
                     <label for="amount" class="form-label">Amount</label>
@@ -36,25 +51,7 @@
                   </div>
   
                   <!-- Type -->
-                  <div class="form-group col-md-6">
-                    <label for="type" class="form-label">Type</label>
-                    <select
-                      id="type"
-                      formControlName="type"
-                      class="form-control"
-                    >
-                      <option value="" disabled>Select type</option>
-                      <option value="payment">Payment</option>
-                      <option value="receipt">Receipt</option>
-                    </select>
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('type')?.errors && transactionForm.get('type')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('type')?.hasError('required')">Type is required</p>
-                      <p *ngIf="transactionForm.get('type')?.hasError('in')">Type must be either 'payment' or 'receipt'</p>
-                    </div>
-                  </div>
+                
   
                   <!-- Receiver Name -->
                   <div class="form-group col-md-6">
@@ -85,7 +82,7 @@
                     >
                       <option value="" disabled>Select company account</option>
                       <!-- Populate dynamically -->
-                      <option *ngFor="let account of companyAccounts" [value]="account.id">{{ account.name }}</option>
+                      <option *ngFor="let account of companyAccounts" [value]="account.id">{{ account.account_name }}</option>
                     </select>
                     <div
                       class="alert alert-danger"
@@ -106,7 +103,7 @@
                     >
                       <option value="" disabled>Select customer account</option>
 
-                      <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.name}}</option>
+                      <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.account_name}}</option>
                     </select>
                     <div
                       class="alert alert-danger"

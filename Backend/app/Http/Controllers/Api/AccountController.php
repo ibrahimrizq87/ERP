@@ -81,6 +81,12 @@ class AccountController extends Controller
         return AccountResource::collection($accounts);
     }
 
+
+    public function getCompanyAccount()
+    {
+        $accounts = Account::where('parent_id' , [1,4])->get();
+        return AccountResource::collection($accounts);
+    }
     public function update(Request $request, Account $account)
     {
 

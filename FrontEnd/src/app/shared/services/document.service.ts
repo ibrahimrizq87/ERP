@@ -19,4 +19,9 @@ export class DocumentService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/payment-documents/by-type/${type}` ,{ headers })
   } 
+  addDocument(documentData: FormData): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.post(`${this.baseURL}/payment-documents`, documentData ,{ headers })
+  } 
 }
