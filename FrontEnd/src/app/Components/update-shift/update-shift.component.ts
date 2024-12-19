@@ -33,6 +33,9 @@ export class UpdateShiftComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.shiftForm = this.fb.group({
+      total_cash: [''],
+      total_client_deposit: [''],
+      total_payed_online: [''],
       // amount: [null, [Validators.required, Validators.min(0)]],
       online_payments: this.fb.array([]),  // FormArray for online payments
       client_counters: this.fb.array([])    // FormArray for client counters
@@ -51,11 +54,15 @@ export class UpdateShiftComponent implements OnInit {
       next: (response) => {
         console.log('Shift Data:', response); // Debugging log
         if (response) {
-          const shiftData = response;
+          const shiftData = response.data;
           this.price = parseFloat(response?.data?.machine?.product?.price) || 0;
           console.log(this.price);
-          this.setOnlinePayments(shiftData.online_payments);
-          this.setClientCounters(shiftData.client_counters);
+                  // Patch the online payments data to the form array
+        this.setOnlinePayments(shiftData.online_payments);
+
+        // Patch the client counters data to the form array
+        this.setClientCounters(shiftData.client_counters);
+         
         }
       },
       error: (err: HttpErrorResponse) => {
@@ -64,6 +71,43 @@ export class UpdateShiftComponent implements OnInit {
       }
     });
   }
+  
+//   fetchShiftData(shiftId: string): void {
+//   this._ShiftService.getShiftById(shiftId).subscribe({
+//     next: (response) => {
+//       console.log('Shift Data:', response); // Debugging log
+//       if (response) {
+//         const shiftData = response.data;  // Assuming the response data is inside a 'data' key
+//         this.price = parseFloat(response?.data?.machine?.product?.price) || 0;
+//         // Set the opening amount and other form values
+//         // this.shiftForm.patchValue({
+//         //   // opening_amount: shiftData.opening_amount,
+//         //   // opening_image: shiftData.opening_image,
+//         //   // total_cash: shiftData.total_cash,
+//         //   // total_client_deposit: shiftData.total_client_deposit,
+//         //   // total_money: shiftData.total_money,
+//         //   // total_payed_online: shiftData.total_payed_online,
+//         // });
+
+//         // Patch the online payments data to the form array
+//         this.setOnlinePayments(shiftData.online_payments);
+
+//         // Patch the client counters data to the form array
+//         this.setClientCounters(shiftData.client_counters);
+
+//         // Set the total online payment and other totals dynamically if needed
+//         // this.totalOnlinePayment =shiftData.total_payed_online;
+//         // this.total_client_deposit = shiftData.total_client_deposit;
+//         // this.amountTotal = this.totalOnlinePayment + this.total_client_deposit;
+//       }
+//     },
+//     error: (err: HttpErrorResponse) => {
+//       console.error('Error fetching shift data:', err); // Debugging log
+//       this.msgError = err.error.error;
+//     }
+//   });
+// }
+
 
   // setOnlinePayments(onlinePayments: any[]): void {
   //   const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;

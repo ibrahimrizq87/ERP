@@ -220,7 +220,7 @@ public function closeShift(Request $request ,$shift_id)
     if(request()->hasFile("ending_image")){
         $image = request()->file("ending_image");
         $end_path=$image->store('shiftEndImages','uploads');
-        $end_path= asset('uploads/' . $open_path); 
+        $end_path= asset('uploads/' . $end_path); 
     }
 
     $data = $validator->validated();
