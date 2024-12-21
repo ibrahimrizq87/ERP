@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProductService } from '../../shared/services/product.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-machine',
@@ -16,7 +17,7 @@ export class AddMachineComponent implements OnInit {
   msgError: any[] = [];
   isLoading: boolean = false;
   products:any[]=[];
-  constructor(private _MachineService:MachineService , private _Router: Router,private _ProductService:ProductService) {
+  constructor(private _MachineService:MachineService , private _Router: Router,private _ProductService:ProductService, private toastr:ToastrService) {
    
   }
   // 'machine_number' => 'required|string|max:255',
@@ -62,6 +63,7 @@ export class AddMachineComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
+            this.toastr.success("Created Machine Successfully")
             this.isLoading = false;
             this._Router.navigate(['/dashboard/machines']);
           }

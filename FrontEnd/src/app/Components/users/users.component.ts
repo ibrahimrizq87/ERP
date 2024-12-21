@@ -3,6 +3,7 @@ import { UserService } from '../../shared/services/user.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class UsersComponent implements OnInit {
   filteredUsers: any[] = [];  
   searchQuery: string = ''; 
 
-  constructor(private _UserServicev: UserService, private router: Router) {}
+  constructor(private _UserServicev: UserService, private router: Router,private toastr:ToastrService ) {}
 
   ngOnInit(): void {
     this.loadUsers(); 
@@ -59,6 +60,7 @@ export class UsersComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate(['/dashboard/users']);
+            this.toastr.error("Delete User Successfully")
             this.loadUsers();
           }
         },

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-user',
@@ -21,7 +22,8 @@ export class UpdateUserComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, 
     private _UserService:UserService ,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.userForm = new FormGroup({
       name: this.fb.control(null, [Validators.required,Validators.maxLength(255)]),
@@ -107,6 +109,7 @@ export class UpdateUserComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
+            this.toastr.success("Updated User Successfully")
             this.router.navigate(['/dashboard/users']);
           }
         },

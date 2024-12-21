@@ -5,6 +5,7 @@ import { ProductService } from '../../shared/services/product.service';
 import { MachineService } from '../../shared/services/machine.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-machine',
@@ -22,7 +23,8 @@ export class UpdateMachineComponent implements OnInit {
     private router: Router, 
     private _ProductService:ProductService,
     private _MachineService:MachineService ,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr:ToastrService
   ) {
    
     this.machineForm = new FormGroup({
@@ -89,6 +91,7 @@ export class UpdateMachineComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
+            this.toastr.success("Updated Machine Successfully")
             this.router.navigate(['/dashboard/machines']);
           }
         },

@@ -3,6 +3,7 @@ import { ProductService } from '../../shared/services/product.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +17,7 @@ export class ProductsComponent implements OnInit {
   filteredProducts: any[] = [];  
   searchQuery: string = ''; 
 
-  constructor(private _ProductService: ProductService, private router: Router) {}
+  constructor(private _ProductService: ProductService, private router: Router,private toastr:ToastrService) {}
 
   ngOnInit(): void {
     this.loadProducts(); 
@@ -57,6 +58,7 @@ export class ProductsComponent implements OnInit {
       this._ProductService.deleteProduct(productId).subscribe({
         next: (response) => {
           if (response) {
+            this.toastr.error("Delete Product Successfully")
             this.router.navigate(['/dashboard/products']);
             this.loadProducts();
           }

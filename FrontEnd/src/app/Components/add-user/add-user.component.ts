@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import {  ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add-user',
   imports: [FormsModule ,ReactiveFormsModule ,CommonModule],
@@ -15,9 +15,10 @@ export class AddUserComponent {
   msgError: any[] = [];
   isLoading: boolean = false;
   readonly maxImageSize = 2048 * 1024;
-  constructor(private _UserService:UserService , private _Router: Router) {
+  constructor(private _UserService:UserService , private _Router: Router,private toastr: ToastrService) {
    
   }
+ 
  
   userForm: FormGroup = new FormGroup({
     name:new FormControl(null, [Validators.required,Validators.maxLength(255)]),
@@ -68,7 +69,9 @@ export class AddUserComponent {
         next: (response) => {
           console.log(response);
           if (response) {
+            this.toastr.success("Created User Successfully")
             this.isLoading = false;
+            
             this._Router.navigate(['/dashboard/users']);
           }
         },

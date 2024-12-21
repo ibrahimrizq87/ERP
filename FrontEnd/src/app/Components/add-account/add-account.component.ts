@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute,Router} from '@angular/router';
 import { AccountingService } from '../../shared/services/accounts.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-account',
@@ -20,7 +21,7 @@ export class AddAccountComponent {
   accountId:string|null =null;
  account:any;
   constructor(private route: ActivatedRoute ,private fb: FormBuilder ,private _AccountingService:AccountingService
-    , private _Router: Router
+    , private _Router: Router,private toastr:ToastrService
   ) {
     this.accountForm = this.fb.group({
       account_name: ['', [Validators.required, Validators.maxLength(255)]], 
@@ -83,6 +84,7 @@ export class AddAccountComponent {
                 console.log(response);
                 if (response) {
                   this.isLoading = false;
+                  this.toastr.success("Created Account Successfully")
                   this._Router.navigate(['/dashboard/accounting/'+ this.account.id]);
                 }
               },

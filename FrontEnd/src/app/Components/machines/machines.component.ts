@@ -3,6 +3,7 @@ import { MachineService } from '../../shared/services/machine.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-machines',
@@ -16,7 +17,7 @@ export class MachinesComponent implements OnInit {
   filteredMachines: any[] = []; 
   searchQuery: string = ''; 
 
-  constructor(private _MachineService: MachineService, private router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(private _MachineService: MachineService, private router: Router, private cdr: ChangeDetectorRef,private toastr:ToastrService) {}
 
 
   ngOnInit(): void {
@@ -59,6 +60,7 @@ export class MachinesComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate(['/dashboard/machines']);
+            this.toastr.error("Delete Machine Successfully")
             // this.loadMachines();
             this.loadMachines()
             this.cdr.detectChanges();

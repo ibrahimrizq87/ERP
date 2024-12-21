@@ -3,6 +3,7 @@ import { ShiftService } from '../../shared/services/shift.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shifts',
@@ -16,7 +17,7 @@ export class ShiftsComponent implements OnInit {
    filteredShifts: any[] = [];  
   searchQuery: string = ''; 
 
-  constructor(private _ShiftService: ShiftService, private router: Router) {}
+  constructor(private _ShiftService: ShiftService, private router: Router,private toastr :ToastrService) {}
 
   ngOnInit(): void {
     this.loadShifts(); 
@@ -58,6 +59,7 @@ export class ShiftsComponent implements OnInit {
       this._ShiftService.deleteShift(shiftId).subscribe({
         next: (response) => {
           if (response) {
+            this.toastr.error("Delete Shift Successfully")
             this.router.navigate(['/dashboard/shifts']);
             this.loadShifts();
           }

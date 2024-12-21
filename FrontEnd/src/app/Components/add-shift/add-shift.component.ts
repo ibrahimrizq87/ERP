@@ -6,6 +6,7 @@ import { MachineService } from '../../shared/services/machine.service';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-shift',
@@ -19,7 +20,7 @@ export class AddShiftComponent implements OnInit {
   machines:any[]=[];
   users:any[]=[];
   readonly maxImageSize = 2048 * 1024
-  constructor(private _ShiftService:ShiftService , private _Router: Router,private _UserService:UserService,private _MachineService:MachineService) {
+  constructor(private _ShiftService:ShiftService , private _Router: Router,private _UserService:UserService,private _MachineService:MachineService ,private toastr:ToastrService) {
    
   }
   // 'user_id' => 'required|exists:users,id',
@@ -132,6 +133,7 @@ export class AddShiftComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
+            this.toastr.success("Created Shift Succesfully")
             this.isLoading = false;
             this._Router.navigate(['/dashboard/shifts']);
           }

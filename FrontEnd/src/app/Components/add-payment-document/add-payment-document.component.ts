@@ -8,6 +8,7 @@ import { DocumentService } from '../../shared/services/document.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../shared/services/user.service';
 import { AccountingService } from '../../shared/services/accounts.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-payment-document',
@@ -34,7 +35,7 @@ export class AddPaymentDocumentComponent implements OnInit {
   type: any;  
   msgError: any;
   readonly maxImageSize = 2048 * 1024;
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,private _DocumentService:DocumentService,private _Router:Router,private _UserService:UserService,private _AccountingService:AccountingService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute,private _DocumentService:DocumentService,private _Router:Router,private _UserService:UserService,private _AccountingService:AccountingService,private toastr :ToastrService) {
     this.transactionForm = this.fb.group({
       user_id: [null, [Validators.required]],
       amount: ['', [Validators.required, Validators.min(0)]],
@@ -183,6 +184,7 @@ export class AddPaymentDocumentComponent implements OnInit {
           console.log(response);
           if (response) {
             this.isLoading = false;
+            this.toastr.success("Created Payment Successfully")
             this._Router.navigate([`/dashboard/paymentDocument/${this.type}`]);
           }
         },

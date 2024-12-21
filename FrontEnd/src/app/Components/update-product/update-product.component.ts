@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-product',
@@ -20,7 +21,8 @@ export class UpdateProductComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, 
     private _ProductService:ProductService ,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr:ToastrService
   ) {
    
     this.productForm = new FormGroup({
@@ -78,6 +80,7 @@ export class UpdateProductComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
+            this.toastr.success("Updated Product Successfully")
             this.router.navigate(['/dashboard/products']);
           }
         },

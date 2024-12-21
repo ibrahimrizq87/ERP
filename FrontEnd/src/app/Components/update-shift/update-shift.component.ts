@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ShiftService } from '../../shared/services/shift.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-shift',
@@ -30,7 +31,8 @@ export class UpdateShiftComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private _ShiftService: ShiftService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr:ToastrService
   ) {
     this.shiftForm = this.fb.group({
       total_cash: [''],
@@ -395,6 +397,7 @@ export class UpdateShiftComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
+            this.toastr.success("Updated Shift Successfully")
             this.router.navigate(['/dashboard/shifts']);
           }
         },

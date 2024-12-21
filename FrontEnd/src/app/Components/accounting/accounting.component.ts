@@ -3,6 +3,7 @@ import {   RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';import { AccountingService } from '../../shared/services/accounts.service';
 import { Router ,ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 // import { ActivatedRoute } from '@angular/router';
 
 
@@ -13,7 +14,7 @@ import { Router ,ActivatedRoute } from '@angular/router';
   styleUrl: './accounting.component.css'
 })
 export class AccountingComponent {
-  constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ){}
+  constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ,private toastr :ToastrService){}
  accounts:any;
  accountId:string |null = null;
  searchTerm: string = ''; 
@@ -64,6 +65,7 @@ this.getAccounts();
       this._AccountingService.deleteAccount(accountID).subscribe({
         next: (response) => {
           if (response) {
+            this.toastr.error("Delete Account Successfully")
             this._Router.navigate([`/dashboard/accounting/${this.accountId}`]);
             this.getAccounts();
           }

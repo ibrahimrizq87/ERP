@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DocumentService } from '../../shared/services/document.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment-document',
@@ -16,7 +17,7 @@ export class PaymentDocumentComponent {
 documents:any;
 filteredDocuments: any[] = [];
 searchQuery: string = ''; 
-  constructor (private route: ActivatedRoute , private _DocumentService:DocumentService, private router: Router ){}
+  constructor (private route: ActivatedRoute , private _DocumentService:DocumentService, private router: Router,private toastr:ToastrService ){}
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
@@ -62,6 +63,7 @@ searchQuery: string = '';
           this._DocumentService.deleteDocument(documentId).subscribe({
             next: (response) => {
               if (response) {
+                this.toastr.error("Delete Payment Document Successfully")
                 this.router.navigate([`/dashboard/paymentDocument/${this.type}`]);
                 this.getPaymentDocuments();
               }

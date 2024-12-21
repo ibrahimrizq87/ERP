@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-product',
@@ -15,7 +16,7 @@ export class AddProductComponent {
   msgError: any[] = [];
   isLoading: boolean = false;
  
-  constructor(private _ProductService:ProductService , private _Router: Router) {
+  constructor(private _ProductService:ProductService , private _Router: Router,private toastr:ToastrService) {
    
   }
  
@@ -43,6 +44,7 @@ export class AddProductComponent {
         next: (response) => {
           console.log(response);
           if (response) {
+            this.toastr.success("Created Product Successfully")
             this.isLoading = false;
             this._Router.navigate(['/dashboard/products']);
           }
