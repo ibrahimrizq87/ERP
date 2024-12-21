@@ -36,6 +36,7 @@ export const routes: Routes = [
 {path:"",component:LoginComponent},
 {path:"login",component:LoginComponent},
 {path:"dashboard",component:DashboardComponent,children:[
+    {path:"",component:UsersComponent},
     {path:"users",component:UsersComponent},  
     {path:"addUser",component:AddUserComponent},
     {path:"updateUser/:id",component:UpdateUserComponent},
