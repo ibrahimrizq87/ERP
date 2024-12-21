@@ -1,6 +1,6 @@
 <div class="mt-3 mb-3">
     <h5>Manage Transactions</h5>
-    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Transactions <i class="fa-solid fa-angle-right"></i> Create Transaction</span>
+    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Transactions <i class="fa-solid fa-angle-right"></i> Update Transaction</span>
   </div>
   
   <div class="mt-4 mb-4">
@@ -10,7 +10,7 @@
           <div class="col-md-12">
             <div class="card shadow em-card rounded-lg">
               <div class="card-header bg-white text-black rounded-top pt-3">
-                <h5>Create a New Transaction</h5>
+                <h5>Update Transaction</h5>
               </div>
   
               <div class="card-body pb-5">
@@ -113,8 +113,25 @@
                       <p *ngIf="transactionForm.get('customer_account_id')?.hasError('exists')">Invalid customer account</p>
                     </div>
                   </div>
-  
-                  <div class="form-group">
+                  <div class="form-group text-center">
+                    <label for="image" class="form-label"><i class="fa-solid fa-image"></i> Product Image</label>
+                    <div *ngIf="documentImageUrl" class="mb-3">
+                      <img [src]="documentImageUrl" alt="Current Product Image" width="150" />
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+                      <label for="image" class="btn btn-image">
+                        <i class="fa-solid fa-file-arrow-up"></i> Choose File
+                      </label>
+                      <span id="file-name">{{ selectedFile?.name || 'No file chosen' }}</span>
+                    </div>
+                    <div class="alert alert-danger" *ngIf="transactionForm.get('image')?.errors && transactionForm.get('image')?.touched">
+                      
+                      <p *ngIf="transactionForm.get('image')?.getError('invalidFileType')">Invalid image format</p>
+                      <p *ngIf="transactionForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</p>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
                     <label for="image" class="form-label"><i class="fa-solid fa-image"></i> TransactionForm Image (Optional)</label>
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
@@ -127,7 +144,7 @@
                       <p *ngIf="transactionForm.get('image')?.getError('invalidFileType')">Invalid image format</p>
                       <p *ngIf="transactionForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</p>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- <div class="form-group col-md-6">
                     <label for="image" class="form-label">Upload Image</label>
                     <input
@@ -151,10 +168,11 @@
           </div>
   
 
-          <div class="mt-4 mb-4">
+          <div class="mt-4 mb-4 d-flex justify-content-around w-25">
             <button [disabled]="transactionForm.invalid" type="submit" class="btn btn-primary px-4">
-              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Submit
+              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Update
             </button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
           </div>
         </div>
       </div>

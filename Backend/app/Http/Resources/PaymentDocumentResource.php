@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\AccountResource;//
 class PaymentDocumentResource extends JsonResource
 {
     /**
@@ -25,6 +25,8 @@ return[
     'image' => $this->image,
     'created_at' => $this->created_at,
     'updated_at' => $this->updated_at,
+    'company_account' => new AccountResource($this->whenLoaded('companyAccount')),//
+    'customer_account' => new AccountResource($this->whenLoaded('customerAccount')),//
 ];
     }
 }

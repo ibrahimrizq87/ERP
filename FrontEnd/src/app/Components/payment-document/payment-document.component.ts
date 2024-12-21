@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DocumentService } from '../../shared/services/document.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ export class PaymentDocumentComponent {
 
   type:string|null = null;
 documents:any;
-  constructor (private route: ActivatedRoute , private _DocumentService:DocumentService ){}
+  constructor (private route: ActivatedRoute , private _DocumentService:DocumentService, private router: Router ){}
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
@@ -45,5 +45,21 @@ documents:any;
     this.type = type;
     this.getPaymentDocuments();
     
+      }
+      deleteDocument(documentId: number): void {
+        if (confirm('Are you sure you want to delete this Document?')) {
+          this._DocumentService.deleteDocument(documentId).subscribe({
+            next: (response) => {
+              if (response) {
+                this.router.navigate([`/dashboard/paymentDocument/${this.type}`]);
+                this.getPaymentDocuments();
+              }
+            },
+            error: (err) => {
+              console.error(err);
+              alert('An error occurred while deleting the Document.');
+            }
+          });
+        }
       }
 }

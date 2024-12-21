@@ -1,33 +1,22 @@
-
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { DocumentService } from '../../shared/services/document.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../shared/services/user.service';
 import { AccountingService } from '../../shared/services/accounts.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-add-payment-document',
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './add-payment-document.component.html',
-  styleUrls: ['./add-payment-document.component.css']
+  selector: 'app-update-document',
+  imports: [CommonModule ,ReactiveFormsModule ],
+  templateUrl: './update-document.component.html',
+  styleUrl: './update-document.component.css'
 })
-export class AddPaymentDocumentComponent implements OnInit {
+export class UpdateDocumentComponent implements OnInit {
   users:any[]=[];
   transactionForm: FormGroup;
-  // companyAccounts = [
-  //   { id: 1, name: 'Company Account A' },
-  //   { id: 2, name: 'Company Account B' },
-  //   { id: 3, name: 'Company Account C' },
-  // ];
-  // customerAccounts = [
-  //   { id: 1, name: 'Customer Account X' },
-  //   { id: 2, name: 'Customer Account Y' },
-  //   { id: 3, name: 'Customer Account Z' },
-  // ];
+  documentImageUrl: string | null = null;
   companyAccounts:any[]=[];
   customerAccounts:any[]=[];
   isLoading = false;
@@ -38,7 +27,7 @@ export class AddPaymentDocumentComponent implements OnInit {
     this.transactionForm = this.fb.group({
       user_id: [null, [Validators.required]],
       amount: ['', [Validators.required, Validators.min(0)]],
-      // type: ['', [Validators.required]],
+     
       receiver_name: ['', [Validators.required, Validators.maxLength(255)]],
       company_account_id: ['', [Validators.required]],
       customer_account_id: ['', [Validators.required]],
@@ -75,9 +64,37 @@ export class AddPaymentDocumentComponent implements OnInit {
       this.type = params.get('type')!;
       console.log('Received type:', this.type);  // Logs 'recipt' or 'payment' based on URL
     });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.fetchDocumentData(id);
+    }
     this.loadUsers();
     this.getCustomerAccounts();
     this.getCompanyAccounts();
+  }
+  fetchDocumentData(id: string): void {
+    this._DocumentService.getDocumentById(id).subscribe({
+      next: (response) => {
+        if (response) {
+          const documentData = response.data ; 
+          console.log(documentData)
+          this.transactionForm.patchValue({
+            user_id:documentData.user_id,
+            amount:documentData.amount,
+            receiver_name:documentData.receiver_name,
+            company_account_id:documentData.company_account_id,
+            customer_account_id:documentData.customer_account_id,
+            // image:documentData.image,
+              
+          });
+          this.documentImageUrl = documentData.image;
+       
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.msgError = err.error.error;
+      }
+    });
   }
   loadUsers(): void {
     this._UserService.viewAllUsers().subscribe({
@@ -123,48 +140,15 @@ export class AddPaymentDocumentComponent implements OnInit {
    });
  
    }
-  // handleForm(): void {
-  //   if (this.transactionForm.invalid) {
-  //     this.transactionForm.markAllAsTouched();
-  //     return;
-  //   }
-  //   this.isLoading = true;
-
-  //   if (this.type === 'recipt') {
-  //     console.log('Handling recipt type transaction...');
-  //   } else if (this.type === 'payment') {
-  //     console.log('Handling payment type transaction...');
-  //   }
-
-  //   const formData = new FormData();
-  //   Object.entries(this.transactionForm.value).forEach(([key, value]) => {
-  //     formData.append(key, value as string | Blob);
-  //   });
-
-  //   console.log('Form submitted:', this.transactionForm.value);
-
-  //   // Simulate API call
-  //   setTimeout(() => {
-  //     this.isLoading = false;
-  //     alert('Transaction successfully created!');
-  //   }, 2000);
-  // }
-  // 'id' => $this->id,
-  // 'amount' => $this->amount,
-  // 'type' => $this->type,
-  // 'user_id' => $this->user_id,
-  // 'receiver_name' => $this->receiver_name,
-  // 'company_account_id' => $this->company_account_id,
-  // 'customer_account_id' => $this->customer_account_id,
-  // 'image' => $this->image,
-  // 'created_at' => $this->created_at,
-  // 'updated_at' => $this->updated_at,
+ 
   handleForm() {
    
     if (this.transactionForm.valid) {
       this.isLoading = true;
 
       const formData = new FormData();
+
+    
       formData.append('amount', this.transactionForm.get('amount')?.value);
   
       
@@ -178,7 +162,10 @@ export class AddPaymentDocumentComponent implements OnInit {
         formData.append('image',this.transactionForm.get('image')?.value);
         console.log(this.selectedFile)
       }
-      this._DocumentService.addDocument(formData).subscribe({
+      const documentId = this.route.snapshot.paramMap.get('id');
+      console.log(documentId)
+      if (documentId){
+      this._DocumentService.updateDocument(documentId,formData).subscribe({
         next: (response) => {
           console.log(response);
           if (response) {
@@ -205,5 +192,11 @@ export class AddPaymentDocumentComponent implements OnInit {
       },
       });
     }
+    }
   }
+  onCancel(): void {
+    this.transactionForm.reset();
+    this._Router.navigate([`/dashboard/paymentDocument/${this.type}`]);
+  }  
 }
+

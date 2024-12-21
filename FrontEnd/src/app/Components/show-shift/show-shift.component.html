@@ -1,1 +1,91 @@
-<p>show-shift works!</p>
+<div class="mt-4 mb-4">
+    <div class="container">
+      <!-- Shift Details -->
+      <div class="card shadow rounded-lg">
+        <div class="card-header bg-white text-black rounded-top pt-3">
+          <h5>Shift Details</h5>
+        </div>
+        <div class="card-body pb-5">
+          <div class="row">
+            <!-- User Details -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="fw-bold">User Name:</label>
+                <p class="text-muted">{{ userData?.name || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="fw-bold">Role:</label>
+                <p class="text-muted">{{ userData?.role || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+               
+                <img [src]="userData?.image" alt="User Image" class="img-fluid rounded w-75" *ngIf="userData?.image">
+                <p *ngIf="!userData?.image" class="text-muted">No image available</p>
+              </div>
+            </div>
+            <!-- Shift Metadata -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="fw-bold">Shift ID:</label>
+                <p class="text-muted">{{ shiftData?.id || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="fw-bold">Total Money:</label>
+                <p class="text-muted">{{ shiftData?.total_money || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="fw-bold">Total Cash:</label>
+                <p class="text-muted">{{ shiftData?.total_cash || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="fw-bold">Total Client Deposit:</label>
+                <p class="text-muted">{{ shiftData?.total_client_deposit || 'N/A' }}</p>
+              </div>
+
+              <div class="mb-3">
+                <label class="fw-bold">Total Payed Online:</label>
+                <p class="text-muted">{{ shiftData?.total_payed_online || 'N/A' }}</p>
+              </div>
+              <div class="mb-3">
+                <label class="fw-bold">Status:</label>
+                <p class="text-muted">{{ shiftData?.status || 'N/A' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h6 class="mt-4">Online Payments</h6>
+      <div class="row">
+        <div *ngFor="let payment of onlinePayments" class="col-md-4">
+          <div class="card mb-3 shadow-sm">
+            <img [src]="payment?.image" alt="Payment Image" class="card-img-top" *ngIf="payment?.image">
+            <div class="card-body">
+              <h6 class="card-title">{{ payment?.client_name || 'N/A' }}</h6>
+              <p class="card-text">Amount: {{ payment?.amount || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Client Counters -->
+      <h6 class="mt-4">Client Counters</h6>
+      <div class="row">
+        <div *ngFor="let counter of clientCounters" class="col-md-4">
+          <div class="card mb-3 shadow-sm">
+            <img [src]="counter?.image" alt="Payment Image" class="card-img-top" *ngIf="counter?.image">
+            <div class="card-body">
+              <h6 class="card-title">Account ID: {{ counter?.account_id || 'N/A' }}</h6>
+              <p class="card-text">Amount: {{ counter?.amount || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="mt-4">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/shifts">
+          <button type="button" class="btn btn-primary px-4">Back</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  

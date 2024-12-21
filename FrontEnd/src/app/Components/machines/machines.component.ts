@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MachineService } from '../../shared/services/machine.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,8 @@ export class MachinesComponent implements OnInit {
   filteredCities: any[] = []; 
   searchQuery: string = ''; 
 
-  constructor(private _MachineService: MachineService, private router: Router) {}
+  constructor(private _MachineService: MachineService, private router: Router, private cdr: ChangeDetectorRef) {}
+
 
   ngOnInit(): void {
     this.loadMachines(); 
@@ -48,7 +49,9 @@ export class MachinesComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate(['/dashboard/machines']);
-            this.loadMachines();
+            // this.loadMachines();
+            this.loadMachines()
+            this.cdr.detectChanges();
           }
         },
         error: (err) => {

@@ -14,7 +14,12 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Account;
 class PaymentDocumentController extends Controller
 {
-
+    // public function index()
+    // {
+    //     $documents = PaymentDocument::with(['companyAccount', 'customerAccount'])->get();
+    //     return PaymentDocumentResource::collection($documents);
+    // }
+    
 
     public function store(PaymentDocumentRequest $request)
     {
@@ -87,21 +92,32 @@ class PaymentDocumentController extends Controller
     }
 
 
+    // public function show(PaymentDocument $paymentDocument)
+    // {
+    //     return new PaymentDocumentResource($paymentDocument);
+    // }
     public function show(PaymentDocument $paymentDocument)
-    {
-        return new PaymentDocumentResource($paymentDocument);
-    }
+{
+    $paymentDocument->load(['companyAccount', 'customerAccount']);
+    return new PaymentDocumentResource($paymentDocument);
+}
 
 
 
 
 
+    // public function getByType($type)
+    // {
+
+    //     $documents = PaymentDocument::where('type', $type)->get();
+    //     return PaymentDocumentResource::collection($documents);
+    // }
     public function getByType($type)
-    {
+{
+    $documents = PaymentDocument::where('type', $type)->with(['companyAccount', 'customerAccount'])->get();
+    return PaymentDocumentResource::collection($documents);
+}
 
-        $documents = PaymentDocument::where('type', $type)->get();
-        return PaymentDocumentResource::collection($documents);
-    }
 
 
 

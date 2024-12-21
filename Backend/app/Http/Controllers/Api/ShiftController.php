@@ -308,6 +308,22 @@ if(request()->hasFile("opening_image")){
 }
 
 
+public function destroy($id)
+{
+    $shift = Shift::find($id);
+    if (!$shift) {
+        return response()->json([
+            'message' => 'Shift not found',
+        ], 404);
+    }
+
+    $shift->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Shift deleted successfully',
+    ]);
+}
 
 
 

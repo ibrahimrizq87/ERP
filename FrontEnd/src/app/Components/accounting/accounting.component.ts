@@ -13,7 +13,7 @@ import { Router ,ActivatedRoute } from '@angular/router';
   styleUrl: './accounting.component.css'
 })
 export class AccountingComponent {
-  constructor (private route: ActivatedRoute , private _AccountingService:AccountingService ){}
+  constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ){}
  accounts:any;
  accountId:string |null = null;
 
@@ -50,6 +50,21 @@ this.getAccounts();
   }
 
 
-  deleteAccount(id:string){}
+  deleteAccount(accountID: number): void {
+    if (confirm('Are you sure you want to delete this Account?')) {
+      this._AccountingService.deleteAccount(accountID).subscribe({
+        next: (response) => {
+          if (response) {
+            this._Router.navigate([`/dashboard/accounting/${this.accountId}`]);
+            this.getAccounts();
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          alert('An error occurred while deleting the product.');
+        }
+      });
+    }
+  }
 
 }

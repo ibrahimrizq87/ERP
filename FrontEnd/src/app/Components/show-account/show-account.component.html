@@ -1,0 +1,68 @@
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>Account Details</h5>
+            </div>
+            <div class="card-body pb-5">
+              <div class="row">
+                <!-- Account Details -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="fw-bold">Name:</label>
+                    <p class="text-muted">{{ AccountData?.account_name || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Phone:</label>
+                    <p class="text-muted">{{ AccountData?.phone || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Current Balance:</label>
+                    <p class="text-muted">{{ AccountData?.current_balance || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Net Credit:</label>
+                    <p class="text-muted">{{ AccountData?.net_credit || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Net Debit:</label>
+                    <p class="text-muted">{{ AccountData?.net_debit || 'N/A' }}</p>
+                  </div>
+                </div>
+  
+                <!-- Parent Account Details -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="fw-bold">Parent Account Name:</label>
+                    <p class="text-muted">{{ AccountData?.parent?.account_name || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Parent Balance:</label>
+                    <p class="text-muted">{{ AccountData?.parent?.current_balance || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Parent Net Credit:</label>
+                    <p class="text-muted">{{ AccountData?.parent?.net_credit || 'N/A' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Parent Net Debit:</label>
+                    <p class="text-muted">{{ AccountData?.parent?.net_debit || 'N/A' }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="mt-4 mb-4">
+        <a class="nav-link" [routerLink]="['/dashboard/accounting', parentId]">
+          <button type="button" class="btn btn-primary px-4">Back</button>
+        </a>
+      </div>
+      
+    </div>
+  </div>
+  

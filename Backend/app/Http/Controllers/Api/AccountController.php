@@ -99,27 +99,56 @@ class AccountController extends Controller
     return AccountResource::collection($accounts);
 }
 
-    public function update(Request $request, Account $account)
-    {
+    // public function update(Request $request, Account $account)
+    // {
 
-        $validator = Validator::make($request->all(), [
-            'account_name' => 'required|string|max:255|unique:accounts,account_name',
-            'phone' => 'nullable|string|max:255',
-            'parent_id' => 'nullable|exists:accounts,id',
-            'can_delete' => 'required|boolean',
-            'current_balance' => 'required|numeric|min:0',
-            'net_debit' => 'required|numeric|min:0',
-            'net_credit' => 'required|numeric|min:0',
+    //     $validator = Validator::make($request->all(), [
+    //         'account_name' => 'required|string|max:255|unique:accounts,account_name',
+    //         'phone' => 'nullable|string|max:255',
+    //         'parent_id' => 'nullable|exists:accounts,id',
+    //         'can_delete' => true,
+    //         // 'can_delete' => 'required|boolean',
+    //         'current_balance' => 'required|numeric|min:0',
+    //         'net_debit' => 'required|numeric|min:0',
+    //         'net_credit' => 'required|numeric|min:0',
 
-        ]);
+    //     ]);
     
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 400);
+    //     }
         
-        $account->update($request->validated());
-        return new AccountResource($account);
+    //     $account->update($request->validated());
+    //     return new AccountResource($account);
+    // }
+    public function update(Request $request, Account $account)
+{
+    $validator = Validator::make($request->all(), [
+        'account_name' => 'required|string|max:255|unique:accounts,account_name,' . $account->id,
+        'phone' => 'nullable|string|max:255',
+        'parent_id' => 'nullable|exists:accounts,id',
+        'current_balance' => 'required|numeric|min:0',
+        'net_debit' => 'required|numeric|min:0',
+        'net_credit' => 'required|numeric|min:0',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
     }
+
+    // Update account details
+    $account->update($request->only([
+        'account_name', 
+        'phone', 
+        'parent_id', 
+        'current_balance', 
+        'net_debit', 
+        'net_credit'
+    ]));
+
+    return new AccountResource($account);
+}
+
 
     public function destroy(Account $account)
     {

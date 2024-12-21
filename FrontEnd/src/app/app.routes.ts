@@ -27,6 +27,10 @@ import { AddAccountComponent } from './Components/add-account/add-account.compon
 import { PaymentDocumentComponent } from './Components/payment-document/payment-document.component';
 import { AddPaymentDocumentComponent } from './Components/add-payment-document/add-payment-document.component';
 import { CloseShiftComponent } from './Components/close-shift/close-shift.component';
+import { ShowAccountComponent } from './Components/show-account/show-account.component';
+import { UpdateAccountComponent } from './Components/update-account/update-account.component';
+import { ShowDocumentComponent } from './Components/show-document/show-document.component';
+import { UpdateDocumentComponent } from './Components/update-document/update-document.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -44,9 +48,13 @@ export const routes: Routes = [
 
     {path:"accounting/:id",component:AccountingComponent},
     {path:"addAccount/:id",component:AddAccountComponent},
-    {path:"paymentDocument/:type",component:PaymentDocumentComponent},
+    {path:"accounting/:id/showAccount/:accountId",component:ShowAccountComponent},
+    {path:"accounting/:id/updateAccount/:accountId",component:UpdateAccountComponent},
 
+    {path:"paymentDocument/:type",component:PaymentDocumentComponent},
     {path:"addPaymentDocument/:type",component:AddPaymentDocumentComponent},
+    {path:"paymentDocument/:type/showDocument/:id",component:ShowDocumentComponent},
+    {path:"paymentDocument/:type/updateDocument/:id",component:UpdateDocumentComponent},
 
     {path:"machines",component:MachinesComponent},  
     {path:"addMachine",component:AddMachineComponent},
