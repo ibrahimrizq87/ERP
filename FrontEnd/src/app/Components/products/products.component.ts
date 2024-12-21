@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
-import { Router, RouterLinkActive, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule,RouterModule,FormsModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
 
   products: any[] = []; 
-  filteredCities: any[] = []; 
+  filteredProducts: any[] = [];  
   searchQuery: string = ''; 
 
   constructor(private _ProductService: ProductService, private router: Router) {}
@@ -28,6 +28,7 @@ export class ProductsComponent implements OnInit {
         if (response) {
           console.log(response);
           this.products = response; 
+          this.filteredProducts = response;
         
         }
       },
@@ -35,6 +36,14 @@ export class ProductsComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+  onSearch(): void {
+    const query = this.searchQuery.toLowerCase(); // Convert to lowercase for case-insensitive search
+    this.filteredProducts = this.products.filter(product => 
+      product.name.toLowerCase().includes(query) ||
+      product.price.toString().includes(query) || 
+      product.amount.toString().includes(query)
+    );
   }
   // onSearch(): void {
   //   const query = this.searchQuery.toLowerCase();

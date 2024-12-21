@@ -12,7 +12,8 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <span class="fw-bold">documnets List</span>
-            <input class="form-control search w-25" type="search" placeholder="Search..." aria-label="Search">
+            <input class="form-control search w-25" type="search" placeholder="Search..." [(ngModel)]="searchQuery" (input)="onSearch()" aria-label="Search">
+            <!-- <input class="form-control search w-25" type="search" placeholder="Search..." aria-label="Search"> -->
         </div>
     </div>
   
@@ -31,7 +32,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let document of documents; let i = index">
+            <tr *ngFor="let document of filteredDocuments; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ document.receiver_name }}</td>
                 <td>{{ document.amount }}</td>
@@ -43,12 +44,7 @@
                 
                   <td >
                     <div class="d-flex justify-content-around align-items-center">
-                    <!-- <a class="nav-link" [routerLink]="['/dashboard/showdocument', document.id]">
-                      <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
-                    </a>
-                    <a class="nav-link" [routerLink]="['/dashboard/updatedocument', document.id]">
-                      <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
-                    </a> -->
+                   
                     <a class="nav-link" [routerLink]="['/dashboard/paymentDocument/', type, 'showDocument', document.id]">
                         <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
                       </a>

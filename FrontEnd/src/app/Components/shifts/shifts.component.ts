@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ShiftService } from '../../shared/services/shift.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shifts',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule,RouterModule,FormsModule],
   templateUrl: './shifts.component.html',
   styleUrl: './shifts.component.css'
 })
 export class ShiftsComponent implements OnInit {
 
   shifts: any[] = []; 
-  filteredCities: any[] = []; 
+   filteredShifts: any[] = [];  
   searchQuery: string = ''; 
 
   constructor(private _ShiftService: ShiftService, private router: Router) {}
@@ -27,6 +28,7 @@ export class ShiftsComponent implements OnInit {
         if (response) {
           console.log(response);
           this.shifts = response.data; 
+          this.filteredShifts = this.shifts
         
         }
       },
@@ -34,6 +36,15 @@ export class ShiftsComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+  onSearch(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredShifts = this.shifts.filter(shift =>
+      (shift.user?.name?.toLowerCase().includes(query) || 
+      shift.opening_amount?.toString().toLowerCase().includes(query) || 
+      shift.shift?.toLowerCase().includes(query) )
+      // shift.machine?.machine_number?.toString().toLowerCase().includes(query)) 
+    );
   }
   // onSearch(): void {
   //   const query = this.searchQuery.toLowerCase();

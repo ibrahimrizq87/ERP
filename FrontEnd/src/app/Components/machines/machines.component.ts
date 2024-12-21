@@ -2,17 +2,18 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MachineService } from '../../shared/services/machine.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-machines',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule,RouterModule,FormsModule],
   templateUrl: './machines.component.html',
   styleUrl: './machines.component.css'
 })
 export class MachinesComponent implements OnInit {
 
   machines: any[] = []; 
-  filteredCities: any[] = []; 
+  filteredMachines: any[] = []; 
   searchQuery: string = ''; 
 
   constructor(private _MachineService: MachineService, private router: Router, private cdr: ChangeDetectorRef) {}
@@ -28,13 +29,22 @@ export class MachinesComponent implements OnInit {
         if (response) {
           console.log(response);
           this.machines = response.data; 
-        
+          this.filteredMachines = this.machines;
         }
       },
       error: (err) => {
         console.error(err);
       }
     });
+  }
+  onSearch(): void {
+    const query = this.searchQuery.toLowerCase();
+
+    this.filteredMachines = this.machines.filter(machine =>
+      machine.product?.name.toLowerCase().includes(query) || 
+      // machine.price.toString().includes(query) || 
+      machine.machine_number.toString().includes(query)
+    );
   }
   // onSearch(): void {
   //   const query = this.searchQuery.toLowerCase();

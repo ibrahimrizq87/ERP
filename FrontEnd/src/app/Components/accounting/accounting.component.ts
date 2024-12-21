@@ -16,7 +16,8 @@ export class AccountingComponent {
   constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ){}
  accounts:any;
  accountId:string |null = null;
-
+ searchTerm: string = ''; 
+ filteredAccounts: any[] = [];
 
   ngOnInit(): void {
 
@@ -33,7 +34,7 @@ export class AccountingComponent {
       if (response) {
         this.accounts = response.data; 
         console.log(this.accounts);
-
+        this.filteredAccounts = [...this.accounts];
       }
     },
     error: (err) => {
@@ -48,7 +49,15 @@ this.accountId = id;
 this.getAccounts(); 
 
   }
-
+  filterAccounts() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredAccounts = this.accounts.filter((account: { account_name: string; net_debit: { toString: () => string; }; net_credit: { toString: () => string; }; current_balance: { toString: () => string; }; }) =>
+      account.account_name.toLowerCase().includes(term) ||
+      account.net_debit.toString().toLowerCase().includes(term) ||
+      account.net_credit.toString().toLowerCase().includes(term) ||
+      account.current_balance.toString().toLowerCase().includes(term)
+    );
+  }
 
   deleteAccount(accountID: number): void {
     if (confirm('Are you sure you want to delete this Account?')) {

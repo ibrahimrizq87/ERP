@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/services/user.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
 export class UsersComponent implements OnInit {
 
   users: any[] = []; 
-  filteredCities: any[] = []; 
+  filteredUsers: any[] = [];  
   searchQuery: string = ''; 
 
   constructor(private _UserServicev: UserService, private router: Router) {}
@@ -28,13 +29,22 @@ export class UsersComponent implements OnInit {
         if (response) {
           console.log(response);
           this.users = response.data; 
-          // this.filteredCities = this.users;
+          this.filteredUsers = this.users;
+         
         }
       },
       error: (err) => {
         console.error(err);
       }
     });
+  }
+  onSearch(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredUsers = this.users.filter(user =>
+      user.name.toLowerCase().includes(query) ||
+      user.username.toLowerCase().includes(query) ||
+      user.role.toLowerCase().includes(query)
+    );
   }
   // onSearch(): void {
   //   const query = this.searchQuery.toLowerCase();

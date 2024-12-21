@@ -14,6 +14,8 @@ export class PaymentDocumentComponent {
 
   type:string|null = null;
 documents:any;
+filteredDocuments: any[] = [];
+searchQuery: string = ''; 
   constructor (private route: ActivatedRoute , private _DocumentService:DocumentService, private router: Router ){}
   ngOnInit(): void {
 
@@ -31,7 +33,7 @@ documents:any;
         if (response) {
           this.documents = response.data; 
           console.log(this.documents);
-  
+          this.filteredDocuments = [...this.documents];
         }
       },
       error: (err) => {
@@ -39,7 +41,16 @@ documents:any;
       }
     });
   }
-
+  onSearch(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredDocuments = this.documents.filter((document: { receiver_name: string; amount: { toString: () => string; }; type: string; customer_account: { account_name: string; }; company_account: { account_name: string; }; }) =>
+      document.receiver_name.toLowerCase().includes(query) ||
+      document.amount.toString().toLowerCase().includes(query) ||
+      document.type.toLowerCase().includes(query) ||
+      document.customer_account.account_name.toLowerCase().includes(query) ||
+      document.company_account.account_name.toLowerCase().includes(query)
+    );
+  }
 
   onType(type: string | null): void {
     this.type = type;
