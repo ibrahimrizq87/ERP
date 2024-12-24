@@ -39,7 +39,7 @@ export class AddPaymentDocumentComponent implements OnInit {
     this.transactionForm = this.fb.group({
       user_id: [null, [Validators.required]],
       amount: ['', [Validators.required, Validators.min(0)]],
-      // type: ['', [Validators.required]],
+      statement: [''],
       receiver_name: ['', [Validators.required, Validators.maxLength(255)]],
       company_account_id: ['', [Validators.required]],
       customer_account_id: ['', [Validators.required]],
@@ -167,8 +167,7 @@ export class AddPaymentDocumentComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('amount', this.transactionForm.get('amount')?.value);
-  
-      
+      formData.append('statement', this.transactionForm.get('statement')?.value|| '');
       formData.append('type', this.type);
       formData.append('user_id', this.transactionForm.get('user_id')?.value);
       formData.append('receiver_name', this.transactionForm.get('receiver_name')?.value);

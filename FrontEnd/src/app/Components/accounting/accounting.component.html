@@ -3,8 +3,15 @@
         <h5>Manage Accounting</h5>
         <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Accounting</span>
     </div>
-    <a *ngIf="accountId" class="nav-link" routerLink="/dashboard/addAccount/{{accountId}}">
+
+
+
+    <a *ngIf="accountId && accountId != '7'" class="nav-link" routerLink="/dashboard/addAccount/{{accountId}}">
       <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
+    </a>
+
+    <a *ngIf="accountId && accountId == '7' " class="nav-link" routerLink="/dashboard/addAccount/{{accountId}}">
+      تعديل الضريبه المضافه
     </a>
   </div>
  

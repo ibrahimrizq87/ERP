@@ -71,7 +71,19 @@
                       <p *ngIf="transactionForm.get('receiver_name')?.hasError('maxLength')">Max length is 255</p>
                     </div>
                   </div>
-  
+
+                  <div class="form-group col-md-6">
+                    <label for="statement" class="form-label">statement</label>
+                    <input
+                      id="statement"
+                      formControlName="statement"
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter statement"
+                    />
+                  
+                  </div>
+                  
                   <!-- Company Account -->
                   <div class="form-group col-md-6">
                     <label for="company_account_id" class="form-label">Company Account</label>
