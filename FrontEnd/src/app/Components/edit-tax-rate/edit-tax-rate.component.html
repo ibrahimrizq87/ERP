@@ -1,0 +1,58 @@
+<div class="mt-3 mb-3">
+    <h5>Manage Users</h5>
+    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> User <i class="fa-solid fa-angle-right"></i> Create User</span>
+</div>
+<div class="mt-4 mb-4">
+  <form  [formGroup]="taxRate" (ngSubmit)="handleForm()">
+    <div class="container">
+        <div class="row">
+        
+          <div class="col-md-12">
+            <div class="card shadow em-card rounded-lg">
+              <div class="card-header bg-white text-black rounded-top pt-3 ">
+                <h5>Add User</h5>
+              </div>
+            
+              <div class="card-body pb-5">
+
+                <div class="row">
+
+                  <div class="form-group col-md-6">
+                    <label for="rate"  class="form-label">Percentage</label>
+                    <input id="rate" formControlName="rate" type="number" class="form-control" placeholder="Enter rate" required/>
+                    <div class="alert alert-danger" *ngIf="taxRate.get('rate')?.errors && taxRate.get('rate')?.touched">
+                      <p *ngIf="taxRate.get('rate')?.getError('required')">rate is Required</p>
+                      <p *ngIf="taxRate.get('rate')?.getError('maxLength')">maxLength is 255</p>
+                    </div>
+                  </div>
+                  
+                
+                
+                </div>   
+                
+            </div>
+           
+            </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
+          </div>
+          <div class=" mt-4 mb-4">
+            <button [disabled]="taxRate.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save</button>
+         </div>
+      
+        </div>
+      
+    
+       
+      </div>
+    </form>
+
+</div>
+
+
+  
+  
+

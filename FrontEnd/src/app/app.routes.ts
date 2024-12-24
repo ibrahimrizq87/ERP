@@ -31,6 +31,7 @@ import { ShowAccountComponent } from './Components/show-account/show-account.com
 import { UpdateAccountComponent } from './Components/update-account/update-account.component';
 import { ShowDocumentComponent } from './Components/show-document/show-document.component';
 import { UpdateDocumentComponent } from './Components/update-document/update-document.component';
+import { EditTaxRateComponent } from './Components/edit-tax-rate/edit-tax-rate.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -51,6 +52,8 @@ export const routes: Routes = [
     {path:"addAccount/:id",component:AddAccountComponent},
     {path:"accounting/:id/showAccount/:accountId",component:ShowAccountComponent},
     {path:"accounting/:id/updateAccount/:accountId",component:UpdateAccountComponent},
+
+    {path:"editTaxRate",component:EditTaxRateComponent},
 
     {path:"paymentDocument/:type",component:PaymentDocumentComponent},
     {path:"addPaymentDocument/:type",component:AddPaymentDocumentComponent},
