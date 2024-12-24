@@ -8,8 +8,14 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\PaymentDocumentController;
+use App\Http\Controllers\TaxRateController;
 
 
+
+
+
+Route::get('tax_rate/update', [TaxRateController::class , 'update']);
+Route::get('tax_rate/get', [TaxRateController::class , 'getTax']);
 
 Route::get('accounts/customer-accounts', [AccountController::class , 'getCustomerAccounts']);
 Route::get('accounts/company-accounts', [AccountController::class , 'getCompanyAccount']);
