@@ -73,9 +73,16 @@
             />
             <small class="text-muted"> Counter Result: {{ clientsResult[i] }} </small>
           </div>
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
             <label for="account_id">Account ID</label>
             <input formControlName="account_id" type="text" class="form-control" />
+          </div> -->
+          <div class="form-group col-md-4">
+            <label class="form-label">Select Customer Accounts </label>
+            <select class="form-control" formControlName="account_id">
+              <option value="" disabled>Select Account</option>
+              <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+            </select>
           </div>
   
          
