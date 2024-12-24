@@ -6,6 +6,7 @@ import { ShiftService } from '../../shared/services/shift.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AccountingService } from '../../shared/services/accounts.service';
 
 @Component({
   selector: 'app-update-shift',
@@ -27,12 +28,14 @@ export class UpdateShiftComponent implements OnInit {
   clientsResult:number[]=[];
   public total_client_deposit: number = 0;
    public amountTotal: number = 0;
+  accounts: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private _ShiftService: ShiftService,
     private route: ActivatedRoute,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private _AccountingService:AccountingService
   ) {
     this.shiftForm = this.fb.group({
       total_cash: [''],
@@ -49,6 +52,7 @@ export class UpdateShiftComponent implements OnInit {
     if (shiftId) {
       this.fetchShiftData(shiftId);
     }
+    this.getAccounts()
   }
 
   fetchShiftData(shiftId: string): void {
@@ -73,6 +77,22 @@ export class UpdateShiftComponent implements OnInit {
       }
     });
   }
+  getAccounts(){
+    this._AccountingService.getAccountsByParent("2").subscribe({
+     next: (response) => {
+       if (response) {
+         this.accounts = response.data; 
+         console.log(this.accounts);
+       
+       }
+     },
+     error: (err) => {
+       console.error(err);
+     }
+   });
+ 
+   }
+ 
   
 //   fetchShiftData(shiftId: string): void {
 //   this._ShiftService.getShiftById(shiftId).subscribe({

@@ -47,6 +47,7 @@
                       <option value="admin">Admin </option>
                       <option value="worker">Worker</option>
                       <option value="accountant">Accountant</option>
+                      <option value="supervisor">Supervisor</option>
                     </select>
                     <div class="alert alert-danger" *ngIf="userForm.get('role')?.errors && userForm.get('role')?.touched">
                       <p *ngIf="userForm.get('role')?.hasError('required')">Role is required</p>
