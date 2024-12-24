@@ -23,7 +23,7 @@ export class EditTaxRateComponent {
  
  
   taxRate: FormGroup = new FormGroup({
-    name:new FormControl(null, [Validators.required,Validators.maxLength(255)]),
+    rate:new FormControl(null, [Validators.required,Validators.min(0),Validators.max(100)]),
    
   });
  
@@ -33,7 +33,7 @@ export class EditTaxRateComponent {
       this.isLoading = true;
 
       const formData = new FormData();
-      formData.append('name', this.taxRate.get('name')?.value);
+      formData.append('rate', this.taxRate.get('rate')?.value);
    
       this._AccountingService.updateTaxRate(formData).subscribe({
         next: (response) => {

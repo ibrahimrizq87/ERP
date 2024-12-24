@@ -33,6 +33,15 @@ class ShiftController extends Controller
 
 
 
+
+    public function getByStatus($status)
+    {
+        $shifts = Shift::with(['machine','user'])->where('status' , $status)->get();
+    
+        return ShiftResource::collection($shifts);
+
+    }
+
     // public function show($id)
     // {
     //     $shift = Shift::find($id);

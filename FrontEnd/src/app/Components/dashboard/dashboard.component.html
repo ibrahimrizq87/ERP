@@ -108,6 +108,13 @@
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('reports')">
+
+              <li class="nav-item nested"  >
+                <a class="nav-link" routerLinkActive="active" >المبيعات</a>
+              </li>
+              <li class="nav-item nested" >
+                <a class="nav-link" routerLinkActive="active" >المشتريات</a>
+              </li>
               <li class="nav-item nested" *ngFor="let account of accounts">
                 <a class="nav-link" routerLinkActive="active" routerLink="accounting/{{account.id}}">{{account.account_name}}</a>
               </li>
