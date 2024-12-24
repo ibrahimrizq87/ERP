@@ -83,7 +83,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:accountant,worker,admin',
+            'role' => 'required|in:accountant,worker,admin,supervisor',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

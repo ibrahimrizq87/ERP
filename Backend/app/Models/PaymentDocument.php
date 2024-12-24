@@ -20,6 +20,7 @@ class PaymentDocument extends Model
         'company_account_id',
         'customer_account_id',
         'image',
+        'statement'
     ];
 
     // Relationships

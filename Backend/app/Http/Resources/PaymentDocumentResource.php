@@ -15,9 +15,13 @@ class PaymentDocumentResource extends JsonResource
     public function toArray(Request $request): array
     {
 return[
+
+    
     'id' => $this->id,
     'amount' => $this->amount,
     'type' => $this->type,
+    'statement' => $this->statement,
+
     'user_id' => $this->user_id,
     'receiver_name' => $this->receiver_name,
     'company_account_id' => $this->company_account_id,

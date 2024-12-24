@@ -14,6 +14,9 @@ class PaymentDocumentRequest extends FormRequest
     public function rules()
     {
         return [
+            
+            'statement' => 'nullable|string|max:255',
+
             'amount' => 'required|numeric|min:0',
             'type' => 'required|in:payment,receipt',
             'receiver_name' => 'required|string|max:255',

@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\PaymentDocumentController;
 Route::get('accounts/customer-accounts', [AccountController::class , 'getCustomerAccounts']);
 Route::get('accounts/company-accounts', [AccountController::class , 'getCompanyAccount']);
 
+Route::get('shifts/approve/{shift_id}', [ShiftController::class , 'approveShift']);
+
 Route::get('payment-documents/by-type/{type}', [PaymentDocumentController::class , 'getByType']);
 
 Route::post('/login', [AuthController::class, 'login']);

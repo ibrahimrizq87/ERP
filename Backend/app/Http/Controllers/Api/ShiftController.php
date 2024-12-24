@@ -182,6 +182,28 @@ $totalCustomer = $shift->total_client_deposit;
 
 
 
+public function approveShift($shift_id)
+{
+
+    $shift = Shift::find($shift_id);
+    if(!$shift){
+        return response()->json([
+                    'message' => 'shift not found'
+                ], 404);
+    }
+
+    $shift->status = 'approved';
+    $shift->save();
+
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Shift updated successfully',
+    ]);
+}
+
+
+
 public function closeShift(Request $request ,$shift_id)
 {
 
@@ -226,16 +248,15 @@ public function closeShift(Request $request ,$shift_id)
     $data = $validator->validated();
 
    
-$shift->total_payed_online = $data['total_payed_online'];
-$shift->total_client_deposit = $data['total_client_deposit'];
-$shift->ending_image = $end_path;
-$shift->ending_amount = $data['ending_amount'];
-
-$shift->amount = $data['amount'];
-$shift->total_money = $data['total_money'];
-$shift->total_cash = $data['total_cash'];
-
-     $shift->save();
+    $shift->total_payed_online = $data['total_payed_online'];
+    $shift->total_client_deposit = $data['total_client_deposit'];
+    $shift->ending_image = $end_path;
+    $shift->ending_amount = $data['ending_amount'];
+    $shift->status = 'closed';
+    $shift->amount = $data['amount'];
+    $shift->total_money = $data['total_money'];
+    $shift->total_cash = $data['total_cash'];
+    $shift->save();
 
 
     return response()->json([
