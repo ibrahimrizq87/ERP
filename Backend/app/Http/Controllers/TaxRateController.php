@@ -15,7 +15,7 @@ class TaxRateController extends Controller
     {
         $tax  =TaxRate::find(1);
         $rules = [
-            'rate' => 'required|numeric|min:0|min:100',
+            'rate' => 'required|numeric|min:0|max:100',
   
         ];
 

@@ -80,6 +80,6 @@ export class AccountingService {
   updateTaxRate(taxRateData: FormData): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.post(`${this.baseURL}/updateTaxRate`, taxRateData ,{ headers })
+    return this._HttpClient.post(`${this.baseURL}/tax_rate/update`, taxRateData ,{ headers })
   } 
 }

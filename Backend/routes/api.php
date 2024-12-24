@@ -14,7 +14,7 @@ use App\Http\Controllers\TaxRateController;
 
 
 
-Route::get('tax_rate/update', [TaxRateController::class , 'update']);
+Route::post('tax_rate/update', [TaxRateController::class , 'update']);
 Route::get('tax_rate/get', [TaxRateController::class , 'getTax']);
 
 Route::get('accounts/customer-accounts', [AccountController::class , 'getCustomerAccounts']);
