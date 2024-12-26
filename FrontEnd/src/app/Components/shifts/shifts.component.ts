@@ -88,4 +88,22 @@ export class ShiftsComponent implements OnInit {
   //     });
   //   }
   // }
+  changeStatus(shiftId: number): void {
+    if (confirm('هل أنت متأكد أنك تريد الموافقة على هذه الوردية؟')) {
+      this._ShiftService.approveStatus(shiftId).subscribe({
+        next: (response) => {
+          if (response) {
+            this.router.navigate(['/dashboard/shifts']);
+            this.loadShifts();
+            this.toastr.success("تم الموافقة على هذه الوردية بنجاح")
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          alert('حدث خطأ أثناء الموافقة على الوردية.');
+        }
+      });
+    }
+  }
+  
 }

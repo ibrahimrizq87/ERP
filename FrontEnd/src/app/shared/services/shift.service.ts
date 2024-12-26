@@ -47,5 +47,10 @@ export class ShiftService {
     shiftData.append('_method', 'PUT');
     return this._HttpClient.post(`${this.baseURL}/shifts/closeShift/${shiftId}`, shiftData, { headers })
   }
- 
+  approveStatus(shift_Id:number){
+    const token = localStorage.getItem('Token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/shifts/approve/${shift_Id}`, { headers })
+   }
+
 }
