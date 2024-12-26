@@ -20,7 +20,8 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <span class="fw-bold">Accounts List</span>
             <!-- <input class="form-control search w-25" type="search" placeholder="Search..." aria-label="Search"> -->
-            <input class="form-control search w-25" type="search" placeholder="Search..." aria-label="Search" [(ngModel)]="searchTerm" (input)="filterAccounts()">
+            <input *ngIf="accountId && accountId != '7' " class="form-control search w-25" type="search" placeholder="Search..." aria-label="Search" [(ngModel)]="searchTerm" (input)="filterAccounts()">
+            <span class="fw-bold">  الضريبه المضافه: {{taxRate?.rate}} %</span>
           </div>
     </div>
   

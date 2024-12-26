@@ -82,4 +82,9 @@ export class AccountingService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.post(`${this.baseURL}/tax_rate/update`, taxRateData ,{ headers })
   } 
+  getTaxRate(): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/tax_rate/get`,{ headers })
+  } 
 }

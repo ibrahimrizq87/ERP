@@ -19,7 +19,7 @@ export class AccountingComponent {
  accountId:string |null = null;
  searchTerm: string = ''; 
  filteredAccounts: any[] = [];
-
+taxRate:any
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
@@ -27,7 +27,8 @@ export class AccountingComponent {
       this.onAccountIdChange(this.accountId); 
     });
 
-    this.getAccounts(); 
+    this.getAccounts();
+    this.getTaxRate() 
   }
   getAccounts(){
    this._AccountingService.getAccountsByParent(this.accountId||'').subscribe({
@@ -44,7 +45,21 @@ export class AccountingComponent {
   });
 
   }
-
+  getTaxRate(){
+    this._AccountingService.getTaxRate().subscribe({
+     next: (response) => {
+       if (response) {
+         this.taxRate = response; 
+         console.log(this.taxRate);
+       
+       }
+     },
+     error: (err) => {
+       console.error(err);
+     }
+   });
+ 
+   }
   onAccountIdChange(id: string | null): void {
 this.accountId = id;
 this.getAccounts(); 

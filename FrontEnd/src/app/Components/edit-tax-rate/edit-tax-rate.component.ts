@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AccountingComponent } from '../accounting/accounting.component';
 import { AccountingService } from '../../shared/services/accounts.service';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './edit-tax-rate.component.html',
   styleUrl: './edit-tax-rate.component.css'
 })
-export class EditTaxRateComponent {
+export class EditTaxRateComponent implements OnInit{
   msgError: any[] = [];
   isLoading: boolean = false;
 ;
@@ -26,7 +26,28 @@ export class EditTaxRateComponent {
     rate:new FormControl(null, [Validators.required,Validators.min(0),Validators.max(100)]),
    
   });
- 
+  ngOnInit(): void {
+      this.fetchRateData()
+  }
+  fetchRateData(): void {
+    this._AccountingService.getTaxRate().subscribe({
+      next: (response) => {
+        if (response) {
+          const rateData = response ; 
+          console.log(rateData)
+          this.taxRate.patchValue({
+            rate:rateData.rate
+          
+             
+          });
+       
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.msgError = err.error.error;
+      }
+    });
+  }
   handleForm() {
    
     if (this.taxRate.valid) {
@@ -39,7 +60,7 @@ export class EditTaxRateComponent {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created User Successfully")
+            this.toastr.success("Update Tax Rate Successfully")
             this.isLoading = false;
             
             this._Router.navigate(['/dashboard/accounting/7']);
