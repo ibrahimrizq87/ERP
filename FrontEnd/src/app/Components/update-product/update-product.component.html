@@ -1,74 +1,67 @@
 <div class="mt-3 mb-3">
-    <h5>Manage Products</h5>
-    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Products <i class="fa-solid fa-angle-right"></i> Update Product </span>
+  <h5>إدارة المنتجات</h5>
+  <span class="text-muted">لوحة القيادة <i class="fa-solid fa-angle-right"></i> المنتجات <i class="fa-solid fa-angle-right"></i> تحديث المنتج </span>
 </div>
 <div class="mt-4 mb-4">
-  <form  [formGroup]="productForm" (ngSubmit)="handleForm()">
-    <div class="container">
-        <div class="row">
-        
-          <div class="col-md-12">
-            <div class="card shadow em-card rounded-lg">
-              <div class="card-header bg-white text-black rounded-top pt-3 ">
-                <h5>Update Product</h5>
-              </div>
-            
-              <div class="card-body pb-5">
-
-                <div class="row">
-
-                  <div class="form-group col-md-6">
-                    <label for="name"  class="form-label">Name</label>
-                    <input id="name" formControlName="name" type="text" class="form-control" placeholder="Enter name" required/>
-                    <div class="alert alert-danger" *ngIf="productForm.get('name')?.errors && productForm.get('name')?.touched">
-                      <p *ngIf="productForm.get('name')?.getError('required')">name is Required</p>
-                      <p *ngIf="productForm.get('name')?.getError('maxLength')">maxLength is 255</p>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="price"  class="form-label">Price</label>
-                    <input id="price" formControlName="price" type="number" class="form-control" placeholder="Enter Price" required/>
-                    <div class="alert alert-danger" *ngIf="productForm.get('price')?.errors && productForm.get('price')?.touched">
-                      <p *ngIf="productForm.get('price')?.getError('required')">price is Required</p>
-                      <p *ngIf="productForm.get('price')?.getError('min')">min is 0</p>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="amount"  class="form-label"> amount</label>
-                    <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="Enter amount" required/>
-                    <div class="alert alert-danger" *ngIf="productForm.get('amount')?.errors && productForm.get('amount')?.touched">
-                      <p *ngIf="productForm.get('amount')?.getError('required')">amount is Required</p>
-                      <p *ngIf="productForm.get('amount')?.getError('min')">min is 0</p>
-                    </div>
-                  </div>
-                
-                
-                </div>   
-                
-            </div>
-           
-            </div>
-          </div>
-          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
-            <ul>
-              <li *ngFor="let error of msgError">{{ error }}</li>
-            </ul>
-          </div>
-          <div class=" mt-4 mb-4 d-flex justify-content-around w-25">
-            <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Save</button>
-            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-        </div>
+<form  [formGroup]="productForm" (ngSubmit)="handleForm()">
+  <div class="container">
+      <div class="row">
       
+        <div class="col-md-12">
+          <div class="card shadow em-card rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3 ">
+              <h5>تحديث المنتج</h5>
+            </div>
+          
+            <div class="card-body pb-5">
+
+              <div class="row">
+
+                <div class="form-group col-md-6">
+                  <label for="name"  class="form-label">الاسم</label>
+                  <input id="name" formControlName="name" type="text" class="form-control" placeholder="أدخل الاسم" required/>
+                  <div class="alert alert-danger" *ngIf="productForm.get('name')?.errors && productForm.get('name')?.touched">
+                    <p *ngIf="productForm.get('name')?.getError('required')">الاسم مطلوب</p>
+                    <p *ngIf="productForm.get('name')?.getError('maxLength')">الحد الأقصى للطول هو 255</p>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="price"  class="form-label">السعر</label>
+                  <input id="price" formControlName="price" type="number" class="form-control" placeholder="أدخل السعر" required/>
+                  <div class="alert alert-danger" *ngIf="productForm.get('price')?.errors && productForm.get('price')?.touched">
+                    <p *ngIf="productForm.get('price')?.getError('required')">السعر مطلوب</p>
+                    <p *ngIf="productForm.get('price')?.getError('min')">الحد الأدنى هو 0</p>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="amount"  class="form-label">الكمية</label>
+                  <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="أدخل الكمية" required/>
+                  <div class="alert alert-danger" *ngIf="productForm.get('amount')?.errors && productForm.get('amount')?.touched">
+                    <p *ngIf="productForm.get('amount')?.getError('required')">الكمية مطلوبة</p>
+                    <p *ngIf="productForm.get('amount')?.getError('min')">الحد الأدنى هو 0</p>
+                  </div>
+                </div>
+              
+              </div>   
+              
+          </div>
+         
+          </div>
         </div>
-      
-    
-       
+        <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+          <ul>
+            <li *ngFor="let error of msgError">{{ error }}</li>
+          </ul>
+        </div>
+        <div class="mt-4 mb-4 d-flex justify-content-around w-25">
+          <button [disabled]="productForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ</button>
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">إلغاء</button>
       </div>
-    </form>
-
+    
+      </div>
+    
+  
+     
+    </div>
+  </form>
 </div>
-
-
-  
-  
-

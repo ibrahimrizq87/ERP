@@ -5,6 +5,7 @@ import { ShiftService } from '../../shared/services/shift.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-close-shift',
@@ -35,7 +36,8 @@ export class CloseShiftComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, 
     private _ShiftService:ShiftService ,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _ToastrService:ToastrService
   ) {
     this.closeForm = new FormGroup({
       image: this.fb.control(null, [this.validateImage.bind(this)]), 
@@ -178,11 +180,15 @@ export class CloseShiftComponent implements OnInit {
           this.isLoading = false;
           if (response) {
             this.router.navigate(['/dashboard/shifts']);
+            this._ToastrService.success("تم إغلاق الوردية بنجاح");
+
           }
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
+          this._ToastrService.error("حدث خطأ أثناء إغلاق الوردية");
+
         }
       });
     }

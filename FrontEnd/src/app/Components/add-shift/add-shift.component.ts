@@ -133,7 +133,8 @@ export class AddShiftComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created Shift Succesfully")
+            this.toastr.success("تم إنشاء التحول بنجاح")
+
             this.isLoading = false;
             this._Router.navigate(['/dashboard/shifts']);
           }
@@ -154,6 +155,7 @@ export class AddShiftComponent implements OnInit {
           }
       
           console.error(this.msgError); 
+          this.toastr.error('فشل في إنشاء التحول. تحقق من البيانات المدخلة.');
       },
       });
     }

@@ -1,85 +1,84 @@
 <section id="home" class="vh-100 d-flex align-items-center justify-content-center">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="handleForm()">
-            <div class="card bg-light text-dark shadow-lg rounded-4">
-              <div class="card-body p-4">
-                <div class="mb-4 text-center">
-                  <h2 class="mb-3">Login</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="handleForm()">
+          <div class="card bg-light text-dark shadow-lg rounded-4">
+            <div class="card-body p-4">
+              <div class="mb-4 text-center">
+                <h2 class="mb-3">تسجيل الدخول</h2>
+              </div>
+              <div class="custom-login-form">
+                <!-- Username Field -->
+                <div class="form-group mb-3">
+                  <label for="user_name" class="form-label">اسم المستخدم</label>
+                  <div class="input-group">
+                    <div class="input-group-text bg-success text-white">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <input
+                      type="text"
+                      formControlName="user_name"
+                      class="form-control"
+                      id="user_name"
+                      placeholder="أدخل اسم المستخدم الخاص بك"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="alert alert-danger mt-2"
+                    *ngIf="loginForm.get('user_name')?.errors && loginForm.get('user_name')?.touched"
+                  >
+                    <p *ngIf="loginForm.get('user_name')?.getError('required')">اسم المستخدم مطلوب</p>
+                  </div>
                 </div>
-                <div class="custom-login-form">
-                  <!-- Username Field -->
-                  <div class="form-group mb-3">
-                    <label for="user_name" class="form-label">User Name</label>
-                    <div class="input-group">
-                      <div class="input-group-text bg-success text-white">
-                        <i class="fas fa-user"></i>
-                      </div>
-                      <input
-                        type="text"
-                        formControlName="user_name"
-                        class="form-control"
-                        id="user_name"
-                        placeholder="Enter your username"
-                        required
-                      />
+                <!-- Password Field -->
+                <div class="form-group mb-3">
+                  <label for="password" class="form-label">كلمة المرور</label>
+                  <div class="input-group">
+                    <div class="input-group-text bg-success text-white">
+                      <i class="fas fa-lock"></i>
                     </div>
-                    <div
-                      class="alert alert-danger mt-2"
-                      *ngIf="loginForm.get('user_name')?.errors && loginForm.get('user_name')?.touched"
-                    >
-                      <p *ngIf="loginForm.get('user_name')?.getError('required')">Username is required</p>
-                    </div>
+                    <input
+                      type="password"
+                      formControlName="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="أدخل كلمة المرور الخاصة بك"
+                      required
+                    />
                   </div>
-                  <!-- Password Field -->
-                  <div class="form-group mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                      <div class="input-group-text bg-success text-white">
-                        <i class="fas fa-lock"></i>
-                      </div>
-                      <input
-                        type="password"
-                        formControlName="password"
-                        class="form-control"
-                        id="password"
-                        placeholder="Enter your password"
-                        required
-                      />
-                    </div>
-                    <div
-                      class="alert alert-danger mt-2"
-                      *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched"
-                    >
-                      <p *ngIf="loginForm.get('password')?.getError('required')">Password is required</p>
-                      <p *ngIf="loginForm.get('password')?.getError('minlength')">
-                        Password must be at least 8 characters long
-                      </p>
-                    </div>
+                  <div
+                    class="alert alert-danger mt-2"
+                    *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched"
+                  >
+                    <p *ngIf="loginForm.get('password')?.getError('required')">كلمة المرور مطلوبة</p>
+                    <p *ngIf="loginForm.get('password')?.getError('minlength')">
+                      يجب أن تكون كلمة المرور على الأقل 8 أحرف
+                    </p>
                   </div>
-                  <!-- Forgot Password Link -->
-                  <div class="form-group mb-4 text-center">
-                    <a href="#" tabindex="0" class="text-success forget">Forgot your password?</a>
-                  </div>
-                  <!-- Error Message -->
-                  <p *ngIf="msgError" class="alert alert-danger text-center">{{ msgError }}</p>
-                  <!-- Submit Button -->
-                  <div class="d-grid">
-                    <button
-                      [disabled]="loginForm.invalid"
-                      type="submit"
-                      class="btn btn-success btn-block"
-                    >
-                      <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>Login
-                    </button>
-                  </div>
+                </div>
+                <!-- Forgot Password Link -->
+                <div class="form-group mb-4 text-center">
+                  <a href="#" tabindex="0" class="text-success forget">نسيت كلمة المرور؟</a>
+                </div>
+                <!-- Error Message -->
+                <p *ngIf="msgError" class="alert alert-danger text-center">{{ msgError }}</p>
+                <!-- Submit Button -->
+                <div class="d-grid">
+                  <button
+                    [disabled]="loginForm.invalid"
+                    type="submit"
+                    class="btn btn-success btn-block"
+                  >
+                    <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>تسجيل الدخول
+                  </button>
                 </div>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
-  </section>
-  
+  </div>
+</section>

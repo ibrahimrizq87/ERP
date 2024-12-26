@@ -1,75 +1,74 @@
 <div class="mt-4 mb-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card shadow rounded-lg">
-            <div class="card-header bg-white text-black rounded-top pt-3">
-              <h5>Document Details</h5>
-            </div>
-            <div class="card-body pb-5">
-              <div class="row">
-                <!-- Document Details -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="fw-bold">Receiver Name:</label>
-                    <p class="text-muted">{{ documentData?.receiver_name || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Amount:</label>
-                    <p class="text-muted">{{ documentData?.amount || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Type:</label>
-                    <p class="text-muted">{{ documentData?.type || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Created At:</label>
-                    <p class="text-muted">{{ documentData?.created_at || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Updated At:</label>
-                    <p class="text-muted">{{ documentData?.updated_at || 'N/A' }}</p>
-                  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow rounded-lg">
+          <div class="card-header bg-white text-black rounded-top pt-3">
+            <h5>تفاصيل المستند</h5>
+          </div>
+          <div class="card-body pb-5">
+            <div class="row">
+              <!-- تفاصيل المستند -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="fw-bold">اسم المستلم:</label>
+                  <p class="text-muted">{{ documentData?.receiver_name || 'غير متوفر' }}</p>
                 </div>
-  
-                <!-- Related Account Details -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="fw-bold">Company Account ID:</label>
-                    <p class="text-muted">{{ documentData?.company_account.account_name || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Customer Account ID:</label>
-                    <p class="text-muted">{{ documentData?.customer_account.account_name || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">User ID:</label>
-                    <p class="text-muted">{{ documentData?.user_id || 'N/A' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Image:</label>
-                    <p class="text-muted">
-                      <img
-                        *ngIf="documentData?.image"
-                        [src]="documentData.image"
-                        alt="Document Image"
-                        class="img-fluid"
-                      />
-                      <span *ngIf="!documentData?.image">No Image</span>
-                    </p>
-                  </div>
+                <div class="mb-3">
+                  <label class="fw-bold">المبلغ:</label>
+                  <p class="text-muted">{{ documentData?.amount || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">النوع:</label>
+                  <p class="text-muted">{{ documentData?.type || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">تم الإنشاء في:</label>
+                  <p class="text-muted">{{ documentData?.created_at || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">تم التحديث في:</label>
+                  <p class="text-muted">{{ documentData?.updated_at || 'غير متوفر' }}</p>
+                </div>
+              </div>
+
+              <!-- تفاصيل الحسابات المرتبطة -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="fw-bold">رقم حساب الشركة:</label>
+                  <p class="text-muted">{{ documentData?.company_account.account_name || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">رقم حساب العميل:</label>
+                  <p class="text-muted">{{ documentData?.customer_account.account_name || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">رقم المستخدم:</label>
+                  <p class="text-muted">{{ documentData?.user_id || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">الصورة:</label>
+                  <p class="text-muted">
+                    <img
+                      *ngIf="documentData?.image"
+                      [src]="documentData.image"
+                      alt="صورة المستند"
+                      class="img-fluid"
+                    />
+                    <span *ngIf="!documentData?.image">لا توجد صورة</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-  
-      <div class="mt-4 mb-4">
-        <a class="nav-link" [routerLink]="['/dashboard/paymentDocument', type]">
-          <button type="button" class="btn btn-primary px-4">Back</button>
-        </a>
-      </div>
+    </div>
+
+    <div class="mt-4 mb-4">
+      <a class="nav-link" [routerLink]="['/dashboard/paymentDocument', type]">
+        <button type="button" class="btn btn-primary px-4">رجوع</button>
+      </a>
     </div>
   </div>
-  
+</div>

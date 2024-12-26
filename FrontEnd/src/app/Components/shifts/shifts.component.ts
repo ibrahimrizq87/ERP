@@ -55,22 +55,23 @@ export class ShiftsComponent implements OnInit {
   // }
 
   deleteShift(shiftId: number): void {
-    if (confirm('Are you sure you want to delete this Shift?')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الوردية؟')) { // "Are you sure you want to delete this Shift?"
       this._ShiftService.deleteShift(shiftId).subscribe({
         next: (response) => {
           if (response) {
-            this.toastr.error("Delete Shift Successfully")
+            this.toastr.success("تم حذف الوردية بنجاح") // "Delete Shift Successfully"
             this.router.navigate(['/dashboard/shifts']);
             this.loadShifts();
           }
         },
         error: (err) => {
           console.error(err);
-          alert('An error occurred while deleting the Shift.');
+          alert('حدث خطأ أثناء حذف الوردية.'); // "An error occurred while deleting the Shift."
         }
       });
     }
   }
+
   // changeStatus(shiftId: number): void {
   //   if (confirm('Are you sure you want to Close this Shift?')) {
   //     this._ShiftService.storeStatusOfShift(shiftId).subscribe({

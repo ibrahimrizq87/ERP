@@ -80,13 +80,14 @@ export class UpdateProductComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
-            this.toastr.success("Updated Product Successfully")
+            this.toastr.success("تم تحديث المنتج بنجاح")
             this.router.navigate(['/dashboard/products']);
           }
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
+          this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
         }
       });
     }

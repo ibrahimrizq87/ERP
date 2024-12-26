@@ -112,7 +112,7 @@ export class UpdateAccountComponent {
               next: (response) => {
                 console.log(response);
                 if (response) {
-                  this.toastr.success("Updated Account Successfully")
+                  this.toastr.success("تم تحديث الحساب بنجاح")
                   this.isLoading = false;
                   this._Router.navigate(['/dashboard/accounting/'+ this.account.id]);
                 }
@@ -133,6 +133,7 @@ export class UpdateAccountComponent {
                 }
             
                 console.error(this.msgError); 
+                this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
             },
             });
       
@@ -140,7 +141,7 @@ export class UpdateAccountComponent {
 
 
     } else {
-      this.msgError = ['Please fill in all required fields correctly.'];
+      this.msgError = ['يرجى ملء جميع الحقول المطلوبة بشكل صحيح.'];
     }
   }
   onCancel(): void {

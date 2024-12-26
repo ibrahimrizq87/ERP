@@ -22,13 +22,13 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('HRM')">
                 <i class="fa-regular fa-user"></i>
-                <span>HRM System</span>
+                <span> إدارة الموارد البشرية</span>
                 <i [ngClass]="isDropdownOpen('HRM') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('HRM')">
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="users">Users</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="users">المستخدمون</a>
               </li>
             </ul>
           </li>
@@ -37,16 +37,16 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('products')">
                 <i class="fa-solid fa-cash-register"></i>
-                <span>Products</span>
+                <span>المنتجات</span>
                 <i [ngClass]="isDropdownOpen('products') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('products')">
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="products">Products</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="products">المنتجات</a>
               </li>
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="machines">Machines</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="machines">الآلات</a>
               </li>
             </ul>
           </li>
@@ -55,13 +55,13 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('Shifts')">
                 <i class="fa-solid fa-shuffle"></i>
-                <span>Shifts</span>
+                <span>الورديات</span>
                 <i [ngClass]="isDropdownOpen('Shifts') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('Shifts')">
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="shifts">Shifts</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="shifts">الورديات</a>
               </li>
             </ul>
           </li>
@@ -70,14 +70,14 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('Paymnet')">
                 <i class="fa-solid fa-file-invoice"></i>
-                <span>Payment</span>
+                <span>الدفع</span>
                 <i [ngClass]="isDropdownOpen('Paymnet') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('Paymnet')">
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/receipt">Receipt Document</a>
-                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/payment">Payment Document</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/receipt">وثيقة الإيصال</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/payment">وثيقة الدفع</a>
               </li>
             </ul>
           </li>
@@ -86,7 +86,7 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('accounting')">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
-                <span>Accounting</span>
+                <span>المحاسبة</span>
                 <i [ngClass]="isDropdownOpen('accounting') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
@@ -96,8 +96,6 @@
               </li>
             </ul>
           </li>
-
-
 
           <li class="nav-item">
             <a class="nav-link">
@@ -109,11 +107,11 @@
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('reports')">
 
-              <li class="nav-item nested"  >
-                <a class="nav-link" routerLinkActive="active" >المبيعات</a>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active">المبيعات</a>
               </li>
-              <li class="nav-item nested" >
-                <a class="nav-link" routerLinkActive="active" >المشتريات</a>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active">المشتريات</a>
               </li>
               <li class="nav-item nested" *ngFor="let account of accounts">
                 <a class="nav-link" routerLinkActive="active" routerLink="accounting/{{account.id}}">{{account.account_name}}</a>

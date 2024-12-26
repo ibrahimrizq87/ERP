@@ -63,7 +63,7 @@ export class AddMachineComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created Machine Successfully")
+            this.toastr.success("تم إنشاء الآلة بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/machines']);
           }
@@ -84,6 +84,7 @@ export class AddMachineComponent implements OnInit {
           }
       
           console.error(this.msgError); 
+          this.toastr.error("حدث خطأ أثناء إنشاء الآلة");
       },
       });
     }

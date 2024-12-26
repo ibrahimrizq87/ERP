@@ -60,7 +60,7 @@ export class EditTaxRateComponent implements OnInit{
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Update Tax Rate Successfully")
+            this.toastr.success("تم تحديث معدل الضريبة بنجاح");
             this.isLoading = false;
             
             this._Router.navigate(['/dashboard/accounting/7']);
@@ -81,7 +81,8 @@ export class EditTaxRateComponent implements OnInit{
               }
           }
       
-          console.error(this.msgError); 
+          console.error(this.msgError);
+          this.toastr.error("حدث خطأ أثناء تحديث معدل الضريبة");  
       },
       });
     }

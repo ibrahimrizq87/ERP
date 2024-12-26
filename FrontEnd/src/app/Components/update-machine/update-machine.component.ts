@@ -91,13 +91,15 @@ export class UpdateMachineComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
-            this.toastr.success("Updated Machine Successfully")
+            this.toastr.success("تم تحديث الآلة بنجاح");
+
             this.router.navigate(['/dashboard/machines']);
           }
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
+          this.toastr.error("حدث خطأ أثناء تحديث الآلة. الرجاء المحاولة مرة أخرى.");
         }
       });
     }
@@ -106,5 +108,7 @@ export class UpdateMachineComponent implements OnInit {
         this.machineForm.reset();
        
         this.router.navigate(['/dashboard/machines']); 
+      
+
       }  
 }

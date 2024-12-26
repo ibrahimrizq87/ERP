@@ -417,13 +417,16 @@ export class UpdateShiftComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
-            this.toastr.success("Updated Shift Successfully")
+            this.toastr.success('تم تحديث الوردية بنجاح');
+
             this.router.navigate(['/dashboard/shifts']);
           }
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
+          this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
+
         }
       });
     }

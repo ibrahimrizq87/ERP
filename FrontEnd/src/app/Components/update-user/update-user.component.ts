@@ -109,13 +109,14 @@ export class UpdateUserComponent implements OnInit {
         next: (response) => {
           this.isLoading = false;
           if (response) {
-            this.toastr.success("Updated User Successfully")
+            this.toastr.success("تم تحديث المستخدم بنجاح");
             this.router.navigate(['/dashboard/users']);
           }
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
+          this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
         }
       });
     }

@@ -1,175 +1,151 @@
 <div class="mt-3 mb-3">
-    <h5>Manage Transactions</h5>
-    <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Transactions <i class="fa-solid fa-angle-right"></i> Create Transaction</span>
-  </div>
-  
-  <div class="mt-4 mb-4">
-    <form [formGroup]="transactionForm" (ngSubmit)="handleForm()">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card shadow em-card rounded-lg">
-              <div class="card-header bg-white text-black rounded-top pt-3">
-                <h5>Create a New Transaction</h5>
-              </div>
-  
-              <div class="card-body pb-5">
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label class="form-label">Select Users</label>
-                    <select class="form-control" formControlName="user_id">
-                      <option value="" disabled>Select User</option>
-                      <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
-                    </select>
-                    <div
+  <h5>إدارة المعاملات</h5>
+  <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المعاملات <i class="fa-solid fa-angle-right"></i> إنشاء معاملة</span>
+</div>
+
+<div class="mt-4 mb-4">
+  <form [formGroup]="transactionForm" (ngSubmit)="handleForm()">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow em-card rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>إنشاء معاملة جديدة</h5>
+            </div>
+
+            <div class="card-body pb-5">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label class="form-label">اختيار المستخدمين</label>
+                  <select class="form-control" formControlName="user_id">
+                    <option value="" disabled>اختر مستخدم</option>
+                    <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                  </select>
+                  <div
+                  class="alert alert-danger"
+                  *ngIf="transactionForm.get('user_id')?.errors && transactionForm.get('user_id')?.touched"
+                >
+                  <p *ngIf="transactionForm.get('user_id')?.hasError('required')">المستخدم مطلوب</p>
+                  
+                </div>
+              
+                </div>
+                <!-- Amount -->
+                <div class="form-group col-md-6">
+                  <label for="amount" class="form-label">المبلغ</label>
+                  <input
+                    id="amount"
+                    formControlName="amount"
+                    type="number"
+                    step="0.01"
+                    class="form-control"
+                    placeholder="أدخل المبلغ"
+                  />
+                  <div
                     class="alert alert-danger"
-                    *ngIf="transactionForm.get('user_id')?.errors && transactionForm.get('user_id')?.touched"
+                    *ngIf="transactionForm.get('amount')?.errors && transactionForm.get('amount')?.touched"
                   >
-                    <p *ngIf="transactionForm.get('user_id')?.hasError('required')">user is required</p>
-                    
+                    <p *ngIf="transactionForm.get('amount')?.hasError('required')">المبلغ مطلوب</p>
+                    <p *ngIf="transactionForm.get('amount')?.hasError('min')">يجب أن يكون المبلغ غير سلبي</p>
                   </div>
+                </div>
+
+                <!-- Receiver Name -->
+                <div class="form-group col-md-6">
+                  <label for="receiver_name" class="form-label">اسم المستلم</label>
+                  <input
+                    id="receiver_name"
+                    formControlName="receiver_name"
+                    type="text"
+                    class="form-control"
+                    placeholder="أدخل اسم المستلم"
+                  />
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="transactionForm.get('receiver_name')?.errors && transactionForm.get('receiver_name')?.touched"
+                  >
+                    <p *ngIf="transactionForm.get('receiver_name')?.hasError('required')">اسم المستلم مطلوب</p>
+                    <p *ngIf="transactionForm.get('receiver_name')?.hasError('maxLength')">الحد الأقصى للطول هو 255</p>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="statement" class="form-label">البيان</label>
+                  <input
+                    id="statement"
+                    formControlName="statement"
+                    type="text"
+                    class="form-control"
+                    placeholder="أدخل البيان"
+                  />
+                </div>
                 
+                <!-- Company Account -->
+                <div class="form-group col-md-6">
+                  <label for="company_account_id" class="form-label">حساب الشركة</label>
+                  <select
+                    id="company_account_id"
+                    formControlName="company_account_id"
+                    class="form-control"
+                  >
+                    <option value="" disabled>اختر حساب الشركة</option>
+                    <!-- Populate dynamically -->
+                    <option *ngFor="let account of companyAccounts" [value]="account.id">{{ account.account_name }}</option>
+                  </select>
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="transactionForm.get('company_account_id')?.errors && transactionForm.get('company_account_id')?.touched"
+                  >
+                    <p *ngIf="transactionForm.get('company_account_id')?.hasError('required')">حساب الشركة مطلوب</p>
+                    <p *ngIf="transactionForm.get('company_account_id')?.hasError('exists')">حساب الشركة غير صالح</p>
                   </div>
-                  <!-- Amount -->
-                  <div class="form-group col-md-6">
-                    <label for="amount" class="form-label">Amount</label>
-                    <input
-                      id="amount"
-                      formControlName="amount"
-                      type="number"
-                      step="0.01"
-                      class="form-control"
-                      placeholder="Enter amount"
-                    />
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('amount')?.errors && transactionForm.get('amount')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('amount')?.hasError('required')">Amount is required</p>
-                      <p *ngIf="transactionForm.get('amount')?.hasError('min')">Amount must be non-negative</p>
-                    </div>
-                  </div>
-  
-                  <!-- Type -->
-                
-  
-                  <!-- Receiver Name -->
-                  <div class="form-group col-md-6">
-                    <label for="receiver_name" class="form-label">Receiver Name</label>
-                    <input
-                      id="receiver_name"
-                      formControlName="receiver_name"
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter receiver name"
-                    />
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('receiver_name')?.errors && transactionForm.get('receiver_name')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('receiver_name')?.hasError('required')">Receiver name is required</p>
-                      <p *ngIf="transactionForm.get('receiver_name')?.hasError('maxLength')">Max length is 255</p>
-                    </div>
-                  </div>
+                </div>
 
-                  <div class="form-group col-md-6">
-                    <label for="statement" class="form-label">statement</label>
-                    <input
-                      id="statement"
-                      formControlName="statement"
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter statement"
-                    />
-                  
-                  </div>
-                  
-                  <!-- Company Account -->
-                  <div class="form-group col-md-6">
-                    <label for="company_account_id" class="form-label">Company Account</label>
-                    <select
-                      id="company_account_id"
-                      formControlName="company_account_id"
-                      class="form-control"
-                    >
-                      <option value="" disabled>Select company account</option>
-                      <!-- Populate dynamically -->
-                      <option *ngFor="let account of companyAccounts" [value]="account.id">{{ account.account_name }}</option>
-                    </select>
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('company_account_id')?.errors && transactionForm.get('company_account_id')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('company_account_id')?.hasError('required')">Company account is required</p>
-                      <p *ngIf="transactionForm.get('company_account_id')?.hasError('exists')">Invalid company account</p>
-                    </div>
-                  </div>
-  
+                <div class="form-group col-md-6">
+                  <label for="customer_account_id" class="form-label">حساب العميل</label>
+                  <select
+                    id="customer_account_id"
+                    formControlName="customer_account_id"
+                    class="form-control"
+                  >
+                    <option value="" disabled>اختر حساب العميل</option>
 
-                  <div class="form-group col-md-6">
-                    <label for="customer_account_id" class="form-label">Customer Account</label>
-                    <select
-                      id="customer_account_id"
-                      formControlName="customer_account_id"
-                      class="form-control"
-                    >
-                      <option value="" disabled>Select customer account</option>
+                    <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.account_name}}</option>
+                  </select>
+                  <div
+                    class="alert alert-danger"
+                    *ngIf="transactionForm.get('customer_account_id')?.errors && transactionForm.get('customer_account_id')?.touched"
+                  >
+                    <p *ngIf="transactionForm.get('customer_account_id')?.hasError('required')">حساب العميل مطلوب</p>
+                    <p *ngIf="transactionForm.get('customer_account_id')?.hasError('exists')">حساب العميل غير صالح</p>
+                  </div>
+                </div>
 
-                      <option *ngFor="let account of customerAccounts" [value]="account.id">{{ account.account_name}}</option>
-                    </select>
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('customer_account_id')?.errors && transactionForm.get('customer_account_id')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('customer_account_id')?.hasError('required')">Customer account is required</p>
-                      <p *ngIf="transactionForm.get('customer_account_id')?.hasError('exists')">Invalid customer account</p>
-                    </div>
+                <div class="form-group">
+                  <label for="image" class="form-label"><i class="fa-solid fa-image"></i> صورة المعاملة (اختياري)</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+                    <label for="image" class="btn btn-image">
+                      <i class="fa-solid fa-file-arrow-up"></i> اختر ملف
+                    </label>
+                    <span id="file-name">{{ selectedFile?.name || 'لم يتم اختيار ملف' }}</span>
                   </div>
-  
-                  <div class="form-group">
-                    <label for="image" class="form-label"><i class="fa-solid fa-image"></i> TransactionForm Image (Optional)</label>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="image" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
-                      <label for="image" class="btn btn-image">
-                        <i class="fa-solid fa-file-arrow-up"></i> Choose File
-                      </label>
-                      <span id="file-name">{{ selectedFile?.name || 'No file chosen' }}</span>
-                    </div>
-                    <div class="alert alert-danger" *ngIf="transactionForm.get('image')?.errors && transactionForm.get('image')?.touched">
-                      <p *ngIf="transactionForm.get('image')?.getError('invalidFileType')">Invalid image format</p>
-                      <p *ngIf="transactionForm.get('image')?.getError('fileTooLarge')">File is too large (Max: 2MB)</p>
-                    </div>
+                  <div class="alert alert-danger" *ngIf="transactionForm.get('image')?.errors && transactionForm.get('image')?.touched">
+                    <p *ngIf="transactionForm.get('image')?.getError('invalidFileType')">تنسيق الصورة غير صالح</p>
+                    <p *ngIf="transactionForm.get('image')?.getError('fileTooLarge')">الملف كبير جدًا (الحد الأقصى: 2 ميجابايت)</p>
                   </div>
-                  <!-- <div class="form-group col-md-6">
-                    <label for="image" class="form-label">Upload Image</label>
-                    <input
-                      id="image"
-                      formControlName="image"
-                      type="file"
-                      class="form-control"
-                      accept=".jpeg, .png, .jpg, .gif"
-                    />
-                    <div
-                      class="alert alert-danger"
-                      *ngIf="transactionForm.get('image')?.errors && transactionForm.get('image')?.touched"
-                    >
-                      <p *ngIf="transactionForm.get('image')?.hasError('max')">Max file size is 2MB</p>
-                      <p *ngIf="transactionForm.get('image')?.hasError('mimes')">Invalid file type</p>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             </div>
           </div>
-  
+        </div>
 
-          <div class="mt-4 mb-4">
-            <button [disabled]="transactionForm.invalid" type="submit" class="btn btn-primary px-4">
-              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Submit
-            </button>
-          </div>
+        <div class="mt-4 mb-4">
+          <button [disabled]="transactionForm.invalid" type="submit" class="btn btn-primary px-4">
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ
+          </button>
         </div>
       </div>
-    </form>
-  </div>
-  
+    </div>
+  </form>
+</div>

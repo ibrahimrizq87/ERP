@@ -55,20 +55,21 @@ export class UsersComponent implements OnInit {
   // }
 
   deleteUser(userId: number): void {
-    if (confirm('Are you sure you want to delete this User?')) {
-      this._UserServicev.deleteUser(userId).subscribe({
-        next: (response) => {
-          if (response) {
-            this.router.navigate(['/dashboard/users']);
-            this.toastr.error("Delete User Successfully")
-            this.loadUsers();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          alert('An error occurred while deleting the User.');
-        }
-      });
+    if (confirm('هل أنت متأكد أنك تريد حذف هذا المستخدم؟')) {
+        this._UserServicev.deleteUser(userId).subscribe({
+            next: (response) => {
+                if (response) {
+                    this.router.navigate(['/dashboard/users']);
+                    this.toastr.success("تم حذف المستخدم بنجاح");
+                    this.loadUsers();
+                }
+            },
+            error: (err) => {
+                console.error(err);
+                alert('حدث خطأ أثناء حذف المستخدم.');
+            }
+        });
     }
-  }
+}
+
 }

@@ -55,22 +55,22 @@ export class MachinesComponent implements OnInit {
   // }
 
   deleteMachine(machineId: number): void {
-    if (confirm('Are you sure you want to delete this Machine?')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الآلة؟')) {
       this._MachineService.deleteMachine(machineId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate(['/dashboard/machines']);
-            this.toastr.error("Delete Machine Successfully")
-            // this.loadMachines();
-            this.loadMachines()
+            this.toastr.error("تم حذف الآلة بنجاح")
+            this.loadMachines();
             this.cdr.detectChanges();
           }
         },
         error: (err) => {
           console.error(err);
-          alert('An error occurred while deleting the Machine.');
+          alert('حدث خطأ أثناء حذف الآلة.');
         }
       });
     }
   }
+  
 }

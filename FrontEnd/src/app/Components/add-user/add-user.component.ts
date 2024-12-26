@@ -69,7 +69,8 @@ export class AddUserComponent {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created User Successfully")
+            this.toastr.success("تم إنشاء المستخدم بنجاح");
+
             this.isLoading = false;
             
             this._Router.navigate(['/dashboard/users']);

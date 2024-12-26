@@ -1,42 +1,38 @@
 <div class="mt-4 mb-4">
-    <div class="container">
+  <div class="container">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card shadow rounded-lg">
-            <div class="card-header bg-white text-black rounded-top pt-3">
-              <h5>Product Details</h5>
-            </div>
-            <div class="card-body pb-5">
-              <div class="row">
-                <!-- User Details -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="fw-bold">Name:</label>
-                    <p class="text-muted">{{ productData?.name || 'N/A' }}</p>
+          <div class="col-md-12">
+              <div class="card shadow rounded-lg">
+                  <div class="card-header bg-white text-black rounded-top pt-3">
+                      <h5>تفاصيل المنتج</h5>
                   </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Price:</label>
-                    <p class="text-muted">{{ productData?.price || 'N/A' }}</p>
+                  <div class="card-body pb-5">
+                      <div class="row">
+                          <!-- تفاصيل المنتج -->
+                          <div class="col-md-6">
+                              <div class="mb-3">
+                                  <label class="fw-bold">الاسم:</label>
+                                  <p class="text-muted">{{ productData?.name || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">السعر:</label>
+                                  <p class="text-muted">{{ productData?.price || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">الكمية:</label>
+                                  <p class="text-muted">{{ productData?.amount || 'غير متوفر' }}</p>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Amount:</label>
-                    <p class="text-muted">{{ productData?.amount || 'N/A' }}</p>
-                  </div>
-                
-                </div>
-  
-              
               </div>
-            </div>
           </div>
-        </div>
       </div>
-  
+
       <div class="mt-4 mb-4">
-        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/products">
-          <button type="button" class="btn btn-primary px-4">Back</button>
-        </a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/products">
+              <button type="button" class="btn btn-primary px-4">رجوع</button>
+          </a>
       </div>
-    </div>
   </div>
-  
+</div>

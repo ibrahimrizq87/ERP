@@ -44,7 +44,7 @@ export class AddProductComponent {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created Product Successfully")
+            this.toastr.success("تم إنشاء المنتج بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/products']);
           }
@@ -65,6 +65,7 @@ export class AddProductComponent {
           }
       
           console.error(this.msgError); 
+          this.toastr.error("حدث خطأ أثناء إضافة المنتج");
       },
       });
     }

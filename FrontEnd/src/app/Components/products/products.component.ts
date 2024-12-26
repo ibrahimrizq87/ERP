@@ -54,18 +54,18 @@ export class ProductsComponent implements OnInit {
   // }
 
   deleteProduct(productId: number): void {
-    if (confirm('Are you sure you want to delete this Product?')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذا المنتج؟')) {
       this._ProductService.deleteProduct(productId).subscribe({
         next: (response) => {
           if (response) {
-            this.toastr.error("Delete Product Successfully")
+            this.toastr.success("تم حذف المنتج بنجاح");
             this.router.navigate(['/dashboard/products']);
             this.loadProducts();
           }
         },
         error: (err) => {
           console.error(err);
-          alert('An error occurred while deleting the product.');
+          alert('حدث خطأ أثناء حذف المنتج.');
         }
       });
     }

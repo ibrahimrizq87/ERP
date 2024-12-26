@@ -171,7 +171,7 @@ export class UpdateDocumentComponent implements OnInit {
           console.log(response);
           if (response) {
             this.isLoading = false;
-            this.toastr.success("Update Payement Document Successfully")
+            this.toastr.success("تم تحديث مستند الدفع بنجاح");
             this._Router.navigate([`/dashboard/paymentDocument/${this.type}`]);
           }
         },
@@ -190,7 +190,8 @@ export class UpdateDocumentComponent implements OnInit {
               }
           }
       
-          console.error(this.msgError); 
+          console.error(this.msgError);
+          this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى'); 
       },
       });
     }

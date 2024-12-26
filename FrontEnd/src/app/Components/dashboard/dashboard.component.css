@@ -2,18 +2,19 @@
     direction: rtl !important;
 }
 #dashboard{
-    background-color: #F8FAF9;
+    background-color: #FFFFFF;
+    min-height: 100vh;
 }
 .logoimg{
     width:100px;
 }
 .sidebar {
     background-color: #FFFFFF;
-    height: 100vh;
-    overflow:auto;
-   
+    /* height: 100vh;    */
+    /* overflow-y: auto; 
+     overflow-x: hidden;  */
     padding-top: 10px;
-    border-left: 1px solid #ddd;
+    border-left: 1px solid #FFFFFF;
 }
 .nav-item{
     cursor: pointer;

@@ -76,21 +76,21 @@ this.getAccounts();
   }
 
   deleteAccount(accountID: number): void {
-    if (confirm('Are you sure you want to delete this Account?')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذا الحساب؟')) {
       this._AccountingService.deleteAccount(accountID).subscribe({
         next: (response) => {
           if (response) {
-            this.toastr.error("Delete Account Successfully")
+            this.toastr.success("تم حذف الحساب بنجاح");
             this._Router.navigate([`/dashboard/accounting/${this.accountId}`]);
             this.getAccounts();
           }
         },
         error: (err) => {
           console.error(err);
-          alert('An error occurred while deleting the product.');
+          alert('حدث خطأ أثناء حذف الحساب.');
         }
       });
     }
   }
-
+  
 }

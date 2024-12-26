@@ -84,7 +84,7 @@ export class AddAccountComponent {
                 console.log(response);
                 if (response) {
                   this.isLoading = false;
-                  this.toastr.success("Created Account Successfully")
+                  this.toastr.success("تم إنشاء الحساب بنجاح");
                   this._Router.navigate(['/dashboard/accounting/'+ this.account.id]);
                 }
               },
@@ -104,6 +104,7 @@ export class AddAccountComponent {
                 }
             
                 console.error(this.msgError); 
+                this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى'); 
             },
             });
       
@@ -111,7 +112,8 @@ export class AddAccountComponent {
 
 
     } else {
-      this.msgError = ['Please fill in all required fields correctly.'];
+      this.msgError = ['يرجى ملء جميع الحقول المطلوبة بشكل صحيح.'];
+
     }
   }
 }

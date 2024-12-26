@@ -58,19 +58,20 @@ searchQuery: string = '';
     this.getPaymentDocuments();
     
       }
+      
       deleteDocument(documentId: number): void {
-        if (confirm('Are you sure you want to delete this Document?')) {
+        if (confirm('هل أنت متأكد أنك تريد حذف هذا المستند؟')) {
           this._DocumentService.deleteDocument(documentId).subscribe({
             next: (response) => {
               if (response) {
-                this.toastr.error("Delete Payment Document Successfully")
+                this.toastr.success("تم حذف مستند الدفع بنجاح");
                 this.router.navigate([`/dashboard/paymentDocument/${this.type}`]);
                 this.getPaymentDocuments();
               }
             },
             error: (err) => {
               console.error(err);
-              alert('An error occurred while deleting the Document.');
+              alert('حدث خطأ أثناء حذف المستند.');
             }
           });
         }

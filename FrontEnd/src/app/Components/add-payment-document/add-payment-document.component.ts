@@ -183,7 +183,8 @@ export class AddPaymentDocumentComponent implements OnInit {
           console.log(response);
           if (response) {
             this.isLoading = false;
-            this.toastr.success("Created Payment Successfully")
+            this.toastr.success("تم إنشاء الدفع بنجاح");
+
             this._Router.navigate([`/dashboard/paymentDocument/${this.type}`]);
           }
         },
@@ -203,6 +204,8 @@ export class AddPaymentDocumentComponent implements OnInit {
           }
       
           console.error(this.msgError); 
+          this.toastr.error("حدث خطأ أثناء إنشاء الدفع. الرجاء المحاولة مرة أخرى.");
+
       },
       });
     }
