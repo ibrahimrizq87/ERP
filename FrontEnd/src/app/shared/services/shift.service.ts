@@ -52,5 +52,12 @@ export class ShiftService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/shifts/approve/${shift_Id}`, { headers })
    }
+   getShiftByStatus(status:string): Observable<any>{
+    const token = localStorage.getItem('Token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+ 
+    return this._HttpClient.get(`${this.baseURL}/shifts/by-status/${status}`, { headers })
+
+  }
 
 }

@@ -23,20 +23,36 @@ export class ShiftsComponent implements OnInit {
     this.loadShifts(); 
   }
 
-  loadShifts(): void {
-    this._ShiftService.viewAllShifts().subscribe({
-      next: (response) => {
-        if (response) {
-          console.log(response);
-          this.shifts = response.data; 
-          this.filteredShifts = this.shifts
+  // loadShifts(): void {
+  //   this._ShiftService.viewAllShifts().subscribe({
+  //     next: (response) => {
+  //       if (response) {
+  //         console.log(response);
+  //         this.shifts = response.data; 
+  //         this.filteredShifts = this.shifts
         
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+  loadShifts(){
+    this._ShiftService.getShiftByStatus('open').subscribe({
+      next: (response) => {
+              if (response) {
+                console.log(response);
+                this.shifts = response.data; 
+                this.filteredShifts = this.shifts
+              
+              }
+            },
+            error: (err) => {
+              console.error(err);
+            }
+          });
+    
   }
   onSearch(): void {
     const query = this.searchQuery.toLowerCase();
@@ -105,5 +121,6 @@ export class ShiftsComponent implements OnInit {
       });
     }
   }
+
   
 }
