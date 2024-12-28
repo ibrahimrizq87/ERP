@@ -9,9 +9,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\PaymentDocumentController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\PurchaseInvoiceController;
+use App\Http\Controllers\ExpenseInvoiceController;
 
 
 
+
+Route::apiResource('expense_invoices', ExpenseInvoiceController::class)->middleware('auth:sanctum');
+Route::apiResource('purchase_invoices', PurchaseInvoiceController::class)->middleware('auth:sanctum');
 
 
 Route::post('tax_rate/update', [TaxRateController::class , 'update']);

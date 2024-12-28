@@ -42,6 +42,7 @@ class AccountController extends Controller
         'phone' => $data['phone'] ?? '',
         'parent_id' => $data['parent_id'],
         'can_delete' => true,
+        'start_amount]'=>$data['current_balance'] ?? 0,
         'current_balance' => $data['current_balance'] ?? 0,
         'net_debit' => $data['net_debit']?? 0,
         'net_credit' => $data['net_credit']??0,

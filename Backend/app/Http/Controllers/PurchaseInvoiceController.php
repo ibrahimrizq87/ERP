@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Account;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PurchaseInvoiceResource;
+use Illuminate\Support\Facades\Storage;
+
 class PurchaseInvoiceController extends Controller
 {
 
@@ -262,11 +264,73 @@ class PurchaseInvoiceController extends Controller
        }
        
 
-       public function destroy(PurchaseInvoice $purchaseInvoice)
-       {
-           $purchaseInvoice->delete();
-           return response()->json(['message' => 'Purchase Invoice deleted successfully.']);
-       }
+    //    public function destroy(PurchaseInvoice $purchaseInvoice)
+    //    {
+    //        $purchaseInvoice->delete();
+    //        return response()->json(['message' => 'Purchase Invoice deleted successfully.']);
+    //    }
+    public function delete($id)
+{
+    DB::beginTransaction();
+
+    try {
+
+        $invoice = PurchaseInvoice::findOrFail($id);
+
+
+        $account = Account::find($invoice->account_id);
+        $supplier = Account::find($invoice->supplier_id);
+        $tax = Account::find(9);
+
+        $account_parent = Account::find($account->parent_id);
+        $supplier_parent = Account::find($supplier->parent_id);
+        $tax_parent = Account::find($tax->parent_id);
+
+
+        $account->net_debit -= $invoice->total_cash;
+        $account->current_balance += $invoice->total_cash;
+
+        $account_parent->net_debit -= $invoice->total_cash;
+        $account_parent->current_balance += $invoice->total_cash;
+
+        $supplier->net_credit -= $invoice->total_cash;
+        $supplier->current_balance -= $invoice->total_cash;
+
+        $supplier_parent->net_credit -= $invoice->total_cash;
+        $supplier_parent->current_balance -= $invoice->total_cash;
+
+        $tax->net_credit -= $invoice->tax_amount;
+        $tax->current_balance -= $invoice->tax_amount;
+
+        $tax_parent->net_credit -= $invoice->tax_amount;
+        $tax_parent->current_balance -= $invoice->tax_amount;
+
+
+        $tax_parent->save();
+        $tax->save();
+        $supplier_parent->save();
+        $supplier->save();
+        $account_parent->save();
+        $account->save();
+
+
+        if ($invoice->online_payment_image) {
+            $filePath = str_replace(asset('uploads/'), '', $invoice->online_payment_image);
+            Storage::disk('uploads')->delete($filePath);
+        }
+
+
+        $invoice->delete();
+
+        DB::commit();
+
+        return response()->json(['status' => true, 'message' => 'Invoice deleted successfully.']);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['status' => false, 'message' => $e->getMessage()], 500);
+    }
+}
+
 }
 
 

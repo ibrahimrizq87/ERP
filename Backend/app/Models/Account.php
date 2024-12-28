@@ -20,6 +20,7 @@ class Account extends Model
      'current_balance',
      'net_debit',
      'net_credit',
+     'start_amount',
  ];
 
 
