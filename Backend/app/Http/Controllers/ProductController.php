@@ -29,7 +29,12 @@ class ProductController extends Controller
 
         $validated = $request->validate($rules);
 
-        $product = Product::create($validated);
+        $product = Product::create([
+            'name' => $validated['name'],
+            'price' => $validated['price'],
+            'amount' => $validated['amount'],
+            'start_amount'=>$validated['amount'],
+        ]);
 
         return response()->json(new ProductResource($product), 201);
     }
