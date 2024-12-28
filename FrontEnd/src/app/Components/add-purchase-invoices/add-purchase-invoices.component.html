@@ -42,6 +42,13 @@
                           <p *ngIf="purchasesForm.get('payementType')?.hasError('required')">payment Type is Required</p>
                         </div>
                       </div> 
+                      <div class="form-group col-md-6">
+                        <label class="form-label"> Choose Account</label>
+                        <select class="form-control" formControlName="account_id">
+                          <option value="" disabled> Choose Account </option>
+                          <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+                        </select>
+                      </div> 
                       <div class="form-group col-md-6" *ngIf="purchasesForm.get('payementType')?.value === 'online'">
                         <label for="image" class="form-label">Upload Image</label>
                         <input
@@ -50,7 +57,8 @@
                           class="form-control"
                           (change)="onFileChange($event)"
                         />
-                      </div>  
+                      </div> 
+                    
                       <div class="form-group col-md-6">
                         <label class="form-label"> Choose Supplier</label>
                         <select class="form-control" formControlName="supplier_id">
@@ -58,32 +66,45 @@
                           <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{ supplier.account_name }}</option>
                         </select>
                       </div>
-                  <div class="form-group col-md-6">
-                    <label for="amount"  class="form-label"> Amount</label>
-                    <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="please Enter The Amount  " required/>
-                    <div class="alert alert-danger" *ngIf="purchasesForm.get('amount')?.errors && purchasesForm.get('amount')?.touched">
-                      <p *ngIf="purchasesForm.get('amount')?.getError('required')"> Amount is Required</p>
-                      <p *ngIf="purchasesForm.get('amount')?.getError('min')">الحد الأدنى هو 0</p>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="price"  class="form-label"> price</label>
-                    <input id="price" formControlName="price" type="number" class="form-control" placeholder="please Enter The price  " required/>
-                    <div class="alert alert-danger" *ngIf="purchasesForm.get('price')?.errors && purchasesForm.get('price')?.touched">
-                      <p *ngIf="purchasesForm.get('price')?.getError('required')"> price is Required</p>
-                      <p *ngIf="purchasesForm.get('price')?.getError('min')">الحد الأدنى هو 0</p>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label class="form-label">Tax Rate</label>
-                    <p>{{ taxRate?.rate  }} %</p>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label class="form-label">Total</label>
-                    <p>{{ total | number:'1.2-2' }}</p>
-                  </div>
+
+             
+                  
                           
                 </div>  
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="amount"  class="form-label"> Amount</label>
+                        <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="please Enter The Amount  " required/>
+                        <div class="alert alert-danger" *ngIf="purchasesForm.get('amount')?.errors && purchasesForm.get('amount')?.touched">
+                          <p *ngIf="purchasesForm.get('amount')?.getError('required')"> Amount is Required</p>
+                          <p *ngIf="purchasesForm.get('amount')?.getError('min')">الحد الأدنى هو 0</p>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="price"  class="form-label"> price</label>
+                        <input id="price" formControlName="price" type="number" class="form-control" placeholder="please Enter The price  " required/>
+                        <div class="alert alert-danger" *ngIf="purchasesForm.get('price')?.errors && purchasesForm.get('price')?.touched">
+                          <p *ngIf="purchasesForm.get('price')?.getError('required')"> price is Required</p>
+                          <p *ngIf="purchasesForm.get('price')?.getError('min')">الحد الأدنى هو 0</p>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Tax Rate</label>
+                        <p>{{ taxRate?.rate  }} %</p>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Total</label>
+                        <p>{{ total | number: '1.2-2' }} </p> 
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Tax Amount</label>
+                        <p>{{ taxAmount | number: '1.2-2' }} </p> 
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Total After Tax</label>
+                        <p>{{ totalAfterTax | number: '1.2-2' }} </p> 
+                      </div>
+                </div>
                
                 
             </div>

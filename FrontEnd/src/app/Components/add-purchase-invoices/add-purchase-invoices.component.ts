@@ -21,6 +21,7 @@ export class AddPurchaseInvoicesComponent implements OnInit{
   selectedImage: File | null = null;
   taxRate: any;
   suppliers: any;
+  accounts: any;
   constructor(private _InvoiceService:InvoiceService , private _Router: Router,private toastr:ToastrService,private _ProductService:ProductService,private _AccountingService:AccountingService) {
    
   }
@@ -32,11 +33,19 @@ export class AddPurchaseInvoicesComponent implements OnInit{
     price: new FormControl(null, [Validators.required,Validators.min(0)]),
     payementType: new FormControl(null, [Validators.required]),
     supplier_id: new FormControl(null, [Validators.required]),
+    account_id: new FormControl(null, [Validators.required]),
   });
   ngOnInit(): void {
     this.loadProducts(); 
     this.getTaxRate();
-    this.getSuppliers()
+    this.getSuppliers();
+    this.purchasesForm.get('payementType')?.valueChanges.subscribe((paymentType) => {
+      if (paymentType === 'cash') {
+        this.getAccountsByParent('1'); // Load accounts for cash
+      } else if (paymentType === 'online') {
+        this.getAccountsByParent('4'); // Load accounts for online
+      }
+    });
   }
   loadProducts(): void {
     this._ProductService.viewAllProducts().subscribe({
@@ -81,6 +90,20 @@ export class AddPurchaseInvoicesComponent implements OnInit{
    });
  
    }
+   getAccountsByParent(parentId: string): void {
+    this._AccountingService.getAccountsByParent(parentId).subscribe({
+      next: (response) => {
+        if (response) {
+          this.accounts = response.data;
+          console.log(`Accounts for parent ${parentId}:`, this.accounts);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+  
    getSuppliers(){
     this._AccountingService.getAccountsByParent('3').subscribe({
      next: (response) => {
@@ -100,21 +123,35 @@ export class AddPurchaseInvoicesComponent implements OnInit{
     const price = this.purchasesForm.get('price')?.value || 0;
     return amount * price;
   }
-
+  get taxAmount(): number {
+    const total = this.total; 
+    const taxRate = this.taxRate?.rate || 0; 
+    return (total * taxRate / 100); 
+  }
+  get totalAfterTax(): number {
+    const total = this.total; 
+    const taxAmount = this.taxAmount;
+    return total - taxAmount; 
+  }
+ 
   handleForm() {
-   
+  
     if (this.purchasesForm.valid) {
       this.isLoading = true;
 
       const formData = new FormData();
       formData.append('date', this.purchasesForm.get('date')?.value);
       formData.append('product_id', this.purchasesForm.get('product_id')?.value);
-      formData.append('amount', this.purchasesForm.get('amount')?.value);
+      formData.append('amount_letters', this.purchasesForm.get('amount')?.value);
       formData.append('price', this.purchasesForm.get('price')?.value);
+      formData.append('total_cash', this.total.toString());
       formData.append('supplier_id', this.purchasesForm.get('supplier_id')?.value);
-      formData.append('payementType', this.purchasesForm.get('payementType')?.value);
+      formData.append('account_id', this.purchasesForm.get('account_id')?.value);
+      formData.append('payment_type', this.purchasesForm.get('payementType')?.value);
+      formData.append('tax_rate', this.taxRate.toString());
+      formData.append('tax_amount', this.taxAmount.toString());
       if (this.purchasesForm.get('payementType')?.value === 'online' && this.selectedImage) {
-        formData.append('image', this.selectedImage);
+        formData.append('online_payment_image', this.selectedImage);
       }
       this._InvoiceService.addPurchaseInvoice(formData).subscribe({
         next: (response) => {

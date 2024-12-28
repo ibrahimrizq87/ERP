@@ -5,26 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PaymentDocumentRequest;
 use App\Http\Resources\PaymentDocumentResource;
 use App\Models\PaymentDocument;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Account;
+
 class PaymentDocumentController extends Controller
 {
-    // public function index()
-    // {
-    //     $documents = PaymentDocument::with(['companyAccount', 'customerAccount'])->get();
-    //     return PaymentDocumentResource::collection($documents);
-    // }
-    
+
 
     public function store(PaymentDocumentRequest $request)
     {
-        $validated = $request->validated();
 
+
+        $validated = $request->validated();
+      DB::beginTransaction();
+    
+    try {
 
         if($request->hasFile("image")){
             $image = $request->file("image");
@@ -87,15 +86,23 @@ class PaymentDocumentController extends Controller
         $validated['user_id'] = Auth::id();
 
         $paymentDocument = PaymentDocument::create($validated);
+        DB::commit();
 
         return response()->json(new PaymentDocumentResource($paymentDocument), 201);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack(); 
+        return response()->json(
+            [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ] , 500
+        );
+    }
     }
 
 
-    // public function show(PaymentDocument $paymentDocument)
-    // {
-    //     return new PaymentDocumentResource($paymentDocument);
-    // }
     public function show(PaymentDocument $paymentDocument)
 {
     $paymentDocument->load(['companyAccount', 'customerAccount']);
@@ -103,15 +110,6 @@ class PaymentDocumentController extends Controller
 }
 
 
-
-
-
-    // public function getByType($type)
-    // {
-
-    //     $documents = PaymentDocument::where('type', $type)->get();
-    //     return PaymentDocumentResource::collection($documents);
-    // }
     public function getByType($type)
 {
     $documents = PaymentDocument::where('type', $type)->with(['companyAccount', 'customerAccount'])->get();
@@ -123,6 +121,13 @@ class PaymentDocumentController extends Controller
 
     public function update(PaymentDocumentRequest $request, PaymentDocument $paymentDocument)
 {
+
+
+
+    DB::beginTransaction();
+    
+    try {
+
     $validated = $request->validated();
     if ($validated['type'] != 'payment' && $validated['type'] != 'receipt') {
         return response()->json(['message' => 'Type of document must be receipt or payment'], 400);
@@ -175,19 +180,33 @@ class PaymentDocumentController extends Controller
 
  
         $accountCompany->net_debit += $validated['amount'];
+        $accountCompany->current_balance -= $validated['amount'];
+
         $accountCompanyParent->net_debit += $validated['amount'];
+        $accountCompanyParent->current_balance -= $validated['amount'];
 
         $accountCustomer->net_credit += $validated['amount'];
+        $accountCustomer->current_balance += $validated['amount'];
         $accountCustomerParent->net_credit += $validated['amount'];
+        $accountCustomerParent->current_balance += $validated['amount'];
+
     } elseif ($validated['type'] == 'receipt') {
 
 
 
         $accountCompany->net_credit += $validated['amount'];
+        $accountCompany->current_balance += $validated['amount'];
+
         $accountCompanyParent->net_credit += $validated['amount'];
+        $accountCompanyParent->current_balance += $validated['amount'];
 
         $accountCustomer->net_debit += $validated['amount'];
+        $accountCustomer->current_balance -= $validated['amount'];
+
         $accountCustomerParent->net_debit += $validated['amount'];
+        $accountCustomerParent->current_balance -= $validated['amount'];
+
+        
     }
 
 
@@ -196,29 +215,32 @@ class PaymentDocumentController extends Controller
     $accountCompanyParent->save();
     $accountCustomerParent->save();
 
-
-    $accountCompany->current_balance = $accountCompany->net_credit - $accountCompany->net_debit;
-    $accountCustomer->current_balance = $accountCustomer->net_credit - $accountCustomer->net_debit;
-    $accountCompanyParent->current_balance = $accountCompanyParent->net_credit - $accountCompanyParent->net_debit;
-    $accountCustomerParent->current_balance = $accountCustomerParent->net_credit - $accountCustomerParent->net_debit;
-
-
-    $accountCompany->save();
-    $accountCustomer->save();
-    $accountCompanyParent->save();
-    $accountCustomerParent->save();
-
-
     $paymentDocument->update($validated);
 
+    DB::commit();
+
     return response()->json(new PaymentDocumentResource($paymentDocument), 200);
+
+              
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}
 }
 
 
 
     public function destroy(PaymentDocument $paymentDocument)
 {
+    DB::beginTransaction();
     
+    try {
     $accountCompany = Account::find($paymentDocument->company_account_id);
     $accountCustomer = Account::find($paymentDocument->customer_account_id);
     $accountCompanyParent = Account::find($accountCompany->parent_id);
@@ -262,8 +284,19 @@ class PaymentDocumentController extends Controller
     }
 
     $paymentDocument->delete();
+    DB::commit();
 
     return response()->json(['message' => 'Payment document deleted successfully.'], 200);
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}
 }
 
 }
