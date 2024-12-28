@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\DB;
 
 
 use App\Http\Resources\ShiftResource;
@@ -15,6 +16,9 @@ use App\Models\ClientCounter;
 use App\Models\Shift;  
 use App\Models\Machine;  
 use App\Models\Product;  
+
+use App\Models\Account;  
+use App\Models\TaxRate;  
 
 use App\Models\OnlinePayment;  
 
@@ -42,18 +46,7 @@ class ShiftController extends Controller
 
     }
 
-    // public function show($id)
-    // {
-    //     $shift = Shift::find($id);
-    //     if(!$shift){
-    //         return response()->json([
-    //                     'message' => 'shift not found'
-    //                 ], 404);
-    //     }
-    
-    //     return new ShiftResource($shift->load('onlinePayments', 'clientCounters'));
 
-    // }
     public function show($id)
     {
         $shift = Shift::find($id);
@@ -109,7 +102,9 @@ class ShiftController extends Controller
             'errors' => $validator->errors(),
         ], 422);
     }
-
+    DB::beginTransaction();
+    
+    try { 
 $data = $validator->validated();
 
 $machine = Machine::find($shift->machine_id);
@@ -182,11 +177,27 @@ $totalCustomer = $shift->total_client_deposit;
      $shift->total_client_deposit =$data['total_client_deposit'] ;
      $shift->amount += $data['amount'];
      $shift->save();
+
+     DB::commit();
+
+
     return response()->json([
         'success' => true,
         'message' => 'Shift created successfully',
         'data' => new ShiftResource($shift->load('onlinePayments', 'clientCounters')),
     ]);
+
+
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}
 }
 
 
@@ -215,7 +226,9 @@ public function approveShift($shift_id)
 
 public function closeShift(Request $request ,$shift_id)
 {
-
+   DB::beginTransaction();
+    
+    try { 
     $shift = Shift::find($shift_id);
     if(!$shift){
         return response()->json([
@@ -267,12 +280,39 @@ public function closeShift(Request $request ,$shift_id)
     $shift->total_cash = $data['total_cash'];
     $shift->save();
 
+    $tax =Account::find(9);
+    $tax_parent =Account::find($tax->parent_id);
+    $tax_rate  =TaxRate::find(1);
+    $precentage =$tax_rate->rate /100;
+    $total = $data['total_money'] *  $precentage;
+    
+    $tax->net_debit += $total;
+    $tax->current_balance -= $total;
+
+    $tax_parent->net_debit += $total;
+    $tax_parent->current_balance -= $total;
+    DB::commit();
 
     return response()->json([
         'success' => true,
         'message' => 'Shift closed successfully',
         'data' => new ShiftResource($shift->load('onlinePayments', 'clientCounters')),
     ]);
+
+
+
+ 
+
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}
 }
 
 
@@ -301,6 +341,9 @@ public function store(Request $request)
         ], 422);
     }
 
+    DB::beginTransaction();
+
+try{
 $data = $validator->validated();
 
 $open_path = '';
@@ -329,17 +372,39 @@ if(request()->hasFile("opening_image")){
     $shift->total_payed_online= 0;
     $shift->total_client_deposit= 0;
     $shift->save();
+    DB::commit();
 
     return response()->json([
         'success' => true,
         'message' => 'Shift created successfully',
         'data' => new ShiftResource($shift->load('onlinePayments', 'clientCounters','machine')),
     ]);
+
+
+
+
+
+
+ 
+
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}
 }
 
 
 public function destroy($id)
 {
+    DB::beginTransaction();
+
+    try{ 
     $shift = Shift::find($id);
     if (!$shift) {
         return response()->json([
@@ -348,12 +413,24 @@ public function destroy($id)
     }
 
     $shift->delete();
+    DB::commit();
 
     return response()->json([
         'success' => true,
         'message' => 'Shift deleted successfully',
     ]);
-}
+
+
+} catch (\Exception $e) {
+
+    DB::rollBack(); 
+    return response()->json(
+        [
+            'status' => false,
+            'message' => $e->getMessage(),
+        ] , 500
+    );
+}}
 
 
 
