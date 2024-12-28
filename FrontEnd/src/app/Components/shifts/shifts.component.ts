@@ -16,11 +16,13 @@ export class ShiftsComponent implements OnInit {
   shifts: any[] = []; 
    filteredShifts: any[] = [];  
   searchQuery: string = ''; 
-
+  currentStatus: string = 'open';
+  private statusFlow: string[] = ['open', 'closed', 'approved'];
   constructor(private _ShiftService: ShiftService, private router: Router,private toastr :ToastrService) {}
 
   ngOnInit(): void {
-    this.loadShifts(); 
+    // this.loadShifts(); 
+    this.loadShifts(this.currentStatus);
   }
 
   // loadShifts(): void {
@@ -38,22 +40,39 @@ export class ShiftsComponent implements OnInit {
   //     }
   //   });
   // }
-  loadShifts(){
-    this._ShiftService.getShiftByStatus('open').subscribe({
+  
+
+  loadShifts(status: string): void {
+    this.currentStatus = status;
+    this._ShiftService.getShiftByStatus(status).subscribe({
       next: (response) => {
-              if (response) {
-                console.log(response);
-                this.shifts = response.data; 
-                this.filteredShifts = this.shifts
-              
-              }
-            },
-            error: (err) => {
-              console.error(err);
-            }
-          });
-    
+        if (response) {
+          console.log(response);
+          this.shifts = response.data; 
+          this.filteredShifts = this.shifts
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
+  // loadShifts(){
+  //   this._ShiftService.getShiftByStatus('open').subscribe({
+  //     next: (response) => {
+  //             if (response) {
+  //               console.log(response);
+  //               this.shifts = response.data; 
+  //               this.filteredShifts = this.shifts
+              
+  //             }
+  //           },
+  //           error: (err) => {
+  //             console.error(err);
+  //           }
+  //         });
+    
+  // }
   onSearch(): void {
     const query = this.searchQuery.toLowerCase();
     this.filteredShifts = this.shifts.filter(shift =>
@@ -77,7 +96,7 @@ export class ShiftsComponent implements OnInit {
           if (response) {
             this.toastr.success("تم حذف الوردية بنجاح") // "Delete Shift Successfully"
             this.router.navigate(['/dashboard/shifts']);
-            this.loadShifts();
+            this.loadShifts(this.currentStatus);
           }
         },
         error: (err) => {
@@ -110,7 +129,7 @@ export class ShiftsComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate(['/dashboard/shifts']);
-            this.loadShifts();
+            this.loadShifts(this.currentStatus);
             this.toastr.success("تم الموافقة على هذه الوردية بنجاح")
           }
         },
