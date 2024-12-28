@@ -21,31 +21,36 @@
             <tr>
           
                 <th class="bg-light" scope="col">#</th>
-                <th class="bg-light" scope="col">Account</th>
-                <th class="bg-light" scope="col">Account_company </th>
-                <th class="bg-light" scope="col">Delegate</th>
-                <th class="bg-light" scope="col">Amount </th>
-                <th class="bg-light" scope="col">Organization </th>
+                <th class="bg-light" scope="col">Date</th>
+                <th class="bg-light" scope="col">Account From </th>
+                <th class="bg-light" scope="col">Supplier</th>
+                <th class="bg-light" scope="col">Payment Type </th>
+                <!-- <th class="bg-light" scope="col">Organization </th> -->
                 <th class="bg-light" scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let purchase of purchases ; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
-                <td>{{ purchase.from_to_account }}</td>
-                <td>{{ purchase.from_to_account_company }}</td>
+                <td>{{ purchase.date }}</td>
+                <td>{{ purchase.account.account_name }}</td>
                
-                <td>{{ purchase.delegate_id }}</td>
-                <td>{{ purchase.amount }}</td>
-                <td>{{ purchase.organization }}</td>
+                <td>{{ purchase.supplier.account_name }}</td>
+                <td>{{ purchase.payment_type }}</td>
+                <!-- <td>{{ purchase.organization }}</td> -->
                
               
                
-                  <td >
+                <td>
                     <div class="d-flex justify-content-around align-items-center">
-                   
-                    <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deletePurchase(purchase.id)"></i>
-                   </div>
+                        <a class="nav-link" [routerLink]="['/dashboard/showPurchase', purchase.id]">
+                            <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
+                        </a>
+                        <a class="nav-link" [routerLink]="['/dashboard/updatePurchase', purchase.id]">
+                            <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
+                        </a>
+                        <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deletePurchase(purchase.id)"></i>
+                    </div>
                 </td>
             </tr>
         </tbody>

@@ -92,8 +92,8 @@ class PurchaseInvoiceController extends Controller
            $invoice = PurchaseInvoice::create(
             [
                 'date' =>$validated['date'],
-                'product_id' => $validated['tax_amount'],
-                'price' => $validated['product_id'],
+                'product_id' => $validated['product_id'],
+                'price' => $validated['price'],
                 'amount_letters' => $validated['amount_letters'],
                 'total_cash' => $validated['total_cash'],
                 'account_id' => $validated['account_id'],
@@ -269,7 +269,7 @@ class PurchaseInvoiceController extends Controller
     //        $purchaseInvoice->delete();
     //        return response()->json(['message' => 'Purchase Invoice deleted successfully.']);
     //    }
-    public function delete($id)
+    public function destroy($id)
 {
     DB::beginTransaction();
 

@@ -15,30 +15,30 @@ export class InvoiceService {
   viewAllPurchaseInvoices(): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.get(`${this.baseURL}/purchases`,{ headers })
+    return this._HttpClient.get(`${this.baseURL}/purchase_invoices`,{ headers })
   }
   deletePurchaseInvoice(machineId: number): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.delete(`${this.baseURL}/purchases/${machineId}`, { headers })
+    return this._HttpClient.delete(`${this.baseURL}/purchase_invoices/${machineId}`, { headers })
   }
   addPurchaseInvoice(machineData: FormData): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.post(`${this.baseURL}/purchases`, machineData ,{ headers })
+    return this._HttpClient.post(`${this.baseURL}/purchase_invoices`, machineData ,{ headers })
   } 
   getPurchaseInvoiceById(id:any): Observable<any>{
     const token = localStorage.getItem('Gtoken');
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this._HttpClient.get(this.baseURL+"/purchases/"+id, { headers })
+    return this._HttpClient.get(this.baseURL+"/purchase_invoices/"+id, { headers })
    
   }
   updatePurchaseInvoice(machineId: string, machineData: FormData): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     machineData.append('_method', 'PUT');
-    return this._HttpClient.post(`${this.baseURL}/purchases/${machineId}`, machineData, { headers })
+    return this._HttpClient.post(`${this.baseURL}/purchase_invoices/${machineId}`, machineData, { headers })
   }
 }

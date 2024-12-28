@@ -27,7 +27,7 @@ export class PurchaseInvoicesComponent implements OnInit {
     this._InvoiceService.viewAllPurchaseInvoices().subscribe({
       next: (response) => {
         if (response) {
-          console.log(response);
+          console.log(response.data);
           this.purchases = response.data; 
         
         }

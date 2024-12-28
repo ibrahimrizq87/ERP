@@ -39,6 +39,10 @@ export class AddPurchaseInvoicesComponent implements OnInit{
     this.loadProducts(); 
     this.getTaxRate();
     this.getSuppliers();
+    this.purchasesForm.addControl(
+      'tax_rate',
+      new FormControl(null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]) // Accepts numbers with up to 2 decimals
+    );
     this.purchasesForm.get('payementType')?.valueChanges.subscribe((paymentType) => {
       if (paymentType === 'cash') {
         this.getAccountsByParent('1'); // Load accounts for cash
@@ -75,21 +79,22 @@ export class AddPurchaseInvoicesComponent implements OnInit{
     return `${year}-${month}-${day}`;
   }
 
-  getTaxRate(){
+  getTaxRate(): void {
     this._AccountingService.getTaxRate().subscribe({
-     next: (response) => {
-       if (response) {
-         this.taxRate = response; 
-         console.log(this.taxRate);
-       
-       }
-     },
-     error: (err) => {
-       console.error(err);
-     }
-   });
- 
-   }
+      next: (response) => {
+        if (response) {
+          this.taxRate = parseFloat(response.rate); // Convert to a number
+          console.log(this.taxRate);
+  
+          // Update the form control with the tax rate
+          this.purchasesForm.get('tax_rate')?.setValue(this.taxRate);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
    getAccountsByParent(parentId: string): void {
     this._AccountingService.getAccountsByParent(parentId).subscribe({
       next: (response) => {
@@ -125,7 +130,7 @@ export class AddPurchaseInvoicesComponent implements OnInit{
   }
   get taxAmount(): number {
     const total = this.total; 
-    const taxRate = this.taxRate?.rate || 0; 
+    const taxRate = this.taxRate || 0; 
     return (total * taxRate / 100); 
   }
   get totalAfterTax(): number {
