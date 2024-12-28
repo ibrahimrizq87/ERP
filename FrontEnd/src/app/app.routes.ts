@@ -32,6 +32,10 @@ import { UpdateAccountComponent } from './Components/update-account/update-accou
 import { ShowDocumentComponent } from './Components/show-document/show-document.component';
 import { UpdateDocumentComponent } from './Components/update-document/update-document.component';
 import { EditTaxRateComponent } from './Components/edit-tax-rate/edit-tax-rate.component';
+import { PurchaseInvoicesComponent } from './Components/purchase-invoices/purchase-invoices.component';
+import { AddPurchaseInvoicesComponent } from './Components/add-purchase-invoices/add-purchase-invoices.component';
+import { UpdatePurchaseInvoicesComponent } from './Components/update-purchase-invoices/update-purchase-invoices.component';
+import { ShowPurchaseInvoicesComponent } from './Components/show-purchase-invoices/show-purchase-invoices.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -76,6 +80,12 @@ export const routes: Routes = [
     {path:"addReciept",component:AddRecieptComponent},
     {path:"updateReciept/:id",component:UpdateRecieptComponent},
     {path:"showReciept/:id",component:ShowRecieptComponent},
+
+
+    {path:"purchaseInvoices",component:PurchaseInvoicesComponent},  
+    {path:"addPurchaseInvoice",component:AddPurchaseInvoicesComponent},
+    {path:"updatePurchase/:id",component:UpdatePurchaseInvoicesComponent},
+    {path:"showPurchase/:id",component:ShowPurchaseInvoicesComponent},
 
 ]}
 ];
