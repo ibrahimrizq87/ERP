@@ -1,1 +1,94 @@
-<p>show-purchase-invoices works!</p>
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>تفاصيل الفاتورة</h5>
+            </div>
+            <div class="card-body pb-5">
+              <div class="row">
+                <!-- Account Details -->
+                <div class="col-md-6">
+                  <h6 class="fw-bold">حساب العميل</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">الاسم:</label>
+                    <p class="text-muted">{{ purchaseData?.account?.account_name || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">الهاتف:</label>
+                    <p class="text-muted">{{ purchaseData?.account?.phone || 'غير متوفر' }}</p>
+                  </div>
+                  <!-- <div class="mb-3">
+                    <label class="fw-bold">الرصيد الحالي:</label>
+                    <p class="text-muted">{{ purchaseData?.account?.current_balance || 'غير متوفر' }}</p>
+                  </div> -->
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold">تفاصيل المورد</h6>
+                    <div class="mb-3">
+                      <label class="fw-bold">الاسم:</label>
+                      <p class="text-muted">{{ purchaseData?.supplier?.account_name || 'غير متوفر' }}</p>
+                    </div>
+                    <div class="mb-3">
+                      <label class="fw-bold">الهاتف:</label>
+                      <p class="text-muted">{{ purchaseData?.supplier?.phone || 'غير متوفر' }}</p>
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label class="fw-bold">الرصيد الحالي:</label>
+                      <p class="text-muted">{{ purchaseData?.supplier?.current_balance || 'غير متوفر' }}</p>
+                    </div> -->
+                  </div>
+                <!-- Product Details -->
+                <div class="col-md-6">
+                  <h6 class="fw-bold">تفاصيل المنتج</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">اسم المنتج:</label>
+                    <p class="text-muted">{{ purchaseData?.product?.name || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">السعر:</label>
+                    <p class="text-muted">{{ purchaseData?.price || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">الكمية:</label>
+                    <p class="text-muted">{{ purchaseData?.amount_letters || 'غير متوفر' }}</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold">تفاصيل الفاتورة</h6>
+                    <div class="mb-3">
+                      <label class="fw-bold">المبلغ:</label>
+                      <p class="text-muted">{{ purchaseData?.price || 'غير متوفر' }}</p>
+                    </div>
+                    <div class="mb-3">
+                      <label class="fw-bold">نوع الدفع:</label>
+                      <p class="text-muted">{{ purchaseData?.payment_type || 'غير متوفر' }}</p>
+                    </div>
+                    <div class="mb-3">
+                      <label class="fw-bold">التاريخ:</label>
+                      <p class="text-muted">{{ purchaseData?.date || 'غير متوفر' }}</p>
+                    </div>
+                    <div class="mb-3">
+                      <label class="fw-bold">المبلغ الإجمالي بعد الضريبة:</label>
+                      <p class="text-muted">{{ totalAfterTax }}</p>
+                    </div>
+                  </div>
+                <!-- Supplier Details -->
+              
+  
+                <!-- Invoice Details -->
+               
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="mt-4 mb-4 text-center">
+          <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/purchaseInvoices">
+            <button type="button" class="btn btn-primary px-4">رجوع</button>
+          </a>
+        </div>
+      </div>
+    </div>
