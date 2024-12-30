@@ -2,11 +2,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div class="card shadow rounded-lg">
+          <div class="card shadow rounded-lg" id="invoice-details">
             <div class="card-header bg-white text-black rounded-top pt-3">
               <h5>تفاصيل الفاتورة</h5>
             </div>
             <div class="card-body pb-5">
+              <!-- Invoice Content Here -->
               <div class="row">
                 <!-- Account Details -->
                 <div class="col-md-6">
@@ -19,26 +20,18 @@
                     <label class="fw-bold">الهاتف:</label>
                     <p class="text-muted">{{ purchaseData?.account?.phone || 'غير متوفر' }}</p>
                   </div>
-                  <!-- <div class="mb-3">
-                    <label class="fw-bold">الرصيد الحالي:</label>
-                    <p class="text-muted">{{ purchaseData?.account?.current_balance || 'غير متوفر' }}</p>
-                  </div> -->
                 </div>
                 <div class="col-md-6">
-                    <h6 class="fw-bold">تفاصيل المورد</h6>
-                    <div class="mb-3">
-                      <label class="fw-bold">الاسم:</label>
-                      <p class="text-muted">{{ purchaseData?.supplier?.account_name || 'غير متوفر' }}</p>
-                    </div>
-                    <div class="mb-3">
-                      <label class="fw-bold">الهاتف:</label>
-                      <p class="text-muted">{{ purchaseData?.supplier?.phone || 'غير متوفر' }}</p>
-                    </div>
-                    <!-- <div class="mb-3">
-                      <label class="fw-bold">الرصيد الحالي:</label>
-                      <p class="text-muted">{{ purchaseData?.supplier?.current_balance || 'غير متوفر' }}</p>
-                    </div> -->
+                  <h6 class="fw-bold">تفاصيل المورد</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">الاسم:</label>
+                    <p class="text-muted">{{ purchaseData?.supplier?.account_name || 'غير متوفر' }}</p>
                   </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">الهاتف:</label>
+                    <p class="text-muted">{{ purchaseData?.supplier?.phone || 'غير متوفر' }}</p>
+                  </div>
+                </div>
                 <!-- Product Details -->
                 <div class="col-md-6">
                   <h6 class="fw-bold">تفاصيل المنتج</h6>
@@ -56,39 +49,45 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                    <h6 class="fw-bold">تفاصيل الفاتورة</h6>
-                    <div class="mb-3">
-                      <label class="fw-bold">المبلغ:</label>
-                      <p class="text-muted">{{ purchaseData?.price || 'غير متوفر' }}</p>
-                    </div>
-                    <div class="mb-3">
-                      <label class="fw-bold">نوع الدفع:</label>
-                      <p class="text-muted">{{ purchaseData?.payment_type || 'غير متوفر' }}</p>
-                    </div>
-                    <div class="mb-3">
-                      <label class="fw-bold">التاريخ:</label>
-                      <p class="text-muted">{{ purchaseData?.date || 'غير متوفر' }}</p>
-                    </div>
-                    <div class="mb-3">
-                      <label class="fw-bold">المبلغ الإجمالي بعد الضريبة:</label>
-                      <p class="text-muted">{{ totalAfterTax }}</p>
-                    </div>
+                  <h6 class="fw-bold">تفاصيل الفاتورة</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">المبلغ:</label>
+                    <p class="text-muted">{{ purchaseData?.price || 'غير متوفر' }}</p>
                   </div>
-                <!-- Supplier Details -->
-              
-  
-                <!-- Invoice Details -->
-               
+                  <div class="mb-3">
+                    <label class="fw-bold">نوع الدفع:</label>
+                    <p class="text-muted">{{ purchaseData?.payment_type || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">التاريخ:</label>
+                    <p class="text-muted">{{ purchaseData?.date || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">المبلغ الإجمالي بعد الضريبة:</label>
+                    <p class="text-muted">{{ totalAfterTax }}</p>
+                  </div>
                 </div>
               </div>
+              <!-- Online Payment Image -->
+            
+                 <div class="text-center mt-5" *ngIf="purchaseData?.online_payment_image">
+                    <h6 class="fw-bold">صورة الدفع الإلكتروني</h6>
+                     <img [src]="purchaseData.online_payment_image" alt="صورة الدفع الإلكتروني" class="img-fluid rounded mx-auto d-block" style="max-width: 70%; max-height: 400px;" />
+                 </div>
+  
+             
             </div>
           </div>
         </div>
-    
-        <div class="mt-4 mb-4 text-center">
-          <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/purchaseInvoices">
-            <button type="button" class="btn btn-primary px-4">رجوع</button>
-          </a>
-        </div>
+      </div>
+      <div class="text-center mt-5">
+        <button (click)="exportToPDF()" class="btn btn-success">تحميل الفاتورة PDF</button>
+      </div>
+      <div class="mt-4 mb-4 text-center">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/purchaseInvoices">
+          <button type="button" class="btn btn-primary px-4">رجوع</button>
+        </a>
       </div>
     </div>
+  </div>
+  
