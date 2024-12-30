@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UpdateProductComponent implements OnInit {
   msgError: any[] = [];
   isLoading: boolean = false;
-
+product :any;
   productForm: FormGroup;;
     constructor(
     private fb: FormBuilder,
@@ -71,7 +71,7 @@ export class UpdateProductComponent implements OnInit {
 
       formData.append('name', this.productForm.get('name')?.value);
       formData.append('price', this.productForm.get('price')?.value);
-      formData.append('amount', this.productForm.get('amount')?.value);
+      formData.append('amount', this.product.amount);
      
      
       const productId = this.route.snapshot.paramMap.get('id');

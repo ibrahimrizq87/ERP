@@ -35,21 +35,21 @@
 
                               <!-- الرصيد الحالي -->
                               <div class="form-group col-md-6">
-                                  <label for="current_balance" class="form-label">الرصيد الحالي</label>
+                                  <label for="current_balance" class="form-label">الرصيد الافتتاحى</label>
                                   <input
                                       id="current_balance"
                                       formControlName="current_balance"
                                       type="number"
                                       step="0.01"
                                       class="form-control"
-                                      placeholder="أدخل الرصيد الحالي"
+                                      placeholder="أدخل الرصيد الافتتاحى"
                                   />
                                   <div
                                       class="alert alert-danger"
                                       *ngIf="accountForm.get('current_balance')?.errors && accountForm.get('current_balance')?.touched"
                                   >
                                       <p *ngIf="accountForm.get('current_balance')?.hasError('required')">
-                                          الرصيد الحالي مطلوب
+                                          الرصيد الافتتاحى مطلوب
                                       </p>
                                       <p *ngIf="accountForm.get('current_balance')?.hasError('min')">
                                           يجب أن يكون الرصيد غير سلبي
@@ -58,8 +58,8 @@
                               </div>
                               
                               <!-- الخصم الصافي -->
-                              <div class="form-group col-md-6">
-                                  <label for="net_debit" class="form-label">الخصم الصافي</label>
+                              <!-- <div class="form-group col-md-6">
+                                  <label for="net_debit" class="form-label">  </label>
                                   <input
                                       id="net_debit"
                                       formControlName="net_debit"
@@ -76,10 +76,10 @@
                                           يجب أن يكون الخصم الصافي غير سلبي
                                       </p>
                                   </div>
-                              </div>
+                              </div> -->
 
                               <!-- الائتمان الصافي -->
-                              <div class="form-group col-md-6">
+                              <!-- <div class="form-group col-md-6">
                                   <label for="net_credit" class="form-label">الائتمان الصافي</label>
                                   <input
                                       id="net_credit"
@@ -97,7 +97,7 @@
                                           يجب أن يكون الائتمان الصافي غير سلبي
                                       </p>
                                   </div>
-                              </div>
+                              </div> -->
                           </div>
                       </div>
                   </div>

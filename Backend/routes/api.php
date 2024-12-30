@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\PaymentDocumentController;
 use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\PurchaseInvoiceController;
 use App\Http\Controllers\ExpenseInvoiceController;
+use App\Http\Controllers\ReportsController;
 
 
 
@@ -56,3 +57,15 @@ Route::get('accounts/by-parent/{parent_id}', [AccountController::class , 'getAcc
 
 Route::get('accounts/get-parent/{id}', [AccountController::class , 'getAccountById']);
 
+
+
+
+
+
+Route::get('/payment-by-account/{accountId}', [ReportsController::class, 'getByAccountId']);
+Route::get('/purchase-invoices/{id}/by-account', [ReportsController::class, 'getAllPurchaseInvoicesByAccout']);
+Route::get('/purchase-invoices/by-date', [ReportsController::class, 'getAllPurchaseInvoicesByDate']);
+Route::get('/expense-invoices/by-date', [ReportsController::class, 'getAllExpenceInvoicesByDate']);
+Route::get('/expense-invoices/this-year', [ReportsController::class, 'getAllExpenseInvoicesThisYear']);
+Route::get('/purchase-invoices/this-year', [ReportsController::class, 'getAllPurchaseInvoicesThisYear']);
+Route::get('/shift-taxes/by-date-and-year', [ReportsController::class, 'getAllShiftTaxesByDateAndYear']);

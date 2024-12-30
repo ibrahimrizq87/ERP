@@ -21,6 +21,7 @@ class AccountResource extends JsonResource
             'parent_id' => $this->parent_id,
             'can_delete' => $this->can_delete,
             'current_balance' => $this->current_balance,
+            'start_amount' => $this->start_amount,
             'net_debit' => $this->net_debit,
             'net_credit' => $this->net_credit,
             'created_at' => $this->created_at,

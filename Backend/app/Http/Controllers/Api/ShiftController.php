@@ -21,7 +21,11 @@ use App\Models\Account;
 use App\Models\TaxRate;  
 
 use App\Models\OnlinePayment;  
+use App\Models\ShiftTax;  
 
+
+        
+  
 class ShiftController extends Controller
 {
 
@@ -291,6 +295,14 @@ public function closeShift(Request $request ,$shift_id)
 
     $tax_parent->net_debit += $total;
     $tax_parent->current_balance -= $total;
+
+
+    $shiftTax =ShiftTax::create([
+        'date'=> now(),
+        'shift_id'=>$shift->id,
+        'tax_amount'=>$total,
+        'tax_rate'=>$tax_rate->rate
+    ]);
     DB::commit();
 
     return response()->json([
