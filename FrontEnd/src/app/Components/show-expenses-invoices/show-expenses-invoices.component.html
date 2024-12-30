@@ -1,0 +1,108 @@
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg" id="invoice-details">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>تفاصيل الفاتورة</h5>
+            </div>
+            <div class="card-body pb-5">
+              <!-- Invoice Content Here -->
+              <div class="row">
+                <!-- Account Details -->
+                <div class="col-md-6">
+                  <h6 class="fw-bold">حساب العميل</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">الاسم:</label>
+                    <p class="text-muted">{{ expensesData?.account?.account_name || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">الهاتف:</label>
+                    <p class="text-muted">{{ expensesData?.account?.phone || 'غير متوفر' }}</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="fw-bold">تفاصيل المورد</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">الاسم:</label>
+                    <p class="text-muted">{{ expensesData?.expense?.account_name || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">الهاتف:</label>
+                    <p class="text-muted">{{ expensesData?.expense?.phone || 'غير متوفر' }}</p>
+                  </div>
+                </div>
+                <!-- Product Details -->
+                <div class="col-md-6">
+                    <h6 class="fw-bold">تفاصيل الفاتورة</h6>
+                  <div class="mb-3">
+                    <label class="fw-bold">Tax Amount :</label>
+                    <p class="text-muted">{{ expensesData?.tax_amount || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">Total Cash :</label>
+                    <p class="text-muted">{{ expensesData?.total_cash || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">المبلغ الإجمالي بعد الضريبة:</label>
+                    <p class="text-muted">{{ totalAfterTax }}</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                 
+                  <div class="mb-3">
+                    <label class="fw-bold">Tax Rate:</label>
+                    <p class="text-muted">{{ expensesData?.tax_rate || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">نوع الدفع:</label>
+                    <p class="text-muted">{{ expensesData?.payment_type || 'غير متوفر' }}</p>
+                  </div>
+                  <div class="mb-3">
+                    <label class="fw-bold">التاريخ:</label>
+                    <p class="text-muted">{{ expensesData?.date || 'غير متوفر' }}</p>
+                  </div>
+                
+                </div>
+              </div>
+              <!-- Online Payment Image -->
+            <div class="row">
+                <div class="col-md-6">
+                 <div class="text-center mt-5" *ngIf="expensesData?.online_payment_image">
+                    <h6 class="fw-bold">صورة الدفع الإلكتروني</h6>
+                     <img [src]="expensesData.online_payment_image" alt="صورة الدفع الإلكتروني" class="img-fluid rounded mx-auto d-block" style="max-width: 70%; max-height: 400px;" />
+                 </div>
+                </div>
+                <div class="col-md-6">
+                 <div class="text-center mt-5" *ngIf="expensesData?.invoice_image">
+                    <h6 class="fw-bold">صورة الفاتورة </h6>
+                     <img [src]="expensesData.invoice_image" alt="صورة الفاتورة " class="img-fluid rounded mx-auto d-block" style="max-width: 70%; max-height: 400px;" />
+                 </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label class="fw-bold">Note:</label>
+                        <p class="text-muted">{{ expensesData?.note || 'غير متوفر' }}</p>
+                      </div>
+                </div>
+               
+              
+            </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <button (click)="exportToPDF()" class="btn btn-success">تحميل الفاتورة PDF</button>
+      </div>
+      <div class="mt-4 mb-4 text-center">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/expensesInvoices">
+          <button type="button" class="btn btn-primary px-4">رجوع</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  

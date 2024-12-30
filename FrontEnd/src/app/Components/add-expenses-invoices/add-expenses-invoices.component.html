@@ -1,0 +1,128 @@
+<div class="mt-3 mb-3">
+    <h5> Manage Expenses Invoices</h5>
+    <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> Expenses <i class="fa-solid fa-angle-right"></i> Add Expense </span>
+  </div>
+  <div class="mt-4 mb-4">
+  <form  [formGroup]="expensesForm" (ngSubmit)="handleForm()">
+    <div class="container">
+        <div class="row">
+        
+          <div class="col-md-12">
+            <div class="card shadow em-card rounded-lg">
+              <div class="card-header bg-white text-black rounded-top pt-3 ">
+                <h5>Add Expense </h5>
+              </div>
+            
+              <div class="card-body pb-5">
+  
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="date" class="form-label">التاريخ</label>
+                        <input id="date" formControlName="date" type="date" class="form-control" />
+                        <div class="alert alert-danger" *ngIf="expensesForm.get('date')?.errors && expensesForm.get('date')?.touched">
+                          <p *ngIf="expensesForm.get('date')?.hasError('required')">التاريخ مطلوب</p>
+                        </div>
+                      </div>
+      
+                     
+                      <div class="form-group col-md-6">
+                        <label for="payementType" class="form-label">Payement Type </label>
+                        <select id="payementType" formControlName="payementType" class="form-control">
+                          <option value="cash"> Cash </option>
+                          <option value="online"> Online</option>
+                         
+                        </select>
+                        <div class="alert alert-danger" *ngIf="expensesForm.get('payementType')?.errors && expensesForm.get('payementType')?.touched">
+                          <p *ngIf="expensesForm.get('payementType')?.hasError('required')">payment Type is Required</p>
+                        </div>
+                      </div> 
+                      <div class="form-group col-md-6">
+                        <label class="form-label"> Choose Account</label>
+                        <select class="form-control" formControlName="account_id">
+                          <option value="" disabled> Choose Account </option>
+                          <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+                        </select>
+                      </div> 
+                      <div class="form-group col-md-6" *ngIf="expensesForm.get('payementType')?.value === 'online'">
+                        <label for="image" class="form-label">Upload Online Image</label>
+                        <input
+                          id="image"
+                          type="file"
+                          class="form-control"
+                          (change)="onFileChange($event)"
+                        />
+                      </div> 
+                    
+                      <div class="form-group col-md-6">
+                        <label class="form-label"> Choose Expenses Account</label>
+                        <select class="form-control" formControlName="expense_id">
+                          <option value="" disabled> Choose Expenses Account </option>
+                          <option *ngFor="let expensesAccount of expensesAccounts" [value]="expensesAccount.id">{{ expensesAccount.account_name }}</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="image" class="form-label">Upload Invoice Image</label>
+                        <input
+                          id="image"
+                          type="file"
+                          class="form-control"
+                          (change)="onInvoiceFileChange($event)"
+                        />
+                      </div> 
+                    
+             
+                  
+                          
+                </div>  
+                <div class="row">
+                   
+                      <div class="form-group col-md-6">
+                        <label for="total_cash"  class="form-label"> Total Cash</label>
+                        <input id="total_cash" formControlName="total_cash" type="number" class="form-control" placeholder="please Enter The total_cash  " required/>
+                        <div class="alert alert-danger" *ngIf="expensesForm.get('total_cash')?.errors && expensesForm.get('total_cash')?.touched">
+                          <p *ngIf="expensesForm.get('total_cash')?.getError('required')"> total_cash is Required</p>
+                          <p *ngIf="expensesForm.get('total_cash')?.getError('min')">الحد الأدنى هو 0</p>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Tax Rate</label>
+                        <p>{{ taxRate  }} %</p>
+                      </div>
+                      
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Tax Amount</label>
+                        <p>{{ taxAmount | number: '1.2-2' }} </p> 
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label">Total After Tax</label>
+                        <p>{{ totalAfterTax | number: '1.2-2' }} </p> 
+                      </div>
+                </div>
+               
+                <div class="form-group col-md-12">
+                    <label for="note" class="form-label">Note</label>
+                    <textarea id="note" formControlName="note" rows="4" class="form-control" placeholder="Enter any additional notes or details"></textarea>
+                  </div>
+                  
+            </div>
+           
+            </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
+          </div>
+          <div class=" mt-4 mb-4">
+            <button [disabled]="expensesForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ</button>
+         </div>
+      
+        </div>
+      
+    
+       
+      </div>
+    </form>
+  
+  </div>
+  

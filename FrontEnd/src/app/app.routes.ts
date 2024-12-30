@@ -36,6 +36,10 @@ import { PurchaseInvoicesComponent } from './Components/purchase-invoices/purcha
 import { AddPurchaseInvoicesComponent } from './Components/add-purchase-invoices/add-purchase-invoices.component';
 import { UpdatePurchaseInvoicesComponent } from './Components/update-purchase-invoices/update-purchase-invoices.component';
 import { ShowPurchaseInvoicesComponent } from './Components/show-purchase-invoices/show-purchase-invoices.component';
+import { ExpensesInvoicesComponent } from './Components/expenses-invoices/expenses-invoices.component';
+import { AddExpensesInvoicesComponent } from './Components/add-expenses-invoices/add-expenses-invoices.component';
+import { UpdateExpensesInvoicesComponent } from './Components/update-expenses-invoices/update-expenses-invoices.component';
+import { ShowExpensesInvoicesComponent } from './Components/show-expenses-invoices/show-expenses-invoices.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -87,5 +91,9 @@ export const routes: Routes = [
     {path:"updatePurchase/:id",component:UpdatePurchaseInvoicesComponent},
     {path:"showPurchase/:id",component:ShowPurchaseInvoicesComponent},
 
+    {path:"expensesInvoices",component:ExpensesInvoicesComponent},  
+    {path:"addExpensesInvoices",component:AddExpensesInvoicesComponent},
+    {path:"updateExpensesInvoices/:id",component:UpdateExpensesInvoicesComponent},
+    {path:"showExpensesInvoices/:id",component:ShowExpensesInvoicesComponent},
 ]}
 ];
