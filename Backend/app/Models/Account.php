@@ -21,6 +21,7 @@ class Account extends Model
      'net_debit',
      'net_credit',
      'start_amount',
+     'type'
  ];
 
 

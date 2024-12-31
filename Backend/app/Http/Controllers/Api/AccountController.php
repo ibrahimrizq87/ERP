@@ -46,6 +46,7 @@ class AccountController extends Controller
         'current_balance' => $data['current_balance'] ?? 0,
         'net_debit' => $data['net_debit']?? 0,
         'net_credit' => $data['net_credit']??0,
+        'type' => 'branch',
        ]
         );
         return new AccountResource($account);
@@ -72,7 +73,7 @@ class AccountController extends Controller
     
     public function mainAccount()
     {
-        $accounts = Account::where('parent_id' ,null)->get();
+        $accounts = Account::with('children')->where('parent_id' ,null)->get();
         return AccountResource::collection($accounts);
     }
 
