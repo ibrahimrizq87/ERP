@@ -1,46 +1,41 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>Manage Purchase Invoices</h5>
-        <span class="text-muted">Dashboard <i class="fa-solid fa-angle-right"></i> Purchase Invoices</span>
+        <h5>إدارة فواتير المشتريات</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> فواتير المشتريات</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addPurchaseInvoice">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
-      </a>
-  </div>
-  
-  <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
+    </a>
+</div>
+
+<div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold">Purchases List</span>
-            <input class="form-control search w-25" type="search" placeholder="Search by Date or Payment Type..." aria-label="Search"[(ngModel)]="searchQuery"(input)="filterPurchases()">
+            <span class="fw-bold">قائمة المشتريات</span>
+            <input class="form-control search w-25" type="search" placeholder="البحث بتاريخ أو نوع الدفع..." aria-label="بحث" [(ngModel)]="searchQuery" (input)="filterPurchases()">
         </div>
     </div>
-  
+
     <table class="table mt-3">
         <thead>
             <tr>
-          
-                <th class="bg-light" scope="col">#</th>
-                <th class="bg-light" scope="col">Date</th>
-                <th class="bg-light" scope="col">Account From </th>
-                <th class="bg-light" scope="col">Supplier</th>
-                <th class="bg-light" scope="col">Payment Type </th>
-                <!-- <th class="bg-light" scope="col">Organization </th> -->
-                <th class="bg-light" scope="col">Actions</th>
+                <th class="bg-light" scope="col">الترتيب</th>
+                <th class="bg-light" scope="col">التاريخ</th>
+                <th class="bg-light" scope="col">الحساب من</th>
+                <th class="bg-light" scope="col">المورد</th>
+                <th class="bg-light" scope="col">نوع الدفع</th>
+                <!-- <th class="bg-light" scope="col">المنظمة</th> -->
+                <th class="bg-light" scope="col">الإجراءات</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let purchase of filteredPurchases ; let i = index">
+            <tr *ngFor="let purchase of filteredPurchases; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ purchase.date }}</td>
                 <td>{{ purchase.account.account_name }}</td>
-               
                 <td>{{ purchase.supplier.account_name }}</td>
                 <td>{{ purchase.payment_type }}</td>
                 <!-- <td>{{ purchase.organization }}</td> -->
-               
-              
-               
                 <td>
                     <div class="d-flex justify-content-around align-items-center">
                         <a class="nav-link" [routerLink]="['/dashboard/showPurchase', purchase.id]">
@@ -55,4 +50,4 @@
             </tr>
         </tbody>
     </table>
-  </div>
+</div>

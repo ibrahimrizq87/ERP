@@ -1,131 +1,124 @@
 <div class="mt-3 mb-3">
-    <h5> Manage Purchase Invoices</h5>
-    <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> Purchases <i class="fa-solid fa-angle-right"></i> Add Purchase </span>
-  </div>
-  <div class="mt-4 mb-4">
-  <form  [formGroup]="purchasesForm" (ngSubmit)="handleForm()">
+  <h5>إدارة فواتير الشراء</h5>
+  <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> المشتريات <i class="fa-solid fa-angle-right"></i> إضافة فاتورة شراء</span>
+</div>
+<div class="mt-4 mb-4">
+  <form [formGroup]="purchasesForm" (ngSubmit)="handleForm()">
     <div class="container">
-        <div class="row">
-        
-          <div class="col-md-12">
-            <div class="card shadow em-card rounded-lg">
-              <div class="card-header bg-white text-black rounded-top pt-3 ">
-                <h5>Add Purchase </h5>
-              </div>
-            
-              <div class="card-body pb-5">
-  
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="date" class="form-label">التاريخ</label>
-                        <input id="date" formControlName="date" type="date" class="form-control" />
-                        <div class="alert alert-danger" *ngIf="purchasesForm.get('date')?.errors && purchasesForm.get('date')?.touched">
-                          <p *ngIf="purchasesForm.get('date')?.hasError('required')">التاريخ مطلوب</p>
-                        </div>
-                      </div>
-      
-                      <div class="form-group col-md-6">
-                        <label class="form-label">اختر المنتج</label>
-                        <select class="form-control" formControlName="product_id">
-                          <option value="" disabled> اختر المنتج</option>
-                          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="payementType" class="form-label">Payement Type </label>
-                        <select id="payementType" formControlName="payementType" class="form-control">
-                          <option value="cash"> Cash </option>
-                          <option value="online"> Online</option>
-                         
-                        </select>
-                        <div class="alert alert-danger" *ngIf="purchasesForm.get('payementType')?.errors && purchasesForm.get('payementType')?.touched">
-                          <p *ngIf="purchasesForm.get('payementType')?.hasError('required')">payment Type is Required</p>
-                        </div>
-                      </div> 
-                      <div class="form-group col-md-6">
-                        <label class="form-label"> Choose Account</label>
-                        <select class="form-control" formControlName="account_id">
-                          <option value="" disabled> Choose Account </option>
-                          <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
-                        </select>
-                      </div> 
-                      <div class="form-group col-md-6" *ngIf="purchasesForm.get('payementType')?.value === 'online'">
-                        <label for="image" class="form-label">Upload Image</label>
-                        <input
-                          id="image"
-                          type="file"
-                          class="form-control"
-                          (change)="onFileChange($event)"
-                        />
-                      </div> 
-                    
-                      <div class="form-group col-md-6">
-                        <label class="form-label"> Choose Supplier</label>
-                        <select class="form-control" formControlName="supplier_id">
-                          <option value="" disabled> Choose Supplier </option>
-                          <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{ supplier.account_name }}</option>
-                        </select>
-                      </div>
+      <div class="row">
 
-             
-                  
-                          
-                </div>  
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="amount"  class="form-label"> Amount</label>
-                        <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="please Enter The Amount  " required/>
-                        <div class="alert alert-danger" *ngIf="purchasesForm.get('amount')?.errors && purchasesForm.get('amount')?.touched">
-                          <p *ngIf="purchasesForm.get('amount')?.getError('required')"> Amount is Required</p>
-                          <p *ngIf="purchasesForm.get('amount')?.getError('min')">الحد الأدنى هو 0</p>
-                        </div>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="price"  class="form-label"> price</label>
-                        <input id="price" formControlName="price" type="number" class="form-control" placeholder="please Enter The price  " required/>
-                        <div class="alert alert-danger" *ngIf="purchasesForm.get('price')?.errors && purchasesForm.get('price')?.touched">
-                          <p *ngIf="purchasesForm.get('price')?.getError('required')"> price is Required</p>
-                          <p *ngIf="purchasesForm.get('price')?.getError('min')">الحد الأدنى هو 0</p>
-                        </div>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Tax Rate</label>
-                        <p>{{ taxRate  }} %</p>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Total</label>
-                        <p>{{ total | number: '1.2-2' }} </p> 
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Tax Amount</label>
-                        <p>{{ taxAmount | number: '1.2-2' }} </p> 
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label class="form-label">Total After Tax</label>
-                        <p>{{ totalAfterTax | number: '1.2-2' }} </p> 
-                      </div>
+        <div class="col-md-12">
+          <div class="card shadow em-card rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>إضافة فاتورة شراء</h5>
+            </div>
+
+            <div class="card-body pb-5">
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="date" class="form-label">التاريخ</label>
+                  <input id="date" formControlName="date" type="date" class="form-control" />
+                  <div class="alert alert-danger" *ngIf="purchasesForm.get('date')?.errors && purchasesForm.get('date')?.touched">
+                    <p *ngIf="purchasesForm.get('date')?.hasError('required')">التاريخ مطلوب</p>
+                  </div>
                 </div>
-               
-                
-            </div>
-           
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">اختر المنتج</label>
+                  <select class="form-control" formControlName="product_id">
+                    <option value="" disabled>اختر المنتج</option>
+                    <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="payementType" class="form-label">نوع الدفع</label>
+                  <select id="payementType" formControlName="payementType" class="form-control">
+                    <option value="cash">نقداً</option>
+                    <option value="online">عبر الإنترنت</option>
+                  </select>
+                  <div class="alert alert-danger" *ngIf="purchasesForm.get('payementType')?.errors && purchasesForm.get('payementType')?.touched">
+                    <p *ngIf="purchasesForm.get('payementType')?.hasError('required')">نوع الدفع مطلوب</p>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">اختر الحساب</label>
+                  <select class="form-control" formControlName="account_id">
+                    <option value="" disabled>اختر الحساب</option>
+                    <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="purchasesForm.get('payementType')?.value === 'online'">
+                  <label for="image" class="form-label">رفع صورة</label>
+                  <input id="image" type="file" class="form-control" (change)="onFileChange($event)" />
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">اختر المورد</label>
+                  <select class="form-control" formControlName="supplier_id">
+                    <option value="" disabled>اختر المورد</option>
+                    <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{ supplier.account_name }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="amount" class="form-label">المبلغ</label>
+                  <input id="amount" formControlName="amount" type="number" class="form-control" placeholder="أدخل المبلغ من فضلك" required />
+                  <div class="alert alert-danger" *ngIf="purchasesForm.get('amount')?.errors && purchasesForm.get('amount')?.touched">
+                    <p *ngIf="purchasesForm.get('amount')?.getError('required')">المبلغ مطلوب</p>
+                    <p *ngIf="purchasesForm.get('amount')?.getError('min')">الحد الأدنى هو 0</p>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="price" class="form-label">السعر</label>
+                  <input id="price" formControlName="price" type="number" class="form-control" placeholder="أدخل السعر من فضلك" required />
+                  <div class="alert alert-danger" *ngIf="purchasesForm.get('price')?.errors && purchasesForm.get('price')?.touched">
+                    <p *ngIf="purchasesForm.get('price')?.getError('required')">السعر مطلوب</p>
+                    <p *ngIf="purchasesForm.get('price')?.getError('min')">الحد الأدنى هو 0</p>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">معدل الضريبة</label>
+                  <p>{{ taxRate }} %</p>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">الإجمالي</label>
+                  <p>{{ total | number: '1.2-2' }}</p>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">مبلغ الضريبة</label>
+                  <p>{{ taxAmount | number: '1.2-2' }}</p>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label class="form-label">الإجمالي بعد الضريبة</label>
+                  <p>{{ totalAfterTax | number: '1.2-2' }}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
-            <ul>
-              <li *ngFor="let error of msgError">{{ error }}</li>
-            </ul>
-          </div>
-          <div class=" mt-4 mb-4">
-            <button [disabled]="purchasesForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ</button>
-         </div>
-      
         </div>
-      
-    
-       
+
+        <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+          <ul>
+            <li *ngFor="let error of msgError">{{ error }}</li>
+          </ul>
+        </div>
+
+        <div class="mt-4 mb-4">
+          <button [disabled]="purchasesForm.invalid" type="submit" class="btn btn-primary px-4">
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ
+          </button>
+        </div>
       </div>
-    </form>
-  
-  </div>
-  
+    </div>
+  </form>
+</div>

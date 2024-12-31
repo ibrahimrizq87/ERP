@@ -162,7 +162,7 @@ export class AddPurchaseInvoicesComponent implements OnInit{
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Created Purchase Invoice Successfully");
+            this.toastr.success("تم إنشاء فاتورة الشراء بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/purchaseInvoices']);
           }
@@ -183,7 +183,7 @@ export class AddPurchaseInvoicesComponent implements OnInit{
           }
       
           console.error(this.msgError); 
-          this.toastr.error("حدث خطأ أثناء إضافة ");
+          this.toastr.error("حدث خطأ أثناء الإضافة");
       },
       });
     }

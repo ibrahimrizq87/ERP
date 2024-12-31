@@ -211,7 +211,7 @@ export class UpdateExpensesInvoicesComponent  implements OnInit{
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Updated Expenses Invoice Successfully");
+            this.toastr.success("تم تحديث فاتورة المصاريف بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/expensesInvoices']);
           }
@@ -232,7 +232,7 @@ export class UpdateExpensesInvoicesComponent  implements OnInit{
           }
       
           console.error(this.msgError); 
-          this.toastr.error("حدث خطأ أثناء إضافة ");
+          this.toastr.error("حدث خطأ أثناء التحديث");
       },
       });
      }

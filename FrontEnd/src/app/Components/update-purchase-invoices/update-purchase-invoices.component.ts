@@ -194,7 +194,7 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Updated Purchase Invoice Successfully");
+            this.toastr.success("تم تحديث فاتورة الشراء بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/purchaseInvoices']);
           }
@@ -215,7 +215,8 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
           }
       
           console.error(this.msgError); 
-          this.toastr.error("حدث خطأ أثناء إضافة ");
+          this.toastr.error("حدث خطأ أثناء التحديث");
+
       },
       });
     }}

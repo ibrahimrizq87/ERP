@@ -3,6 +3,7 @@ import { InvoiceService } from '../../shared/services/invoice.service';
 import { Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-expenses-invoices',
@@ -18,7 +19,8 @@ export class ExpensesInvoicesComponent implements OnInit {
   constructor(
   
     private _InvoiceService: InvoiceService
-    , private router: Router
+    , private router: Router,
+    private toastr :ToastrService
   ) {}
   ngOnInit(): void {
  
@@ -47,17 +49,18 @@ export class ExpensesInvoicesComponent implements OnInit {
     );
   }
   deleteExpenses(expenseId: number): void {
-    if (confirm('Are you sure you want to delete this Expenses?')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه المصروفات؟')) {
       this._InvoiceService.deleteExpenses(expenseId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/expensesInvoices`]);
             this.loadAllExpenses();
+            this.toastr.success("تم حذف المصروف بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          alert('An error occurred while deleting the Expenses.');
+          this.toastr.error('حدث خطأ أثناء حذف المصروفات')
         }
       });
     }
