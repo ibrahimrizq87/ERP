@@ -44,9 +44,10 @@
                 <div class="form-group col-md-6">
                   <label for="role" class="form-label">الدور</label>
                   <select id="role" formControlName="role" class="form-control">
-                    <option value="admin">مشرف</option>
+                    <option value="admin">مسؤول</option>
                     <option value="worker">عامل</option>
                     <option value="accountant">محاسب</option>
+                    <option value="supervisor">مشرف</option>
                   </select>
                   <div class="alert alert-danger" *ngIf="userForm.get('role')?.errors && userForm.get('role')?.touched">
                     <p *ngIf="userForm.get('role')?.hasError('required')">الدور مطلوب</p>
