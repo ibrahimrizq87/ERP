@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { InvoiceService } from '../../shared/services/invoice.service';
 import { Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-expenses-invoices',
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule,RouterModule,FormsModule],
   templateUrl: './expenses-invoices.component.html',
   styleUrl: './expenses-invoices.component.css'
 })
 export class ExpensesInvoicesComponent implements OnInit {
   isLoading = false;
   expenses: any[] = []; 
-  filteredCities: any[] = []; 
-  searchQuery: string = ''; 
+  filteredExpenses: any[] = [];
+  searchQuery: string = '';
   constructor(
   
     private _InvoiceService: InvoiceService
@@ -29,7 +30,7 @@ export class ExpensesInvoicesComponent implements OnInit {
         if (response) {
           console.log(response.data);
           this.expenses = response.data; 
-        
+          this.filteredExpenses = this.expenses;
         }
       },
       error: (err) => {
@@ -38,7 +39,13 @@ export class ExpensesInvoicesComponent implements OnInit {
     });
   }
  
-
+  filteredExpense(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredExpenses = this.expenses.filter(expense => 
+      expense.date.toLowerCase().includes(query) || 
+      expense.payment_type.toLowerCase().includes(query)
+    );
+  }
   deleteExpenses(expenseId: number): void {
     if (confirm('Are you sure you want to delete this Expenses?')) {
       this._InvoiceService.deleteExpenses(expenseId).subscribe({
