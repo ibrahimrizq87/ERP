@@ -13,8 +13,6 @@ import { AccountingService } from '../../shared/services/accounts.service';
 })
 export class DashboardComponent {
   dropdownStates: { [key: string]: boolean } = {};
-  renderer: any;
-  el: any;
   constructor (private router :Router , private _AccountingService:AccountingService ){}
  accounts:any;
   toggleDropdown(navItem: string) {
