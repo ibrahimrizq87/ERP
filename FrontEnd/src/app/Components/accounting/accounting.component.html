@@ -45,7 +45,7 @@
                 <td>{{ account.net_credit }}</td>
                 <td *ngIf="account.current_balance < 0 ">{{ account.current_balance * -1 }}</td>
                 <td *ngIf="account.current_balance >= 0 "> {{ account.current_balance }}</td>
-                                <td>{{ account.start_amount }}</td>
+                <td>{{ account.start_amount }}</td>
                 <td *ngIf="account.current_balance < 0 "> دائن </td>
                 <td *ngIf="account.current_balance >= 0 "> مدين </td>
 

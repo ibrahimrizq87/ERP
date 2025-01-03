@@ -27,7 +27,7 @@ class AccountResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'parent' => new AccountResource($this->whenLoaded('parent')),
-            'children' => AccountResource::collection($this->whenLoaded('children')),
+            'children' => AccountResource::collection($this->children),
         ];
     
     

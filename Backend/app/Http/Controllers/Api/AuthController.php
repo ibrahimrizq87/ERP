@@ -128,7 +128,7 @@ class AuthController extends Controller
         'name' => 'sometimes|string|max:255',
         'username' => 'sometimes|string|max:255|unique:users,username,' . $id,
         'password' => 'sometimes|string|min:8',
-        'role' => 'sometimes|in:accountant,worker,admin',
+        'role' => 'sometimes|in:accountant,worker,admin,supervisor',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
