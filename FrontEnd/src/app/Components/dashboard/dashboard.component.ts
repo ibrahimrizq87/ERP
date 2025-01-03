@@ -15,12 +15,21 @@ export class DashboardComponent {
   dropdownStates: { [key: string]: boolean } = {};
   constructor (private router :Router , private _AccountingService:AccountingService ){}
  accounts:any;
-  toggleDropdown(navItem: string) {
-    this.dropdownStates[navItem] = !this.dropdownStates[navItem];
-  }
-  isDropdownOpen(navItem: string): boolean {
-    return !!this.dropdownStates[navItem];
-  }
+  // toggleDropdown(navItem: string) {
+  //   this.dropdownStates[navItem] = !this.dropdownStates[navItem];
+  // }
+  // isDropdownOpen(navItem: string): boolean {
+  //   return !!this.dropdownStates[navItem];
+  // }
+  // dropdownStates: { [key: string]: boolean } = {};
+
+isDropdownOpen(key: string): boolean {
+  return this.dropdownStates[key] || false;
+}
+
+toggleDropdown(key: string): void {
+  this.dropdownStates[key] = !this.dropdownStates[key];
+}
   ngOnInit(): void {
     this.getParentAccounts(); 
   }

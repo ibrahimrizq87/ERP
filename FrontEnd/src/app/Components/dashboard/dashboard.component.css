@@ -94,4 +94,15 @@
   }
   
 
-
+  .nav-item .fa-solid {
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-item .fa-angle-down {
+    transform: rotate(3deg);
+  }
+  
+  .nav-item .fa-chevron-left {
+    transform: rotate(0deg);
+  }
+  
