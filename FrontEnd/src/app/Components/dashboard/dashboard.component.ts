@@ -4,7 +4,7 @@ import { Router, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/r
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccountingService } from '../../shared/services/accounts.service';
-
+import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-dashboard',
   imports: [HeaderComponent,RouterOutlet,ReactiveFormsModule,FormsModule,CommonModule,RouterLinkActive,RouterModule],
@@ -22,7 +22,21 @@ export class DashboardComponent {
   //   return !!this.dropdownStates[navItem];
   // }
   // dropdownStates: { [key: string]: boolean } = {};
-
+  openModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+    }
+  }
+  
+  closeModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = Modal.getInstance(modalElement);
+      modal?.hide();
+    }
+  }
 isDropdownOpen(key: string): boolean {
   return this.dropdownStates[key] || false;
 }

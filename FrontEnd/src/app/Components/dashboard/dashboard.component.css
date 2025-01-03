@@ -33,14 +33,14 @@
     transition: background 0.3s ease, color 0.3s ease;
   }
   
-  .nav-link .icon {
+  /* .nav-link .icon {
     font-size: 18px;
     margin-right: 10px;
     color: #ffb347;
     background: #fff6e6;
     padding: 6px;
     border-radius: 50%;
-  }
+  } */
   
   .nav-link:hover,
   .nav-link.active {
@@ -48,16 +48,16 @@
     color: #fff !important;
   }
   
-  .nav-link.active .icon {
+  /* .nav-link.active .icon {
     background: #ffb347;
     color: #145388;
-  }
+  } */
   
   .nested {
     padding-left: 20px;
   }
   
-  .nested .nav-link {
+  /* .nested .nav-link {
     font-size: 14px;
     padding: 8px;
     color: #555;
@@ -65,7 +65,7 @@
   
   .nested .nav-link:hover {
     color: #145388;
-  }
+  } */
   
   .profile-content {
     background-color: #fff;
@@ -98,11 +98,103 @@
     transition: transform 0.3s ease;
   }
   
+  /* .nav-item .fa-angle-down {
+    transform: rotate(3deg);
+  }
+  
+  .nav-item .fa-chevron-left {
+    transform: rotate(0deg);
+  } */
+  
+  .modal-content {
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-header {
+    background-color: #145388;
+    color: white;
+    padding: 20px 5px;
+    border-radius: 15px 15px 0 0;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .modal-body .nav-item {
+    margin: 10px 0;
+  }
+  
+  .modal-footer {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+  }
+  
+  .modal-footer .btn-primary {
+    background-color: #145388;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 15px;
+  }
+  
+  .modal-footer .btn-primary:hover {
+    background-color: #0f3d73;
+  }
+  
+  /* Hover Effect for List Items */
+  .modal-body .nav-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-body .nav-item:hover {
+    background-color: #e2e6ea;
+  }
+  
+  /* Accordion style for nested items */
+  .nav-item .fa-solid {
+    transition: transform 0.3s ease;
+  }
+  
   .nav-item .fa-angle-down {
     transform: rotate(3deg);
   }
   
   .nav-item .fa-chevron-left {
     transform: rotate(0deg);
+  }
+  
+  /* Nested Accounts Styling */
+  .nested .nav-link {
+    font-size: 14px;
+    color: #555;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nested .nav-link:hover {
+    background-color: #ffb347;
+    color: #fff;
+  }
+  
+  .nested .nav-link.active {
+    background-color: #145388;
+    color: #fff;
+  }
+  
+  .nested .nav-link.active .icon {
+    background-color: #ffb347;
+    color: #145388;
+  }
+  
+  /* Responsive Design for Small Screens */
+  @media (max-width: 768px) {
+    .modal-dialog {
+      width: 100%;
+      max-width: 500px;
+    }
   }
   
