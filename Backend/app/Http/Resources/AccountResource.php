@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Account;
 
 class AccountResource extends JsonResource
 {
@@ -14,6 +15,12 @@ class AccountResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $account = Account::where('parent_id' , $this->id)->first();
+        $isParent = false;
+        if($account && $account->type == 'main'){
+            $isParent = true;
+        }
+
         return [
             'id' => $this->id,
             'account_name' => $this->account_name,
@@ -27,7 +34,7 @@ class AccountResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'parent' => new AccountResource($this->whenLoaded('parent')),
-            'children' => AccountResource::collection($this->children),
+            'children' => $isParent ? AccountResource::collection($this->children) : null,
         ];
     
     
