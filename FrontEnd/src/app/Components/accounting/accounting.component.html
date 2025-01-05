@@ -33,6 +33,7 @@
                 <th class="bg-light" scope="col">الرصيد الحالى</th>
                 <th class="bg-light" scope="col">رصيد اول مدة</th>
                 <th class="bg-light" scope="col">طبيعة الحساب</th>
+                <th class="bg-light" scope="col"> نوع الحساب </th>
 
                 <th class="bg-light" scope="col">الإجراءات</th>
             </tr>
@@ -48,6 +49,7 @@
                 <td>{{ account.start_amount }}</td>
                 <td *ngIf="account.current_balance < 0 "> دائن </td>
                 <td *ngIf="account.current_balance >= 0 "> مدين </td>
+                <td>{{ getAccountMessage(account.type) }}</td>
 
                 <td>
                     <div class="d-flex justify-content-around align-items-center">

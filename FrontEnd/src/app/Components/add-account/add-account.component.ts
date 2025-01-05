@@ -17,6 +17,34 @@ export class AddAccountComponent {
   accountForm: FormGroup;
   parentAccounts = []; 
   isLoading = false;
+   accountTypes = [
+    { id: '1', message: 'النقدية و ما فى حكمها' },
+    { id: '2', message: 'مخزون' },
+    { id: '3', message: 'الذمم المدينة التجارية' },
+    { id: '4', message: 'مصروفات مدفوعة مقدما' },
+    { id: '5', message: 'ارصدة مدينة التجارية' },
+    { id: '6', message: 'اصراف ذات علاقة مدينة' },
+    { id: '7', message: 'ممتلكات و ألات و معدات صافى' },
+    { id: '8', message: 'مشروعات تحت التنفيذ' },
+    { id: '9', message: 'ذمم دائنة تجارية' },
+    { id: '10', message: 'اطراف ذات علاقة دائنة' },
+    { id: '11', message: 'ارصدة دائنة اخرى' },
+    { id: '13', message: 'المصروفات المستحقة' },
+    { id: '14', message: 'قروض طويلة الاجل' },
+    { id: '15', message: 'رأس المال' },
+    { id: '16', message: 'جارى الشركاء' },
+    { id: '17', message: 'ارباح العام' },
+    { id: '18', message: 'صافى الايرادات التشغيلية' },
+    { id: '19', message: 'تكلفة الايرادات' },
+    { id: '20', message: 'التكاليف التشغيلية' },
+    { id: '21', message: 'مصاريف بيع و توزيع' },
+    { id: '22', message: 'مخصص اهلاك الاصول الثابته' },
+    { id: '23', message: 'مصاريف ادارية و عمومية' },
+    { id: '24', message: 'ايرادات اخرى' },
+    { id: '25', message: 'الزكاة التقديرية' },
+    { id: '26', message: 'صافى الايرادات التشخيلية' },
+    { id: 'none', message: 'نوع اخر' }
+  ];
   msgError: string[] = [];
   accountId:string|null =null;
  account:any;
@@ -27,6 +55,8 @@ export class AddAccountComponent {
       account_name: ['', [Validators.required, Validators.maxLength(255)]], 
       phone: ['', [Validators.maxLength(255)]], 
       current_balance: [0, [Validators.required, Validators.min(0)]], 
+      type: ['', [Validators.required]], 
+
       net_debit: [null, [Validators.min(0)]], 
       net_credit: [null, [Validators.min(0)]],
     });
@@ -77,8 +107,9 @@ export class AddAccountComponent {
             formData.append('net_debit', this.accountForm.get('net_debit')?.value || 0);
             formData.append('net_credit', this.accountForm.get('net_credit')?.value || 0);
             formData.append('parent_id', this.account.id);
+            formData.append('type', this.accountForm.get('type')?.value);
 
-           
+            
             this._AccountingService.addAccount(formData).subscribe({
               next: (response) => {
                 console.log(response);

@@ -83,7 +83,7 @@ class AccountsTableSeeder extends Seeder
 
                 'parent_id' => 2, 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'7',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -98,7 +98,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'7',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -114,7 +114,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'7',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -129,7 +129,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'7',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -142,9 +142,8 @@ class AccountsTableSeeder extends Seeder
                 'phone' => null,
                 'parent_id' => 2, 
                 'start_amount' => 0,
-
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'7',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -538,7 +537,7 @@ class AccountsTableSeeder extends Seeder
                 'can_delete' => 0,
                 'start_amount' => 0,
 
-                'type'=>'main',
+                'type'=>'20',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -553,7 +552,7 @@ class AccountsTableSeeder extends Seeder
                 'can_delete' => 0,
                 'start_amount' => 0,
 
-                'type'=>'main',
+                'type'=>'23',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -568,7 +567,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'23',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -583,7 +582,7 @@ class AccountsTableSeeder extends Seeder
                 'can_delete' => 0,
                 'start_amount' => 0,
 
-                'type'=>'main',
+                'type'=>'23',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -598,7 +597,7 @@ class AccountsTableSeeder extends Seeder
                 'can_delete' => 0,
                 'start_amount' => 0,
 
-                'type'=>'main',
+                'type'=>'21',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -613,7 +612,7 @@ class AccountsTableSeeder extends Seeder
                 'can_delete' => 0,
                 'start_amount' => 0,
 
-                'type'=>'main',
+                'type'=>'23',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -740,7 +739,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'main',
+                'type'=>'26',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,
@@ -755,7 +754,7 @@ class AccountsTableSeeder extends Seeder
             'phone' => null,
             'parent_id' => 45, 
             'can_delete' => 0,
-            'type'=>'main',
+            'type'=> 'none',
             'start_amount' => 0,
 
             'current_balance' => 0.00,
@@ -804,7 +803,7 @@ class AccountsTableSeeder extends Seeder
         'can_delete' => 0,
         'start_amount' => 0,
 
-        'type'=>'main',
+        'type'=> 'none',
         'current_balance' => 0.00,
         'net_debit' => 0.00,
         'net_credit' => 0.00,
