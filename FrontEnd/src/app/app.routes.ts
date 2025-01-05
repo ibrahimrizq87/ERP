@@ -40,6 +40,10 @@ import { ExpensesInvoicesComponent } from './Components/expenses-invoices/expens
 import { AddExpensesInvoicesComponent } from './Components/add-expenses-invoices/add-expenses-invoices.component';
 import { UpdateExpensesInvoicesComponent } from './Components/update-expenses-invoices/update-expenses-invoices.component';
 import { ShowExpensesInvoicesComponent } from './Components/show-expenses-invoices/show-expenses-invoices.component';
+import { TestComponent } from './Components/test/test.component';
+import { Test2Component } from './Components/test2/test2.component';
+import { Test3Component } from './Components/test3/test3.component';
+import { Test4Component } from './Components/test4/test4.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -95,5 +99,11 @@ export const routes: Routes = [
     {path:"addExpensesInvoices",component:AddExpensesInvoicesComponent},
     {path:"updateExpensesInvoices/:id",component:UpdateExpensesInvoicesComponent},
     {path:"showExpensesInvoices/:id",component:ShowExpensesInvoicesComponent},
+
+    {path:"test",component:TestComponent},
+    {path:"test2",component:Test2Component},
+    {path:"test3",component:Test3Component},
+    {path:"test4",component:Test4Component},
+    
 ]}
 ];

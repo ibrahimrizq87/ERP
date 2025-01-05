@@ -1,0 +1,40 @@
+.container {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .table-header {
+    font-weight: bold;
+    background-color: #e9ecef;
+    border-bottom: 2px solid #333;
+  }
+  
+  .amount-column {
+    text-align: right;
+    font-weight: bold;
+  }
+  
+  .highlight {
+    background-color: #f8f9fa;
+  }
+  
+  .table-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px;
+  }
+  
+  table {
+    border: 1px solid #333;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #333 !important;
+    vertical-align: middle;
+  }
+  
+  hr {
+    border-top: 2px solid #333;
+  }
+  

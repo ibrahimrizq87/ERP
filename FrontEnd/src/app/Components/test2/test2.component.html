@@ -1,0 +1,74 @@
+<div class="container my-5" id="invoice-details">
+    <div class="mb-4">
+      <h5 class="table-title">اسم المؤسسة</h5>
+      <div class="table-title">س.ت/...................</div>
+      <p class="table-title">قائمة الدخل العام <br>عن السنة المنتهية في ٣١ ديسمبر ٢٠٢٣</p>
+    </div>
+    <hr>
+    <table class="table  text-center">
+      <thead class="table-header">
+        <tr>
+          <th>البيان</th>
+          <th class="text-info">الإيضاح</th>
+          <th class="amount-column">ريال سعودي</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>صافي الإيرادات التشغيلية</td>
+          <td></td>
+          <td class="amount-column">4,228,392.00</td>
+        </tr>
+        <tr>
+          <td>تكلفة الإيرادات</td>
+          <td class="text-info">1</td>
+          <td class="amount-column">-4,019,168.00</td>
+        </tr>
+        <tr class="highlight">
+          <td>مجمل الربح من الأنشطة الرئيسية</td>
+          <td></td>
+          <td class="amount-column">209,224.00</td>
+        </tr>
+        <tr>
+          <td>الأعباء التشغيلية</td>
+          <td class="text-info">2</td>
+          <td class="amount-column">-103,093.00</td>
+        </tr>
+        <tr>
+          <td>نفقات أخرى</td>
+          <td class="text-info">3</td>
+          <td class="amount-column">-20,027.63</td>
+        </tr>
+        <tr>
+          <td>خسائر انخفاض القيمة</td>
+          <td class="text-info">4</td>
+          <td class="amount-column">-35,474.13</td>
+        </tr>
+        <tr>
+          <td>مصروفات غير عادية</td>
+          <td></td>
+          <td class="amount-column">-49,027.10</td>
+        </tr>
+        <tr class="highlight">
+          <td>صافي الدخل قبل الزكاة</td>
+          <td></td>
+          <td class="amount-column">1,602.14</td>
+        </tr>
+        <tr>
+          <td>الزكاة الشرعية</td>
+          <td></td>
+          <td class="amount-column">0.00</td>
+        </tr>
+        <tr class="highlight">
+          <td>صافي الدخل الشامل بعد الزكاة</td>
+          <td></td>
+          <td class="amount-column">1,602.14</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="mt-4 text-center">
+    <button (click)="exportToPDF()" class="btn btn-primary">Download as PDF</button>
+  </div>
+  
