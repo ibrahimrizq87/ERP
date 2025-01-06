@@ -81,8 +81,87 @@
               </li>
             </ul>
           </li>
+<!-- Accounting Nav Item -->
+<li class="nav-item">
+  <a class="nav-link" (click)="openModal('accountingModal')">
+    <div class="d-flex justify-content-between align-items-center">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <span>المحاسبة</span>
+      <i [ngClass]="isDropdownOpen('accounting') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+    </div>
+  </a>
+</li>
 
-          <li class="nav-item">
+<!-- Modal Triggered for Accounting Details -->
+<div class="modal fade" id="accountingModal" tabindex="-1" aria-labelledby="accountingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg d-flex align-items-center justify-content-center">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center w-100">
+        <h5 class="modal-title" id="accountingModalLabel">المحاسبة</h5>
+        <!-- Added margin-right to button for spacing -->
+        <button type="button" class="btn-close ms-3" aria-label="Close" (click)="closeModal('accountingModal')"></button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Nested Accounts -->
+        <ul class="nav flex-column">
+          <ng-container *ngFor="let account of accounts">
+            <li class="nav-item">
+              <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown(account.id)">
+                <span>{{ account.account_name }}</span>
+                <i [ngClass]="isDropdownOpen(account.id) ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+              </div>
+              <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen(account.id)">
+                
+                <ng-container *ngIf="account.children">
+                  <ng-container *ngFor="let child of account.children">
+                    <ng-template [ngTemplateOutlet]="accountTemplate" [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
+                  </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="!account.children?.length">
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="'accounting/' + account.id">{{ account.account_name }}</a>
+                  </li>
+                </ng-container>
+
+              </ul>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="closeModal('accountingModal')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Template for Nested Accounts -->
+<ng-template #accountTemplate let-account>
+  <li class="nav-item nested">
+    <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('account_{{account.id}}')">
+      <span>*{{ account.account_name }}</span>
+      <i [ngClass]="isDropdownOpen('account_{{account.id}}') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+    </div>
+    <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('account_{{account.id}}')">
+      <ng-container *ngIf="account.children?.length > 0">
+        <ng-container *ngFor="let child of account.children">
+          <ng-template [ngTemplateOutlet]="accountTemplate" [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!account.children?.length">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'accounting/' + account.id">{{ account.account_name }}</a>
+        </li>
+      </ng-container>
+    </ul>
+  </li>
+</ng-template>
+
+
+          <!-- <li class="nav-item">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('accounting')">
                 <i class="fa-solid fa-file-invoice-dollar"></i>
@@ -91,11 +170,14 @@
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('accounting')">
-              <li class="nav-item nested" *ngFor="let account of accounts">
-                <a class="nav-link" routerLinkActive="active" routerLink="accounting/{{account.id}}">{{account.account_name}}</a>
-              </li>
+              <ng-container *ngFor="let account of accounts">
+                <ng-template [ngTemplateOutlet]="accountTemplate" [ngTemplateOutletContext]="{ $implicit: account }"></ng-template>
+              </ng-container>
             </ul>
-          </li>
+          </li> -->
+         
+        
+         
           <li class="nav-item">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('invoices')">

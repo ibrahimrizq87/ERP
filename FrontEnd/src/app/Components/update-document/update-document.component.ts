@@ -28,7 +28,7 @@ export class UpdateDocumentComponent implements OnInit {
     this.transactionForm = this.fb.group({
       user_id: [null, [Validators.required]],
       amount: ['', [Validators.required, Validators.min(0)]],
-     
+      statement: [''],
       receiver_name: ['', [Validators.required, Validators.maxLength(255)]],
       company_account_id: ['', [Validators.required]],
       customer_account_id: ['', [Validators.required]],
@@ -85,6 +85,7 @@ export class UpdateDocumentComponent implements OnInit {
             receiver_name:documentData.receiver_name,
             company_account_id:documentData.company_account_id,
             customer_account_id:documentData.customer_account_id,
+            statement:documentData.statement
             // image:documentData.image,
               
           });
@@ -157,6 +158,7 @@ export class UpdateDocumentComponent implements OnInit {
       formData.append('user_id', this.transactionForm.get('user_id')?.value);
       formData.append('receiver_name', this.transactionForm.get('receiver_name')?.value);
       formData.append('type', this.type);
+      formData.append('statement', this.transactionForm.get('statement')?.value|| '');
       formData.append('company_account_id', this.transactionForm.get('company_account_id')?.value);
       formData.append('customer_account_id', this.transactionForm.get('customer_account_id')?.value);
       if (this.selectedFile) {

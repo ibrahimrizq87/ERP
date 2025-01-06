@@ -56,48 +56,14 @@
                                       </p>
                                   </div>
                               </div>
-                              
-                              <!-- الخصم الصافي -->
-                              <!-- <div class="form-group col-md-6">
-                                  <label for="net_debit" class="form-label">  </label>
-                                  <input
-                                      id="net_debit"
-                                      formControlName="net_debit"
-                                      type="number"
-                                      step="0.01"
-                                      class="form-control"
-                                      placeholder="أدخل الخصم الصافي"
-                                  />
-                                  <div
-                                      class="alert alert-danger"
-                                      *ngIf="accountForm.get('net_debit')?.errors && accountForm.get('net_debit')?.touched"
-                                  >
-                                      <p *ngIf="accountForm.get('net_debit')?.hasError('min')">
-                                          يجب أن يكون الخصم الصافي غير سلبي
-                                      </p>
-                                  </div>
-                              </div> -->
+                              <div class="form-group col-md-6">
+                                <label class="form-label">اختر نوع الحساب </label>
+                                <select class="form-control" formControlName="type">
+                                  <option value="" disabled> اختر نوع الحساب</option>
+                                  <option *ngFor="let product of accountTypes" [value]="product.id">{{ product.message }}</option>
+                                </select>
+                              </div>
 
-                              <!-- الائتمان الصافي -->
-                              <!-- <div class="form-group col-md-6">
-                                  <label for="net_credit" class="form-label">الائتمان الصافي</label>
-                                  <input
-                                      id="net_credit"
-                                      formControlName="net_credit"
-                                      type="number"
-                                      step="0.01"
-                                      class="form-control"
-                                      placeholder="أدخل الائتمان الصافي"
-                                  />
-                                  <div
-                                      class="alert alert-danger"
-                                      *ngIf="accountForm.get('net_credit')?.errors && accountForm.get('net_credit')?.touched"
-                                  >
-                                      <p *ngIf="accountForm.get('net_credit')?.hasError('min')">
-                                          يجب أن يكون الائتمان الصافي غير سلبي
-                                      </p>
-                                  </div>
-                              </div> -->
                           </div>
                       </div>
                   </div>

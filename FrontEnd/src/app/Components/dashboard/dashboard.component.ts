@@ -4,7 +4,7 @@ import { Router, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/r
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccountingService } from '../../shared/services/accounts.service';
-
+import { Modal } from 'bootstrap';
 @Component({
   selector: 'app-dashboard',
   imports: [HeaderComponent,RouterOutlet,ReactiveFormsModule,FormsModule,CommonModule,RouterLinkActive,RouterModule],
@@ -15,23 +15,45 @@ export class DashboardComponent {
   dropdownStates: { [key: string]: boolean } = {};
   constructor (private router :Router , private _AccountingService:AccountingService ){}
  accounts:any;
-  toggleDropdown(navItem: string) {
-    this.dropdownStates[navItem] = !this.dropdownStates[navItem];
+  // toggleDropdown(navItem: string) {
+  //   this.dropdownStates[navItem] = !this.dropdownStates[navItem];
+  // }
+  // isDropdownOpen(navItem: string): boolean {
+  //   return !!this.dropdownStates[navItem];
+  // }
+  // dropdownStates: { [key: string]: boolean } = {};
+  openModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
+    }
   }
-  isDropdownOpen(navItem: string): boolean {
-    return !!this.dropdownStates[navItem];
+  
+  closeModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = Modal.getInstance(modalElement);
+      modal?.hide();
+    }
   }
+isDropdownOpen(key: string): boolean {
+  return this.dropdownStates[key] || false;
+}
+
+toggleDropdown(key: string): void {
+  this.dropdownStates[key] = !this.dropdownStates[key];
+}
   ngOnInit(): void {
     this.getParentAccounts(); 
   }
 
-  getParentAccounts(){
+  getParentAccounts() {
     this._AccountingService.getParentAccounts().subscribe({
       next: (response) => {
         if (response) {
           this.accounts = response.data; 
-          console.log(this.accounts);
-
+          console.log( this.accounts)
         }
       },
       error: (err) => {
@@ -39,4 +61,6 @@ export class DashboardComponent {
       }
     });
   }
+
+
 }
