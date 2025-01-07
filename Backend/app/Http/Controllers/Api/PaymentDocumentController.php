@@ -36,10 +36,8 @@ class PaymentDocumentController extends Controller
 
         $accountCompany = Account::find($validated['company_account_id']);
         $accountCustomer = Account::find($validated['customer_account_id']);
-        $accountCompanyParent = Account::find($accountCompany->parent_id);
-        $accountCustomerParent = Account::find($accountCustomer->parent_id);
 
-        if(!$accountCompany || !$accountCustomer || !$accountCompanyParent|| !$accountCustomerParent){
+        if(!$accountCompany || !$accountCustomer ){
             return response()->json(
                 ['message'=> 'account not found'],
                  404);
@@ -49,40 +47,16 @@ class PaymentDocumentController extends Controller
 
 
         if($validated['type'] == 'payment'){
-            $accountCompany->net_debit += $validated['amount'];
-            $accountCompanyParent->net_debit += $validated['amount'];
-
-            $accountCustomer->net_credit += $validated['amount'];
-            $accountCustomerParent->net_credit += $validated['amount'];
-
+            $this->updateDebit($accountCompany , $validated['amount']);            
+            $this->updateCredit($accountCustomer , $validated['amount']);
         }else  if ($validated['type'] == 'receipt'){
-            $accountCompany->net_credit += $validated['amount'];
-            $accountCompanyParent->net_credit += $validated['amount'];
-
-            $accountCustomer->net_debit += $validated['amount'];
-            $accountCustomerParent->net_debit += $validated['amount'];
-
+            $this->updateDebit($accountCustomer , $validated['amount']);
+            $this->updateCredit($accountCompany , $validated['amount']);
         }else{
   return response()->json(
                 ['message'=> 'type of document must be receipt or payment'],
                  400);
         }
-        $accountCompany->save();
-        $accountCustomer->save();
-        $accountCompanyParent->save();
-        $accountCustomerParent->save();
-
-        $accountCompany->current_balance =  $accountCompany->net_credit - $accountCompany->net_debit;
-        $accountCustomer->current_balance = $accountCompany->net_credit - $accountCompany->net_debit;
-
-        $accountCompanyParent->current_balance =  $accountCompanyParent->net_credit - $accountCompanyParent->net_debit;
-        $accountCustomerParent->current_balance = $accountCustomerParent->net_credit - $accountCustomerParent->net_debit;
-
-        $accountCompany->save();
-        $accountCustomer->save();
-        $accountCompanyParent->save();
-        $accountCustomerParent->save();
-
         $validated['user_id'] = Auth::id();
 
         $paymentDocument = PaymentDocument::create($validated);
@@ -101,6 +75,52 @@ class PaymentDocumentController extends Controller
         );
     }
     }
+
+
+    public function updateDebit($account ,  $amount)
+    {
+        $account->net_debit +=$amount;
+        $account->current_balance -=$amount;
+        $account->save();
+        if ($account->parent_id){
+            $parent =Account::find($account->parent_id);
+            $this->updateDebit($parent ,$amount);
+        }
+    
+    }
+    public function updateCredit($account ,  $amount)
+    {
+        $account->net_credit +=$amount;
+        $account->current_balance +=$amount;
+        $account->save();
+        if ($account->parent_id){
+            $parent =Account::find($account->parent_id);
+            $this->updateCredit($parent ,$amount);
+        }
+    }
+
+    public function updateDebitRev($account ,  $amount)
+{
+    $account->net_debit -=$amount;
+    $account->current_balance +=$amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateDebitRev($parent ,$amount);
+    }
+
+}
+public function updateCreditRev($account ,  $amount)
+{
+    $account->net_credit -= $amount;
+    $account->current_balance -= $amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateCreditRev($parent ,$amount);
+    }
+}
+
 
 
     public function show(PaymentDocument $paymentDocument)
@@ -147,73 +167,32 @@ class PaymentDocumentController extends Controller
 
     $accountCompany = Account::find($validated['company_account_id']);
     $accountCustomer = Account::find($validated['customer_account_id']);
-    $accountCompanyParent = Account::find($accountCompany->parent_id);
-    $accountCustomerParent = Account::find($accountCustomer->parent_id);
 
-
-    if (!$accountCompany || !$accountCustomer || !$accountCompanyParent || !$accountCustomerParent) {
+    if (!$accountCompany || !$accountCustomer ) {
         return response()->json(['message' => 'Account not found'], 404);
     }
 
     if ($paymentDocument->type == 'payment') {
-        $accountCompany->net_debit -= $paymentDocument->amount;
-        $accountCompanyParent->net_debit -= $paymentDocument->amount;
 
-        $accountCustomer->net_credit -= $paymentDocument->amount;
-        $accountCustomerParent->net_credit -= $paymentDocument->amount;
+
+        $this->updateDebitRev($accountCompany, $paymentDocument->amount);
+        $this->updateCreditRev($accountCustomer, $paymentDocument->amount);
     }else   if ($paymentDocument->type == 'receipt') {
-        $accountCompany->net_credit -= $paymentDocument->amount;
-        $accountCompanyParent->net_credit -= $paymentDocument->amount;
-
-        $accountCustomer->net_debit -= $paymentDocument->amount;
-        $accountCustomerParent->net_debit -= $paymentDocument->amount;
-    }
-
-    $accountCompany->save();
-    $accountCustomer->save();
-    $accountCompanyParent->save();
-    $accountCustomerParent->save();
-
-
-
-    if ($validated['type'] == 'payment') {
-
- 
-        $accountCompany->net_debit += $validated['amount'];
-        $accountCompany->current_balance -= $validated['amount'];
-
-        $accountCompanyParent->net_debit += $validated['amount'];
-        $accountCompanyParent->current_balance -= $validated['amount'];
-
-        $accountCustomer->net_credit += $validated['amount'];
-        $accountCustomer->current_balance += $validated['amount'];
-        $accountCustomerParent->net_credit += $validated['amount'];
-        $accountCustomerParent->current_balance += $validated['amount'];
-
-    } elseif ($validated['type'] == 'receipt') {
-
-
-
-        $accountCompany->net_credit += $validated['amount'];
-        $accountCompany->current_balance += $validated['amount'];
-
-        $accountCompanyParent->net_credit += $validated['amount'];
-        $accountCompanyParent->current_balance += $validated['amount'];
-
-        $accountCustomer->net_debit += $validated['amount'];
-        $accountCustomer->current_balance -= $validated['amount'];
-
-        $accountCustomerParent->net_debit += $validated['amount'];
-        $accountCustomerParent->current_balance -= $validated['amount'];
-
-        
+        $this->updateDebitRev($accountCustomer, $paymentDocument->amount);
+        $this->updateCreditRev($accountCompany, $paymentDocument->amount);
     }
 
 
-    $accountCompany->save();
-    $accountCustomer->save();
-    $accountCompanyParent->save();
-    $accountCustomerParent->save();
+
+    if($validated['type'] == 'payment'){
+        $this->updateDebit($accountCompany , $validated['amount']);            
+        $this->updateCredit($accountCustomer , $validated['amount']);
+    }else  if ($validated['type'] == 'receipt'){
+        $this->updateDebit($accountCustomer , $validated['amount']);
+        $this->updateCredit($accountCompany , $validated['amount']);
+    }
+
+
 
     $paymentDocument->update($validated);
 
@@ -243,41 +222,19 @@ class PaymentDocumentController extends Controller
     try {
     $accountCompany = Account::find($paymentDocument->company_account_id);
     $accountCustomer = Account::find($paymentDocument->customer_account_id);
-    $accountCompanyParent = Account::find($accountCompany->parent_id);
-    $accountCustomerParent = Account::find($accountCustomer->parent_id);
-
-    if (!$accountCompany || !$accountCustomer || !$accountCompanyParent || !$accountCustomerParent) {
+   
+    if (!$accountCompany || !$accountCustomer ) {
         return response()->json(['message' => 'Account not found'], 404);
     }
-
     if ($paymentDocument->type == 'payment') {
-        $accountCompany->net_debit -= $paymentDocument->amount;
-        $accountCompanyParent->net_debit -= $paymentDocument->amount;
 
-        $accountCustomer->net_credit -= $paymentDocument->amount;
-        $accountCustomerParent->net_credit -= $paymentDocument->amount;
-    } elseif ($paymentDocument->type == 'receipt') {
-        $accountCompany->net_credit -= $paymentDocument->amount;
-        $accountCompanyParent->net_credit -= $paymentDocument->amount;
-
-        $accountCustomer->net_debit -= $paymentDocument->amount;
-        $accountCustomerParent->net_debit -= $paymentDocument->amount;
+        $this->updateDebitRev($accountCompany, $paymentDocument->amount);
+        $this->updateCreditRev($accountCustomer, $paymentDocument->amount);
+    }else   if ($paymentDocument->type == 'receipt') {
+        $this->updateDebitRev($accountCustomer, $paymentDocument->amount);
+        $this->updateCreditRev($accountCompany, $paymentDocument->amount);
     }
 
-    $accountCompany->save();
-    $accountCustomer->save();
-    $accountCompanyParent->save();
-    $accountCustomerParent->save();
-
-    $accountCompany->current_balance = $accountCompany->net_credit - $accountCompany->net_debit;
-    $accountCustomer->current_balance = $accountCustomer->net_credit - $accountCustomer->net_debit;
-    $accountCompanyParent->current_balance = $accountCompanyParent->net_credit - $accountCompanyParent->net_debit;
-    $accountCustomerParent->current_balance = $accountCustomerParent->net_credit - $accountCustomerParent->net_debit;
-
-    $accountCompany->save();
-    $accountCustomer->save();
-    $accountCompanyParent->save();
-    $accountCustomerParent->save();
 
     if ($paymentDocument->image && Storage::disk('uploads')->exists($paymentDocument->image)) {
         Storage::disk('uploads')->delete($paymentDocument->image);

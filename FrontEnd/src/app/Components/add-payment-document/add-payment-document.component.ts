@@ -77,7 +77,13 @@ export class AddPaymentDocumentComponent implements OnInit {
       console.log('Received type:', this.type);  // Logs 'recipt' or 'payment' based on URL
     });
     this.loadUsers();
-    this.getCustomerAccounts();
+    if (this.type == 'payment'){
+      this.getExpensesAccounts();
+
+    }else{
+      this.getCustomerAccounts();
+
+    }
     this.getCompanyAccounts();
   }
   loadUsers(): void {
@@ -94,6 +100,23 @@ export class AddPaymentDocumentComponent implements OnInit {
       }
     });
   }
+
+  getExpensesAccounts(){
+    this._AccountingService.viewAllExpensesAccounts().subscribe({
+     next: (response) => {
+       if (response) {
+         this.customerAccounts = response.data; 
+         console.log(this.customerAccounts);
+ 
+       }
+     },
+     error: (err) => {
+       console.error(err);
+     }
+   });
+ 
+   }
+
   getCustomerAccounts(){
     this._AccountingService.viewAllCustomerAccounts().subscribe({
      next: (response) => {

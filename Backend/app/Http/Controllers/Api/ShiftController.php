@@ -284,17 +284,18 @@ public function closeShift(Request $request ,$shift_id)
     $shift->total_cash = $data['total_cash'];
     $shift->save();
 
-    $tax =Account::find(9);
-    $tax_parent =Account::find($tax->parent_id);
+    $tax =Account::find(54);
+    $salesAccount =Account::find(47);
+
+    
     $tax_rate  =TaxRate::find(1);
     $precentage =$tax_rate->rate /100;
     $total = $data['total_money'] *  $precentage;
     
-    $tax->net_debit += $total;
-    $tax->current_balance -= $total;
 
-    $tax_parent->net_debit += $total;
-    $tax_parent->current_balance -= $total;
+    $this->updateCredit($tax ,$total );
+    $this->updateCredit($salesAccount , $data['total_money']);
+
 
 
     $shiftTax =ShiftTax::create([
@@ -327,6 +328,30 @@ public function closeShift(Request $request ,$shift_id)
 }
 }
 
+
+
+
+public function updateDebit($account ,  $amount)
+{
+    $account->net_debit +=$amount;
+    $account->current_balance -=$amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateDebit($parent ,$amount);
+    }
+
+}
+public function updateCredit($account ,  $amount)
+{
+    $account->net_credit +=$amount;
+    $account->current_balance +=$amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateCredit($parent ,$amount);
+    }
+}
 
 
 public function store(Request $request)

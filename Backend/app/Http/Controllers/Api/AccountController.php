@@ -11,34 +11,7 @@ use App\Http\Resources\AccountResource;
 
 class AccountController extends Controller
 {
-    // $accountTypes = [
-    //     ['id' => '1', 'message' => 'النقدية و ما فى حكمها'],
-    //     ['id' => '2', 'message' => 'مخزون'],
-    //     ['id' => '3', 'message' => 'الذمم المدينة التجارية'],
-    //     ['id' => '4', 'message' => 'مصروفات مدفوعة مقدما'],
-    //     ['id' => '5', 'message' => 'ارصدة مدينة التجارية'],
-    //     ['id' => '6', 'message' => 'اصراف ذات علاقة مدينة'],
-    //     ['id' => '7', 'message' => 'ممتلكات و ألات و معدات صافى'],
-    //     ['id' => '8', 'message' => 'مشروعات تحت التنفيذ'],
-    //     ['id' => '9', 'message' => 'ذمم دائنة تجارية'],
-    //     ['id' => '10', 'message' => 'اطراف ذات علاقة دائنة'],
-    //     ['id' => '11', 'message' => 'ارصدة دائنة اخرى'],
-    //     ['id' => '13', 'message' => 'المصروفات المستحقة'],
-    //     ['id' => '14', 'message' => 'قروض طويلة الاجل'],
-    //     ['id' => '15', 'message' => 'رأس المال'],
-    //     ['id' => '16', 'message' => 'جارى الشركاء'],
-    //     ['id' => '17', 'message' => 'ارباح العام'],
-    //     ['id' => '18', 'message' => 'صافى الايرادات التشغيلية'],
-    //     ['id' => '19', 'message' => 'تكلفة الايرادات'],
-    //     ['id' => '20', 'message' => 'التكاليف التشغيلية'],
-    //     ['id' => '21', 'message' => 'مصاريف بيع و توزيع'],
-    //     ['id' => '22', 'message' => 'مخصص اهلاك الاصول الثابته'],
-    //     ['id' => '23', 'message' => 'مصاريف ادارية و عمومية'],
-    //     ['id' => '24', 'message' => 'ايرادات اخرى'],
-    //     ['id' => '25', 'message' => 'الزكاة التقديرية'],
-    //     ['id' => '26', 'message' => 'صافى الايرادات التشخيلية'],
-    //     ['id' => 'none', 'message' => 'نوع اخر'],
-    // ];
+        
 
     public function index()
     {
@@ -126,9 +99,20 @@ class AccountController extends Controller
 
     public function getCustomerAccounts()
 {
-    // return response().json('herererererer');
+    $accounts = Account::whereIn('parent_id', [12])->get();
+    return AccountResource::collection($accounts);
+}
 
-    $accounts = Account::whereIn('parent_id', [2,3,5,6])->get();
+
+public function getExpencesAccounts()
+{
+    $accounts = Account::whereIn('parent_id', [32,33])->get();
+    return AccountResource::collection($accounts);
+}
+
+public function getSuppliersAccounts()
+{
+    $accounts = Account::whereIn('parent_id', [22])->get();
     return AccountResource::collection($accounts);
 }
 
@@ -192,4 +176,106 @@ class AccountController extends Controller
 
         return response()->json(['message' => 'This account cannot be deleted'], 403);
     }
+
+    // $accountTypes = [
+    //     ['id' => '1', 'message' => 'النقدية و ما فى حكمها'],
+    //     ['id' => '2', 'message' => 'مخزون'],
+    //     ['id' => '3', 'message' => 'الذمم المدينة التجارية'],
+    //     ['id' => '4', 'message' => 'مصروفات مدفوعة مقدما'],
+    //     ['id' => '5', 'message' => 'ارصدة مدينة التجارية'],
+    //     ['id' => '6', 'message' => 'اصراف ذات علاقة مدينة'],
+    //     ['id' => '7', 'message' => 'ممتلكات و ألات و معدات صافى'],
+    //     ['id' => '8', 'message' => 'مشروعات تحت التنفيذ'],
+    //     ['id' => '9', 'message' => 'ذمم دائنة تجارية'],
+    //     ['id' => '10', 'message' => 'اطراف ذات علاقة دائنة'],
+    //     ['id' => '11', 'message' => 'ارصدة دائنة اخرى'],
+    //     ['id' => '13', 'message' => 'المصروفات المستحقة'],
+    //     ['id' => '14', 'message' => 'قروض طويلة الاجل'],
+    //     ['id' => '15', 'message' => 'رأس المال'],
+    //     ['id' => '16', 'message' => 'جارى الشركاء'],
+    //     ['id' => '17', 'message' => 'ارباح العام'],
+    //     ['id' => '18', 'message' => 'صافى الايرادات التشغيلية'],
+    //     ['id' => '19', 'message' => 'تكلفة الايرادات'],
+    //     ['id' => '20', 'message' => 'التكاليف التشغيلية'],
+    //     ['id' => '21', 'message' => 'مصاريف بيع و توزيع'],
+    //     ['id' => '22', 'message' => 'مخصص اهلاك الاصول الثابته'],
+    //     ['id' => '23', 'message' => 'مصاريف ادارية و عمومية'],
+    //     ['id' => '24', 'message' => 'ايرادات اخرى'],
+    //     ['id' => '25', 'message' => 'الزكاة التقديرية'],
+    //     ['id' => '26', 'message' => 'صافى الايرادات التشخيلية'],
+    //     ['id' => 'none', 'message' => 'نوع اخر'],
+    // ];
+
+
+
+        public function yearReports()
+        {
+
+
+
+    $accountTypes = [
+        ['id' => '1', 'value' => 0 ],
+        ['id' => '2', 'value' => 0],
+        ['id' => '3', 'value' => 0],
+        ['id' => '4', 'value' => 0],
+        ['id' => '5', 'value' => 0],
+        ['id' => '6', 'value' => 0],
+        ['id' => '7', 'value' => 0],
+        ['id' => '8', 'value' => 0],
+        ['id' => '9', 'value' => 0],
+        ['id' => '10', 'value' => 0],
+        ['id' => '11', 'value' => 0],
+        ['id' => '12', 'value' => 0],
+        ['id' => '13', 'value' => 0],
+        ['id' => '14', 'value' => 0],
+        ['id' => '15', 'value' => 0],
+        ['id' => '16', 'value' => 0],
+        ['id' => '17', 'value' => 0],
+        ['id' => '18', 'value' => 0],
+        ['id' => '19', 'value' => 0],
+        ['id' => '20', 'value' => 0],
+        ['id' => '21', 'value' => 0],
+        ['id' => '22', 'value' => 0],
+        ['id' => '23', 'value' => 0],
+        ['id' => '24', 'value' => 0],
+        ['id' => '25', 'value' => 0],
+        ['id' => '26', 'value' => 0],
+        ['id' => 'none', 'value' =>0],
+    ];
+
+// foreach($accountTypes as $type){
+//     $type['value'] = $this->caluculateByNumber($type['id']);
+// }
+
+foreach($accountTypes as &$type){
+    $type['value'] = $this->caluculateByNumber($type['id']);
+}
+unset($type);
+    
+            return response()->json(['data' => $accountTypes],200);
+        }
+        
+
+        public function caluculateByNumber($typeNumber)
+        {
+            
+            $accounts = Account::where('type' , $typeNumber)->get();
+            $total =0;
+
+
+
+            foreach($accounts as $account){
+                if ($account->current_balance < 0){
+                    $total += ($account->current_balance * -1);
+
+                }else{
+                    $total += $account->current_balance;
+                }
+            }
+            
+
+
+            return $total;
+        }
+    
 }
