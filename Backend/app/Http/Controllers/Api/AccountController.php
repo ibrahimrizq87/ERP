@@ -118,7 +118,7 @@ class AccountController extends Controller
     public function getCompanyAccount()
     {
 
-        $accounts = Account::whereIn('parent_id', [1, 4])->get();
+        $accounts = Account::whereIn('parent_id', [10,11 ])->get();
         return AccountResource::collection($accounts);
     }
     
