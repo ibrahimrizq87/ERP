@@ -12,6 +12,8 @@ use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\PurchaseInvoiceController;
 use App\Http\Controllers\ExpenseInvoiceController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\EquationController;
+use App\Http\Controllers\EquationHistoryController;
 
 
 
@@ -19,12 +21,18 @@ use App\Http\Controllers\ReportsController;
 Route::apiResource('expense_invoices', ExpenseInvoiceController::class)->middleware('auth:sanctum');
 Route::apiResource('purchase_invoices', PurchaseInvoiceController::class)->middleware('auth:sanctum');
 
+Route::apiResource('equations', EquationController::class);
+Route::apiResource('equation_history', EquationHistoryController::class);
+
+Route::get('accounts/get-reports', [AccountController::class , 'yearReports']);
 
 Route::post('tax_rate/update', [TaxRateController::class , 'update']);
 Route::get('tax_rate/get', [TaxRateController::class , 'getTax']);
 
 Route::get('accounts/customer-accounts', [AccountController::class , 'getCustomerAccounts']);
 Route::get('accounts/company-accounts', [AccountController::class , 'getCompanyAccount']);
+Route::get('accounts/expenses-accounts', [AccountController::class , 'getExpencesAccounts']);
+
 
 Route::get('shifts/by-status/{status}', [ShiftController::class , 'getByStatus']);
 

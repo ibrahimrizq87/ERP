@@ -112,19 +112,16 @@
                 <i [ngClass]="isDropdownOpen(account.id) ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
               <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen(account.id)">
-                
-                <ng-container *ngIf="account.children">
+                <ng-container *ngIf="account.children?.length > 0">
                   <ng-container *ngFor="let child of account.children">
                     <ng-template [ngTemplateOutlet]="accountTemplate" [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
                   </ng-container>
                 </ng-container>
-
                 <ng-container *ngIf="!account.children?.length">
                   <li class="nav-item">
                     <a class="nav-link" [routerLink]="'accounting/' + account.id">{{ account.account_name }}</a>
                   </li>
                 </ng-container>
-
               </ul>
             </li>
           </ng-container>
@@ -217,7 +214,18 @@
               </li>
             </ul>
           </li>
-
+          <li class="nav-item nested">
+            <a class="nav-link" routerLinkActive="active" routerLink="test">test</a>
+          </li>
+          <li class="nav-item nested">
+            <a class="nav-link" routerLinkActive="active" routerLink="test2">test2</a>
+          </li>
+          <li class="nav-item nested">
+            <a class="nav-link" routerLinkActive="active" routerLink="test3">test3</a>
+          </li>
+          <li class="nav-item nested">
+            <a class="nav-link" routerLinkActive="active" routerLink="test4">test4</a>
+          </li>
         </ul>
       </div>
 

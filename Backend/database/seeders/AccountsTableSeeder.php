@@ -810,6 +810,51 @@ class AccountsTableSeeder extends Seeder
         'created_at' => now(),
         'updated_at' => now(),
     ],
+
+
+
+            // [
+            //     'id' => 52,
+            //     'account_name' => 'حسابات الضرائب',
+            //     'phone' => null,
+            //     'parent_id' => null, 
+            //     'can_delete' => 0,
+            //     'type'=>'main',
+
+            //     'current_balance' => 0.00,
+            //     'net_debit' => 0.00,
+            //     'net_credit' => 0.00,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
+            // [
+            //     'id' => 53,
+            //     'account_name' => 'حساب ضريبة الزكاة',
+            //     'phone' => null,
+            //     'parent_id' => 52, 
+            //     'type'=>'branch',
+
+            //     'can_delete' => 0,
+            //     'current_balance' => 0.00,
+            //     'net_debit' => 0.00,
+            //     'net_credit' => 0.00,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
+            // [
+            //     'id' =>54,
+            //     'account_name' => 'حساب ضريبة القيمة المضافه',
+            //     'phone' => null,
+            //     'parent_id' => 52, 
+            //     'type'=>'branch',
+
+            //     'can_delete' => 0,
+            //     'current_balance' => 0.00,
+            //     'net_debit' => 0.00,
+            //     'net_credit' => 0.00,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
             // [
             //     'id' => 1,
             //     'account_name' => 'الخزينه',
