@@ -44,9 +44,72 @@
                             <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
                         </a>
                         <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteEquations(equation.id)"></i>
+                        <button class="btn btn-primary" (click)="openModal('historyModal', equation.id)">Equation History</button>
                     </div>
+                   
                 </td>
+             
+             
             </tr>
         </tbody>
     </table>
+</div>
+<!-- <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between align-items-center w-100">
+          <h5 class="modal-title" id="historyModalLabel">Equation History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('historyModal')"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="equationHistory" (ngSubmit)="submitHistoryForm()">
+            <div class="form-group col-md-6">
+                <label for="year" class="form-label">Year</label>
+                <input id="year" formControlName="year" type="number" min="2000" class="form-control" />
+
+
+                <div class="alert alert-danger" *ngIf="equationHistory.get('year')?.errors && equationHistory.get('year')?.touched">
+                    <p *ngIf="equationHistory.get('year')?.hasError('min')">min is 2000</p>
+                  </div>
+              </div>
+              <input type="hidden" [value]="selectedEquationId" />
+              <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+              
+                <ul>
+                  <li *ngFor="let error of msgError">{{ error }}</li>
+                </ul>
+              </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center w-100">
+                <h5 class="modal-title" id="historyModalLabel">Equation History</h5>
+                <button type="button" class="btn-close  ms-3" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('historyModal')"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="equationHistory" (ngSubmit)="submitHistoryForm()">
+                    <div class="form-group col-md-6">
+                        <label for="year" class="form-label">Year</label>
+                        <input id="year" formControlName="year" type="number" min="2000" class="form-control" />
+                        <div class="alert alert-danger" *ngIf="equationHistory.get('year')?.errors && equationHistory.get('year')?.touched">
+                            <p *ngIf="equationHistory.get('year')?.hasError('min')">min is 2000</p>
+                        </div>
+                    </div>
+                    <input type="hidden" [value]="selectedEquationId" />
+                    <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+                        <ul>
+                            <li *ngFor="let error of msgError">{{ error }}</li>
+                        </ul>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
