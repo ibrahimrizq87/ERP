@@ -1,1 +1,89 @@
-<p>update-equation works!</p>
+<div class="mt-3 mb-3">
+    <h5> Manage Equations </h5>
+    <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> Equations <i class="fa-solid fa-angle-right"></i>  Update Equation </span>
+  </div>
+  <div class="mt-4 mb-4">
+  <form  [formGroup]="equationForm" (ngSubmit)="handleForm()">
+    <div class="container">
+        <div class="row">
+        
+          <div class="col-md-12">
+            <div class="card shadow em-card rounded-lg">
+              <div class="card-header bg-white text-black rounded-top pt-3 ">
+                <h5> Update Equation</h5>
+              </div>
+            
+              <div class="card-body pb-5">
+  
+                <div class="row">
+  
+                    <!-- first_price:new FormControl(null, [Validators.required,Validators.min(0)]),
+                    current_price:new FormControl(null, [Validators.required,Validators.min(0)]),
+                    number_of_periods:new FormControl(null, [Validators.required,Validators.min(0)]),
+                    collection_id: new FormControl(null, [Validators.required]),
+                    base_id: new FormControl(null, [Validators.required]), -->
+                  <div class="form-group col-md-6">
+                    <label for="first_price"  class="form-label">First Price </label>
+                    <input id="first_price" formControlName="first_price" type="number" min="0" class="form-control" placeholder="Enter First Price" required/>
+                    <div class="alert alert-danger" *ngIf="equationForm.get('first_price')?.errors && equationForm.get('first_price')?.touched">
+                      <p *ngIf="equationForm.get('first_price')?.getError('required')">First Price Required</p>
+                      <p *ngIf="equationForm.get('first_price')?.getError('min')">Min is 0 </p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="current_price"  class="form-label">Current Price </label>
+                    <input id="current_price" formControlName="current_price" type="number" min="0" class="form-control" placeholder="Enter Current Price" required/>
+                    <div class="alert alert-danger" *ngIf="equationForm.get('current_price')?.errors && equationForm.get('current_price')?.touched">
+                      <p *ngIf="equationForm.get('current_price')?.getError('required')">Current Price Required</p>
+                      <p *ngIf="equationForm.get('current_price')?.getError('min')">Min is 0 </p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="number_of_periods"  class="form-label">Number Of Periods </label>
+                    <input id="number_of_periods" formControlName="number_of_periods" type="number" min="0" class="form-control" placeholder="Enter Number Of Periods " required/>
+                    <div class="alert alert-danger" *ngIf="equationForm.get('number_of_periods')?.errors && equationForm.get('number_of_periods')?.touched">
+                      <p *ngIf="equationForm.get('number_of_periods')?.getError('required')">Number Of Periods  Required</p>
+                      <p *ngIf="equationForm.get('number_of_periods')?.getError('min')">Min is 0 </p>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label">Choose Collection</label>
+                    <select class="form-control" formControlName="collection_id">
+                      <option value="" disabled>choose collection</option>
+                      <option *ngFor="let collection of collections" [value]="collection.id">{{ collection.account_name }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label">Choose Base Account</label>
+                    <select class="form-control" formControlName="base_id">
+                      <option value="" disabled>Choose Base Account</option>
+                      <option *ngFor="let base of bases" [value]="base.id">{{ base.account_name }}</option>
+                    </select>
+                  </div>
+                
+                
+                </div>   
+                
+            </div>
+           
+            </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
+          </div>
+          <div class=" mt-4 mb-4 d-flex justify-content-around w-25">
+            <button [disabled]="equationForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> Update</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">إلغاء</button>
+        </div>
+      
+        </div>
+      
+    
+       
+      </div>
+    </form>
+  
+  </div>
+  
