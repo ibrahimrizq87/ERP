@@ -1,0 +1,80 @@
+<div class="mt-4 mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow rounded-lg">
+            <div class="card-header bg-white text-black rounded-top pt-3">
+              <h5>Equation History</h5>
+            </div>
+            <div class="card-body pb-5">
+                <div *ngIf="equationHistory; else noData">
+                  <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="fw-bold">Year:</label>
+                        <p class="text-muted">{{ equationHistory.year || 'غير متوفر' }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label class="fw-bold">Equation ID:</label>
+                        <p class="text-muted">{{ equationHistory?.equation_id?.id || 'غير متوفر' }}</p>
+                      </div>
+                    <div class="mb-3">
+                      <label class="fw-bold">Amount:</label>
+                      <p class="text-muted">{{ equationHistory.amount || 'غير متوفر' }}</p>
+                    </div>
+                  
+                    
+                    <div class="mb-3">
+                      <label class="fw-bold">Period Number:</label>
+                      <p class="text-muted">{{ equationHistory.period_number || 'غير متوفر' }}</p>
+                    </div>
+                  
+                  
+                    <div class="mb-3">
+                        <label class="fw-bold">Created At:</label>
+                        <p class="text-muted">{{ equationHistory.created_at || 'غير متوفر' }}</p>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="fw-bold">Current Price:</label>
+                        <p class="text-muted">{{ equationHistory.current_price || 'غير متوفر' }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label class="fw-bold">Last Price :</label>
+                        <p class="text-muted">{{ equationHistory.last_price || 'غير متوفر' }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label class="fw-bold">Collection Account :</label>
+                        <p class="text-muted">{{ equationHistory.equation_id?.collection_id?.account_name || 'غير متوفر' }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <label class="fw-bold">Base Account :</label>
+                        <p class="text-muted">{{ equationHistory.equation_id?.base_id?.account_name || 'غير متوفر' }}</p>
+                    </div>
+                      <div class="mb-3">
+                        <label class="fw-bold">Updated At:</label>
+                        <p class="text-muted">{{ equationHistory.updated_at || 'غير متوفر' }}</p>
+                      </div>
+                  </div>
+                </div>
+               
+               
+             
+              </div>
+              <ng-template #noData>
+                <p class="text-danger">No equation history data available.</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="mt-4 mb-4">
+        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/equationHistory">
+          <button type="button" class="btn btn-primary px-4">رجوع</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  

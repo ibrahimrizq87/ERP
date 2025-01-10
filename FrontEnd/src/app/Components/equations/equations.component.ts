@@ -80,11 +80,11 @@ export class EquationsComponent implements OnInit {
   filteredEquation(): void {
     const query = this.searchQuery.toLowerCase();
     this.filteredEquations = this.equations.filter(equation => 
-      equation.collection_id.toLowerCase().includes(query) || 
-      equation.base_id.toLowerCase().includes(query)||
-      equation.first_price.toLowerCase().includes(query)||
-      equation.current_price.toLowerCase().includes(query)||
-      equation.number_of_periods.toLowerCase().includes(query)
+      equation.collection_id.toString().toLowerCase().includes(query) || 
+      equation.base_id.toString().toLowerCase().includes(query)||
+      equation.first_price.toString().toLowerCase().includes(query)||
+      equation.current_price.toString().toLowerCase().includes(query)||
+      equation.number_of_periods.toString().toLowerCase().includes(query)
     );
   }
   submitHistoryForm(): void {

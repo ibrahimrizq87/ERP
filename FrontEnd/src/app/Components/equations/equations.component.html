@@ -3,9 +3,13 @@
         <h5>Manage Equations</h5>
         <span class="text-muted"> Dashboard <i class="fa-solid fa-angle-right"></i>  Equations</span>
     </div>
+    <a class="nav-link text-white bg-secondary p-2 rounded" routerLink="/dashboard/equationHistory">
+        Equation History
+        </a>
     <a class="nav-link" routerLink="/dashboard/addEquation">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
     </a>
+  
 </div>
 
 <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
@@ -99,6 +103,7 @@
                         <input id="year" formControlName="year" type="number" min="2000" class="form-control" />
                         <div class="alert alert-danger" *ngIf="equationHistory.get('year')?.errors && equationHistory.get('year')?.touched">
                             <p *ngIf="equationHistory.get('year')?.hasError('min')">min is 2000</p>
+                            <p *ngIf="equationHistory.get('year')?.hasError('max')">max is 2025</p>
                         </div>
                     </div>
                     <input type="hidden" [value]="selectedEquationId" />
