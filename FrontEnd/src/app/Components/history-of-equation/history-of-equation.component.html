@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h5>Manage Equation History</h5>
+        <span class="text-muted"> Dashboard <i class="fa-solid fa-angle-right"></i>  Equation History</span>
+    </div>
+   
+</div>
+
+<div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold">Equation History List </span>
+            <input class="form-control search w-25" type="search" placeholder="بحث " aria-label="Search" [(ngModel)]="searchQuery" (input)="filteredEquation()">
+        </div>
+    </div>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th class="bg-light" scope="col">#</th>
+                <th class="bg-light" scope="col">Equation_id</th>
+                <th class="bg-light" scope="col"> Year</th>
+                <th class="bg-light" scope="col"> Collection Account </th>
+                <th class="bg-light" scope="col"> Base Account </th>
+                <th class="bg-light" scope="col">الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let equation of filteredEquations; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ equation.equation_id.id}}</td>
+                <td>{{ equation.year }}</td>
+                <td>{{ equation.equation_id.collection_id.account_name}}</td>
+                <td>{{ equation.equation_id.base_id.account_name}}</td>
+                <td>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <a class="nav-link" [routerLink]="['/dashboard/showEquationHistory', equation.id]">
+                            <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
+                        </a>
+                        <!-- <a class="nav-link" [routerLink]="['/dashboard/updateEquation', equation.id]">
+                            <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
+                        </a> -->
+                        <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteEquationHistory(equation.id)"></i>
+                    </div>
+                   
+                </td>
+             
+             
+            </tr>
+        </tbody>
+    </table>
+</div>
+
