@@ -1,4 +1,5 @@
-<div class="container my-5" id="invoice-details">
+
+<div class="container" id="invoice-details">
     <div class="table-title">اسم الشركة/...............</div>
     <div class="table-title"> س.ت/...................</div>
     <p class="table-title"> قائمة المركز المالي <br>عن السنة المنتهية في ٣١ ديسمبر ٢٠٢٣</p>
@@ -165,9 +166,10 @@
     </table>
 
 
-
-</div>
-
-<div class="mt-4 text-center">
-    <button onclick="exportToPDF()" class="btn btn-primary">Download as PDF</button>
-</div>
+ 
+   
+  </div>
+  <div class="mt-4">
+    <button (click)="exportToPDF()" class="btn btn-primary">Download as PDF</button>
+  </div> 
+  
