@@ -288,7 +288,7 @@ unset($type);
 
         public function getAccountsByType($type)
         {
-            $accounts = Account::where('type' , $typeNumber)->get();
+            $accounts = Account::where('type' , $type)->get();
 
             return AccountResource::collection($accounts);
         }
