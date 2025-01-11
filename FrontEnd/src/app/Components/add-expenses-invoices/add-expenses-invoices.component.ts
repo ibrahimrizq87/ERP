@@ -39,16 +39,16 @@ export class AddExpensesInvoicesComponent implements OnInit{
   ngOnInit(): void {
     this.loadProducts(); 
     this.getTaxRate();
-    this.getExpensesAccount();
+    this.getExpensesAccounts();
     this.expensesForm.addControl(
       'tax_rate',
       new FormControl(null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]) // Accepts numbers with up to 2 decimals
     );
     this.expensesForm.get('payementType')?.valueChanges.subscribe((paymentType) => {
       if (paymentType === 'cash') {
-        this.getAccountsByParent('1');
+        this.getAccountsByParent('10');
       } else if (paymentType === 'online') {
-        this.getAccountsByParent('4'); 
+        this.getAccountsByParent('11'); 
       }
     });
   }
@@ -108,35 +108,50 @@ export class AddExpensesInvoicesComponent implements OnInit{
       },
     });
   }
-  
-  getExpensesAccount() {
-    this.expensesAccounts = []; 
+  getExpensesAccounts(){
+    this._AccountingService.viewAllExpensesAccounts().subscribe({
+     next: (response) => {
+       if (response) {
+         this.expensesAccounts = response.data; 
+         console.log(this.expensesAccounts);
+ 
+       }
+     },
+     error: (err) => {
+       console.error(err);
+     }
+   });
+ 
+   }
+
+  // getExpensesAccount() {
+  //   this.expensesAccounts = []; 
   
    
-    this._AccountingService.getAccountsByParent('5').subscribe({
-      next: (response) => {
-        if (response) {
-          this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
+  //   this._AccountingService.getAccountsByParent('5').subscribe({
+  //     next: (response) => {
+  //       if (response) {
+  //         this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
   
          
-          this._AccountingService.getAccountsByParent('6').subscribe({
-            next: (response) => {
-              if (response) {
-                this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
-                console.log('Combined Expenses Accounts:', this.expensesAccounts);
-              }
-            },
-            error: (err) => {
-              console.error('Error fetching marketing expenses:', err);
-            },
-          });
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching general and administrative expenses:', err);
-      },
-    });
-  }
+  //         this._AccountingService.getAccountsByParent('6').subscribe({
+  //           next: (response) => {
+  //             if (response) {
+  //               this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
+  //               console.log('Combined Expenses Accounts:', this.expensesAccounts);
+  //             }
+  //           },
+  //           error: (err) => {
+  //             console.error('Error fetching marketing expenses:', err);
+  //           },
+  //         });
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching general and administrative expenses:', err);
+  //     },
+  //   });
+  // }
   
   get total_cash(): number {
     const total_cash = this.expensesForm.get('total_cash')?.value || 0;
