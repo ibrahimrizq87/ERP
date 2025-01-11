@@ -4,56 +4,56 @@
         <div class="col-md-12">
           <div class="card shadow rounded-lg">
             <div class="card-header bg-white text-black rounded-top pt-3">
-              <h5>Equation History</h5>
+              <h5>تاريخ المعادلة</h5>
             </div>
             <div class="card-body pb-5">
                 <div *ngIf="equationHistory; else noData">
                   <div class="row">
                   <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="fw-bold">Year:</label>
+                        <label class="fw-bold">السنة:</label>
                         <p class="text-muted">{{ equationHistory.year || 'غير متوفر' }}</p>
                       </div>
                       <div class="mb-3">
-                        <label class="fw-bold">Equation ID:</label>
+                        <label class="fw-bold">معرف المعادلة:</label>
                         <p class="text-muted">{{ equationHistory?.equation_id?.id || 'غير متوفر' }}</p>
                       </div>
                     <div class="mb-3">
-                      <label class="fw-bold">Amount:</label>
+                      <label class="fw-bold">المبلغ:</label>
                       <p class="text-muted">{{ equationHistory.amount || 'غير متوفر' }}</p>
                     </div>
                   
                     
                     <div class="mb-3">
-                      <label class="fw-bold">Period Number:</label>
+                      <label class="fw-bold">رقم الفترة:</label>
                       <p class="text-muted">{{ equationHistory.period_number || 'غير متوفر' }}</p>
                     </div>
                   
                   
                     <div class="mb-3">
-                        <label class="fw-bold">Created At:</label>
+                        <label class="fw-bold">تم الإنشاء في:</label>
                         <p class="text-muted">{{ equationHistory.created_at || 'غير متوفر' }}</p>
                       </div>
                   </div>
                   <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="fw-bold">Current Price:</label>
+                        <label class="fw-bold">السعر الحالي:</label>
                         <p class="text-muted">{{ equationHistory.current_price || 'غير متوفر' }}</p>
                       </div>
                       <div class="mb-3">
-                        <label class="fw-bold">Last Price :</label>
+                        <label class="fw-bold">السعر الأخير:</label>
                         <p class="text-muted">{{ equationHistory.last_price || 'غير متوفر' }}</p>
                       </div>
                       <div class="mb-3">
-                        <label class="fw-bold">Collection Account :</label>
+                        <label class="fw-bold">حساب التحصيل:</label>
                         <p class="text-muted">{{ equationHistory.equation_id?.collection_id?.account_name || 'غير متوفر' }}</p>
                       </div>
                       <div class="mb-3">
-                        <label class="fw-bold">Base Account :</label>
+                        <label class="fw-bold">حساب الأساس:</label>
                         <p class="text-muted">{{ equationHistory.equation_id?.base_id?.account_name || 'غير متوفر' }}</p>
                     </div>
                       <div class="mb-3">
-                        <label class="fw-bold">Updated At:</label>
+                        <label class="fw-bold">تم التحديث في:</label>
                         <p class="text-muted">{{ equationHistory.updated_at || 'غير متوفر' }}</p>
                       </div>
                   </div>
@@ -63,7 +63,7 @@
              
               </div>
               <ng-template #noData>
-                <p class="text-danger">No equation history data available.</p>
+                <p class="text-danger">لا توجد بيانات لتاريخ المعادلة.</p>
               </ng-template>
             </div>
           </div>
@@ -77,4 +77,3 @@
       </div>
     </div>
   </div>
-  

@@ -43,7 +43,7 @@ export class AccountingComponent {
     { id: 'none', message: 'نوع اخر' }
   ];
 
-  constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ,private toastr :ToastrService){}
+constructor (private route: ActivatedRoute , private _AccountingService:AccountingService,private _Router:Router ,private toastr :ToastrService){}
  accounts:any;
  accountId:string |null = null;
  searchTerm: string = ''; 

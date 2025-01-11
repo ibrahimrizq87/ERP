@@ -1,15 +1,14 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>Manage Equation History</h5>
-        <span class="text-muted"> Dashboard <i class="fa-solid fa-angle-right"></i>  Equation History</span>
+        <h5>إدارة تاريخ المعادلة</h5>
+        <span class="text-muted"> لوحة القيادة <i class="fa-solid fa-angle-right"></i>  تاريخ المعادلة</span>
     </div>
-   
 </div>
 
 <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold">Equation History List </span>
+            <span class="fw-bold">قائمة تاريخ المعادلات </span>
             <input class="form-control search w-25" type="search" placeholder="بحث " aria-label="Search" [(ngModel)]="searchQuery" (input)="filteredEquation()">
         </div>
     </div>
@@ -17,10 +16,10 @@
         <thead>
             <tr>
                 <th class="bg-light" scope="col">#</th>
-                <th class="bg-light" scope="col">Equation_id</th>
-                <th class="bg-light" scope="col"> Year</th>
-                <th class="bg-light" scope="col"> Collection Account </th>
-                <th class="bg-light" scope="col"> Base Account </th>
+                <th class="bg-light" scope="col">معرف المعادلة</th>
+                <th class="bg-light" scope="col">السنة</th>
+                <th class="bg-light" scope="col">حساب التحصيل </th>
+                <th class="bg-light" scope="col">حساب الأساس </th>
                 <th class="bg-light" scope="col">الإجراءات</th>
             </tr>
         </thead>
@@ -41,11 +40,8 @@
                         </a> -->
                         <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteEquationHistory(equation.id)"></i>
                     </div>
-                   
                 </td>
-             
             </tr>
         </tbody>
     </table>
 </div>
-

@@ -13,9 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class EquationHistoryComponent implements OnInit {
   msgError: any[] = [];
-  getTodayDate(): any {
-    new Date().getFullYear();
-  }
+  
   selectedEquationId: number | null = null;
   isLoading = false;
   equationHistory: any[] = []; 
@@ -59,18 +57,18 @@ export class EquationHistoryComponent implements OnInit {
   
   
   deleteEquationHistory(equationId: number): void {
-    if (confirm('Are You sure to delete this Equation History')) {
+    if (confirm('هل أنت متأكد من حذف تاريخ هذه المعادلة؟')) {
       this._EquationHistoryService.deleteEquationHistory(equationId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/equationHistory`]);
             this.loadAllequationHistory();
-            this.toastr.success(  "Deleted Equation History Successfully");
+            this.toastr.success("تم حذف تاريخ المعادلة بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error(' Equation History حدث خطأ أثناء حذف ')
+          this.toastr.error('حدث خطأ أثناء حذف تاريخ المعادلة');
         }
       });
     }

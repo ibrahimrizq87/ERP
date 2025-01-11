@@ -1,57 +1,56 @@
 <div class="mt-4 mb-4">
-    <div class="container">
+  <div class="container">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card shadow rounded-lg">
-            <div class="card-header bg-white text-black rounded-top pt-3">
-              <h5> Equation Details</h5>
-            </div>
-            <div class="card-body pb-5">
-              <div class="row">
-                <!-- Display equation data -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="fw-bold">Collection Account :</label>
-                    <p class="text-muted">{{ equationData?.collection_id?.account_name || 'غير متوفر' }}</p>
+          <div class="col-md-12">
+              <div class="card shadow rounded-lg">
+                  <div class="card-header bg-white text-black rounded-top pt-3">
+                      <h5>تفاصيل المعادلة</h5>
                   </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Base Account :</label>
-                    <p class="text-muted">{{ equationData?.base_id?.account_name || 'غير متوفر' }}</p>
+                  <div class="card-body pb-5">
+                      <div class="row">
+                          <!-- عرض بيانات المعادلة -->
+                          <div class="col-md-6">
+                              <div class="mb-3">
+                                  <label class="fw-bold">حساب التحصيل:</label>
+                                  <p class="text-muted">{{ equationData?.collection_id?.account_name || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">حساب الأساس:</label>
+                                  <p class="text-muted">{{ equationData?.base_id?.account_name || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">السعر الحالي:</label>
+                                  <p class="text-muted">{{ equationData?.current_price || 'غير متوفر' }}</p>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="mb-3">
+                                  <label class="fw-bold">السعر الأولي:</label>
+                                  <p class="text-muted">{{ equationData?.first_price || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">عدد الفترات:</label>
+                                  <p class="text-muted">{{ equationData?.number_of_periods || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">تاريخ الإنشاء:</label>
+                                  <p class="text-muted">{{ equationData?.created_at || 'غير متوفر' }}</p>
+                              </div>
+                              <div class="mb-3">
+                                  <label class="fw-bold">تاريخ التحديث:</label>
+                                  <p class="text-muted">{{ equationData?.updated_at || 'غير متوفر' }}</p>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                  <div class="mb-3">
-                    <label class="fw-bold"> Current Price:</label>
-                    <p class="text-muted">{{ equationData?.current_price || 'غير متوفر' }}</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="fw-bold"> First Price :</label>
-                    <p class="text-muted">{{ equationData?.first_price || 'غير متوفر' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">number of periods :</label>
-                    <p class="text-muted">{{ equationData?.number_of_periods || 'غير متوفر' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">تاريخ الإنشاء:</label>
-                    <p class="text-muted">{{ equationData?.created_at || 'غير متوفر' }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="fw-bold">Updated At :</label>
-                    <p class="text-muted">{{ equationData?.updated_at || 'غير متوفر' }}</p>
-                  </div>
-                </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-  
+
       <div class="mt-4 mb-4">
-        <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/equations">
-          <button type="button" class="btn btn-primary px-4">رجوع</button>
-        </a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/dashboard/equations">
+              <button type="button" class="btn btn-primary px-4">رجوع</button>
+          </a>
       </div>
-    </div>
   </div>
-  
+</div>

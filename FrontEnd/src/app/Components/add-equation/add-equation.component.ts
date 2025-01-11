@@ -80,7 +80,7 @@ export class AddEquationComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Add Equation Successfully");
+            this.toastr.success("تم إضافة المعادلة بنجاح");
             this.isLoading = false;
             this._Router.navigate(['/dashboard/equations']);
           }
@@ -101,7 +101,7 @@ export class AddEquationComponent implements OnInit {
           }
       
           console.error(this.msgError); 
-          this.toastr.error(" Equationحدث خطأ أثناء إنشاء ");
+          this.toastr.error("حدث خطأ أثناء إنشاء المعادلة");
       },
       });
     }

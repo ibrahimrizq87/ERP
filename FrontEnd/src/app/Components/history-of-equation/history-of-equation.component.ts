@@ -63,18 +63,18 @@ export class HistoryOfEquationComponent implements OnInit {
   }
 
   deleteEquationHistory(equationId: number): void {
-    if (confirm('Are You sure to delete this Equation History')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف تاريخ هذه المعادلة؟')) {
       this._EquationHistoryService.deleteEquationHistory(equationId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/equationHistory/this.selectedEquationId`]);
             this.loadFilteredEquationHistory(this.selectedEquationId!);
-            this.toastr.success("Deleted Equation History Successfully");
+            this.toastr.success("تم حذف تاريخ المعادلة بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error('حدث خطأ أثناء حذف Equation History');
+          this.toastr.error('حدث خطأ أثناء حذف تاريخ المعادلة');
         }
       });
     }

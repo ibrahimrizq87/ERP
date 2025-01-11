@@ -107,7 +107,7 @@ export class EquationsComponent implements OnInit {
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("Add Equation history successfully");
+            this.toastr.success("تمت إضافة سجل المعادلة بنجاح");
             this.isLoading = false;
             this.router.navigate(['/dashboard/equations']);
             this.closeModal('historyModal');
@@ -132,18 +132,18 @@ export class EquationsComponent implements OnInit {
   }
   
   deleteEquations(equationId: number): void {
-    if (confirm('Are You sure to delete this Equation')) {
+    if (confirm('هل أنت متأكد من حذف هذه المعادلة؟')) {
       this._EquationService.deleteEquation(equationId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/equations`]);
             this.loadAllequations();
-            this.toastr.success(  "Deleted Equation Successfully");
+            this.toastr.success("تم حذف المعادلة بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error(' Equation حدث خطأ أثناء حذف ')
+          this.toastr.error('حدث خطأ أثناء حذف المعادلة');
         }
       });
     }
