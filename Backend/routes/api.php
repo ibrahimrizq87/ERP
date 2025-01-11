@@ -17,6 +17,8 @@ use App\Http\Controllers\EquationHistoryController;
 
 
 
+Route::get('equation_history/get-last-base-calculation', [AccountController::class , 'getLastBaseCalculation']);
+Route::get('accounts/get-accounts-by-type/{type}', [AccountController::class , 'getAccountsByType']);
 
 Route::apiResource('expense_invoices', ExpenseInvoiceController::class)->middleware('auth:sanctum');
 Route::apiResource('purchase_invoices', PurchaseInvoiceController::class)->middleware('auth:sanctum');

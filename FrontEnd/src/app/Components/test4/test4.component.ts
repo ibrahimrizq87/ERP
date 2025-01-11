@@ -34,7 +34,7 @@ export class Test4Component {
           heightLeft -= pageHeight;
         }
 
-        pdf.save('test2.pdf');
+        pdf.save('test3.pdf');
       });
     }
   }

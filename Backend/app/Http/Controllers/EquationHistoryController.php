@@ -138,6 +138,13 @@ class EquationHistoryController extends Controller
     }
 }
 
+    public function getLastBaseCalculation()
+        {
+            $oldHestory = EquationHistory::where('year', $data['year'] ?? \Carbon\Carbon::now()->year)
+            ->get();
+            return EquationHistoryResource::collection($oldHestory);
+        }
+
 
 
 

@@ -44,6 +44,13 @@ import { TestComponent } from './Components/test/test.component';
 import { Test2Component } from './Components/test2/test2.component';
 import { Test3Component } from './Components/test3/test3.component';
 import { Test4Component } from './Components/test4/test4.component';
+import { EquationsComponent } from './Components/equations/equations.component';
+import { AddEquationComponent } from './Components/add-equation/add-equation.component';
+import { UpdateEquationComponent } from './Components/update-equation/update-equation.component';
+import { ShowEquationComponent } from './Components/show-equation/show-equation.component';
+import { EquationHistoryComponent } from './Components/equation-history/equation-history.component';
+import { ShowEquationHistoryComponent } from './Components/show-equation-history/show-equation-history.component';
+import { HistoryOfEquationComponent } from './Components/history-of-equation/history-of-equation.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -99,6 +106,18 @@ export const routes: Routes = [
     {path:"addExpensesInvoices",component:AddExpensesInvoicesComponent},
     {path:"updateExpensesInvoices/:id",component:UpdateExpensesInvoicesComponent},
     {path:"showExpensesInvoices/:id",component:ShowExpensesInvoicesComponent},
+     
+
+
+    {path:"equations",component:EquationsComponent},  
+    {path:"addEquation",component:AddEquationComponent},
+    {path:"updateEquation/:id",component:UpdateEquationComponent},
+    {path:"showEquation/:id",component:ShowEquationComponent},
+
+
+    {path:"equationHistory",component:EquationHistoryComponent},
+    {path:"showEquationHistory/:id",component:ShowEquationHistoryComponent},
+    {path:"historyOfEquation/:id",component:HistoryOfEquationComponent},
 
     {path:"test",component:TestComponent},
     {path:"test2",component:Test2Component},

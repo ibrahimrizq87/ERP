@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ReportsService } from '../../shared/services/reports.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-test',
@@ -8,69 +11,42 @@ import jsPDF from 'jspdf';
   templateUrl: './test.component.html',
   styleUrl: './test.component.css'
 })
-export class TestComponent {
-  // exportToPDF() {
-  //   const container = document.querySelector('.container') as HTMLElement; // The HTML element to export
+export class TestComponent implements OnInit {
+  msgError: any[] = [];
   
-  //   if (!container) {
-  //     console.error('Container not found!');
-  //     return;
-  //   }
+ 
+  isLoading = false;
+  equationHistory: any[] = []; 
+  filteredEquations: any[] = [];
+  searchQuery: string = '';
+ 
+
+  constructor(
   
-  //   html2canvas(container).then((canvas) => {
-  //     const imgData = canvas.toDataURL('image/png');
-  //     const pdf = new jsPDF('p', 'mm', 'a4');
-  //     const pageWidth = pdf.internal.pageSize.getWidth();
-  //     const pageHeight = pdf.internal.pageSize.getHeight();
-  
-  //     const imgWidth = pageWidth;
-  //     const imgHeight = (canvas.height * pageWidth) / canvas.width;
-  
-  //     let y = 0; // Start position on the PDF page
-  
-  //     if (imgHeight <= pageHeight) {
-  //       // If content fits on a single page
-  //       pdf.addImage(imgData, 'PNG', 0, y, imgWidth, imgHeight);
-  //     } else {
-  //       // Split content across multiple pages
-  //       let position = 0;
-  
-  //       while (position < canvas.height) {
-  //         const croppedCanvas = document.createElement('canvas');
-  //         const croppedCanvasCtx = croppedCanvas.getContext('2d');
-  //         const visibleHeight = (canvas.width * pageHeight) / pageWidth;
-  
-  //         croppedCanvas.width = canvas.width;
-  //         croppedCanvas.height = visibleHeight;
-  
-  //         croppedCanvasCtx?.drawImage(
-  //           canvas,
-  //           0,
-  //           position,
-  //           canvas.width,
-  //           visibleHeight,
-  //           0,
-  //           0,
-  //           croppedCanvas.width,
-  //           croppedCanvas.height
-  //         );
-  
-  //         const croppedImgData = croppedCanvas.toDataURL('image/png');
-  //         pdf.addImage(croppedImgData, 'PNG', 0, y, imgWidth, pageHeight);
-  
-  //         position += visibleHeight;
-  
-  //         if (position < canvas.height) {
-  //           pdf.addPage();
-  //         }
-  //       }
-  //     }
-  
-  //     pdf.save('financial-report.pdf');
-  //   }).catch((error) => {
-  //     console.error('Error creating PDF:', error);
-  //   });
-  // }
+    private _ReportsService:ReportsService
+    , private router: Router,
+    private toastr :ToastrService
+  ) {}
+ 
+  ngOnInit(): void {
+ 
+    this.loadAllequationHistory()
+  }
+  loadAllequationHistory(): void {
+    this._ReportsService.yearReport().subscribe({
+      next: (response) => {
+        if (response) {
+          console.log(response.data);
+          this.equationHistory = response.data; 
+          this.filteredEquations = this.equationHistory;
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+ 
 
   exportToPDF(): void {
     const content: HTMLElement | null = document.getElementById('invoice-details');

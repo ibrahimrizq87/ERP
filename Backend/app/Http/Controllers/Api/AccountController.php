@@ -265,17 +265,35 @@ unset($type);
 
 
             foreach($accounts as $account){
-                if ($account->current_balance < 0){
-                    $total += ($account->current_balance * -1);
+                // if ($account->current_balance < 0){
+                //     $total += ($account->current_balance * -1);
 
-                }else{
-                    $total += $account->current_balance;
-                }
+                // }else{
+                //     $total += $account->current_balance;
+                // }
+            
+            
+              
+                $total += $account->current_balance;
+
             }
+           
             
 
 
             return $total;
         }
+
+
+
+        public function getAccountsByType($type)
+        {
+            $accounts = Account::where('type' , $typeNumber)->get();
+
+            return AccountResource::collection($accounts);
+        }
+
+
+        
     
 }
