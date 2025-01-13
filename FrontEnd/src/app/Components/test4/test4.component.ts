@@ -12,32 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './test4.component.css'
 })
 export class Test4Component implements OnInit {
-  // { id: '1', message: 'النقدية و ما فى حكمها' },
-  // { id: '2', message: 'مخزون' },
-  // { id: '3', message: 'الذمم المدينة التجارية' },
-  // { id: '4', message: 'مصروفات مدفوعة مقدما' },
-  // { id: '5', message: 'ارصدة مدينة التجارية' },
-  // { id: '6', message: 'اصراف ذات علاقة مدينة' },
-  // { id: '7', message: 'ممتلكات و ألات و معدات صافى' },
-  // { id: '8', message: 'مشروعات تحت التنفيذ' },
-  // { id: '9', message: 'ذمم دائنة تجارية' },
-  // { id: '10', message: 'اطراف ذات علاقة دائنة' },
-  // { id: '11', message: 'ارصدة دائنة اخرى' },
-  // { id: '13', message: 'المصروفات المستحقة' },
-  // { id: '14', message: 'قروض طويلة الاجل' },
-  // { id: '15', message: 'رأس المال' },
-  // { id: '16', message: 'جارى الشركاء' },
-  // { id: '17', message: 'ارباح العام' },
-  // { id: '18', message: 'صافى الايرادات التشغيلية' },
-  // { id: '19', message: 'تكلفة الايرادات' },
-  // { id: '20', message: 'التكاليف التشغيلية' },
-  // { id: '21', message: 'مصاريف بيع و توزيع' },
-  // { id: '22', message: 'مخصص اهلاك الاصول الثابته' },
-  // { id: '23', message: 'مصاريف ادارية و عمومية' },
-  // { id: '24', message: 'ايرادات اخرى' },
-  // { id: '25', message: 'الزكاة التقديرية' },
-  // { id: '26', message: 'صافى الايرادات التشخيلية' },
-  // { id: 'none', message: 'نوع اخر' }
+  
   currentYear: number = 0;
   report: any[] = []; 
   id1: number = 0;
@@ -71,11 +46,7 @@ export class Test4Component implements OnInit {
 
   partnersSum:number=0;
   partnersAndRequirmentsSum:number=0;
-  // main_activities:number=0;
-  // id24: number = 0;
-  // net_income:number=0;
-  // id25:number=0;
-  // final_net_income:number=0;
+ 
   constructor(
   
     private _ReportsService:ReportsService
@@ -153,29 +124,7 @@ export class Test4Component implements OnInit {
 
           this.partnersSum=this.id15+ this.id16+ this.id17;
           this.partnersAndRequirmentsSum=this.allRequirmentsSum+this.partnersSum
-          // const item3 = this.report.find((item) => item.id === '20');
-          // this.id20 = item3 ? item3.value :0;
-
-          // const item4 = this.report.find((item) => item.id === '21');
-          // this.id21 = item4 ? item4.value :0;
-
-          // const item5 = this.report.find((item) => item.id === '22');
-          // this.id22 = item5 ? item5.value :0;
-
-          // const item6 = this.report.find((item) => item.id === '23');
-          // this.id23 = item6 ? item6.value :0;
-
-          // this.main_activities=this.id20+this.id21+this.id22+this.id23;
-
-          // const item7 = this.report.find((item) => item.id === '24');
-          // this.id24 = item7 ? item7.value :0;
-
-          // this.net_income=this.main_activities+this.id24
-
-          // const item8 = this.report.find((item) => item.id === '25');
-          // this.id25 = item8 ? item8.value :0;
-
-          // this.final_net_income=this.net_income+this.id25
+          
         }
       },
       error: (err) => {
