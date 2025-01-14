@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccountingService } from '../../shared/services/accounts.service';
 import { Modal } from 'bootstrap';
+import { Base64 } from 'js-base64';
 @Component({
   selector: 'app-dashboard',
   imports: [HeaderComponent,RouterOutlet,ReactiveFormsModule,FormsModule,CommonModule,RouterLinkActive,RouterModule],
@@ -63,10 +64,16 @@ toggleDropdown(key: string): void {
       }
     });
   }
-  getUserRole() {
+  // getUserRole() {
     
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    this.userRole = userData.user.role || null; 
-  }
-
-}
+  //   const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  //   this.userRole = userData.user.role || null; 
+  // }
+  getUserRole() {
+    const encodedRole = localStorage.getItem('userRole');
+    if (encodedRole) {
+      this.userRole = Base64.decode(encodedRole);
+    } else {
+      this.userRole = null;
+    }
+}}

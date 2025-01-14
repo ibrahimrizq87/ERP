@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import { Base64 } from 'js-base64';
 @Component({
   selector: 'app-login',
   imports: [FormsModule,CommonModule,ReactiveFormsModule],
@@ -36,9 +36,11 @@ export class LoginComponent {
           if (response) {
             this.isLoading = false;
 
-          
+            const encodedRole = Base64.encode(response.user.role);
             localStorage.setItem('Gtoken', response.token);
-            localStorage.setItem('userData', JSON.stringify(response));
+            localStorage.setItem('userRole', encodedRole);
+            // localStorage.setItem('Gtoken', response.token);
+            // localStorage.setItem('userData', JSON.stringify(response));
             // Call saveUserData() to decode and store the access_token
             // this._UserService.saveUserData();
 

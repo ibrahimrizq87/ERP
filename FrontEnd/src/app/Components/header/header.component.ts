@@ -11,11 +11,11 @@ import { UserService } from '../../shared/services/user.service';
 export class HeaderComponent {
   constructor(private _UserService: UserService, private router: Router) {}
   logout(): void {
-    
     this._UserService.logout();
-   
-
-    this.router.navigate(['/login']);
   
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('Gtoken');
+    this.router.navigate(['/login']);
   }
+  
 }
