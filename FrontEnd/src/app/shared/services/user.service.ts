@@ -61,6 +61,7 @@ export class UserService {
         console.log('Logout successful:', response);
         // localStorage.removeItem('eToken');
         localStorage.removeItem('Gtoken');
+        localStorage.removeItem('userData');
         // localStorage.removeItem('pusherTransportTLS');
         // this.userRole = null;
         this.isAuthenticatedSubject.next(false); // Emit false on logout

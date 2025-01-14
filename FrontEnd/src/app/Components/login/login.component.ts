@@ -38,7 +38,7 @@ export class LoginComponent {
 
           
             localStorage.setItem('Gtoken', response.token);
-
+            localStorage.setItem('userData', JSON.stringify(response));
             // Call saveUserData() to decode and store the access_token
             // this._UserService.saveUserData();
 

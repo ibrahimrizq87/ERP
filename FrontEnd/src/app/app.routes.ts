@@ -51,6 +51,7 @@ import { ShowEquationComponent } from './Components/show-equation/show-equation.
 import { EquationHistoryComponent } from './Components/equation-history/equation-history.component';
 import { ShowEquationHistoryComponent } from './Components/show-equation-history/show-equation-history.component';
 import { HistoryOfEquationComponent } from './Components/history-of-equation/history-of-equation.component';
+import { Report5Component } from './Components/report5/report5.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -123,6 +124,6 @@ export const routes: Routes = [
     {path:"report2",component:Test2Component},
     {path:"report3",component:Test3Component},
     {path:"report4",component:Test4Component},
-    
+    {path:"report5",component:Report5Component},
 ]}
 ];

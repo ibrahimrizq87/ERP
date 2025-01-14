@@ -15,6 +15,7 @@ export class DashboardComponent {
   dropdownStates: { [key: string]: boolean } = {};
   constructor (private router :Router , private _AccountingService:AccountingService ){}
  accounts:any;
+ userRole: string | null = null;
   // toggleDropdown(navItem: string) {
   //   this.dropdownStates[navItem] = !this.dropdownStates[navItem];
   // }
@@ -45,7 +46,8 @@ toggleDropdown(key: string): void {
   this.dropdownStates[key] = !this.dropdownStates[key];
 }
   ngOnInit(): void {
-    this.getParentAccounts(); 
+    this.getParentAccounts();
+    this.getUserRole() ;
   }
 
   getParentAccounts() {
@@ -61,6 +63,10 @@ toggleDropdown(key: string): void {
       }
     });
   }
-
+  getUserRole() {
+    
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.userRole = userData.user.role || null; 
+  }
 
 }
