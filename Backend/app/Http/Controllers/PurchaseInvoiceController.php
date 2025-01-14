@@ -55,38 +55,43 @@ class PurchaseInvoiceController extends Controller
 
         $account =Account::find($validated['account_id']);
         $supplier =Account::find($validated['supplier_id']);
-        $tax =Account::find(9);
+        $purchaes =Account::find(55);
 
-        $account_parent =Account::find($account->parent_id);
-        $supplier_parent =Account::find($supplier->parent_id);
-        $tax_parent =Account::find($tax->parent_id);
+        $tax =Account::find(54);
 
-        $account->net_debit += $validated['total_cash'];
-        $account->current_balance -= $validated['total_cash'];
+        // $account_parent =Account::find($account->parent_id);
+        // $supplier_parent =Account::find($supplier->parent_id);
+        // $tax_parent =Account::find($tax->parent_id);
 
-        $account_parent->net_debit += $validated['total_cash'];
-        $account_parent->current_balance -= $validated['total_cash'];
+        // $account->net_debit += $validated['total_cash'];
+        // $account->current_balance -= $validated['total_cash'];
+        $this->updateDebit($account , $validated['total_cash']);
+        // $account_parent->net_debit += $validated['total_cash'];
+        // $account_parent->current_balance -= $validated['total_cash'];
 
-        $supplier->net_credit += $validated['total_cash'];
-        $supplier->current_balance += $validated['total_cash'];
+        // $supplier->net_credit += $validated['total_cash'];
+        // $supplier->current_balance += $validated['total_cash'];
+        $this->updateCredit($supplier , $validated['total_cash']);
+        $this->updateDebit($purchaes , $validated['total_cash']);
 
-        $supplier_parent->net_credit += $validated['total_cash'];
-        $supplier_parent->current_balance += $validated['total_cash'];
+        // $supplier_parent->net_credit += $validated['total_cash'];
+        // $supplier_parent->current_balance += $validated['total_cash'];
 
-        $tax->net_credit += $validated['tax_amount'];
-        $tax->current_balance += $validated['tax_amount'];
+        // $tax->net_credit += $validated['tax_amount'];
+        // $tax->current_balance += $validated['tax_amount'];
 
-        $tax_parent->net_credit += $validated['tax_amount'];
-        $tax_parent->current_balance += $validated['tax_amount'];
+        // $tax_parent->net_credit += $validated['tax_amount'];
+        // $tax_parent->current_balance += $validated['tax_amount'];
+        $this->updateCredit($tax , $validated['tax_amount']);
 
 
 
-        $tax_parent->save();
-        $tax->save();
-        $supplier_parent->save();
-        $supplier->save();
-        $account_parent->save();
-        $account->save();
+        // $tax_parent->save();
+        // $tax->save();
+        // $supplier_parent->save();
+        // $supplier->save();
+        // $account_parent->save();
+        // $account->save();
 
 
            $invoice = PurchaseInvoice::create(
@@ -126,6 +131,54 @@ class PurchaseInvoiceController extends Controller
        }
        
        }
+
+
+
+
+    public function updateDebit($account ,  $amount)
+    {
+        $account->net_debit +=$amount;
+        $account->current_balance -=$amount;
+        $account->save();
+        if ($account->parent_id){
+            $parent =Account::find($account->parent_id);
+            $this->updateDebit($parent ,$amount);
+        }
+    
+    }
+    public function updateCredit($account ,  $amount)
+    {
+        $account->net_credit +=$amount;
+        $account->current_balance +=$amount;
+        $account->save();
+        if ($account->parent_id){
+            $parent =Account::find($account->parent_id);
+            $this->updateCredit($parent ,$amount);
+        }
+    }
+
+    public function updateDebitRev($account ,  $amount)
+{
+    $account->net_debit -=$amount;
+    $account->current_balance +=$amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateDebitRev($parent ,$amount);
+    }
+
+}
+public function updateCreditRev($account ,  $amount)
+{
+    $account->net_credit -= $amount;
+    $account->current_balance -= $amount;
+    $account->save();
+    if ($account->parent_id){
+        $parent =Account::find($account->parent_id);
+        $this->updateCreditRev($parent ,$amount);
+    }
+}
+
    
 
        public function show(PurchaseInvoice $purchaseInvoice)
