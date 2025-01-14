@@ -119,10 +119,10 @@ export const routes: Routes = [
     {path:"showEquationHistory/:id",component:ShowEquationHistoryComponent},
     {path:"historyOfEquation/:id",component:HistoryOfEquationComponent},
 
-    {path:"test",component:TestComponent},
-    {path:"test2",component:Test2Component},
-    {path:"test3",component:Test3Component},
-    {path:"test4",component:Test4Component},
+    {path:"report1",component:TestComponent},
+    {path:"report2",component:Test2Component},
+    {path:"report3",component:Test3Component},
+    {path:"report4",component:Test4Component},
     
 ]}
 ];

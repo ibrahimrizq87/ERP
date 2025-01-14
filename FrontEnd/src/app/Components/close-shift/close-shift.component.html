@@ -19,20 +19,20 @@
               <div class="row">
                 <!-- حقل المبلغ النهائي -->
                 <div class="form-group col-md-6">
-                  <label for="ending_amount" class="form-label fw-bold">المبلغ النهائي</label>
+                  <label for="ending_amount" class="form-label fw-bold"> رقم غلق العداد</label>
                   <input
                     id="ending_amount"
                     formControlName="ending_amount"
                     type="text"
                     class="form-control rounded-pill"
-                    placeholder="أدخل المبلغ النهائي"
+                    placeholder="أدخل  رقم غلق العداد"
                     required
                   />
                   <div
                     class="alert alert-danger mt-2 py-1 px-2"
                     *ngIf="closeForm.get('ending_amount')?.errors && closeForm.get('ending_amount')?.touched"
                   >
-                    <small *ngIf="closeForm.get('ending_amount')?.getError('required')">المبلغ النهائي مطلوب</small>
+                    <small *ngIf="closeForm.get('ending_amount')?.getError('required')"> رقم غلق العداد مطلوب</small>
                     <small *ngIf="closeForm.get('ending_amount')?.getError('min')">أقصى طول هو 0</small>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                 <!-- قسم رفع الصور -->
                 <div class="form-group text-center col-md-12">
                   <label for="image" class="form-label d-block fw-bold">
-                    <i class="fa-solid fa-image"></i> صورة الإغلاق
+                    <i class="fa-solid fa-image"></i> صورة غلق العداد
                   </label>
                   <div class="custom-file position-relative">
                     <input
@@ -71,14 +71,23 @@
               <div class="mt-4">
                 <h6 class="text-primary fw-bold">تفاصيل وردية</h6>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">السعر: <span class="text-muted">{{ price }}</span></li>
-                  <li class="list-group-item">المبلغ الافتتاحي: <span class="text-muted">{{ openingAmount }}</span></li>
-                  <li class="list-group-item">المبلغ الإجمالي: <span class="text-muted">{{ totalAmount }}</span></li>
-                  <li class="list-group-item">إجمالي الدفع الإلكتروني: <span class="text-muted">{{ totalOnlinePayment }}</span></li>
-                  <li class="list-group-item">إجمالي عدد العملاء: <span class="text-muted">{{ totalClientCounter }}</span></li>
-                  <li class="list-group-item">المبلغ الناتج: <span class="text-muted">{{ resultAmount }}</span></li>
-                  <li class="list-group-item">إجمالي المال: <span class="text-muted">{{ totalMoney }}</span></li>
-                  <li class="list-group-item">إجمالي النقد: <span class="text-muted">{{ totalCash }}</span></li>
+                  <li class="list-group-item">سعر اللتر الواحد  : <span class="text-muted">{{ price }}</span></li>
+                  <li class="list-group-item"> رقم فتح العداد للوردية: <span class="text-muted">{{ openingAmount }}</span></li>
+                  <li class="list-group-item"> رقم غلق العداد للوردية: <span class="text-muted">{{ closeAmount }}</span></li>
+
+                  <li class="list-group-item bold"> عدد اللترات الكلى: <span class="text-muted">{{ resultAmount }}</span></li>
+                  <br>
+                  <br>
+
+                  <li class="list-group-item">إجمالي الدفع بالشبكة: <span class="text-muted">{{ totalOnlinePayment }}</span></li>
+                  <li class="list-group-item"> عدد لترات الدفع بالشبكة: <span class="text-muted">{{ totalOnlinePayment/price }}</span></li>
+                  <br>
+                  <li class="list-group-item">إجمالي الدفع آجل للعملاء: <span class="text-muted">{{ totalClientCounter }}</span></li>
+                  <li class="list-group-item"> عدد لترات الدفع آجل للعملاء: <span class="text-muted">{{ totalClientCounter/price }}</span></li>
+                  <br>
+                  <li class="list-group-item">إجمالي المبلغ المطلوب كاش: <span class="text-muted">{{ totalCash }}</span></li>
+                  <li class="list-group-item">إجمالي مبلغ الوردية كاش + شبكة +آجل: <span class="text-muted">{{ totalMoney }}</span></li>
+
                 </ul>
               </div>
             </div>

@@ -1,14 +1,101 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ReportsService } from '../../shared/services/reports.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-test3',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './test3.component.html',
   styleUrl: './test3.component.css'
 })
-export class Test3Component {
+export class Test3Component implements OnInit {
+  msgError: any[] = [];
+  totalBalance1: number = 0;
+  totalBalance7: number = 0;
+  totalBalance5: number = 0;
+
+  isLoading = false;
+  accounts1: any[] = []; 
+  accounts7: any[] = []; 
+  accounts5: any[] = []; 
+
+  currentYear: number = 0;
+ 
+
+
+  constructor(
+  
+    private _ReportsService:ReportsService
+    , private router: Router,
+    private toastr :ToastrService
+  ) {}
+ 
+  ngOnInit(): void {
+  this.getAccountsByType1();
+  this.getAccountsByType7();
+  this.getAccountsByType5();
+  this.getCurrentYear(); 
+  }
+  getCurrentYear(): void {
+    const now = new Date();
+    this.currentYear = now.getFullYear();
+  }
+ 
+  getAccountsByType1(): void {
+    this._ReportsService.getAccountsByType("1").subscribe({
+      next: (response) => {
+        if (response) {
+          this.accounts1 = response.data;
+          console.log(response.data);
+          this.totalBalance1 = this.accounts1.reduce(
+            (total, account) => total + parseFloat(account.current_balance || 0),
+            0
+          );
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+  getAccountsByType7(): void {
+    this._ReportsService.getAccountsByType("7").subscribe({
+      next: (response) => {
+        if (response) {
+          this.accounts7 = response.data;
+          console.log(response.data);
+          this.totalBalance7 = this.accounts7.reduce(
+            (total, account) => total + parseFloat(account.current_balance || 0),
+            0
+          );
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+  getAccountsByType5(): void {
+    this._ReportsService.getAccountsByType("5").subscribe({
+      next: (response) => {
+        if (response) {
+          this.accounts5 = response.data;
+          console.log(response.data);
+          this.totalBalance5 = this.accounts5.reduce(
+            (total, account) => total + parseFloat(account.current_balance || 0),
+            0
+          );
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
   exportToPDF(): void {
     const content: HTMLElement | null = document.getElementById('invoice-details');
     if (content) {

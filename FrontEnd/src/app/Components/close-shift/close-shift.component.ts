@@ -19,6 +19,8 @@ export class CloseShiftComponent implements OnInit {
   closeImageUrl: string | null = null;
   price: number = 0;
   openingAmount:number=0;
+  closeAmount:number=0;
+
   totalAmount:number=0;
   totalOnlinePayment: number = 0;
   totalClientCounter:number=0;
@@ -91,6 +93,7 @@ export class CloseShiftComponent implements OnInit {
 
           // Update calculated fields
           this.resultAmount = +endingAmount - this.openingAmount;
+          this.closeAmount =endingAmount;
           this.totalMoney = this.resultAmount * this.price;
           this.totalCash = this.totalMoney - (this.totalOnlinePayment + this.totalClientCounter);
         } else {

@@ -133,6 +133,8 @@ export class UpdateAccountComponent {
             formData.append('net_debit', this.accountForm.get('net_debit')?.value || 0);
             formData.append('net_credit', this.accountForm.get('net_credit')?.value || 0);
             formData.append('parent_id', this.account.id);
+            formData.append('type', this.accountForm.get('type')?.value);
+
 
             const accountId = this.route.snapshot.paramMap.get('accountId');
             console.log(accountId)

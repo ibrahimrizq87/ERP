@@ -46,7 +46,7 @@
                 <a class="nav-link" routerLinkActive="active" routerLink="products">المنتجات</a>
               </li>
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="machines">الآلات</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="machines">الطرمبات</a>
               </li>
             </ul>
           </li>
@@ -70,14 +70,14 @@
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('Paymnet')">
                 <i class="fa-solid fa-file-invoice"></i>
-                <span>الدفع</span>
+                <span>سند قبض/دفع</span>
                 <i [ngClass]="isDropdownOpen('Paymnet') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('Paymnet')">
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/receipt">وثيقة الإيصال</a>
-                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/payment">وثيقة الدفع</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/receipt">سند قبض</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="paymentDocument/payment">سند دفع</a>
               </li>
             </ul>
           </li>
@@ -216,8 +216,19 @@
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('reports')">
-
               <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="report1">إيضاحات قائمة الدخل العام</a>
+              </li>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="report2">قائمة الدخل العام</a>
+              </li>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="report3">إيضاحات قائمة المركز المالي</a>
+              </li>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="report4">قائمة المركز المالي</a>
+              </li>
+              <!-- <li class="nav-item nested">
                 <a class="nav-link" routerLinkActive="active">المبيعات</a>
               </li>
               <li class="nav-item nested">
@@ -225,21 +236,10 @@
               </li>
               <li class="nav-item nested" *ngFor="let account of accounts">
                 <a class="nav-link" routerLinkActive="active" routerLink="accounting/{{account.id}}">{{account.account_name}}</a>
-              </li>
+              </li> -->
             </ul>
           </li>
-          <li class="nav-item nested">
-            <a class="nav-link" routerLinkActive="active" routerLink="test">test</a>
-          </li>
-          <li class="nav-item nested">
-            <a class="nav-link" routerLinkActive="active" routerLink="test2">test2</a>
-          </li>
-          <li class="nav-item nested">
-            <a class="nav-link" routerLinkActive="active" routerLink="test3">test3</a>
-          </li>
-          <li class="nav-item nested">
-            <a class="nav-link" routerLinkActive="active" routerLink="test4">test4</a>
-          </li>
+        
         </ul>
       </div>
 

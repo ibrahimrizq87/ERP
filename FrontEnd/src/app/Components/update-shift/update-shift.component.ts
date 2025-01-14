@@ -78,7 +78,7 @@ export class UpdateShiftComponent implements OnInit {
     });
   }
   getAccounts(){
-    this._AccountingService.getAccountsByParent("2").subscribe({
+    this._AccountingService.getAccountsByParent("12").subscribe({
      next: (response) => {
        if (response) {
          this.accounts = response.data; 

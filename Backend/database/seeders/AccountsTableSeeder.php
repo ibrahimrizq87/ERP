@@ -769,7 +769,7 @@ class AccountsTableSeeder extends Seeder
                 'start_amount' => 0,
 
                 'can_delete' => 0,
-                'type'=>'26',
+                'type'=>'18',
                 'current_balance' => 0.00,
                 'net_debit' => 0.00,
                 'net_credit' => 0.00,

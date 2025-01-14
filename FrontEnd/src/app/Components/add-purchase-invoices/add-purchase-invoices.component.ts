@@ -110,7 +110,7 @@ export class AddPurchaseInvoicesComponent implements OnInit{
   }
   
    getSuppliers(){
-    this._AccountingService.getAccountsByParent('3').subscribe({
+    this._AccountingService.getAccountsByParent('22').subscribe({
      next: (response) => {
        if (response) {
          this.suppliers = response.data; 

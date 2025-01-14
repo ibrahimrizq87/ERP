@@ -2,19 +2,19 @@
 <div class="container" id="invoice-details">
     <div class="table-title">اسم الشركة/...............</div>
     <div class="table-title"> س.ت/...................</div>
-    <p class="table-title"> قائمة المركز المالي <br>عن السنة المنتهية في ٣١ ديسمبر ٢٠٢٣</p>
+    <p class="table-title"> قائمة المركز المالي <br>عن السنة المنتهية في ٣١ ديسمبر {{currentYear}}</p>
     <table class="table table-bordered text-end">
         <thead>
             <tr>
                 <th>بيان</th>
                 <th class="text-center text-info">الإيضاح</th>
-                <th class="text-center">2023</th>
+                <th class="text-center">{{currentYear}}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td colspan="2" class="fw-bold">الموجودات</td>
-                <td colspan="1" class="fw-bold">ريال سعودي</td>
+                <td colspan="1" class="fw-bold text-center">ريال سعودي</td>
             </tr>
             <tr>
                 <td class="fw-bold">الموجودات المتداولة</td>
@@ -24,37 +24,37 @@
             <tr>
                 <td>النقدية وما في حكمها</td>
                 <td class="text-info text-center fw-bold">5</td>
-                <td class="text-center">93,106.43</td>
+                <td class="text-center">{{id1}}</td>
             </tr>
             <tr>
                 <td>المخزون  </td>
                 <td></td>
-                <td class="text-center">32,817.00</td>
+                <td class="text-center">{{id2}}</td>
             </tr>
             <tr>
                 <td>الذمم المدينة التجارية</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id3}}</td>
             </tr>
             <tr>
                 <td>  مصروفات مدفوعة مقدمه</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id4}}</td>
             </tr>
             <tr>
                 <td> ارصدة مدينة تجارية </td>
                 <td class="text-info text-center fw-bold">6</td>
-                <td class="text-center">24,890.00</td>
+                <td class="text-center">{{id5}}</td>
             </tr>
             <tr>
                 <td>  أطراف ذات علاقه مدينة  </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id6}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">150,813.43</td>
+                <td class="fw-bold text-center">{{assetsSum}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">الموجودات غير المتداولة</td>
@@ -64,22 +64,22 @@
             <tr>
                 <td>ممتلكات، آلات ومعدات، صافي</td>
                 <td class="text-info text-center fw-bold">7</td>
-                <td class="text-center">520,996.87</td>
+                <td class="text-center">{{id7}}</td>
             </tr>
             <tr>
                 <td>مشروعات تحت التنفيذ</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id8}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات غير المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">520,996.87</td>
+                <td class="fw-bold text-center">{{notAssetsSum}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات</td>
                 <td></td>
-                <td class="fw-bold text-center">671,810.30</td>
+                <td class="fw-bold text-center">{{allAssetsSum}}</td>
             </tr>
             <tr>
                 <td colspan="3" class="fw-bold">المطلوبات</td>
@@ -92,27 +92,27 @@
             <tr>
                 <td>ذمم دائنة تجارية</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id9}}</td>
             </tr>
             <tr>
                 <td>أطراف ذات علاقة دائنة  </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id10}}</td>
             </tr>
             <tr>
                 <td> ارصده دائنة آخرى</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id11}}</td>
             </tr>
             <tr>
                 <td>المصروفات المستحقة</td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id13}}</td>
             </tr>
             <tr>
                 <td class="fw-bold"> مجموع المتطلبات المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">0.00</td>
+                <td class="fw-bold text-center">{{requirmentsSum}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">المطلوبات غير المتداولة</td>
@@ -122,17 +122,17 @@
             <tr>
                 <td>قروض طويله الاجل </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id14}}</td>
             </tr>
             <tr>
                 <td class="fw-bold"> مجموع المتطلبات غير المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">0.00</td>
+                <td class="fw-bold text-center">{{notRequirmentsSum}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">  اجمالى المطلوبات </td>
                 <td></td>
-                <td class="fw-bold text-center">0.00</td>
+                <td class="fw-bold text-center">{{allRequirmentsSum}}</td>
             </tr>
             <tr>
                 <td colspan="3" class="fw-bold">حقوق الشركاء</td>
@@ -140,27 +140,27 @@
             <tr>
                 <td>  راس المال </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id15}}</td>
             </tr>
             <tr>
                 <td>   جارى الشركاء </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id16}}</td>
             </tr>
             <tr>
                 <td>  أرباح العام  </td>
                 <td></td>
-                <td class="text-center">0.00</td>
+                <td class="text-center">{{id17}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع حقوق الشركاء </td>
                 <td></td>
-                <td class="text-center fw-bold">671,810.30</td>
+                <td class="text-center fw-bold">{{partnersSum}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع حقوق الشركاء والمطلوبات</td>
                 <td></td>
-                <td class="text-center fw-bold">671,810.30</td>
+                <td class="text-center fw-bold">{{ partnersAndRequirmentsSum}}</td>
             </tr>
         </tbody>
     </table>

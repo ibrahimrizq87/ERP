@@ -53,12 +53,17 @@ class ProductController extends Controller
         $rules = [
             'name' => 'sometimes|string|max:255',
             'price' => 'sometimes|numeric|min:0',
-            'amount' => 'sometimes|integer|min:0',
+            // 'amount' => 'sometimes|integer|min:0',
         ];
 
         $validated = $request->validate($rules);
 
-        $product->update($validated);
+        $product->update([
+           
+            'name' =>  $validated['name'],
+            'price' => $validated['price'],
+            // 'amount' => $product->
+        ]);
 
         return response()->json(new ProductResource($product));
     }

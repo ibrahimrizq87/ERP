@@ -17,4 +17,10 @@ export class ReportsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/accounts/get-reports`,{ headers })
   }
+  getAccountsByType(type: string): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/accounts/get-accounts-by-type/${type}` ,{ headers })
+  } 
 }
+// accounts/get-accounts-by-type/{type}
