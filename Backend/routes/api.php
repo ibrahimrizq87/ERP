@@ -54,7 +54,7 @@ Route::get('/users/get-users/{role}', [AuthController::class, 'getAllUsersByRole
 Route::apiResource('products', ProductController::class);
 Route::apiResource('payment_documents', PaymentDocumentController::class)->middleware('auth:sanctum');
 
-Route::apiResource('shifts', ShiftController::class);
+Route::apiResource('shifts', ShiftController::class)->middleware('auth:sanctum');
 Route::put('shifts/closeShift/{shift_id}', [ShiftController::class , 'closeShift']);
 Route::apiResource('machines', MachineController::class);
 Route::get('accounts/main', [AccountController::class , 'mainAccount']);

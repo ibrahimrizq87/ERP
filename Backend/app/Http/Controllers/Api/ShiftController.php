@@ -358,7 +358,6 @@ public function store(Request $request)
 {
 
     $rules = [
-        'user_id' => 'required|exists:users,id',
         'opening_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'opening_amount' => 'required|numeric|min:0',
         'shift' => 'required|in:1,2',
@@ -392,7 +391,7 @@ if(request()->hasFile("opening_image")){
 
     $shift = new Shift();
 
-    $shift->user_id = $data['user_id'];
+    $shift->user_id = auth()->id();
     $shift->opening_image = $open_path;
     $shift->opening_amount= $data['opening_amount'];
     $shift->ending_image= null;

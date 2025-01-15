@@ -8,9 +8,9 @@
   </a>
 </div>
 <div class="d-flex justify-content-around align-items-center w-50">
-  <button class="btn bg-warning rounded btn1" (click)="loadShifts('open')">الوردية المفتوحة</button>
-  <button class="btn bg-primary rounded btn1" (click)="loadShifts('closed')">الوردية المغلقة</button>
-  <button class="btn bg-secondary rounded btn1" (click)="loadShifts('approved')">الوردية المعتمدة</button>
+  <button *ngIf="userRole !== 'accountant'" class="btn bg-warning rounded btn1" (click)="loadShifts('open')">الوردية المفتوحة</button>
+  <button *ngIf="userRole !== 'accountant'" class="btn bg-primary rounded btn1" (click)="loadShifts('closed')">الوردية المغلقة</button>
+  <button *ngIf="userRole !== 'worker'" class="btn bg-secondary rounded btn1" (click)="loadShifts('approved')">الوردية المعتمدة</button>
   
  
 </div>
@@ -66,10 +66,10 @@
                   <a class="nav-link" [routerLink]="['/dashboard/showShift', shift.id]">
                     <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
                   </a>
-                  <a *ngIf="currentStatus !== 'closed' && currentStatus !== 'approved'" class="nav-link" [routerLink]="['/dashboard/closeShift', shift.id]">
+                  <a *ngIf="currentStatus !== 'closed' && currentStatus !== 'approved' " class="nav-link" [routerLink]="['/dashboard/closeShift', shift.id]">
                   <i class="fa-solid fa-lock btn1 bg-warning rounded"   ></i>
                    </a>
-                   <i *ngIf="currentStatus !== 'open'&& currentStatus !== 'approved'"  class="fa-regular fa-clock btn1 bg-warning rounded"  (click)="changeStatus(shift.id)"></i>
+                   <i *ngIf="currentStatus !== 'open'&& currentStatus !== 'approved' && userRole !== 'worker'"  class="fa-regular fa-clock btn1 bg-warning rounded"  (click)="changeStatus(shift.id)"></i>
                   <a class="nav-link" [routerLink]="['/dashboard/updateShift', shift.id]">
                     <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
                   </a>

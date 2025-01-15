@@ -6,14 +6,14 @@
       <div class="row">
         <!-- حقل مبلغ الدفع -->
         <div class="col-md-4">
-          <label for="amount">مبلغ الدفع</label>
+          <label for="amount"> عدد اللترات </label>
           <input
             formControlName="amount"
             type="number"
             class="form-control"
             (input)="calculatePaymentTotal(i)"
           />
-          <small class="text-muted"> نتائج الدفع: {{ paymentResults[i] }} </small>
+          <small class="text-muted"> المبلغ المطلوب: {{ paymentResults[i] }} </small>
         </div>
 
         <!-- اسم العميل -->
@@ -24,7 +24,7 @@
 
         <!-- تحميل الصورة -->
         <div class="col-md-4">
-          <label for="image">صورة الدفع</label>
+          <label for="image">صورة دفع بالشبكة</label>
           <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
         </div>
 
@@ -38,32 +38,34 @@
     </div>
 
     <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
-      <i class="fa-solid fa-plus"></i> إضافة دفع
+      <i class="fa-solid fa-plus"></i>  اضافة دفع بالشبكة
     </button>
   </div>
 
   <!-- المبلغ الإجمالي المدفوع عبر الإنترنت -->
   <div class="form-group col-md-12 mt-4">
-    <label for="totalOnlinePayment">إجمالي الدفع عبر الإنترنت:  <small>{{totalOnlinePayment}}</small></label>
+    <label for="totalOnlinePayment">إجمالي مبلغ الدفع عبر الشبكة:  <small>{{totalOnlinePayment}}</small></label>
   </div>
 
-  <!-- العدادات الخاصة بالعميل -->
-  <div formArrayName="client_counters" class="mt-4">
+  <br>
+  <hr>
+  <br>
+    <div formArrayName="client_counters" class="mt-4">
     <div *ngFor="let counter of clientCounters.controls; let i = index" [formGroupName]="i" class="mb-3">
       <div class="row">
         <div class="col-md-4">
-          <label for="amount">مبلغ العداد</label>
+          <label for="amount"> عدد اللترات</label>
           <input
             formControlName="amount"
             type="number"
             class="form-control"
             (input)="calculateCounterTotal(i)"
           />
-          <small class="text-muted"> نتيجة العداد: {{ clientsResult[i] }} </small>
+          <small class="text-muted">  المبلغ المطلوب: {{ clientsResult[i] }} </small>
         </div>
 
         <div class="form-group col-md-4">
-          <label class="form-label">اختر حسابات العملاء </label>
+          <label class="form-label">اختر حساب العميل </label>
           <select class="form-control" formControlName="account_id">
             <option value="" disabled>اختر الحساب</option>
             <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
@@ -77,19 +79,22 @@
 
         <div class="col-md-12">
           <button type="button" class="btn btn-danger mt-2" (click)="removeClientCounter(i)">
-            <i class="fa-solid fa-trash"></i> إزالة العداد
+            <i class="fa-solid fa-trash"></i> إزالة دفع العميل
           </button>
         </div>
       </div>
     </div>
     <button type="button" class="btn btn-primary mt-3" (click)="addClientCounter()">
-      <i class="fa-solid fa-plus"></i> إضافة عداد
+      <i class="fa-solid fa-plus"></i> إضافة دفع عميل بالآجل
     </button>
   </div>
 
   <div class="form-group col-md-12 mt-4">
-    <label for="total_client_deposit">إجمالي إيداع العميل : <small>{{total_client_deposit}}</small></label>
+    <label for="total_client_deposit">إجمالي دين العميل : <small>{{total_client_deposit}}</small></label>
   </div>
+  <br>
+  <hr>
+  <br>
   <div class="form-group col-md-12 mt-4">
     <label for="amountTotal">المبلغ الإجمالي : <small>{{amountTotal}}</small></label>
   </div>

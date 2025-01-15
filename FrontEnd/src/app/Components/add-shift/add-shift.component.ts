@@ -39,7 +39,6 @@ export class AddShiftComponent implements OnInit {
   // 'date' => 'required|date',
   shiftForm: FormGroup = new FormGroup({
     
-    user_id: new FormControl(null, [Validators.required]),
     image: new FormControl(null, [this.validateImage.bind(this)]),
     opening_amount:new FormControl(null, [Validators.required,Validators.min(0)]),
     shift:new FormControl(null, [Validators.required]),

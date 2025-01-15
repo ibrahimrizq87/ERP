@@ -8,15 +8,15 @@ import { Modal } from 'bootstrap';
 import { Base64 } from 'js-base64';
 @Component({
   selector: 'app-dashboard',
-  imports: [HeaderComponent,RouterOutlet,ReactiveFormsModule,FormsModule,CommonModule,RouterLinkActive,RouterModule],
+  imports: [HeaderComponent, RouterOutlet, ReactiveFormsModule, FormsModule, CommonModule, RouterLinkActive, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
   dropdownStates: { [key: string]: boolean } = {};
-  constructor (private router :Router , private _AccountingService:AccountingService ){}
- accounts:any;
- userRole: string | null = null;
+  constructor(private router: Router, private _AccountingService: AccountingService) { }
+  accounts: any;
+  userRole: string | null = null;
   // toggleDropdown(navItem: string) {
   //   this.dropdownStates[navItem] = !this.dropdownStates[navItem];
   // }
@@ -31,7 +31,7 @@ export class DashboardComponent {
       modal.show();
     }
   }
-  
+
   closeModal(modalId: string) {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
@@ -39,24 +39,24 @@ export class DashboardComponent {
       modal?.hide();
     }
   }
-isDropdownOpen(key: string): boolean {
-  return this.dropdownStates[key] || false;
-}
+  isDropdownOpen(key: string): boolean {
+    return this.dropdownStates[key] || false;
+  }
 
-toggleDropdown(key: string): void {
-  this.dropdownStates[key] = !this.dropdownStates[key];
-}
+  toggleDropdown(key: string): void {
+    this.dropdownStates[key] = !this.dropdownStates[key];
+  }
   ngOnInit(): void {
     this.getParentAccounts();
-    this.getUserRole() ;
+    this.getUserRole();
   }
 
   getParentAccounts() {
     this._AccountingService.getParentAccounts().subscribe({
       next: (response) => {
         if (response) {
-          this.accounts = response.data; 
-          console.log( this.accounts)
+          this.accounts = response.data;
+          console.log(this.accounts)
         }
       },
       error: (err) => {
@@ -65,7 +65,7 @@ toggleDropdown(key: string): void {
     });
   }
   // getUserRole() {
-    
+
   //   const userData = JSON.parse(localStorage.getItem('userData') || '{}');
   //   this.userRole = userData.user.role || null; 
   // }
@@ -76,4 +76,5 @@ toggleDropdown(key: string): void {
     } else {
       this.userRole = null;
     }
-}}
+  }
+}

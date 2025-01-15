@@ -71,7 +71,6 @@ product :any;
 
       formData.append('name', this.productForm.get('name')?.value);
       formData.append('price', this.productForm.get('price')?.value);
-      formData.append('amount', this.product.amount);
      
      
       const productId = this.route.snapshot.paramMap.get('id');

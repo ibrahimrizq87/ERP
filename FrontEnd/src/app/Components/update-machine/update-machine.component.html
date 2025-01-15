@@ -1,6 +1,6 @@
 <div class="mt-3 mb-3">
-  <h5>إدارة الآلات</h5>
-  <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الآلات <i class="fa-solid fa-angle-right"></i> تحديث الآلة </span>
+  <h5>إدارة الطرمبات</h5>
+  <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الطرمبات <i class="fa-solid fa-angle-right"></i> تحديث الطرمبة </span>
 </div>
 <div class="mt-4 mb-4">
 <form  [formGroup]="machineForm" (ngSubmit)="handleForm()">
@@ -10,7 +10,7 @@
         <div class="col-md-12">
           <div class="card shadow em-card rounded-lg">
             <div class="card-header bg-white text-black rounded-top pt-3 ">
-              <h5>تحديث الآلة</h5>
+              <h5>تحديث الطرمبات</h5>
             </div>
           
             <div class="card-body pb-5">
@@ -19,10 +19,10 @@
 
                
                 <div class="form-group col-md-6">
-                  <label for="machine_number"  class="form-label">رقم الآلة</label>
-                  <input id="machine_number" formControlName="machine_number" type="text" class="form-control" placeholder="أدخل رقم الآلة" required/>
+                  <label for="machine_number"  class="form-label">رقم الطرمبة</label>
+                  <input id="machine_number" formControlName="machine_number" type="text" class="form-control" placeholder="أدخل رقم الطرمبة" required/>
                   <div class="alert alert-danger" *ngIf="machineForm.get('machine_number')?.errors && machineForm.get('machine_number')?.touched">
-                    <p *ngIf="machineForm.get('machine_number')?.getError('required')">رقم الآلة مطلوب</p>
+                    <p *ngIf="machineForm.get('machine_number')?.getError('required')">رقم الطرمبة مطلوب</p>
                     <p *ngIf="machineForm.get('machine_number')?.getError('maxLength')">الحد الأقصى للطول هو 255</p>
                   </div>
                 </div>

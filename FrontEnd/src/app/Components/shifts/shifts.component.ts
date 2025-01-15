@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Base64 } from 'js-base64';
 
 @Component({
   selector: 'app-shifts',
@@ -17,12 +18,14 @@ export class ShiftsComponent implements OnInit {
    filteredShifts: any[] = [];  
   searchQuery: string = ''; 
   currentStatus: string = 'open';
+  userRole: string | null = null;
   private statusFlow: string[] = ['open', 'closed', 'approved'];
   constructor(private _ShiftService: ShiftService, private router: Router,private toastr :ToastrService) {}
 
   ngOnInit(): void {
     // this.loadShifts(); 
     this.loadShifts(this.currentStatus);
+    this.getUserRole();
   }
 
   // loadShifts(): void {
@@ -140,6 +143,13 @@ export class ShiftsComponent implements OnInit {
       });
     }
   }
-
+  getUserRole() {
+    const encodedRole = localStorage.getItem('userRole');
+    if (encodedRole) {
+      this.userRole = Base64.decode(encodedRole);
+    } else {
+      this.userRole = null;
+    }
+  }
   
 }

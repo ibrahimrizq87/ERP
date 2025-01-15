@@ -147,6 +147,8 @@ public function getSuppliersAccounts()
         'current_balance' => 'required|numeric|min:0',
         'net_debit' => 'required|numeric|min:0',
         'net_credit' => 'required|numeric|min:0',
+        'type' =>'required|string|in:1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24,25,26,none',
+
     ]);
 
     if ($validator->fails()) {
@@ -154,15 +156,27 @@ public function getSuppliersAccounts()
     }
 
     // Update account details
-    $account->update($request->only([
-        'account_name', 
-        'phone', 
-        'parent_id', 
-        'current_balance', 
-        'net_debit', 
-        'net_credit'
-    ]));
+    // $account->update($request->only([
+    //     'account_name', 
+    //     'phone', 
+    //     'parent_id', 
+    //     'current_balance', 
+    //     'net_debit', 
+    //     'net_credit'
+    // ]));
+    $data =$request->all();
 
+        $account->account_name = $data['account_name'];
+        $account->phone =$data['phone'] ??  $account->phone;
+        $account->parent_id = $data['parent_id'];
+        $account->can_delete = true;
+        $account->start_amount = $data['current_balance'] ?? $account->start_amount;
+        $account->current_balance  =  $data['current_balance'] ?? $account->current_balance;
+        $account->net_debit = $data['net_debit']?? $account->net_debit;
+        $account->net_credit = $data['net_credit']?? $account->net_credit;
+        $account->type = $data['type'];
+        
+        $account->save();
     return new AccountResource($account);
 }
 
