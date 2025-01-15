@@ -15,9 +15,9 @@ import { Base64 } from 'js-base64';
 export class ShiftsComponent implements OnInit {
 
   shifts: any[] = []; 
-   filteredShifts: any[] = [];  
+  filteredShifts: any[] = [];  
   searchQuery: string = ''; 
-  currentStatus: string = 'open';
+  currentStatus: string = '';
   userRole: string | null = null;
   private statusFlow: string[] = ['open', 'closed', 'approved'];
   constructor(private _ShiftService: ShiftService, private router: Router,private toastr :ToastrService) {}
