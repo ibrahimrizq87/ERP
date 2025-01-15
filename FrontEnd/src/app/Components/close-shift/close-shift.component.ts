@@ -189,7 +189,7 @@ export class CloseShiftComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
-          this.msgError = err.error.error;
+          this.msgError = err.error.errors.ending_image;
           this._ToastrService.error("حدث خطأ أثناء إغلاق الوردية");
 
         }

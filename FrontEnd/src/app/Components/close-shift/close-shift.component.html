@@ -66,7 +66,11 @@
                   </div>
                 </div>
               </div>
-
+              <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger mt-3">
+                <ul>
+                  <li *ngFor="let error of msgError">{{ error }}</li>
+                </ul>
+              </div>
               <!-- تفاصيل النوبة -->
               <div class="mt-4">
                 <h6 class="text-primary fw-bold">تفاصيل وردية</h6>
@@ -95,11 +99,7 @@
         </div>
 
         <!-- رسائل الخطأ -->
-        <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger mt-3">
-          <ul>
-            <li *ngFor="let error of msgError">{{ error }}</li>
-          </ul>
-        </div>
+       
 
         <!-- أزرار الإجراءات -->
         <div class="mt-4 d-flex justify-content-center gap-3">
