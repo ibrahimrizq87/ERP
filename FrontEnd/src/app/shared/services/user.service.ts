@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {Base64} from 'js-base64';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class UserService {
   private baseURL = environment.apiUrl;
   constructor(private _HttpClient: HttpClient) { 
   }
+  userRole: string | null = null;
   private checkToken(): boolean {
     return !!localStorage.getItem('Gtoken');
   }
@@ -71,5 +73,17 @@ export class UserService {
         console.error('Logout failed:', err);
       },
     });
+  }
+
+
+  getUserRole(): string | null {
+    const encodedRole = localStorage.getItem('userRole');
+    if (encodedRole) {
+      this.userRole = Base64.decode(encodedRole);
+      // this.userRole = atob(encodedRole); 
+    } else {
+      this.userRole = null;
+    }
+    return this.userRole;
   }
 }
