@@ -7,21 +7,33 @@ import { UserService } from '../services/user.service';
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
-  constructor(private _UserService: UserService, private router: Router) {}
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    const allowedRoles = route.data['roles'] as Array<string>;
-    const userRole = this._UserService.getUserRole(); 
-
-    if (userRole && allowedRoles.includes(userRole)) {
-      return true;
-    }
-
-   
-    this.router.navigate(['/login']);
-    return false;
-  }
-}
+    constructor(private router: Router) {}
+  
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    
+      const encodedRole = localStorage.getItem('userRole');
+      const userRole = encodedRole ? atob(encodedRole) : null;
+  
+      if (!userRole) {
+        this.router.navigate(['/login']);
+        return false;
+      }
+  
+      
+      const allowedRoles = route.data['roles'] as Array<string>;
+  
+      if (allowedRoles && allowedRoles.includes(userRole)) {
+        return true;
+      }
+  
+  
+      if (userRole === 'admin') {
+        this.router.navigate(['/dashboard']);
+      } else if (userRole === 'worker' || userRole === 'supervisor'||userRole === 'accountant') {
+        this.router.navigate(['/dashboard/shifts']);
+      } else {
+        this.router.navigate(['/login']);
+      }
+  
+      return false;
+    }}

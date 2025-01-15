@@ -53,14 +53,22 @@ import { ShowEquationHistoryComponent } from './Components/show-equation-history
 import { HistoryOfEquationComponent } from './Components/history-of-equation/history-of-equation.component';
 import { Report5Component } from './Components/report5/report5.component';
 import { RoleGuard } from './shared/guards/role.guard';
+import { DashboardRedirectComponent } from './Components/dashboard-redirect/dashboard-redirect.component';
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
 {path:"login",component:LoginComponent},
 {path:"dashboard",component:DashboardComponent,children:[
-    {path:"",component:UsersComponent,canActivate: [RoleGuard],
-        data: { roles: ['accountant','worker','admin','supervisor'] }},
-  
+    // {path:"",component:UsersComponent,canActivate: [RoleGuard],
+    //     data: { roles: ['accountant','worker','admin','supervisor'] }},
+    {
+        path: '',
+        canActivate: [RoleGuard],
+        data: {
+          roles: ['admin', 'accountant', 'worker', 'supervisor'],
+        },
+        component: DashboardRedirectComponent, // Temporary redirect handler component
+      },
   
     {path:"users",component:UsersComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }}, 
