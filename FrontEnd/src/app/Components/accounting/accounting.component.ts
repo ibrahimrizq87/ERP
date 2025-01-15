@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';import { AccountingService } from
 import { Router ,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 // import { ActivatedRoute } from '@angular/router';
-
+import { Base64 } from 'js-base64';
 
 @Component({
   selector: 'app-accounting',
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './accounting.component.css'
 })
 export class AccountingComponent {
+  userRole: string | null = null;
   accountTypes = [
     { id: '1', message: 'النقدية و ما فى حكمها' },
     { id: '2', message: 'مخزون' },
@@ -57,7 +58,8 @@ taxRate:any
     });
 
     this.getAccounts();
-    this.getTaxRate() 
+    this.getTaxRate() ;
+    this.getUserRole();
   }
   getAccounts(){
    this._AccountingService.getAccountsByParent(this.accountId||'').subscribe({
@@ -127,5 +129,13 @@ this.getAccounts();
     const accountType = this.accountTypes.find((item) => item.id == type);
     console.log(type);
     return accountType ? accountType.message : 'Unknown Type';
+  }
+  getUserRole() {
+    const encodedRole = localStorage.getItem('userRole');
+    if (encodedRole) {
+      this.userRole = Base64.decode(encodedRole);
+    } else {
+      this.userRole = null;
+    }
   }
 }
