@@ -66,12 +66,12 @@
 
         <div class="form-group col-md-4">
           <label class="form-label">اختر حساب العميل </label>
-          <select class="form-control" formControlName="account_id">
+          <select class="form-control"   formControlName="account_id">
             <option value="" disabled>اختر الحساب</option>
             <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
           </select>
         </div>
-
+        <!-- [(ngModel)]="counter.account_id" -->
         <div class="col-md-4">
           <label for="image">صورة العداد</label>
           <input type="file" class="form-control" (change)="onFileSelected($event, 'client_counter', i)" />

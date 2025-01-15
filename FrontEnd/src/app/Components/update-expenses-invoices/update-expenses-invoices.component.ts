@@ -46,9 +46,9 @@ export class UpdateExpensesInvoicesComponent  implements OnInit{
     );
     this.expensesForm.get('payementType')?.valueChanges.subscribe((paymentType) => {
       if (paymentType === 'cash') {
-        this.getAccountsByParent('1');
+        this.getAccountsByParent('10');
       } else if (paymentType === 'online') {
-        this.getAccountsByParent('4'); 
+        this.getAccountsByParent('11'); 
       }
     });
     const expenseId = this.route.snapshot.paramMap.get('id'); 
@@ -140,28 +140,17 @@ export class UpdateExpensesInvoicesComponent  implements OnInit{
     this.expensesAccounts = []; 
   
    
-    this._AccountingService.getAccountsByParent('5').subscribe({
+    this._AccountingService.viewAllExpensesAccounts().subscribe({
       next: (response) => {
         if (response) {
-          this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
+          this.expensesAccounts = response.data; 
+          console.log(this.expensesAccounts);
   
-         
-          this._AccountingService.getAccountsByParent('6').subscribe({
-            next: (response) => {
-              if (response) {
-                this.expensesAccounts = [...this.expensesAccounts, ...response.data]; 
-                console.log('Combined Expenses Accounts:', this.expensesAccounts);
-              }
-            },
-            error: (err) => {
-              console.error('Error fetching marketing expenses:', err);
-            },
-          });
         }
       },
       error: (err) => {
-        console.error('Error fetching general and administrative expenses:', err);
-      },
+        console.error(err);
+      }
     });
   }
   

@@ -23,11 +23,36 @@ export class ShowShiftComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+
+  
   ngOnInit(): void {
     const shiftId = this.route.snapshot.paramMap.get('id');
     if (shiftId) {
       this.fetchShiftData(shiftId);
     }
+  }
+
+roleTranslations: { [key: string]: string } = {
+  admin: 'مدير',
+  worker: 'عامل',
+  supervisor: 'مشرف',
+  accountant: 'محاسب',
+};
+
+translateRole(role: string): string {
+  return this.roleTranslations[role] || 'غير متوفر';
+}
+
+
+   statusTranslations :{ [key: string]: string } = {
+    open: 'مفتوح',
+    closed: 'مغلق',
+    approved: 'معتمد',
+  };
+  
+   translateStatus(status:string) {
+    console.log('herherohfeborifbeoifbvohiefbvohifb',status);
+    return this.statusTranslations[status] || 'غير متوفر';
   }
 
   fetchShiftData(shiftId: string): void {

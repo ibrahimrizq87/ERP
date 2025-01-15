@@ -128,8 +128,12 @@ if (!$product){
 
 $totalOnline = $shift->total_payed_online;
 $totalCustomer = $shift->total_client_deposit;
-   
+$shift->clientCounters()->delete();
+$shift->onlinePayments()->delete();
+
     if ($request->has('online_payments')) {
+
+
         foreach ($request->online_payments as $payment) {
 
         
@@ -138,6 +142,8 @@ $totalCustomer = $shift->total_client_deposit;
                 $image = $payment['image'];
                 $image_path = $image->store('shiftOnlinePaymentImages', 'uploads'); 
                 $image_path = asset('uploads/' . $image_path);
+            }else {
+                
             }
 
              $_payment = new OnlinePayment();
@@ -155,6 +161,8 @@ $totalCustomer = $shift->total_client_deposit;
     }
 
     if ($request->has('client_counters')) {
+
+        
         foreach ($request->client_counters as $counter) {
                
             $image_path = '';  

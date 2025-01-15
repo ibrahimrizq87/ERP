@@ -14,6 +14,12 @@ class ClientCounterResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
-    }
+        return [
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'image' => $this->image,
+            'shift' => new ShiftResource($this->shift), 
+            'account' => new AccountResource($this->account), 
+        ];
+        }
 }

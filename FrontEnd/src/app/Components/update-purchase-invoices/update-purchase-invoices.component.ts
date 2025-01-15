@@ -45,9 +45,9 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
     );
     this.purchasesForm.get('payementType')?.valueChanges.subscribe((paymentType) => {
       if (paymentType === 'cash') {
-        this.getAccountsByParent('1'); // Load accounts for cash
+        this.getAccountsByParent('10'); // Load accounts for cash
       } else if (paymentType === 'online') {
-        this.getAccountsByParent('4'); // Load accounts for online
+        this.getAccountsByParent('11'); // Load accounts for online
       }
     });
     const purchaseId = this.route.snapshot.paramMap.get('id'); 
@@ -140,7 +140,7 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
   }
   
    getSuppliers(){
-    this._AccountingService.getAccountsByParent('3').subscribe({
+    this._AccountingService.getAccountsByParent('22').subscribe({
      next: (response) => {
        if (response) {
          this.suppliers = response.data; 

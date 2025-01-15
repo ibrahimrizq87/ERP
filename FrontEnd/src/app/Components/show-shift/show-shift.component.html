@@ -15,47 +15,60 @@
             </div>
             <div class="mb-3">
               <label class="fw-bold">الدور:</label>
-              <p class="text-muted">{{ userData?.role || 'غير متوفر' }}</p>
+              <p class="text-muted">  {{ roleTranslations[userData?.role] || 'غير متوفر' }}</p>
             </div>
-            <div class="mb-3">
-              <label class="fw-bold">صورة الافتتاح:</label>
-              <img [src]="shiftData?.opening_image" alt="صورة الافتتاح" class="img-fluid rounded w-75" *ngIf="shiftData?.opening_image">
-              <p *ngIf="!shiftData?.opening_image" class="text-muted">لا توجد صورة متوفرة</p>
-            </div>
+        
           </div>
           <!-- بيانات الوردية -->
           <div class="col-md-6">
             <div class="mb-3">
               <label class="fw-bold">رقم الوردية:</label>
-              <p class="text-muted">{{ shiftData?.id || 'غير متوفر' }}</p>
+              <p class="text-muted">{{ shiftData?.shift || 'غير متوفر' }}</p>
             </div>
             <div class="mb-3">
-              <label class="fw-bold">إجمالي المال:</label>
+              <label class="fw-bold">إجمالي المال المحصل من الوردية :</label>
               <p class="text-muted">{{ shiftData?.total_money || 'غير متوفر' }}</p>
             </div>
             <div class="mb-3">
-              <label class="fw-bold">إجمالي النقد:</label>
+              <label class="fw-bold">إجمالي النقدية:</label>
               <p class="text-muted">{{ shiftData?.total_cash || 'غير متوفر' }}</p>
             </div>
             <div class="mb-3">
-              <label class="fw-bold">إجمالي وديعة العميل:</label>
+              <label class="fw-bold">إجمالي آجل على العملاء:</label>
               <p class="text-muted">{{ shiftData?.total_client_deposit || 'غير متوفر' }}</p>
             </div>
             <div class="mb-3">
-              <label class="fw-bold">إجمالي المدفوع عبر الإنترنت:</label>
+              <label class="fw-bold">إجمالي المدفوع عبر الشبكة :</label>
               <p class="text-muted">{{ shiftData?.total_payed_online || 'غير متوفر' }}</p>
             </div>
             <div class="mb-3">
               <label class="fw-bold">الحالة:</label>
-              <p class="text-muted">{{ shiftData?.status || 'غير متوفر' }}</p>
+              <p class="text-muted">{{ statusTranslations[shiftData?.status] || 'غير متوفر' }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- تفاصيل إنهاء الوردية -->
-    <h6 class="mt-4">تفاصيل إنهاء الوردية</h6>
+    <h6 class="mt-4">تفاصيل  فتح العداد</h6>
+    <div class="card mb-3 shadow-sm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="m-3">
+            <label class="fw-bold">صورة فتح العداد :</label>
+            <img [src]="shiftData?.opening_image" alt="صورة الإنهاء" class="img-fluid rounded w-75" *ngIf="shiftData?.ending_image">
+            <p *ngIf="!shiftData?.opening_image" class="text-muted">لا توجد صورة متوفرة</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="fw-bold">رقم فتح العداد :</label>
+          <p class="text-muted">{{ shiftData?.opening_amount || 'غير متوفر' }}</p>
+        </div>
+      </div>
+    </div>
+    
+    
+    <h6 class="mt-4">تفاصيل  غلق العداد</h6>
     <div class="card mb-3 shadow-sm">
       <div class="row">
         <div class="col-md-6">
@@ -66,35 +79,35 @@
           </div>
         </div>
         <div class="col-md-6">
-          <label class="fw-bold">المبلغ النهائي:</label>
+          <label class="fw-bold">رقم غلق العداد :</label>
           <p class="text-muted">{{ shiftData?.ending_amount || 'غير متوفر' }}</p>
         </div>
       </div>
     </div>
 
     <!-- المدفوعات عبر الإنترنت -->
-    <h6 class="mt-4">المدفوعات عبر الإنترنت</h6>
+    <h6 class="mt-4">المدفوعات عبر الشبكة</h6>
     <div class="row">
       <div *ngFor="let payment of onlinePayments" class="col-md-4">
         <div class="card mb-3 shadow-sm">
           <img [src]="payment?.image" alt="صورة المدفوعات" class="card-img-top" *ngIf="payment?.image">
           <div class="card-body">
             <h6 class="card-title">{{ payment?.client_name || 'غير متوفر' }}</h6>
-            <p class="card-text">المبلغ: {{ payment?.amount || 'غير متوفر' }}</p>
+            <p class="card-text">عدد اللترات: {{ payment?.amount || 'غير متوفر' }}</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- عدادات العملاء -->
-    <h6 class="mt-4">عدادات العملاء</h6>
+    <h6 class="mt-4">الدفع آجل للعملاء</h6>
     <div class="row">
       <div *ngFor="let counter of clientCounters" class="col-md-4">
         <div class="card mb-3 shadow-sm">
           <img [src]="counter?.image" alt="صورة العداد" class="card-img-top" *ngIf="counter?.image">
           <div class="card-body">
-            <h6 class="card-title">رقم الحساب: {{ counter?.account_id || 'غير متوفر' }}</h6>
-            <p class="card-text">المبلغ: {{ counter?.amount || 'غير متوفر' }}</p>
+            <h6 class="card-title">اسم الحساب: {{ counter?.account.account_name || 'غير متوفر' }}</h6>
+            <p class="card-text">عدد اللترات: {{ counter?.amount || 'غير متوفر' }}</p>
           </div>
         </div>
       </div>

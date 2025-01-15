@@ -29,6 +29,8 @@ export class UpdateShiftComponent implements OnInit {
   public total_client_deposit: number = 0;
    public amountTotal: number = 0;
   accounts: any;
+  onlinePay:any;
+  clientPay:any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -65,10 +67,12 @@ export class UpdateShiftComponent implements OnInit {
           console.log(this.price);
                   // Patch the online payments data to the form array
         this.setOnlinePayments(shiftData.online_payments);
+        this.onlinePay = shiftData.online_payments;
 
         // Patch the client counters data to the form array
         this.setClientCounters(shiftData.client_counters);
-         
+        this.clientPay = shiftData.client_counters;
+
         }
       },
       error: (err: HttpErrorResponse) => {
@@ -155,9 +159,10 @@ export class UpdateShiftComponent implements OnInit {
       onlinePayments = [];
     }
   
-    // Populate the FormArray with valid data
-    onlinePayments.forEach(payment => {
+        onlinePayments.forEach(payment => {
       onlinePaymentsFormArray.push(this.fb.group({
+        id: [payment.id],
+
         amount: [+payment.amount || null, [Validators.required, Validators.min(0)]],
         client_name: [payment.client_name || null, [Validators.maxLength(255)]],
         image: [payment.image || null]
@@ -204,6 +209,7 @@ export class UpdateShiftComponent implements OnInit {
     this.updateAmountTotal();
   }
   setClientCounters(clientCounters: any[]): void {
+
     const clientCountersFormArray = this.shiftForm.get('client_counters') as FormArray;
   
     if (!Array.isArray(clientCounters)) {
@@ -369,6 +375,8 @@ export class UpdateShiftComponent implements OnInit {
       // Log and return errors for debugging
       console.log('Form validation failed:', this.shiftForm.errors);
       this.shiftForm.markAllAsTouched(); // Highlight errors in form
+      this.toastr.error('تأكد من ادخال جميع المعلومات لتتمكن من  الحفظ');
+
       return;
     }
   
@@ -382,7 +390,7 @@ export class UpdateShiftComponent implements OnInit {
     console.log( this.totalOnlinePayment.toString())
     formData.append('total_client_deposit', this.total_client_deposit.toString());
     console.log(this.total_client_deposit.toString())
-  
+  let send = true;
     // Append Online Payments
     this.onlinePayments.controls.forEach((paymentControl, index) => {
       formData.append(`online_payments[${index}][amount]`, paymentControl.get('amount')?.value || '');
@@ -394,6 +402,9 @@ export class UpdateShiftComponent implements OnInit {
       }
     });
   
+  
+  if(send){
+
     // Append Client Counters
     this.clientCounters.controls.forEach((counterControl, index) => {
       formData.append(`client_counters[${index}][account_id]`, counterControl.get('account_id')?.value || '');
@@ -431,6 +442,8 @@ export class UpdateShiftComponent implements OnInit {
       });
     }
     console.log('Form values before submitting:', this.shiftForm.value);
+  
+  }
   }
   
 
