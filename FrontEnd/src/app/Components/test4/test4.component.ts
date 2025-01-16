@@ -163,7 +163,7 @@ export class Test4Component implements OnInit {
           heightLeft -= pageHeight;
         }
 
-        pdf.save('test4.pdf');
+        pdf.save('قائمة _المركز _المالي.pdf');
       });
     }
   }

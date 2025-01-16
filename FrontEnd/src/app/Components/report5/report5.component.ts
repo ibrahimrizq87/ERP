@@ -99,7 +99,7 @@ export class Report5Component implements OnInit {
           heightLeft -= pageHeight;
         }
 
-        pdf.save('Year_Report.pdf');
+        pdf.save('تقرير السنة.pdf');
       });
     }
   }

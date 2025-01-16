@@ -106,7 +106,7 @@ export class Test2Component implements OnInit{
           heightLeft -= pageHeight;
         }
 
-        pdf.save('test2.pdf');
+        pdf.save('قائمة_ الدخل _العام.pdf');
       });
     }
   }

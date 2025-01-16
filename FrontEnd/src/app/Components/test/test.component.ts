@@ -142,7 +142,7 @@ export class TestComponent implements OnInit {
           heightLeft -= pageHeight;
         }
 
-        pdf.save('test.pdf');
+        pdf.save('إيضاحات _قائمة _الدخل_ العام.pdf');
       });
     }
   }

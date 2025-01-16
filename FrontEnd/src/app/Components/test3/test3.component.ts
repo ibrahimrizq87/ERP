@@ -121,7 +121,7 @@ export class Test3Component implements OnInit {
           heightLeft -= pageHeight;
         }
 
-        pdf.save('test3.pdf');
+        pdf.save('إيضاحات_ قائمة _المركز _المالي.pdf');
       });
     }
   }
