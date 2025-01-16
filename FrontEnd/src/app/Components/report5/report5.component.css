@@ -1,0 +1,24 @@
+#invoice-details table.table {
+    border-color: #000 !important; 
+  }
+  
+  #invoice-details th, 
+  #invoice-details td {
+    border: 2px solid #000 !important;
+  }
+  
+  #invoice-details table.table {
+    border-color: #000 !important; 
+  }
+  
+  #invoice-details th, 
+  #invoice-details td {
+    border: 2px solid #000 !important;
+  }
+  
+  #invoice-details .table-borderless td, 
+  #invoice-details .table-borderless th {
+    border: none !important; 
+  }
+  
+  

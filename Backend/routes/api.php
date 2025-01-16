@@ -20,8 +20,9 @@ use App\Http\Controllers\EquationHistoryController;
 Route::delete('shifts/delete-online-client/{item_id}', [ShiftController::class , 'deleteOnlineClient']);
 
 Route::delete('shifts/delete-online-payment/{item_id}', [ShiftController::class , 'deleteOnlinePayment']);
+Route::get('equation_history/get-last-base-calculation', [EquationHistoryController::class, 'getLastBaseCalculation']);
 
-Route::get('equation_history/get-last-base-calculation', [AccountController::class , 'getLastBaseCalculation']);
+// Route::get('equation_history/get-last-base-calculation', [AccountController::class , 'getLastBaseCalculation']);
 Route::get('accounts/get-accounts-by-type/{type}', [AccountController::class , 'getAccountsByType']);
 
 Route::apiResource('expense_invoices', ExpenseInvoiceController::class)->middleware('auth:sanctum');
