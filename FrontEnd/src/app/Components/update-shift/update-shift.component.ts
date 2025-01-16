@@ -19,18 +19,68 @@ export class UpdateShiftComponent implements OnInit {
   isLoading: boolean = false;
   shiftForm: FormGroup;
   selectedImages: { [key: string]: File | null } = {}; 
-  price: number = 0; // Price from machine data
-  public totalAmountSum: number = 0; // Sum of all entered amounts (before multiplication)
+  price: number = 0; 
+  public totalAmountSum: number = 0; 
+  public totalOnlinePayment: number = 0;  
+  totalAmountOnline:number = 0;
+  totalAmountClient:number = 0;
 
- public totalOnlinePayment: number = 0;  // Sum of all payments
-  paymentResults: number[] = [];   // Individual payment results
+
+  paymentResults: number[] = [];   
   
   clientsResult:number[]=[];
   public total_client_deposit: number = 0;
    public amountTotal: number = 0;
   accounts: any;
-  onlinePay:any;
-  clientPay:any;
+  onlinePay:OnlinePayment[] = [];
+  clientPay:ClientPayment[] = [];
+
+
+  deletePayment(item:OnlinePayment){
+    this._ShiftService.deleteOnlinePay(item.id).subscribe({
+      next: (response) => {
+        console.log('Shift Data:', response); 
+        if (response) {
+          this.totalOnlinePayment -= item.amount * this.price;
+          this.amountTotal-= item.amount * this.price;
+          this.onlinePay = this.onlinePay.filter((ele)=> ele.id != item.id)
+          this.toastr.success('تم الحزف بنجاح');
+
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching shift data:', err); 
+        this.msgError = err.error.error;
+        this.toastr.error('لقد حدثة مشكلة اثناء حذف هذا العنصر');
+
+      }
+    });
+  }
+
+  deleteClient(item:any){
+    this._ShiftService.deleteClientPay(item.id).subscribe({
+      next: (response) => {
+        console.log('Shift Data:', response); 
+        if (response) {
+          this.total_client_deposit -= item.amount* this.price;
+          this.amountTotal-= item.amount * this.price;
+
+          this.clientPay = this.clientPay.filter((ele)=> ele.id != item.id)
+
+          this.toastr.success('تم الحزف بنجاح');
+
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching shift data:', err); 
+        this.msgError = err.error.error;
+        this.toastr.error('لقد حدثة مشكلة اثناء حذف هذا العنصر');
+
+      }
+    });
+  }
+
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -43,9 +93,8 @@ export class UpdateShiftComponent implements OnInit {
       total_cash: [''],
       total_client_deposit: [''],
       total_payed_online: [''],
-      // amount: [null, [Validators.required, Validators.min(0)]],
-      online_payments: this.fb.array([]),  // FormArray for online payments
-      client_counters: this.fb.array([])    // FormArray for client counters
+      online_payments: this.fb.array([]),  
+      client_counters: this.fb.array([])   
     });
   }
 
@@ -66,12 +115,11 @@ export class UpdateShiftComponent implements OnInit {
           this.price = parseFloat(response?.data?.machine?.product?.price) || 0;
           console.log(this.price);
                   // Patch the online payments data to the form array
-        this.setOnlinePayments(shiftData.online_payments);
+        // this.setOnlinePayments(shiftData.online_payments);
         this.onlinePay = shiftData.online_payments;
-
-        // Patch the client counters data to the form array
-        this.setClientCounters(shiftData.client_counters);
+        
         this.clientPay = shiftData.client_counters;
+        this.updateOldValues();
 
         }
       },
@@ -96,66 +144,40 @@ export class UpdateShiftComponent implements OnInit {
    });
  
    }
+
+
+   updateOldValues(){
+    let total =0;
+    let totalAmount =0;
+    let thisPrice = this.price;
+    this.onlinePay.forEach( function (item){
+      total += item.amount *thisPrice;
+      totalAmount += item.amount;
+    })
+
+    this.totalOnlinePayment =total;
+     total =0;
+    this.clientPay.forEach( function (item){
+      total += item.amount *thisPrice;
+      totalAmount += item.amount;
+
+    })
+    
+
+
+    this.total_client_deposit =total;
+    let currentAmounPrice = this.totalAmountOnline * this.price;
+    this.totalOnlinePayment +=currentAmounPrice;
+
+     currentAmounPrice = this.totalAmountClient * this.price;
+     this.total_client_deposit +=currentAmounPrice;
+      this.amountTotal = (this.total_client_deposit + this.totalOnlinePayment );
+   }
  
-  
-//   fetchShiftData(shiftId: string): void {
-//   this._ShiftService.getShiftById(shiftId).subscribe({
-//     next: (response) => {
-//       console.log('Shift Data:', response); // Debugging log
-//       if (response) {
-//         const shiftData = response.data;  // Assuming the response data is inside a 'data' key
-//         this.price = parseFloat(response?.data?.machine?.product?.price) || 0;
-//         // Set the opening amount and other form values
-//         // this.shiftForm.patchValue({
-//         //   // opening_amount: shiftData.opening_amount,
-//         //   // opening_image: shiftData.opening_image,
-//         //   // total_cash: shiftData.total_cash,
-//         //   // total_client_deposit: shiftData.total_client_deposit,
-//         //   // total_money: shiftData.total_money,
-//         //   // total_payed_online: shiftData.total_payed_online,
-//         // });
-
-//         // Patch the online payments data to the form array
-//         this.setOnlinePayments(shiftData.online_payments);
-
-//         // Patch the client counters data to the form array
-//         this.setClientCounters(shiftData.client_counters);
-
-//         // Set the total online payment and other totals dynamically if needed
-//         // this.totalOnlinePayment =shiftData.total_payed_online;
-//         // this.total_client_deposit = shiftData.total_client_deposit;
-//         // this.amountTotal = this.totalOnlinePayment + this.total_client_deposit;
-//       }
-//     },
-//     error: (err: HttpErrorResponse) => {
-//       console.error('Error fetching shift data:', err); // Debugging log
-//       this.msgError = err.error.error;
-//     }
-//   });
-// }
-
-
-  // setOnlinePayments(onlinePayments: any[]): void {
-  //   const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
-  
-  //   if (!Array.isArray(onlinePayments)) {
-  //     onlinePayments = [];
-  //   }
-  
-  //   onlinePayments.forEach(payment => {
-  //     onlinePaymentsFormArray.push(this.fb.group({
-  //       amount: [payment.amount, [Validators.required, Validators.min(0)]],
-  //       client_name: [payment.client_name, [Validators.maxLength(255)]],
-  //       image: [payment.image]
-  //     }));
-  //   });
-  //   this.initializePaymentResults();
-  // }
+   
   setOnlinePayments(onlinePayments: any[]): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
-  
-    // Ensure that onlinePayments is always an array
-    if (!Array.isArray(onlinePayments)) {
+      if (!Array.isArray(onlinePayments)) {
       onlinePayments = [];
     }
   
@@ -168,29 +190,15 @@ export class UpdateShiftComponent implements OnInit {
         image: [payment.image || null]
       }));
     });
-    this.initializePaymentResults();
   }
   
  
 
-  // initializePaymentResults(): void {
-  //   this.paymentResults = Array(this.onlinePayments.length).fill(0);
-  //   this.updatePaymentResults();
-  // }
-  initializePaymentResults(): void {
-    this.paymentResults = Array(this.onlinePayments.length).fill(0);
-    this.updatePaymentResults();
-    this.calculateTotalAmountSum(); // Calculate the sum of all amounts
-  }
-  
   calculatePaymentTotal(index: number): void {
     const amount = this.onlinePayments.at(index).get('amount')?.value || 0;
     this.paymentResults[index] = amount * this.price;
-    this.updateTotalOnlinePayment(); // Update total after each calculation
-  }
+    this.calculateTotalAmountSum();
 
-  updatePaymentResults(): void {
-    this.onlinePayments.controls.forEach((_, index) => this.calculatePaymentTotal(index));
   }
 
   addOnlinePayment(): void {
@@ -204,10 +212,7 @@ export class UpdateShiftComponent implements OnInit {
     this.calculateTotalAmountSum(); 
   }
 
-  updateTotalOnlinePayment(): void {
-    this.totalOnlinePayment = this.paymentResults.reduce((sum, payment) => sum + payment, 0);
-    this.updateAmountTotal();
-  }
+
   setClientCounters(clientCounters: any[]): void {
 
     const clientCountersFormArray = this.shiftForm.get('client_counters') as FormArray;
@@ -223,18 +228,7 @@ export class UpdateShiftComponent implements OnInit {
         image: [counter.image]
       }));
     });
-    this.initializeClientCounters();
 
-  }
-
-  // initializeClientCounters(): void {
-  //   this.clientsResult = Array(this.clientCounters.length).fill(0);
-  //   this.updateClientCounter();
-  // }
-  initializeClientCounters(): void {
-    this.clientsResult = Array(this.clientCounters.length).fill(0);
-    this.updateClientCounter();
-    this.calculateTotalAmountSum(); // Calculate the sum of all amounts
   }
 
   calculateTotalAmountSum(): void {
@@ -242,30 +236,25 @@ export class UpdateShiftComponent implements OnInit {
       .map(control => control.get('amount')?.value || 0);
     const clientAmounts = this.clientCounters.controls
       .map(control => control.get('amount')?.value || 0);
+
+      this.totalAmountOnline = onlineAmounts.reduce((sum, amount) => sum + amount, 0);
+      this.totalAmountClient=clientAmounts.reduce((sum, amount) => sum + amount, 0);
     
     this.totalAmountSum = [...onlineAmounts, ...clientAmounts].reduce((sum, amount) => sum + amount, 0);
     console.log('Total sum of all amounts (before multiplication):', this.totalAmountSum);
+    console.log('totalAmountOnline  (before multiplication):', this.totalAmountOnline);
+    console.log('totalAmountClient  (before multiplication):', this.totalAmountClient);
+    this.updateOldValues();
+
+
   }
   
 
   calculateCounterTotal(index: number): void {
     const amount = this.clientCounters.at(index).get('amount')?.value || 0;
     this.clientsResult[index] = amount * this.price;
-    this.updateTotalClientCounter(); // Update total after each calculation
-    
+    this.calculateTotalAmountSum();
   }
-
-  updateClientCounter(): void {
-    this.clientCounters.controls.forEach((_, index) => this.calculateCounterTotal(index));
-    
-  }
-
-  updateTotalClientCounter(): void {
-    // Calculate total client deposit by summing up all client counter results
-    this.total_client_deposit = this.clientsResult.reduce((sum, result) => sum + result, 0);
-    this.updateAmountTotal();
-  }
-
   addClientCounter(): void {
     const clientCountersFormArray = this.shiftForm.get('client_counters') as FormArray;
     clientCountersFormArray.push(this.fb.group({
@@ -276,29 +265,17 @@ export class UpdateShiftComponent implements OnInit {
     this.calculateTotalAmountSum(); 
   }
 
-  // removeClientCounter(index: number): void {
-  //   const clientCountersFormArray = this.shiftForm.get('client_counters') as FormArray;
-  //   clientCountersFormArray.removeAt(index);
-  // }
-
   removeClientCounter(index: number): void {
     const clientCountersFormArray = this.shiftForm.get('client_counters') as FormArray;
     clientCountersFormArray.removeAt(index);
     this.clientsResult.splice(index, 1);  // Remove the result for that counter
-    this.updateTotalClientCounter();  // Recalculate the total after removal
     this.calculateTotalAmountSum(); // Update total sum
-  }
- 
-  initializeclientCounters(): void {
-    this.clientsResult = Array(this.clientCounters.length).fill(0);
-    this.updateClientCounter();
   }
   
   removeOnlinePayment(index: number): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
     onlinePaymentsFormArray.removeAt(index);
     this.paymentResults.splice(index, 1);  // Remove the result for that payment
-    this.updateTotalOnlinePayment();  // Recalculate the total after removal
     this.calculateTotalAmountSum();
   }
   updateAmountTotal(): void {
@@ -307,72 +284,8 @@ export class UpdateShiftComponent implements OnInit {
   }
 
 
-  // handleForm(): void {
-  //   if (this.shiftForm.invalid) {
-  //     // Check for specific errors
-  //     const errors = this.shiftForm.errors;
-  //     console.log('Form is invalid:', errors);
-  //     return;
-  //   }
-  //   // if (this.shiftForm.valid) {
-  //     this.isLoading = true;
-  //     const formData = new FormData();
-  //     formData.append('amount', this.amountTotal.toString());
-  //    console.log(this.amountTotal.toString())
-  //    formData.append('total_payed_online', this.totalOnlinePayment.toString());
-  //    console.log(this.totalOnlinePayment.toString())
-  //    formData.append('total_client_deposit',this.total_client_deposit.toString())
-  //    console.log(this.total_client_deposit.toString())
-  
-  //     // Handle Online Payments and Client Counters with images
-  //     const onlinePayments = this.shiftForm.get('online_payments')?.value;
-  //     console.log(onlinePayments)
-  //     onlinePayments.forEach((payment: any, i: number) => {
-  //       if (this.selectedImages[`online_payment_${i}`]) {
-  //         formData.append('online_payments[]', JSON.stringify(payment));
-          
-  //         const image = this.selectedImages[`online_payment_${i}`];
-  //         if (image) {
-  //           formData.append(`online_payment_${i}_image`, image);
-  //         }
-  //         console.log(image)
-  //       }
-  //     });
-  
-  //     const clientCounters = this.shiftForm.get('client_counters')?.value;
-  //     clientCounters.forEach((counter: any, i: number) => {
-  //       if (this.selectedImages[`client_counter_${i}`]) {
-  //         formData.append('client_counters[]', JSON.stringify(counter));
-          
-  //         const image = this.selectedImages[`client_counter_${i}`];
-  //         if (image) {
-  //           formData.append(`client_counter_${i}_image`, image);
-  //         }
-  //       }
-  //     });
-  
-  //     const shiftId = this.route.snapshot.paramMap.get('id');
-  //     if (shiftId) {
-  //       this._ShiftService.updateShift(shiftId, formData).subscribe({
-  //         next: (response) => {
-  //           this.isLoading = false;
-  //           if (response) {
-  //             this.router.navigate(['/dashboard/shifts']);
-  //           }
-  //         },
-  //         error: (err: HttpErrorResponse) => {
-  //           this.isLoading = false;
-  //           this.msgError = err.error.error;
-  //         }
-  //       });
-  //     }
-  //     console.log('Form values before submitting:', this.shiftForm.value);
-
-  //   // }
-  // }
   handleForm(): void {
     if (this.shiftForm.invalid) {
-      // Log and return errors for debugging
       console.log('Form validation failed:', this.shiftForm.errors);
       this.shiftForm.markAllAsTouched(); // Highlight errors in form
       this.toastr.error('تأكد من ادخال جميع المعلومات لتتمكن من  الحفظ');
@@ -383,7 +296,6 @@ export class UpdateShiftComponent implements OnInit {
     this.isLoading = true;
     const formData = new FormData();
   
-    // Append totals
     formData.append('amount', this.totalAmountSum.toString());
     console.log(this.totalAmountSum.toString())
     formData.append('total_payed_online', this.totalOnlinePayment.toString());
@@ -391,7 +303,6 @@ export class UpdateShiftComponent implements OnInit {
     formData.append('total_client_deposit', this.total_client_deposit.toString());
     console.log(this.total_client_deposit.toString())
   let send = true;
-    // Append Online Payments
     this.onlinePayments.controls.forEach((paymentControl, index) => {
       formData.append(`online_payments[${index}][amount]`, paymentControl.get('amount')?.value || '');
       formData.append(`online_payments[${index}][client_name]`, paymentControl.get('client_name')?.value || '');
@@ -405,7 +316,6 @@ export class UpdateShiftComponent implements OnInit {
   
   if(send){
 
-    // Append Client Counters
     this.clientCounters.controls.forEach((counterControl, index) => {
       formData.append(`client_counters[${index}][account_id]`, counterControl.get('account_id')?.value || '');
       formData.append(`client_counters[${index}][amount]`, counterControl.get('amount')?.value || '');
@@ -416,7 +326,6 @@ export class UpdateShiftComponent implements OnInit {
       }
     });
   
-    // Debugging: Log the FormData
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);
     }
@@ -466,4 +375,24 @@ export class UpdateShiftComponent implements OnInit {
       this.selectedImages[`${formName}_${index}`] = file;
     }
   }
+}
+
+interface OnlinePayment{
+  id:number,
+  amount:number,
+  image:string,
+  client_name:string
+
+}
+interface ClientPayment{
+  id:number,
+  amount:number,
+  image:string,
+  account:Account
+
+}
+interface Account{
+  
+  account_name:string,
+
 }
