@@ -16,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EquationsComponent implements OnInit {
   msgError: any[] = [];
+  message: any;
   getTodayDate(): any {
     new Date().getFullYear();
   }
@@ -118,6 +119,8 @@ export class EquationsComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
+          this.message=err.error.message
+          console.log(this.message)
           this.msgError = [];
           if (err.error && err.error.errors) {
             for (const key in err.error.errors) {
