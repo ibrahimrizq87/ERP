@@ -13,6 +13,10 @@ import { Base64 } from 'js-base64';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  isSidebarOpen = false;  
+
+
+
   dropdownStates: { [key: string]: boolean } = {};
   constructor(private router: Router, private _AccountingService: AccountingService) { }
   accounts: any;
@@ -76,5 +80,8 @@ export class DashboardComponent {
     } else {
       this.userRole = null;
     }
+  }
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

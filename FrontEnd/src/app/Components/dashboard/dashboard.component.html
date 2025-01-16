@@ -4,13 +4,16 @@
     <div class="row">
 
       <!-- Sidebar Toggle Button for Mobile -->
-      <button class="btn btn-white d-md-none mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+      <!-- <button class="btn btn-white d-md-none mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
         aria-expanded="false" aria-controls="sidebarMenu">
+        <i class="fa-solid fa-bars"></i>
+      </button> -->
+      <button class="btn btn-white d-md-none mb-2" type="button" (click)="toggleSidebar()">
         <i class="fa-solid fa-bars"></i>
       </button>
 
       <!-- Sidebar -->
-      <div class="col-md-2 collapse d-md-block" id="sidebarMenu">
+      <div class="col-md-2 " [ngClass]="{'collapse': !isSidebarOpen, 'd-md-block': true}" id="sidebarMenu">
         <ul class="nav flex-column sidebar">
 
           <li class="nav-item" *ngIf="userRole === 'admin'">
