@@ -1,36 +1,37 @@
-<div class="container mt-5">
-    <table class="table table-bordered text-center">
-      <thead>
+<div class="container mt-5" id="invoice-details">
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>الاصل</th>
+        <th>القيمة الشرائية</th>
+        <th>الإهلاك أول العام</th>
+        <th>صافي القيمة الشرائية أول الفترة</th>
+        <th>العمر الافتراضي</th>
+        <th>نسب الإهلاك</th>
+        <th>
+          <table class="table table-borderless m-0">
+            <tr>
+              <th colspan="2">مدة الاستهلاك</th>
+            </tr>
+            <tr>
+              <th>سنة</th>
+              <th>يوم</th>
+            </tr>
+          </table>
+        </th>
+        <th>قيمة الإهلاك</th>
+        <th>صافي القيمة الدفترية</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let group of reportYear">
         <tr>
-          <th>الاصل</th>
-          <th>القيمة الشرائية</th>
-          <th>الإهلاك أول العام</th>
-          <th>صافي القيمة الشرائية أول الفترة</th>
-          <th>العمر الافتراضي</th>
-          <th>نسب الإهلاك</th>
-          <th>
-            <table class="table table-borderless m-0">
-              <tr>
-                <th colspan="2">مدة الاستهلاك</th>
-              </tr>
-              <tr>
-                <th>سنة</th>
-                <th>يوم</th>
-              </tr>
-            </table>
-          </th>
-          <th>قيمة الإهلاك</th>
-          <th>صافي القيمة الدفترية</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>المباني</td>
-          <td>300,000.00</td>
-          <td>42,449.06</td>
-          <td>257,550.94</td>
-          <td>20</td>
-          <td>5%</td>
+          <td>{{ group.equation_id.base_id.account_name }}</td>
+          <td>{{ group.equation_id.first_price }}</td>
+          <td>{{ group.last_price }}</td>
+          <td>{{ group.equation_id.first_price }}</td>
+          <td>{{ group.equation_id.number_of_periods }}</td>
+          <td>{{ (100 / group.equation_id.number_of_periods).toFixed(2) }}%</td>
           <td>
             <table class="table table-borderless m-0">
               <tr>
@@ -39,63 +40,24 @@
               </tr>
             </table>
           </td>
-          <td>12,877.55</td>
-          <td>287,122.45</td>
+          <td>{{ group.amount }}</td>
+          <td>{{group.equation_id.first_price-group.amount}}</td>
         </tr>
-        <tr>
-          <td>الآلات والمعدات</td>
-          <td>136,471.00</td>
-          <td>36,457.14</td>
-          <td>100,013.86</td>
-          <td>10</td>
-          <td>10%</td>
-          <td>
-            <table class="table table-borderless m-0">
-              <tr>
-                <td>1</td>
-                <td>365</td>
-              </tr>
-            </table>
-          </td>
-          <td>10,001.39</td>
-          <td>126,469.61</td>
-        </tr>
-        <tr>
-          <td>الأثاثات والتجهيزات</td>
-          <td>120,000.00</td>
-          <td>57,024.00</td>
-          <td>62,976.00</td>
-          <td>5</td>
-          <td>20%</td>
-          <td>
-            <table class="table table-borderless m-0">
-              <tr>
-                <td>1</td>
-                <td>365</td>
-              </tr>
-            </table>
-          </td>
-          <td>12,595.20</td>
-          <td>107,404.80</td>
-        </tr>
-        <tr class="fw-bold">
-          <td>الإجمالي</td>
-          <td>556,471.00</td>
-          <td>135,930.20</td>
-          <td>420,540.80</td>
-          <td></td>
-          <td></td>
-          <td>
-            <table class="table table-borderless m-0">
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </table>
-          </td>
-          <td>35,474.13</td>
-          <td>520,996.87</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      </ng-container>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>الإجمالي</th>
+        <th>{{ totalFirstPrice }}</th>
+        <th>{{ totalCurrentPrice }}</th>
+        <th>{{ totalNetFirstPrice }}</th>
+        <th colspan="3"></th>
+        <th>{{ totalDepreciation }}</th>
+        <th>{{ totalNetBookValue }}</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+<div class="mt-4 text-center">
+  <button (click)="exportToPDF()" class="btn btn-primary">Download as PDF</button>
+</div>

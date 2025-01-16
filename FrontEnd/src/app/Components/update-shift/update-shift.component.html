@@ -1,6 +1,23 @@
 <form [formGroup]="shiftForm" (ngSubmit)="handleForm()">
   
-  <!-- المدفوعات عبر الإنترنت -->
+  <h6 class="mt-4">المدفوعات عبر الشبكة</h6>
+  <div class="row">
+    <div *ngFor="let payment of onlinePay" class="col-md-4">
+      <div class="card mb-3 shadow-sm">
+        <img [src]="payment?.image" alt="صورة المدفوعات" class="card-img-top" *ngIf="payment?.image">
+        <div class="card-body">
+          <h6 class="card-title">{{ payment.client_name || 'غير متوفر' }}</h6>
+          <p class="card-text">عدد اللترات: {{ payment.amount || 'غير متوفر' }}</p>
+          <p class="card-text"> المبلغ المطلوب: {{ payment.amount*price  || 'غير متوفر' }}</p>
+          <a (click)="deletePayment(payment)" class="btn btn-danger btn-sm">حذف</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
   <div formArrayName="online_payments" class="mt-4">
     <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="mb-3">
       <div class="row">
@@ -45,11 +62,35 @@
   <!-- المبلغ الإجمالي المدفوع عبر الإنترنت -->
   <div class="form-group col-md-12 mt-4">
     <label for="totalOnlinePayment">إجمالي مبلغ الدفع عبر الشبكة:  <small>{{totalOnlinePayment}}</small></label>
+
+  </div>
+  <div class="form-group col-md-12 mt-4">
+    <label for="totalOnlinePayment">إجمالي  عدد الترات عبر الشبكة المضافة حاليا:  <small>{{totalAmountOnline}}</small></label>
+
   </div>
 
   <br>
   <hr>
   <br>
+
+
+  <h6 class="mt-4">الدفع آجل للعملاء</h6>
+  <div class="row">
+    <div *ngFor="let counter of clientPay" class="col-md-4">
+      <div class="card mb-3 shadow-sm">
+        <img [src]="counter?.image" alt="صورة العداد" class="card-img-top" *ngIf="counter?.image">
+        <div class="card-body">
+          <h6 class="card-title">اسم الحساب: {{ counter.account.account_name || 'غير متوفر' }}</h6>
+          <p class="card-text">عدد اللترات: {{ counter.amount || 'غير متوفر' }}</p>
+          <p class="card-text"> المبلغ المطلوب: {{ counter.amount*price   || 'غير متوفر' }}</p>
+          <a (click)="deleteClient(counter)" class="btn btn-danger btn-sm">حذف</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     <div formArrayName="client_counters" class="mt-4">
     <div *ngFor="let counter of clientCounters.controls; let i = index" [formGroupName]="i" class="mb-3">
       <div class="row">
@@ -91,6 +132,9 @@
 
   <div class="form-group col-md-12 mt-4">
     <label for="total_client_deposit">إجمالي دين العميل : <small>{{total_client_deposit}}</small></label>
+  </div>
+  <div class="form-group col-md-12 mt-4">
+    <label for="total_client_deposit"> إجمالي عدد الترات العملاء المضافة حاليا: <small>{{totalAmountClient}}</small></label>
   </div>
   <br>
   <hr>

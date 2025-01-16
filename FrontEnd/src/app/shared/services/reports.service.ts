@@ -22,5 +22,10 @@ export class ReportsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/accounts/get-accounts-by-type/${type}` ,{ headers })
   } 
+  equationHistory(): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.get(`${this.baseURL}/equation_history/get-last-base-calculation` ,{ headers })
+  } 
 }
 // accounts/get-accounts-by-type/{type}

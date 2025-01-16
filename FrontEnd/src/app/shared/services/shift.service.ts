@@ -17,6 +17,20 @@ export class ShiftService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/shifts`,{ headers })
   }
+
+
+  
+  
+  deleteClientPay(item_id: number): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.delete(`${this.baseURL}/shifts/delete-online-client/${item_id}`, { headers })
+  }
+  deleteOnlinePay(item_id: number): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.delete(`${this.baseURL}/shifts/delete-online-payment/${item_id}`, { headers })
+  }
   deleteShift(shiftId: number): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

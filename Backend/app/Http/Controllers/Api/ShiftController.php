@@ -65,6 +65,88 @@ class ShiftController extends Controller
     
 
 
+    public function deleteOnlinePayment($item_id)
+{
+    $onlineItem = OnlinePayment::find($item_id);
+    if(!$onlineItem){
+        return response()->json([
+                    'message' => 'shift not found'
+                ], 404);
+    }
+
+    $shift = Shift::find($onlineItem->shift_id);
+    if(!$shift){
+        return response()->json([
+                    'message' => 'shift not found'
+                ], 404);
+    }
+
+    DB::beginTransaction();
+    
+    try {     
+        $price =  $shift->machine->product->price;
+        $shift->total_payed_online -=  $onlineItem->amount * $price;
+        
+        $shift->save();
+        $onlineItem->delete();
+        DB::commit();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted successfully',
+        ]);
+    } catch (\Exception $e) {
+    
+        DB::rollBack(); 
+        return response()->json(
+            [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ] , 500
+        );
+    }
+}
+
+
+public function deleteOnlineClient($item_id)
+{
+    $onlineItem = ClientCounter::find($item_id);
+    if(!$onlineItem){
+        return response()->json([
+                    'message' => 'shift not found'
+                ], 404);
+    }
+
+    $shift = Shift::find($onlineItem->shift_id);
+    if(!$shift){
+        return response()->json([
+                    'message' => 'shift not found'
+                ], 404);
+    }
+
+    DB::beginTransaction();
+    
+    try {     
+        $price =  $shift->machine->product->price;
+        $shift->total_payed_online -=  $onlineItem->amount * $price;
+        
+        $shift->save();
+        $onlineItem->delete();
+        DB::commit();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted successfully',
+        ]);
+    } catch (\Exception $e) {
+    
+        DB::rollBack(); 
+        return response()->json(
+            [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ] , 500
+        );
+    }
+}
 
 
     public function update(Request $request , $shift_id)
@@ -128,8 +210,8 @@ if (!$product){
 
 $totalOnline = $shift->total_payed_online;
 $totalCustomer = $shift->total_client_deposit;
-$shift->clientCounters()->delete();
-$shift->onlinePayments()->delete();
+// $shift->clientCounters()->delete();
+// $shift->onlinePayments()->delete();
 
     if ($request->has('online_payments')) {
 
