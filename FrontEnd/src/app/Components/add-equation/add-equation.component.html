@@ -14,10 +14,10 @@
             <div class="card-body pb-5">
               <div class="row">
                 <div class="form-group col-md-6">
-                  <label for="first_price" class="form-label">السعر الأولي</label>
-                  <input id="first_price" formControlName="first_price" type="number" min="0" class="form-control" placeholder="أدخل السعر الأولي" required />
+                  <label for="first_price" class="form-label"> سعر الشراء الاولى</label>
+                  <input id="first_price" formControlName="first_price" type="number" min="0" class="form-control" placeholder="أدخل سعر الشراء الأولي" required />
                   <div class="alert alert-danger" *ngIf="equationForm.get('first_price')?.errors && equationForm.get('first_price')?.touched">
-                    <p *ngIf="equationForm.get('first_price')?.getError('required')">السعر الأولي مطلوب</p>
+                    <p *ngIf="equationForm.get('first_price')?.getError('required')">سعر الشراء الأولي مطلوب</p>
                     <p *ngIf="equationForm.get('first_price')?.getError('min')">الحد الأدنى هو 0</p>
                   </div>
                 </div>
@@ -30,24 +30,24 @@
                   </div>
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="number_of_periods" class="form-label">عدد الفترات</label>
-                  <input id="number_of_periods" formControlName="number_of_periods" type="number" min="0" class="form-control" placeholder="أدخل عدد الفترات" required />
+                  <label for="number_of_periods" class="form-label"> العمر الافتراضى بالسنه</label>
+                  <input id="number_of_periods" formControlName="number_of_periods" type="number" min="0" class="form-control" placeholder="أدخل  العمر الافتراضى بالسنه" required />
                   <div class="alert alert-danger" *ngIf="equationForm.get('number_of_periods')?.errors && equationForm.get('number_of_periods')?.touched">
-                    <p *ngIf="equationForm.get('number_of_periods')?.getError('required')">عدد الفترات مطلوب</p>
+                    <p *ngIf="equationForm.get('number_of_periods')?.getError('required')"> العمر الافتراضى بالسنه مطلوب</p>
                     <p *ngIf="equationForm.get('number_of_periods')?.getError('min')">الحد الأدنى هو 0</p>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
-                  <label class="form-label">اختر المجموعة</label>
+                  <label class="form-label">اختر مجمع الاهلاك</label>
                   <select class="form-control" formControlName="collection_id">
-                    <option value="" disabled>اختر المجموعة</option>
+                    <option value="" disabled>اختر مجمع الاهلاك </option>
                     <option *ngFor="let collection of collections" [value]="collection.id">{{ collection.account_name }}</option>
                   </select>
                 </div>
                 <div class="form-group col-md-6">
-                  <label class="form-label">اختر الحساب الأساسي</label>
+                  <label class="form-label">اختر  حساب الاصل الثابت</label>
                   <select class="form-control" formControlName="base_id">
-                    <option value="" disabled>اختر الحساب الأساسي</option>
+                    <option value="" disabled>اختر  حساب الاصل الثابت</option>
                     <option *ngFor="let base of bases" [value]="base.id">{{ base.account_name }}</option>
                   </select>
                 </div>

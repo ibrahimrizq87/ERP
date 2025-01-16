@@ -69,10 +69,10 @@
                 <form [formGroup]="equationHistory" (ngSubmit)="submitHistoryForm()">
                     <div class="form-group col-md-6">
                         <label for="year" class="form-label">السنة</label>
-                        <input id="year" formControlName="year" type="number" min="2000" class="form-control" />
+                        <input id="year" formControlName="year" type="number" min="2000" max="{{currentYear}}" class="form-control" />
                         <div class="alert alert-danger" *ngIf="equationHistory.get('year')?.errors && equationHistory.get('year')?.touched">
                             <p *ngIf="equationHistory.get('year')?.hasError('min')">الحد الأدنى هو 2000</p>
-                            <p *ngIf="equationHistory.get('year')?.hasError('max')">الحد الأقصى هو 2025</p>
+                            <p *ngIf="equationHistory.get('year')?.hasError('max')">الحد الأقصى هو {{currentYear}}</p>
                         </div>
                     </div>
                     <input type="hidden" [value]="selectedEquationId" />

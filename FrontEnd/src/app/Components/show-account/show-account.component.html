@@ -23,11 +23,15 @@
                   <p class="text-muted">{{ AccountData?.current_balance || 'غير متوفر' }}</p>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">الائتمان الصافي:</label>
+                  <label class="fw-bold">الرصيد الافتتاحى:</label>
+                  <p class="text-muted">{{ AccountData?.start_amount || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold"> الصافى دائن:</label>
                   <p class="text-muted">{{ AccountData?.net_credit || 'غير متوفر' }}</p>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">الخصم الصافي:</label>
+                  <label class="fw-bold"> الصافى مدين:</label>
                   <p class="text-muted">{{ AccountData?.net_debit || 'غير متوفر' }}</p>
                 </div>
               </div>
@@ -39,15 +43,19 @@
                   <p class="text-muted">{{ AccountData?.parent?.account_name || 'غير متوفر' }}</p>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">الرصيد الرئيسي:</label>
+                  <label class="fw-bold">رصيد الحساب الرئيسي:</label>
                   <p class="text-muted">{{ AccountData?.parent?.current_balance || 'غير متوفر' }}</p>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">الائتمان الرئيسي الصافي:</label>
+                  <label class="fw-bold">  الحساب الرئيسى الرصيد الافتتاحى:</label>
+                  <p class="text-muted">{{ AccountData?.parent?.start_amount || 'غير متوفر' }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="fw-bold">  صافى الحساب الرئيسى دائن:</label>
                   <p class="text-muted">{{ AccountData?.parent?.net_credit || 'غير متوفر' }}</p>
                 </div>
                 <div class="mb-3">
-                  <label class="fw-bold">الخصم الرئيسي الصافي:</label>
+                  <label class="fw-bold">  صافى الحساب الرئيسى مدين:</label>
                   <p class="text-muted">{{ AccountData?.parent?.net_debit || 'غير متوفر' }}</p>
                 </div>
               </div>

@@ -24,8 +24,7 @@ export class EquationsComponent implements OnInit {
   equations: any[] = []; 
   filteredEquations: any[] = [];
   searchQuery: string = '';
- 
-
+  currentYear: number = 0;
   constructor(
   
     private _EquationService: EquationService,
@@ -42,8 +41,12 @@ export class EquationsComponent implements OnInit {
     ])
   });
   ngOnInit(): void {
- 
+    this.getCurrentYear(); 
     this.loadAllequations()
+  }
+  getCurrentYear(): void {
+    const now = new Date();
+    this.currentYear = now.getFullYear();
   }
   loadAllequations(): void {
     this._EquationService.getAllEquation().subscribe({
