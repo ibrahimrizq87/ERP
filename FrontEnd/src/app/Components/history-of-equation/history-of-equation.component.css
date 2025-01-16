@@ -34,7 +34,21 @@ tr,th,td{
 i{
     cursor:pointer
 }
-
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; 
+  }
+  
+  .table {
+    min-width: 100%; 
+  }
+  
+ 
+  @media (max-width: 768px) {
+    .table {
+      font-size: 12px; 
+    }
+  }
   
  
   

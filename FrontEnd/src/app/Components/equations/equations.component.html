@@ -18,6 +18,7 @@
             <input class="form-control search w-25" type="search" placeholder="بحث" aria-label="بحث" [(ngModel)]="searchQuery" (input)="filteredEquation()">
         </div>
     </div>
+    <div class="table-responsive">
     <table class="table mt-3">
         <thead>
             <tr>
@@ -56,6 +57,7 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </div>
 
 <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">

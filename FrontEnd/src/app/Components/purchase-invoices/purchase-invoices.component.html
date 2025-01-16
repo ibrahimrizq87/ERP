@@ -15,7 +15,7 @@
             <input class="form-control search w-25" type="search" placeholder="البحث بتاريخ أو نوع الدفع..." aria-label="بحث" [(ngModel)]="searchQuery" (input)="filterPurchases()">
         </div>
     </div>
-
+    <div class="table-responsive">
     <table class="table mt-3">
         <thead>
             <tr>
@@ -50,4 +50,5 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </div>
