@@ -50,6 +50,8 @@ import { HistoryOfEquationComponent } from './Components/history-of-equation/his
 import { Report5Component } from './Components/report5/report5.component';
 import { RoleGuard } from './shared/guards/role.guard';
 import { DashboardRedirectComponent } from './Components/dashboard-redirect/dashboard-redirect.component';
+import { UpdateSettingComponent } from './Components/update-setting/update-setting.component';
+
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -96,6 +98,9 @@ export const routes: Routes = [
     {path:"editTaxRate",component:EditTaxRateComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},
 
+        {path:"updateSettings",component:UpdateSettingComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin'] }},
+        
     {path:"paymentDocument/:type",component:PaymentDocumentComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
     {path:"addPaymentDocument/:type",component:AddPaymentDocumentComponent,canActivate: [RoleGuard],

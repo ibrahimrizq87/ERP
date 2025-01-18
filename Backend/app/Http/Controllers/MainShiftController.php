@@ -5,6 +5,8 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Models\Product;  
+use App\Models\Account;  
+
 use App\Models\MainShift;  
 use App\Models\ShiftMachine;  
 
@@ -17,6 +19,125 @@ class MainShiftController extends Controller
 {
 
 
+    public function getAllShiftsByStatus($shift_id , $status){
+        $shifts =  MainShift::where('status' , $status)->get();
+       return MainShiftResource::collection($shifts);
+    }
+
+    // public function getAllClosedShifts($shift_id){
+    //     $shifts =  MainShift::where('status' , 'closed')->get();
+    //    return  MainShiftResource::collection($shifts);
+    // }
+
+    // public function getAllOpenShifts($shift_id){
+    //     $shifts =  MainShift::where('status' , 'open')->get();
+    //    return  MainShiftResource::collection($shifts);
+    // }
+
+
+
+
+    public function getMyAllOldShifts(){
+        $shifts =  MainShift::where('worker_id', Auth::id())->get();
+       return  MainShiftResource::collection($shifts);
+    }
+
+
+
+    public function closeShift($shift_id){
+        $shift =  MainShift::find($shift_id);
+   
+        if(!$shift){
+            return response()->json([
+                'success' => false,
+                'message' => 'لم يتم فتح وردية بعد'
+            ], 404);
+        }
+
+    $shift->status = 'closed';
+    $shift->save();
+    return response()->json([
+        'success' => true,
+        'message' => "done successfully"
+    ], 200);
+
+    }
+
+
+
+
+    public function updateCredit($account ,  $amount)
+    {
+        $account->net_credit +=$amount;
+        $account->current_balance +=$amount;
+        $account->save();
+        if ($account->parent_id){
+            $parent =Account::find($account->parent_id);
+            $this->updateCredit($parent ,$amount);
+        }
+    }
+
+    
+
+    public function ApproveShift($shift_id){
+        $shift =  MainShift::find($shift_id);
+   
+        if(!$shift){
+            return response()->json([
+                'success' => false,
+                'message' => 'لم يتم فتح وردية بعد'
+            ], 404);
+        }
+
+        DB::beginTransaction();
+    
+        try { 
+
+            $shiftMachines = ShiftMachine::where('smain_hift_id' , $shift->id)->get();
+            foreach ($shiftMachines as $machine) {
+                $product = Product::find($machine->product_id);
+                if( $product){
+                    $product->amount -= $machine->total_liters_amount;
+                    $product->start_amount = $machine->close_amount;
+                    $product->save();
+                }
+            }
+                $total_money = $shift->total_shift_money;
+                $tax =Account::find(54);
+                $salesAccount =Account::find(47);
+
+                
+                $tax_rate  =TaxRate::find(1);
+                $precentage =$tax_rate->rate /100;
+                $total = $total_money *  $precentage;
+                
+
+                $this->updateCredit($tax ,$total);
+                $this->updateCredit($salesAccount , $total_money);
+
+                $shift->status = 'approved';
+                $shift->save();
+
+         DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'saved successfully'
+        ]);
+    
+    
+    } catch (\Exception $e) {
+    
+        DB::rollBack(); 
+        return response()->json(
+            [
+                'status' => false,
+                'message' => $e->getMessage(),
+            ] , 500
+        );
+    }
+
+    }
 
     public function getMyShift(){
 
@@ -126,27 +247,11 @@ class MainShiftController extends Controller
     DB::beginTransaction();
     
     try { 
-$data = $validator->validated();
-
-// $machine = Machine::find($shift->machine_id);
-// if (!$machine){
-//     return response()->json([
-//         'message' => 'machine not found'
-//     ], 404);
-// }
-
-// $product = Product::find($machine->product_id);
-// if (!$product){
-//     return response()->json([
-//         'message' => 'product not found'
-//     ], 404);
-// }
-
-
-$total_shift_money = $request->total_money;
-$total_money_cash = $request->total_cash;
-$total_money_client = $request->total_client;
-$total_money_online = $request->total_online;
+        $data = $validator->validated();
+        $total_shift_money = $request->total_money;
+        $total_money_cash = $request->total_cash;
+        $total_money_client = $request->total_client;
+        $total_money_online = $request->total_online;
 
     if ($request->has('machines')) {
 
@@ -166,7 +271,7 @@ $total_money_online = $request->total_online;
 
              $_machine= new ShiftMachine();
 
-            $_machine->shift_id = $shift->id;
+            $_machine->main_shift_id = $shift->id;
             $_machine->product_id =  $payment['product_id'];
             $_machine->machien_id = $payment['machien_id'];
             $_machine->close_amount = $payment['close_amount'];
@@ -202,7 +307,7 @@ $total_money_online = $request->total_online;
                     ] , 404
                 );
             }
-            $_machine->shift_id = $shift->id;
+            $_machine->main_shift_id = $shift->id;
             $_machine->product_id =  $payment['product_id'];
             $_machine->machien_id = $payment['machien_id'];
             $_machine->close_amount = $payment['close_amount'];

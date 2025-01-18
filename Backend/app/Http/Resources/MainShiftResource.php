@@ -24,9 +24,9 @@ class MainShiftResource extends JsonResource
             'total_money_online' => $this->total_money_online,
             'online_image' => $this->online_image,
             'date' => $this->date,
-            'worker' => new UserResource($this->whenLoaded('worker')),  
-            'supervisor' => new UserResource($this->whenLoaded('supervisor')),  
-            'shiftMachines' => ShiftMachineResource::collection($this->whenLoaded('shiftMachines')),  
+            'worker' => new UserResource($this->worker),  
+            'supervisor' => new UserResource($this->supervisor),  
+            'shiftMachines' => ShiftMachineResource::collection($this->shiftMachines),  
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

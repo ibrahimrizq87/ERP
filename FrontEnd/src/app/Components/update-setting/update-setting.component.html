@@ -1,0 +1,48 @@
+<!-- <div class="mt-3 mb-3">
+    <h5>إدارة الاعدادات</h5>
+    <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الاعدادات <i class="fa-solid fa-angle-right"></i> تحديث الاعدادات </span>
+  </div>
+  <div class="mt-4 mb-4">
+    <form [formGroup]="machineForm" (ngSubmit)="handleForm()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card shadow em-card rounded-lg">
+              <div class="card-header bg-white text-black rounded-top pt-3">
+                <h5>تحديث الاعدادات</h5>
+              </div>
+              <div class="card-body pb-5">
+                <div class="row">
+                  <div *ngFor="let setting of settings" class="form-group col-md-6">
+                    <label [for]="setting.key" class="form-label">{{ setting.key | translate }}</label>
+                    <input
+                      [id]="setting.key"
+                      [formControlName]="setting.key"
+                      type="text"
+                      class="form-control"
+                      [placeholder]="'أدخل ' + setting.key"
+                      required
+                    />
+                    <div class="alert alert-danger" *ngIf="machineForm.get(setting.key)?.errors && machineForm.get(setting.key)?.touched">
+                      <p *ngIf="machineForm.get(setting.key)?.getError('required')">{{ setting.key }} مطلوب</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="mt-4 mb-4 d-flex justify-content-around w-25">
+            <button [disabled]="machineForm.invalid" type="submit" class="btn btn-primary px-4">
+              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+   -->

@@ -22,8 +22,8 @@ return new class extends Migration
 
 
 
-            $table->unsignedBigInteger('shift_id'); 
-            $table->foreign('shift_id')->references('id')->on('main_shifts')->onDelete('cascade');
+            $table->unsignedBigInteger('main_shift_id'); 
+            $table->foreign('main_shift_id')->references('id')->on('main_shifts')->onDelete('cascade');
             $table->unsignedBigInteger('product_id'); 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             
