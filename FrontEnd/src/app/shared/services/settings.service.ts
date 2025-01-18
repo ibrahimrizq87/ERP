@@ -15,8 +15,15 @@ export class SettingsService {
   getSettings(): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this._HttpClient.get(`${this.baseURL}/accounts/get-reports`,{ headers })
+    return this._HttpClient.get(`${this.baseURL}/settings`,{ headers })
   }
+  updateSettings(settingData:FormData): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    settingData.append('_method', 'PUT');
+    return this._HttpClient.post(`${this.baseURL}/settings`,{ headers })
+  }
+ 
  
 }
 // accounts/get-accounts-by-type/{type}

@@ -31,6 +31,7 @@ Route::get('sales-invoices/{id}', [SalesInvoiceController::class , 'show'])->mid
 
 
 Route::put('settings', [SettingController::class , 'update'])->middleware('auth:sanctum');
+Route::get('settings', [SettingController::class , 'getAllSettings'])->middleware('auth:sanctum');
 
 Route::get('main-shifts/get-approved-shifts/{shift_id}/{status}', [MainShiftController::class , 'getAllShiftsByStatus'])->middleware('auth:sanctum');
 Route::get('main-shifts/get-my-shifts', [MainShiftController::class , 'getMyAllOldShifts'])->middleware('auth:sanctum');
