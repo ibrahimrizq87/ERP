@@ -3,10 +3,102 @@
       <h5>إدارة الورديات</h5>
       <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الورديات</span>
     </div>
-    <button class="btn btn-primary text-white p-3 rounded" (click)="openModal('shiftModal')">
+    <button *ngIf="noShiftOpened" class="btn btn-primary text-white p-3 rounded" (click)="openModal('shiftModal')">
       إضافة ورديه جديده
     </button>
   </div>
+  <div *ngIf="noShiftOpened" class="alert alert-warning">
+    لا توجد ورديات مفتوحة
+  </div>
+  <div *ngIf="shiftData" class="card p-4 shadow-sm">
+    <h5 class="card-title mb-4 text-center text-primary">تفاصيل الوردية</h5>
+    
+    <!-- Basic Shift Information -->
+    <div class="row mb-3">
+      <div class="col-12 col-md-6">
+        <p><strong>رقم الوردية:</strong> {{ shiftData.shift }}</p>
+      </div>
+      <div class="col-12 col-md-6">
+        <p><strong>الحالة:</strong> {{ shiftData.status }}</p>
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <div class="col-12 col-md-6">
+        <p><strong>تاريخ الإنشاء:</strong> {{ shiftData.created_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+      </div>
+      <div class="col-12 col-md-6">
+        <p><strong>تاريخ:</strong> {{ shiftData.date }}</p>
+      </div>
+    </div>
+  
+    <!-- Money Details -->
+    <div class="card bg-light mb-4">
+      <div class="card-body">
+        <h6 class="card-title text-primary">تفاصيل الأموال</h6>
+        <p><strong>إجمالي الأموال:</strong> {{ shiftData.total_shift_money }}</p>
+        <p><strong>نقداً:</strong> {{ shiftData.total_money_cash }}</p>
+        <p><strong>عبر الإنترنت:</strong> {{ shiftData.total_money_online }}</p>
+        <p><strong>من العميل:</strong> {{ shiftData.total_money_client }}</p>
+      </div>
+    </div>
+  
+    <!-- Shift Machines Details -->
+    <div *ngIf="shiftData.shiftMachines && shiftData.shiftMachines.length > 0">
+        <h6 class="text-primary mb-4 font-weight-bold">تفاصيل الأجهزة المستخدمة:</h6>
+        <div class="row">
+          <div *ngFor="let machine of shiftData.shiftMachines" class="col-12 col-md-4 mb-4">
+            <div class="card shadow-lg border-light rounded">
+              <div class="card-header bg-info text-white">
+                <h6 class="card-title mb-0">آلة رقم {{ machine.product_id }}</h6>
+              </div>
+              <div class="card-body">
+                <div class="mb-2"><strong>المبلغ المدفوع عند الإغلاق:</strong> <span class="text-success">{{ machine.close_amount }}</span></div>
+                <div class="mb-2"><strong>المبلغ المدفوع عند الفتح:</strong> <span class="text-warning">{{ machine.open_amount }}</span></div>
+                <div class="mb-2"><strong>المنتج:</strong> <span class="text-muted">{{ machine.product_id }}</span></div>
+                <div class="mb-2"><strong>إجمالي اللترات:</strong> <span class="text-primary">{{ machine.total_liters_amount }}</span></div>
+                
+                <div class="mt-3 text-center">
+                  <strong>صورة الإغلاق:</strong><br>
+                  <img [src]="machine.close_image" alt="Close Image" class="img-fluid rounded border" style="width:100%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+  
+    <!-- Worker Details -->
+    <div *ngIf="shiftData.worker" class="card bg-light mb-4">
+      <div class="card-body">
+        <h6 class="card-title text-primary">تفاصيل العامل:</h6>
+        <p><strong>اسم العامل:</strong> {{ shiftData.worker.name }}</p>
+        <p><strong>اسم المستخدم:</strong> {{ shiftData.worker.username }}</p>
+        <p><strong>الدور:</strong> {{ shiftData.worker.role }}</p>
+        <p><strong>تاريخ الإنشاء:</strong> {{ shiftData.worker.created_at | date: 'yyyy-MM-dd' }}</p>
+      </div>
+    </div>
+  
+    <!-- Supervisor Details (if available) -->
+    <div *ngIf="shiftData.supervisor" class="card bg-light mb-4">
+      <div class="card-body">
+        <h6 class="card-title text-info">تفاصيل المشرف:</h6>
+        <p><strong>اسم المشرف:</strong> {{ shiftData.supervisor.name }}</p>
+        <p><strong>الدور:</strong> {{ shiftData.supervisor.role }}</p>
+      </div>
+    </div>
+  
+    <!-- Last Updated -->
+    <p class="text-muted"><strong>تم آخر تحديث في:</strong> {{ shiftData.updated_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+    <div class="text-center">
+    <a class="btn btn-success w-25 text-white" routerLink="/dashboard/updateShiftWorker">
+        Update Shift
+      </a>
+    </div>  
+  </div>
+  
   
   <!-- Modal for Shift Selection -->
   <div class="modal fade" id="shiftModal" tabindex="-1" aria-labelledby="shiftModalLabel" aria-hidden="true">
