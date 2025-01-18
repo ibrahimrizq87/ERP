@@ -40,7 +40,7 @@ class MainShift extends Model
     {
         return $this->hasMany(ShiftMachine::class);
     }
-
+ 
 
 
 }

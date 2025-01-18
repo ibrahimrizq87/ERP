@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\MachineResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Machine;  
+use App\Models\Product;  
 
 class MachineController extends Controller
 {
@@ -16,6 +17,21 @@ class MachineController extends Controller
     public function index()
     {
         $machines = Machine::with('product')->get();
+        return MachineResource::collection($machines);
+    }
+
+
+    public function getMachineByProduct($product_id)
+    {
+        $product = Product::find($product_id);
+
+        if(!$product){
+            return response()->json([
+                'success' => false,
+                'message' => 'product not found'
+            ], 404);
+        }
+        $machines = Machine::where('product_id' , $product_id)->get();
         return MachineResource::collection($machines);
     }
 
