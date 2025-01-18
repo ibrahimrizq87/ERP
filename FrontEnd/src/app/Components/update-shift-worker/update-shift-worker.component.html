@@ -6,28 +6,38 @@
         <div class="row">
           <!-- حقل مبلغ الدفع -->
           <div class="col-md-4">
-            <label for="amount"> عدد اللترات </label>
-            <input
-              formControlName="amount"
-              type="number"
-              class="form-control"
-              (input)="calculatePaymentTotal(i)"
-            />
-            <small class="text-muted"> المبلغ المطلوب: {{ paymentResults[i] }} </small>
+            <label for="product_id">  نوع المنتج </label>
+            <select class="form-control" formControlName="product_id">
+                <option value="" disabled>اختر المنتج</option>
+                <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+              </select>
           </div>
-  
-          <!-- اسم العميل -->
           <div class="col-md-4">
-            <label for="client_name">اسم العميل</label>
+            <label for="client_name"> رقم الطرمبة</label>
+            <input formControlName="client_name" type="text" class="form-control" />
+          </div>
+          <div class="col-md-4">
+            <label for="client_name"> عداد الافتتاح </label>
             <input formControlName="client_name" type="text" class="form-control" />
           </div>
   
           <!-- تحميل الصورة -->
           <div class="col-md-4">
-            <label for="image">صورة دفع بالشبكة</label>
+            <label for="image">  عداد الاغلاق +صوره</label>
             <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
           </div>
-  
+          <div class="col-md-4">
+            <label for="client_name"> الكميه باللتر  </label>
+            <input formControlName="client_name" type="text" class="form-control" />
+          </div>
+          <div class="col-md-4">
+            <label for="client_name"> سعر البيع   </label>
+            <input formControlName="client_name" type="text" class="form-control" />
+          </div>
+          <div class="col-md-4">
+            <label for="client_name"> الاجمالى بالريال</label>
+            <input formControlName="client_name" type="text" class="form-control" />
+          </div>
           <!-- زر إزالة -->
           <div class="col-md-12">
             <button type="button" class="btn btn-danger mt-2" (click)="removeOnlinePayment(i)">
@@ -42,63 +52,11 @@
       </button>
     </div>
   
-    <!-- المبلغ الإجمالي المدفوع عبر الإنترنت -->
-    <div class="form-group col-md-12 mt-4">
-      <label for="totalOnlinePayment">إجمالي مبلغ الدفع عبر الشبكة:  <small>{{totalOnlinePayment}}</small></label>
-    </div>
   
-    <br>
-    <hr>
-    <br>
-      <div formArrayName="client_counters" class="mt-4">
-      <div *ngFor="let counter of clientCounters.controls; let i = index" [formGroupName]="i" class="mb-3">
-        <div class="row">
-          <div class="col-md-4">
-            <label for="amount"> عدد اللترات</label>
-            <input
-              formControlName="amount"
-              type="number"
-              class="form-control"
-              (input)="calculateCounterTotal(i)"
-            />
-            <small class="text-muted">  المبلغ المطلوب: {{ clientsResult[i] }} </small>
-          </div>
+    
   
-          <div class="form-group col-md-4">
-            <label class="form-label">اختر حساب العميل </label>
-            <select class="form-control" formControlName="account_id">
-              <option value="" disabled>اختر الحساب</option>
-              <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
-            </select>
-          </div>
-  
-          <div class="col-md-4">
-            <label for="image">صورة العداد</label>
-            <input type="file" class="form-control" (change)="onFileSelected($event, 'client_counter', i)" />
-          </div>
-  
-          <div class="col-md-12">
-            <button type="button" class="btn btn-danger mt-2" (click)="removeClientCounter(i)">
-              <i class="fa-solid fa-trash"></i> إزالة دفع العميل
-            </button>
-          </div>
-        </div>
-      </div>
-      <button type="button" class="btn btn-primary mt-3" (click)="addClientCounter()">
-        <i class="fa-solid fa-plus"></i> إضافة دفع عميل بالآجل
-      </button>
-    </div>
-  
-    <div class="form-group col-md-12 mt-4">
-      <label for="total_client_deposit">إجمالي دين العميل : <small>{{total_client_deposit}}</small></label>
-    </div>
-    <br>
-    <hr>
-    <br>
-    <div class="form-group col-md-12 mt-4">
-      <label for="amountTotal">المبلغ الإجمالي : <small>{{amountTotal}}</small></label>
-    </div>
-  
+   
+   
     <button type="submit" class="btn btn-success mt-3" [disabled]="isLoading">
       <i class="fa-solid fa-save"></i> حفظ التغييرات
     </button>

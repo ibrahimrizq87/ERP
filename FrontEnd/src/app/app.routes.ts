@@ -50,6 +50,9 @@ import { HistoryOfEquationComponent } from './Components/history-of-equation/his
 import { Report5Component } from './Components/report5/report5.component';
 import { RoleGuard } from './shared/guards/role.guard';
 import { DashboardRedirectComponent } from './Components/dashboard-redirect/dashboard-redirect.component';
+import { UpdateShiftWorkerComponent } from './Components/update-shift-worker/update-shift-worker.component';
+import { ShowShiftWorkerComponent } from './Components/show-shift-worker/show-shift-worker.component';
+
 
 export const routes: Routes = [
 {path:"",component:LoginComponent},
@@ -125,7 +128,12 @@ export const routes: Routes = [
         data: { roles: ['admin','accountant','worker','supervisor'] }},
     {path:"closeShift/:id",component:CloseShiftComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','worker','supervisor'] }},
-
+    
+    {path:"updateShiftWorker",component:UpdateShiftWorkerComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','worker'] }}, 
+    {path:"showShiftWorker",component:ShowShiftWorkerComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','worker'] }},
+  
     // {path:"recieptDocuments",component:RecieptDocumentsComponent},  
     // {path:"addReciept",component:AddRecieptComponent},
     // {path:"updateReciept/:id",component:UpdateRecieptComponent},
