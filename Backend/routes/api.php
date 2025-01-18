@@ -14,8 +14,11 @@ use App\Http\Controllers\ExpenseInvoiceController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\EquationController;
 use App\Http\Controllers\EquationHistoryController;
+use App\Http\Controllers\MainShiftController;
 
 
+
+Route::post('main-shifts', [MainShiftController::class , 'store'])->middleware('auth:sanctum');
 
 Route::delete('shifts/delete-online-client/{item_id}', [ShiftController::class , 'deleteOnlineClient']);
 
