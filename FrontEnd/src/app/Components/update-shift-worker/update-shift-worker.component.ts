@@ -20,6 +20,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
   shiftForm: FormGroup;
   selectedImages: { [key: string]: File | null } = {}; 
   products: any;
+  machines: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -58,6 +59,23 @@ export class UpdateShiftWorkerComponent implements OnInit {
       }
     });
   }
+  onProductChange(product_id: string, index: number): void {
+    if (!product_id) return;
+  
+    this._ShiftService.getMachineByProduct(product_id).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.machines = response.data || [];
+
+        // Assign machines to the corresponding form group's metadata
+        const paymentControl = this.onlinePayments.at(index) as FormGroup;
+        paymentControl.addControl('machines', this.fb.control(this.machines));
+      },
+      error: (err) => {
+        console.error('Error fetching machines:', err);
+      },
+    });
+  }
   
 
   setOnlinePayments(onlinePayments: any[]): void {
@@ -77,17 +95,16 @@ export class UpdateShiftWorkerComponent implements OnInit {
    
   }
   
- 
   addOnlinePayment(): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
     onlinePaymentsFormArray.push(this.fb.group({
       product_id: [null, [Validators.required]],
-      // amount: [null, [Validators.required, Validators.min(0)]],
+      machine_id: [null, [Validators.required]], 
       client_name: [null, [Validators.maxLength(255)]],
-      image: [null]
+      image: [null],
+      machines: [[]], // Initialize empty machines list
     }));
   }
-
  
 
  
@@ -123,7 +140,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
     // Append Online Payments
     this.onlinePayments.controls.forEach((paymentControl, index) => {
       formData.append(`online_payments[${index}][product_id]`, paymentControl.get('product_id')?.value || '');
-      formData.append(`online_payments[${index}][client_name]`, paymentControl.get('client_name')?.value || '');
+      formData.append(`online_payments[${index}][machine_id]`, paymentControl.get('machine_id')?.value || '');
   
       const image = this.selectedImages[`online_payment_${index}`];
       if (image) {

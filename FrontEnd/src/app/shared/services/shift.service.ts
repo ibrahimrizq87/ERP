@@ -62,16 +62,23 @@ export class ShiftService {
     return this._HttpClient.post(`${this.baseURL}/shifts/closeShift/${shiftId}`, shiftData, { headers })
   }
   approveStatus(shift_Id:number){
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/shifts/approve/${shift_Id}`, { headers })
    }
    getShiftByStatus(status:string): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
  
     return this._HttpClient.get(`${this.baseURL}/shifts/by-status/${status}`, { headers })
 
   }
+  // machines/get-machines-by-product/{product_id}
+  getMachineByProduct(product_id:string): Observable<any>{
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+ 
+    return this._HttpClient.get(`${this.baseURL}/machines/get-machines-by-product/${product_id}`, { headers })
 
+  }
 }
