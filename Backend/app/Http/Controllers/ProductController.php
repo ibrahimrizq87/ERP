@@ -25,6 +25,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'amount' => 'required|integer|min:0',
+            'start_amount' => 'required|integer|min:0',
+
         ];
 
         $validated = $request->validate($rules);
@@ -33,7 +35,7 @@ class ProductController extends Controller
             'name' => $validated['name'],
             'price' => $validated['price'],
             'amount' => $validated['amount'],
-            'start_amount'=>$validated['amount'],
+            'start_amount'=>$validated['start_amount'],
         ]);
 
         return response()->json(new ProductResource($product), 201);
