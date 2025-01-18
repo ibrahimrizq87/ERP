@@ -23,8 +23,12 @@
   
           <!-- تحميل الصورة -->
           <div class="col-md-4">
-            <label for="image">  عداد الاغلاق +صوره</label>
+            <label for="image"> صوره الاغلاق</label>
             <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
+          </div>
+          <div class="col-md-4">
+            <label for="client_name"> عداد الاغلاق  </label>
+            <input formControlName="client_name" type="text" class="form-control" />
           </div>
           <div class="col-md-4">
             <label for="client_name"> الكميه باللتر  </label>

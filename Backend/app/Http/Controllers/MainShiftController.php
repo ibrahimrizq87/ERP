@@ -88,15 +88,15 @@ class MainShiftController extends Controller
 
         'machines' => 'nullable|array',
         'update_machines' => 'nullable|array',
-        'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'total_online' => 'required|numeric|min:0',
-        'total_cash' => 'required|numeric|min:0',
-        'total_money' => 'required|numeric|min:0',
-        'total_client' => 'required|numeric|min:0',
+        'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',//image
+        'total_online' => 'required|numeric|min:0',//text input
+        'total_cash' => 'required|numeric|min:0',//totalmoney-(totalclient-totalonline)
+        'total_money' => 'required|numeric|min:0',//total الاجمالى بالريال
+        'total_client' => 'required|numeric|min:0',// invoice
 
-        'machines.*.product_id' => 'required|numeric|exists:products,id',
-        'machines.*.machien_id' => 'required|numeric|exists:machines,id',
-        'machines.*.close_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'machines.*.product_id' => 'required|numeric|exists:products,id',//product
+        'machines.*.machien_id' => 'required|numeric|exists:machines,id',//machine
+        'machines.*.close_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',//image
         'machines.*.close_amount' => 'required|numeric|min:0',
         'machines.*.total_liters' => 'required|numeric|min:0',
         'machines.*.total_money' => 'required|numeric|min:0',
