@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShiftService } from '../../shared/services/shift.service';
@@ -11,9 +11,10 @@ import { ProductService } from '../../shared/services/product.service';
   selector: 'app-update-shift-worker',
   imports: [CommonModule,ReactiveFormsModule],
   templateUrl: './update-shift-worker.component.html',
-  styleUrl: './update-shift-worker.component.css'
+  styleUrl: './update-shift-worker.component.css',
 })
 export class UpdateShiftWorkerComponent implements OnInit {
+  selectedProducts: any[] = [];
   msgError: any[] = [];
   isLoading: boolean = false;
   shiftForm: FormGroup;
@@ -24,14 +25,17 @@ export class UpdateShiftWorkerComponent implements OnInit {
   totalCash: number = 0;
   readonly maxImageSize = 2048 * 1024;
   total_client: any;
+  totalLiters: number = 0;
   totalOnlineLimitExceeded: boolean = false;
+  totalLiterForEachProduct: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private _ShiftService: ShiftService,
     private route: ActivatedRoute,
     private toastr:ToastrService,
-    private _ProductService:ProductService
+    private _ProductService:ProductService,
+    private cdr: ChangeDetectorRef
   ) {
     this.shiftForm = this.fb.group({
      
@@ -97,7 +101,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
     this._ShiftService.getMyshift().subscribe({
       next: (response) => {
         if (response) {
-          console.log(response.data.total_money_client);
+          console.log(response.data);
           this.total_client = response.data.total_money_client; 
           this.calculateTotalCash(); 
         
@@ -108,33 +112,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
       }
     });
   }
-  // onProductChange(product_id: string, index: number): void {
-  //   if (!product_id) return;
-  
-  //   // Find the selected product by ID
-  //   const selectedProduct = this.products.find((product: any) => product.id === parseInt(product_id));
-  //   if (selectedProduct) {
-  //     // Set the start_amount in the form
-  //     const paymentControl = this.onlinePayments.at(index) as FormGroup;
-  //     paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
-  //     paymentControl.get('price')?.setValue(selectedProduct.price || 0);
-  //   }
-  
-  //   // Fetch machines related to the product (if applicable)
-  //   this._ShiftService.getMachineByProduct(product_id).subscribe({
-  //     next: (response) => {
-  //       console.log(response);
-  //       this.machines = response.data || [];
-  
-  //       // Update machines in the form group
-  //       const paymentControl = this.onlinePayments.at(index) as FormGroup;
-  //       paymentControl.addControl('machines', this.fb.control(this.machines));
-  //     },
-  //     error: (err) => {
-  //       console.error('Error fetching machines:', err);
-  //     },
-  //   });
-  // }
+ 
   
   onProductChange(product_id: string, index: number): void {
     if (!product_id) return;
@@ -147,6 +125,22 @@ export class UpdateShiftWorkerComponent implements OnInit {
       paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
       paymentControl.get('price')?.setValue(selectedProduct.price || 0);
     }
+  
+    // const totalLiters = this.onlinePayments.at(index).get('total_liters')?.value || 0;
+  
+    // // Check if the product is already selected
+    // const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === selectedProduct.id);
+    // if (existingProductIndex >= 0) {
+    //   // If product is already selected, update the total liters
+    //   this.selectedProducts[existingProductIndex].total_liters = totalLiters;
+    // } else {
+    //   // If product is not selected yet, add it to the list
+    //   this.selectedProducts.push({
+    //     product_id: selectedProduct.id,
+    //     product_name: selectedProduct.name,
+    //     total_liters: totalLiters
+    //   });
+    // }
   
     // Fetch machines related to the product (if applicable)
     this._ShiftService.getMachineByProduct(product_id).subscribe({
@@ -180,10 +174,17 @@ export class UpdateShiftWorkerComponent implements OnInit {
       machines: [[]], // Initialize machines as an empty array
     });
   
+    // newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
+    //   this.updateTotalLiters(newPaymentGroup);
+    // });
     newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
-      this.updateTotalLiters(newPaymentGroup);
+      const index = this.onlinePayments.controls.indexOf(newPaymentGroup);
+      if (index !== -1) {
+        this.updateTotalLiters(newPaymentGroup, index);
+      } else {
+        console.error('Payment group not found in the form array.');
+      }
     });
-  
     onlinePaymentsFormArray.push(newPaymentGroup);
     this.calculateTotalAmount();
   }
@@ -210,16 +211,78 @@ export class UpdateShiftWorkerComponent implements OnInit {
       this.totalOnlineLimitExceeded = false;
     }
   }
-  updateTotalLiters(paymentGroup: FormGroup): void {
+  // updateTotalLiters(paymentGroup: FormGroup): void {
+  //   const startAmount = paymentGroup.get('start_amount')?.value || 0;
+  //   const closeAmount = paymentGroup.get('close_amount')?.value || 0;
+  //   const price = paymentGroup.get('price')?.value || 0;
+  //   const totalLiters = closeAmount - startAmount;
+  //   const total_money = totalLiters * price;
+  
+  //   paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
+  //   paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
+  //   console.log(`Total liters calculated: ${totalLiters}`);
+  //   this.calculateTotalAmount();
+  
+  //   const productId = paymentGroup.get('product_id')?.value;
+  //   const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === productId);
+  
+  //   if (existingProductIndex >= 0) {
+  //     // Update existing product total liters
+  //     this.selectedProducts[existingProductIndex].total_liters = totalLiters;
+  //   } else {
+  //     // Add a new product with the calculated total liters
+  //     this.selectedProducts.push({
+  //       product_id: productId,
+  //       product_name: paymentGroup.get('product_id')?.value, // Assuming product name is stored in product_id
+  //       total_liters: totalLiters
+  //     });
+  //   }
+  // }
+  
+  updateTotalLiters(paymentGroup: FormGroup, index: number): void {
     const startAmount = paymentGroup.get('start_amount')?.value || 0;
     const closeAmount = paymentGroup.get('close_amount')?.value || 0;
-    const price=paymentGroup.get('price')?.value || 0;
+    const price = paymentGroup.get('price')?.value || 0;
     const totalLiters = closeAmount - startAmount;
-    const total_money=totalLiters*price
+    const total_money = totalLiters * price;
+  
+    // Update total liters and money in the form group
     paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
     paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
+  
     console.log(`Total liters calculated: ${totalLiters}`);
     this.calculateTotalAmount();
+  
+    // Retrieve the product ID
+    const productId = paymentGroup.get('product_id')?.value;
+  
+    if (!productId) {
+      console.error('Product ID is missing.');
+      return;
+    }
+  
+    // Find the corresponding product in the products list
+    const selectedProduct = this.products.find((product: any) => product.id === parseInt(productId, 10));
+  
+    if (!selectedProduct) {
+      console.error(`Product with ID ${productId} not found in products list.`);
+      return;
+    }
+  
+    // Check if the product is already in the selectedProducts array
+    const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === selectedProduct.id);
+  
+    if (existingProductIndex >= 0) {
+      // If the product is already selected, update its total liters
+      this.selectedProducts[existingProductIndex].total_liters = totalLiters;
+    } else {
+      // If the product is not selected yet, add it to the selectedProducts array
+      this.selectedProducts.push({
+        product_id: selectedProduct.id,
+        product_name: selectedProduct.name,
+        total_liters: totalLiters
+      });
+    }
   }
   
   
@@ -266,6 +329,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
     formData.append('total_money',this.totalAmount.toString());
     formData.append('total_client',this.total_client.toString());
     formData.append('total_cash',this.totalCash.toString());
+    
     // Debugging: Log the FormData
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);

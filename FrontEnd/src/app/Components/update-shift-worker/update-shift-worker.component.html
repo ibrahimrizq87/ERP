@@ -69,10 +69,27 @@
 
     <!-- زر إضافة دفعة عبر الإنترنت -->
     <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
-      <i class="fa-solid fa-plus"></i> إضافة دفع عبر الإنترنت
+      <i class="fa-solid fa-plus"></i> إضافة دفع  
     </button>
   </div>
-
+<!-- Table to display selected products -->
+<table class="table mt-3">
+    <thead>
+      <tr>
+        <th>اسم المنتج</th>
+        <th>إجمالي اللترات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of selectedProducts">
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.total_liters || 0 }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  
   <!-- حقل الصورة عبر الإنترنت -->
   <div class="col-md-4">
     <label for="image">Online Image</label>
