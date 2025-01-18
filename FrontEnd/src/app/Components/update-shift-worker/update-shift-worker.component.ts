@@ -28,6 +28,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
   totalLiters: number = 0;
   totalOnlineLimitExceeded: boolean = false;
   totalLiterForEachProduct: any;
+  shift_id: any;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -104,7 +105,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
           console.log(response.data);
           this.total_client = response.data.total_money_client; 
           this.calculateTotalCash(); 
-        
+          this.shift_id=response.data.id
         }
       },
       error: (err) => {
@@ -311,13 +312,13 @@ aggregateProducts(): void {
   
     // const shiftId = this.route.snapshot.paramMap.get('id');
     // if (shiftId) {
-      this._ShiftService.updateShiftWorker( formData).subscribe({
+      this._ShiftService.updateShiftWorker(formData,this.shift_id).subscribe({
         next: (response) => {
           this.isLoading = false;
           if (response) {
             this.toastr.success('تم تحديث الوردية بنجاح');
 
-            this.router.navigate(['/dashboard/shifts']);
+            this.router.navigate(['/dashboard/showShiftWorker']);
           }
         },
         error: (err: HttpErrorResponse) => {

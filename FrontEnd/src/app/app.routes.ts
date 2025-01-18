@@ -52,6 +52,7 @@ import { RoleGuard } from './shared/guards/role.guard';
 import { DashboardRedirectComponent } from './Components/dashboard-redirect/dashboard-redirect.component';
 import { UpdateShiftWorkerComponent } from './Components/update-shift-worker/update-shift-worker.component';
 import { ShowShiftWorkerComponent } from './Components/show-shift-worker/show-shift-worker.component';
+import { UpdateSettingComponent } from './Components/update-setting/update-setting.component';
 
 
 export const routes: Routes = [
@@ -99,6 +100,9 @@ export const routes: Routes = [
     {path:"editTaxRate",component:EditTaxRateComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},
 
+    {path:"updateSettings",component:UpdateSettingComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin'] }},
+        
     {path:"paymentDocument/:type",component:PaymentDocumentComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
     {path:"addPaymentDocument/:type",component:AddPaymentDocumentComponent,canActivate: [RoleGuard],

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseInvoice;
 use Illuminate\Http\Request;
 use App\Models\Account;
+use App\Models\Product;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PurchaseInvoiceResource;
 use Illuminate\Support\Facades\Storage;
@@ -53,6 +55,7 @@ class PurchaseInvoiceController extends Controller
             $my_path= asset('uploads/' . $my_path); 
         }
 
+
         $account =Account::find($validated['account_id']);
         $supplier =Account::find($validated['supplier_id']);
         $purchaes =Account::find(55);
@@ -62,7 +65,10 @@ class PurchaseInvoiceController extends Controller
         $this->updateCredit($supplier , $validated['total_cash']);
         $this->updateDebit($purchaes , $validated['total_cash']);
         $this->updateCredit($tax , $validated['tax_amount']);
+        $product = Product::find($validated['product_id']);
 
+        $product->amount += $validated['amount_letters'];
+        $product->save();
 
            $invoice = PurchaseInvoice::create(
             [
@@ -183,84 +189,20 @@ public function updateCreditRev($account ,  $amount)
                $previousSupplier = Account::find($purchaseInvoice->supplier_id);
                $previousTax = Account::find(54);
        
-            //    $previousAccountParent = Account::find($previousAccount->parent_id);
-            //    $previousSupplierParent = Account::find($previousSupplier->parent_id);
-            //    $previousTaxParent = Account::find($previousTax->parent_id);
-
 
 
         $this->updateDebitRev($previousAccount , $purchaseInvoice->total_cash);
         $this->updateCreditRev($previousSupplier , $purchaseInvoice->total_cash);
         $this->updateCreditRev($previousTax , $purchaseInvoice->tax_amount);
 
-            //    $previousAccount->net_debit -= $purchaseInvoice->total_cash;
-            //    $previousAccount->current_balance += $purchaseInvoice->total_cash;
-       
-            //    $previousAccountParent->net_debit -= $purchaseInvoice->total_cash;
-            //    $previousAccountParent->current_balance += $purchaseInvoice->total_cash;
-       
-            //    $previousSupplier->net_credit -= $purchaseInvoice->total_cash;
-            //    $previousSupplier->current_balance -= $purchaseInvoice->total_cash;
-       
-            //    $previousSupplierParent->net_credit -= $purchaseInvoice->total_cash;
-            //    $previousSupplierParent->current_balance -= $purchaseInvoice->total_cash;
-       
-
-
-
-            //    $previousTax->net_credit -= $purchaseInvoice->tax_amount;
-            //    $previousTax->current_balance -= $purchaseInvoice->tax_amount;
-       
-            //    $previousTaxParent->net_credit -= $purchaseInvoice->tax_amount;
-            //    $previousTaxParent->current_balance -= $purchaseInvoice->tax_amount;
-       
-            //    $previousAccount->save();
-            //    $previousAccountParent->save();
-            //    $previousSupplier->save();
-            //    $previousSupplierParent->save();
-            //    $previousTax->save();
-            //    $previousTaxParent->save();
-       
-
                $newAccount = Account::find($validated['account_id']);
                $newSupplier = Account::find($validated['supplier_id']);
                $newTax = Account::find(54);
-       
-            //    $newAccountParent = Account::find($newAccount->parent_id);
-            //    $newSupplierParent = Account::find($newSupplier->parent_id);
-            //    $newTaxParent = Account::find($newTax->parent_id);
-       
 
 
             $this->updateDebit($newAccount , $validated['total_cash']);
             $this->updateCredit($newSupplier , $validated['total_cash']);
             $this->updateCredit($newTax , $validated['tax_amount']);
-
-            //    $newAccount->net_debit += $validated['total_cash'];
-            //    $newAccount->current_balance -= $validated['total_cash'];
-       
-            //    $newAccountParent->net_debit += $validated['total_cash'];
-            //    $newAccountParent->current_balance -= $validated['total_cash'];
-       
-            //    $newSupplier->net_credit += $validated['total_cash'];
-            //    $newSupplier->current_balance += $validated['total_cash'];
-       
-            //    $newSupplierParent->net_credit += $validated['total_cash'];
-            //    $newSupplierParent->current_balance += $validated['total_cash'];
-       
-            //    $newTax->net_credit += $validated['tax_amount'];
-            //    $newTax->current_balance += $validated['tax_amount'];
-       
-            //    $newTaxParent->net_credit += $validated['tax_amount'];
-            //    $newTaxParent->current_balance += $validated['tax_amount'];
-       
-            //    $newAccount->save();
-            //    $newAccountParent->save();
-            //    $newSupplier->save();
-            //    $newSupplierParent->save();
-            //    $newTax->save();
-            //    $newTaxParent->save();
-       
 
                $my_path = $purchaseInvoice->online_payment_image;
                if ($request->hasFile("online_payment_image")) {
@@ -269,6 +211,13 @@ public function updateCreditRev($account ,  $amount)
                    $my_path = asset('uploads/' . $my_path);
                }
        
+               $product = Product::find($purchaseInvoice->product_id);
+               $product->amount -= $purchaseInvoice->amount_letters;
+               $product->save();
+
+               $product = Product::find($validated['product_id']);
+               $product->amount += $validated['amount_letters'];
+               $product->save();
 
                $purchaseInvoice->update([
                    'date' => $validated['date'],
@@ -284,6 +233,8 @@ public function updateCreditRev($account ,  $amount)
                    'tax_amount' => $validated['tax_amount'],
                    'tax_rate' => $validated['tax_rate'],
                ]);
+
+              
        
                DB::commit();
        
@@ -302,11 +253,6 @@ public function updateCreditRev($account ,  $amount)
        }
        
 
-    //    public function destroy(PurchaseInvoice $purchaseInvoice)
-    //    {
-    //        $purchaseInvoice->delete();
-    //        return response()->json(['message' => 'Purchase Invoice deleted successfully.']);
-    //    }
     public function destroy($id)
 {
     DB::beginTransaction();
@@ -320,41 +266,16 @@ public function updateCreditRev($account ,  $amount)
         $supplier = Account::find($invoice->supplier_id);
         $tax = Account::find(54);
 
-        // $account_parent = Account::find($account->parent_id);
-        // $supplier_parent = Account::find($supplier->parent_id);
-        // $tax_parent = Account::find($tax->parent_id);
-
-
+   
 
         $this->updateDebitRev($account , $invoice->total_cash);
         $this->updateCreditRev($supplier , $invoice->total_cash);
         $this->updateCreditRev($tax , $invoice->tax_amount);
 
-        // $account->net_debit -= $invoice->total_cash;
-        // $account->current_balance += $invoice->total_cash;
-
-        // $account_parent->net_debit -= $invoice->total_cash;
-        // $account_parent->current_balance += $invoice->total_cash;
-
-        // $supplier->net_credit -= $invoice->total_cash;
-        // $supplier->current_balance -= $invoice->total_cash;
-
-        // $supplier_parent->net_credit -= $invoice->total_cash;
-        // $supplier_parent->current_balance -= $invoice->total_cash;
-
-        // $tax->net_credit -= $invoice->tax_amount;
-        // $tax->current_balance -= $invoice->tax_amount;
-
-        // $tax_parent->net_credit -= $invoice->tax_amount;
-        // $tax_parent->current_balance -= $invoice->tax_amount;
-
-
-        // $tax_parent->save();
-        // $tax->save();
-        // $supplier_parent->save();
-        // $supplier->save();
-        // $account_parent->save();
-        // $account->save();
+        // $product = Product::find($invoice->product_id);
+        // $product->amount -= $invoice->amount_letters;
+        // $product->save();
+     
 
 
         if ($invoice->online_payment_image) {

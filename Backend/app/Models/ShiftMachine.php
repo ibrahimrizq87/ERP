@@ -17,7 +17,7 @@ class ShiftMachine extends Model
         'close_image',
         'total_liters_amount',
         'total_money',
-        'shift_id',
+        'main_shift_id',
         'product_id',
         'machine_id',
     ];

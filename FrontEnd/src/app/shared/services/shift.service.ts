@@ -73,11 +73,11 @@ export class ShiftService {
     return this._HttpClient.get(`${this.baseURL}/shifts/by-status/${status}`, { headers })
 
   }
-  updateShiftWorker( shiftData: FormData): Observable<any> {
+  updateShiftWorker( shiftData: FormData,shift_id:string): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     shiftData.append('_method', 'PUT');
-    return this._HttpClient.post(`${this.baseURL}/main-shifts`, shiftData, { headers })
+    return this._HttpClient.post(`${this.baseURL}/main-shifts/update/${shift_id}`, shiftData, { headers })
   }
   addShiftWorker( shiftData: FormData): Observable<any> {
     const token = localStorage.getItem('Gtoken');

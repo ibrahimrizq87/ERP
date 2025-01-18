@@ -253,6 +253,21 @@
             </ul>
           </li>
 
+          <li class="nav-item" *ngIf="userRole === 'admin'">
+            <a class="nav-link">
+              <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('updateSettings')">
+                <i class="fa-solid fa-shuffle"></i>
+                <span>اعدادات النظام</span>
+                <i [ngClass]="isDropdownOpen('updateSettings') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+              </div>
+            </a>
+            <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('updateSettings')">
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="updateSettings">الاعدادات</a>
+              </li>
+            </ul>
+          </li>
+
         </ul>
       </div>
 
