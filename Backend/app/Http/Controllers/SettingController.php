@@ -8,6 +8,16 @@ use App\Models\Setting;
 class SettingController extends Controller
 {
 
+
+    
+    public function getAllSettings(Request $request){
+    $settings = Setting::all();
+    return response()->json(
+        [
+            'data' => $settings 
+        ]
+    );
+    }
     public function update(Request $request){
         $rules = [
  
