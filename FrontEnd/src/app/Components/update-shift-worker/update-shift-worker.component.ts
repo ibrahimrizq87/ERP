@@ -108,6 +108,34 @@ export class UpdateShiftWorkerComponent implements OnInit {
       }
     });
   }
+  // onProductChange(product_id: string, index: number): void {
+  //   if (!product_id) return;
+  
+  //   // Find the selected product by ID
+  //   const selectedProduct = this.products.find((product: any) => product.id === parseInt(product_id));
+  //   if (selectedProduct) {
+  //     // Set the start_amount in the form
+  //     const paymentControl = this.onlinePayments.at(index) as FormGroup;
+  //     paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
+  //     paymentControl.get('price')?.setValue(selectedProduct.price || 0);
+  //   }
+  
+  //   // Fetch machines related to the product (if applicable)
+  //   this._ShiftService.getMachineByProduct(product_id).subscribe({
+  //     next: (response) => {
+  //       console.log(response);
+  //       this.machines = response.data || [];
+  
+  //       // Update machines in the form group
+  //       const paymentControl = this.onlinePayments.at(index) as FormGroup;
+  //       paymentControl.addControl('machines', this.fb.control(this.machines));
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching machines:', err);
+  //     },
+  //   });
+  // }
+  
   onProductChange(product_id: string, index: number): void {
     if (!product_id) return;
   
@@ -124,11 +152,12 @@ export class UpdateShiftWorkerComponent implements OnInit {
     this._ShiftService.getMachineByProduct(product_id).subscribe({
       next: (response) => {
         console.log(response);
-        this.machines = response.data || [];
-  
-        // Update machines in the form group
+        // Store machines for this specific row
+        const machines = response.data || [];
         const paymentControl = this.onlinePayments.at(index) as FormGroup;
-        paymentControl.addControl('machines', this.fb.control(this.machines));
+  
+        // Update the machines control for this specific payment row
+        paymentControl.get('machines')?.setValue(machines);
       },
       error: (err) => {
         console.error('Error fetching machines:', err);
@@ -136,7 +165,6 @@ export class UpdateShiftWorkerComponent implements OnInit {
     });
   }
   
-
   
   addOnlinePayment(): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
@@ -144,21 +172,22 @@ export class UpdateShiftWorkerComponent implements OnInit {
       product_id: [null, [Validators.required]],
       machine_id: [null, [Validators.required]],
       start_amount: [0], 
-      total_money:[0],
+      total_money: [0],
       price: [0], 
       close_amount: [null, [Validators.required]],
       total_liters: [0], 
       image: [null],
-
+      machines: [[]], // Initialize machines as an empty array
     });
-
+  
     newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
       this.updateTotalLiters(newPaymentGroup);
     });
-
+  
     onlinePaymentsFormArray.push(newPaymentGroup);
-    this.calculateTotalAmount()
+    this.calculateTotalAmount();
   }
+  
   calculateTotalAmount(): void {
     this.totalAmount = this.onlinePayments.controls.reduce((sum, paymentGroup) => {
       const totalMoney = paymentGroup.get('total_money')?.value || 0;
