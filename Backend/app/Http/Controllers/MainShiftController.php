@@ -10,6 +10,8 @@ use App\Models\ShiftMachine;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\MainShiftResource;
+use App\Http\Resources\ShiftMachineResource;
 
 class MainShiftController extends Controller
 {
