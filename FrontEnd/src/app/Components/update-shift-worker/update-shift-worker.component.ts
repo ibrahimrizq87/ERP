@@ -126,22 +126,6 @@ export class UpdateShiftWorkerComponent implements OnInit {
       paymentControl.get('price')?.setValue(selectedProduct.price || 0);
     }
   
-    // const totalLiters = this.onlinePayments.at(index).get('total_liters')?.value || 0;
-  
-    // // Check if the product is already selected
-    // const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === selectedProduct.id);
-    // if (existingProductIndex >= 0) {
-    //   // If product is already selected, update the total liters
-    //   this.selectedProducts[existingProductIndex].total_liters = totalLiters;
-    // } else {
-    //   // If product is not selected yet, add it to the list
-    //   this.selectedProducts.push({
-    //     product_id: selectedProduct.id,
-    //     product_name: selectedProduct.name,
-    //     total_liters: totalLiters
-    //   });
-    // }
-  
     // Fetch machines related to the product (if applicable)
     this._ShiftService.getMachineByProduct(product_id).subscribe({
       next: (response) => {
@@ -211,80 +195,69 @@ export class UpdateShiftWorkerComponent implements OnInit {
       this.totalOnlineLimitExceeded = false;
     }
   }
-  // updateTotalLiters(paymentGroup: FormGroup): void {
-  //   const startAmount = paymentGroup.get('start_amount')?.value || 0;
-  //   const closeAmount = paymentGroup.get('close_amount')?.value || 0;
-  //   const price = paymentGroup.get('price')?.value || 0;
-  //   const totalLiters = closeAmount - startAmount;
-  //   const total_money = totalLiters * price;
+ 
   
-  //   paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
-  //   paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
-  //   console.log(`Total liters calculated: ${totalLiters}`);
-  //   this.calculateTotalAmount();
-  
-  //   const productId = paymentGroup.get('product_id')?.value;
-  //   const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === productId);
-  
-  //   if (existingProductIndex >= 0) {
-  //     // Update existing product total liters
-  //     this.selectedProducts[existingProductIndex].total_liters = totalLiters;
-  //   } else {
-  //     // Add a new product with the calculated total liters
-  //     this.selectedProducts.push({
-  //       product_id: productId,
-  //       product_name: paymentGroup.get('product_id')?.value, // Assuming product name is stored in product_id
-  //       total_liters: totalLiters
-  //     });
-  //   }
-  // }
-  
+ 
   updateTotalLiters(paymentGroup: FormGroup, index: number): void {
-    const startAmount = paymentGroup.get('start_amount')?.value || 0;
-    const closeAmount = paymentGroup.get('close_amount')?.value || 0;
-    const price = paymentGroup.get('price')?.value || 0;
-    const totalLiters = closeAmount - startAmount;
-    const total_money = totalLiters * price;
-  
-    // Update total liters and money in the form group
-    paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
-    paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
-  
-    console.log(`Total liters calculated: ${totalLiters}`);
-    this.calculateTotalAmount();
-  
-    // Retrieve the product ID
-    const productId = paymentGroup.get('product_id')?.value;
-  
-    if (!productId) {
-      console.error('Product ID is missing.');
-      return;
-    }
-  
-    // Find the corresponding product in the products list
-    const selectedProduct = this.products.find((product: any) => product.id === parseInt(productId, 10));
-  
-    if (!selectedProduct) {
-      console.error(`Product with ID ${productId} not found in products list.`);
-      return;
-    }
-  
-    // Check if the product is already in the selectedProducts array
-    const existingProductIndex = this.selectedProducts.findIndex(item => item.product_id === selectedProduct.id);
-  
-    if (existingProductIndex >= 0) {
-      // If the product is already selected, update its total liters
-      this.selectedProducts[existingProductIndex].total_liters = totalLiters;
-    } else {
-      // If the product is not selected yet, add it to the selectedProducts array
-      this.selectedProducts.push({
-        product_id: selectedProduct.id,
-        product_name: selectedProduct.name,
-        total_liters: totalLiters
-      });
-    }
+  const startAmount = paymentGroup.get('start_amount')?.value || 0;
+  const closeAmount = paymentGroup.get('close_amount')?.value || 0;
+  const price = paymentGroup.get('price')?.value || 0;
+  const totalLiters = closeAmount - startAmount;
+  const totalMoney = totalLiters * price;
+
+  // Update total liters and money in the form group
+  paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
+  paymentGroup.get('total_money')?.setValue(totalMoney, { emitEvent: false });
+
+  console.log(`Total liters calculated: ${totalLiters}`);
+  this.calculateTotalAmount();
+
+  // Retrieve the product ID
+  const productId = paymentGroup.get('product_id')?.value;
+
+  if (!productId) {
+    console.error('Product ID is missing.');
+    return;
   }
+
+  // Initialize or update selectedProducts array
+  this.aggregateProducts();
+}
+
+aggregateProducts(): void {
+  const productTotals: { [key: string]: { totalLiters: number, productName: string } } = {};
+
+  // Loop through all form groups to calculate total liters per product
+  this.onlinePayments.controls.forEach((group: AbstractControl) => {
+    const formGroup = group as FormGroup;
+    const productId = formGroup.get('product_id')?.value;
+    const totalLiters = formGroup.get('total_liters')?.value || 0;
   
+    if (productId) {
+      const product = this.products.find((p: any) => p.id === parseInt(productId, 10));
+      if (product) {
+        if (!productTotals[productId]) {
+          productTotals[productId] = {
+            totalLiters: 0,
+            productName: product.name,
+          };
+        }
+        productTotals[productId].totalLiters += totalLiters;
+      }
+    }
+  });
+  
+
+  // Update the selectedProducts array with aggregated values
+  this.selectedProducts = Object.keys(productTotals).map(productId => ({
+    product_id: parseInt(productId, 10),
+    product_name: productTotals[productId].productName,
+    total_liters: productTotals[productId].totalLiters,
+  }));
+
+  console.log('Aggregated products:', this.selectedProducts);
+}
+
   
   removeOnlinePayment(index: number): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
