@@ -1,76 +1,105 @@
 <form [formGroup]="shiftForm" (ngSubmit)="handleForm()">
 
-    <!-- المدفوعات عبر الإنترنت -->
-    <div formArrayName="online_payments" class="mt-4">
-        <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="mb-3">
-            <div class="row">
-                <!-- حقل مبلغ الدفع -->
-                <div class="col-md-4">
-                    <label for="product_id">نوع المنتج</label>
-                    <select class="form-control" formControlName="product_id"
-                        (change)="onProductChange(payment.get('product_id')?.value, i)">
-                        <option value="" disabled>اختر المنتج</option>
-                        <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="machine_id">نوع الطرمبة</label>
-                    <select class="form-control" formControlName="machine_id">
-                        <option value="" disabled>اختر الطرمبة</option>
-                        <option *ngFor="let machine of machines" [value]="machine.id">
-                            {{ machine.machine_number }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="start_amount">عداد الافتتاح</label>
-                    <input formControlName="start_amount" type="number" class="form-control" readonly />
-                  </div>
-                  
-
-                <!-- تحميل الصورة -->
-                <div class="col-md-4">
-                    <label for="image"> صوره الاغلاق</label>
-                    <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
-                </div>
-                <div class="col-md-4">
-                    <label for="close_amount"> عداد الاغلاق </label>
-                    <input formControlName="close_amount" type="number" class="form-control" />
-                </div>
-                <div class="col-md-4">
-                    <label for="total_liters"> الكميه باللتر </label>
-                    <input formControlName="total_liters" type="number" class="form-control" readonly />
-                  </div>
-                  
-                 <div class="col-md-4">
-                    <label for="price"> سعر البيع </label>
-                    <input formControlName="price" type="number" class="form-control" readonly/>
-                </div>
-                <div class="col-md-4">
-                    <label for="total_money"> الاجمالى بالريال</label>
-                    <input formControlName="total_money" type="number" class="form-control" readonly />
-                </div> 
-                <!-- زر إزالة -->
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-danger mt-2" (click)="removeOnlinePayment(i)">
-                        <i class="fa-solid fa-trash"></i> إزالة الدفع
-                    </button>
-                </div>
-            </div>
+  <!-- المدفوعات عبر الإنترنت -->
+  <div formArrayName="online_payments" class="mt-4">
+    <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="mb-3">
+      <div class="row align-items-center">
+        <!-- حقل نوع المنتج -->
+        <div class="col-md-2">
+          <label for="product_id">نوع المنتج</label>
+          <select class="form-control" formControlName="product_id" (change)="onProductChange(payment.get('product_id')?.value, i)">
+            <option value="" disabled>اختر المنتج</option>
+            <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+          </select>
         </div>
 
-        <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
-            <i class="fa-solid fa-plus"></i> اضافة دفع بالشبكة
-        </button>
+        <!-- حقل نوع الطرمبة -->
+        <div class="col-md-1">
+          <label for="machine_id">نوع الطرمبة</label>
+          <select class="form-control" formControlName="machine_id">
+            <option value="" disabled>اختر الطرمبة</option>
+            <option *ngFor="let machine of machines" [value]="machine.id">{{ machine.machine_number }}</option>
+          </select>
+        </div>
+
+        <!-- حقل عداد الافتتاح -->
+        <div class="col-md-1">
+          <label for="start_amount">عداد الافتتاح</label>
+          <input formControlName="start_amount" type="number" class="form-control" readonly />
+        </div>
+
+        <!-- حقل صوره الاغلاق -->
+        <div class="col-md-2">
+          <label for="image">صوره الاغلاق</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
+        </div>
+
+        <!-- حقل عداد الاغلاق -->
+        <div class="col-md-1">
+          <label for="close_amount">عداد الاغلاق</label>
+          <input formControlName="close_amount" type="number" class="form-control" />
+        </div>
+
+        <!-- حقل الكمية باللتر -->
+        <div class="col-md-1">
+          <label for="total_liters">الكمية باللتر</label>
+          <input formControlName="total_liters" type="number" class="form-control" readonly />
+        </div>
+
+        <!-- حقل سعر البيع -->
+        <div class="col-md-1">
+          <label for="price">سعر البيع</label>
+          <input formControlName="price" type="number" class="form-control" readonly />
+        </div>
+
+        <!-- حقل الإجمالي بالريال -->
+        <div class="col-md-2">
+          <label for="total_money">الإجمالي بالريال</label>
+          <input formControlName="total_money" type="number" class="form-control" readonly />
+        </div>
+
+        <!-- زر إزالة -->
+        <div class="col-md-1">
+          <button type="button" class="btn btn-danger mt-4" (click)="removeOnlinePayment(i)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
-
-
-
-
-
-    <button type="submit" class="btn btn-success mt-3" [disabled]="isLoading">
-        <i class="fa-solid fa-save"></i> حفظ التغييرات
+    <!-- زر إضافة دفعة عبر الإنترنت -->
+    <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
+      <i class="fa-solid fa-plus"></i> إضافة دفع عبر الإنترنت
     </button>
+  </div>
+
+  <!-- حقل الصورة عبر الإنترنت -->
+  <div class="col-md-4">
+    <label for="image">Online Image</label>
+    <input type="file" class="custom-file-input" id="online_image" (change)="onFileSelect($event)" accept="image/*" />
+  </div>
+
+  <!-- حقل المجموع المدفوع عبر الإنترنت -->
+  <div class="col-md-4">
+    <label for="total_online">المجموع المدفوع عبر الإنترنت</label>
+    <input formControlName="total_online" type="number" class="form-control" />
+    <div *ngIf="totalOnlineLimitExceeded" class="text-danger mt-2">
+      لا يمكن أن يكون المبلغ المدفوع عبر الإنترنت أكبر من (إجمالي المبلغ - المبلغ المدفوع من العميل).
+    </div>
+  </div>
+
+  <!-- عرض الإجمالي بالريال -->
+  <div class="total-amount mt-4">
+    <h5>الإجمالي بالريال: {{ totalAmount | number:'1.2-2' }}</h5>
+  </div>
+
+  <!-- عرض المجموع النقدي -->
+  <div class="mt-3">
+    <h4>Total Cash: {{ totalCash }}</h4>
+  </div>
+
+  <!-- زر الحفظ -->
+  <button type="submit" class="btn btn-success mt-3" [disabled]="isLoading">
+    <i class="fa-solid fa-save"></i> حفظ التغييرات
+  </button>
 </form>

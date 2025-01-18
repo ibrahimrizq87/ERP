@@ -92,7 +92,7 @@ class MainShiftController extends Controller
         'update_machines' => 'nullable|array',
         'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',//image
         'total_online' => 'required|numeric|min:0',//text input
-        'total_cash' => 'required|numeric|min:0',//totalmoney-(totalclient-totalonline)
+        'total_cash' => 'required|numeric|min:0',//totalmoney-(totalclient+totalonline)
         'total_money' => 'required|numeric|min:0',//total الاجمالى بالريال
         'total_client' => 'required|numeric|min:0',// invoice
 

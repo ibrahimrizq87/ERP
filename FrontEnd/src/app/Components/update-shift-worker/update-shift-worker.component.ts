@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShiftService } from '../../shared/services/shift.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +20,11 @@ export class UpdateShiftWorkerComponent implements OnInit {
   selectedImages: { [key: string]: File | null } = {}; 
   products: any;
   machines: any;
+  totalAmount: number = 0;
+  totalCash: number = 0;
+  readonly maxImageSize = 2048 * 1024;
+  total_client: any;
+  totalOnlineLimitExceeded: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -30,18 +35,48 @@ export class UpdateShiftWorkerComponent implements OnInit {
   ) {
     this.shiftForm = this.fb.group({
      
-      
+      online_image: this.fb.control(null, [this.validateImage.bind(this)]),
       online_payments: this.fb.array([]),  
-        
+      total_online:this.fb.control(null,[Validators.required,Validators.min(0)])  
+      
     });
+    
   }
 
   ngOnInit(): void {
    
     this.loadProducts()
-   
+    this.loadMyShift()
+    this.shiftForm.get('total_online')?.valueChanges.subscribe(() => {
+      this.calculateTotalCash();
+    });
+    
+  }
+  selectedFile: File | null = null;
+
+  onFileSelect(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.shiftForm.patchValue({ online_image: file });
+    }
   }
 
+  validateImage(control: AbstractControl): ValidationErrors | null {
+    const file = this.selectedFile;
+    if (file) {
+      const fileType = file.type;
+      const fileSize = file.size;
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+      if (!allowedTypes.includes(fileType)) {
+        return { invalidFileType: true };
+      }
+      if (fileSize > this.maxImageSize) {
+        return { fileTooLarge: true };
+      }
+    }
+    return null;
+  }
   
   loadProducts(): void {
     this._ProductService.viewAllProducts().subscribe({
@@ -50,6 +85,21 @@ export class UpdateShiftWorkerComponent implements OnInit {
           console.log(response);
           this.products = response; 
         
+        
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+  loadMyShift(): void {
+    this._ShiftService.getMyshift().subscribe({
+      next: (response) => {
+        if (response) {
+          console.log(response.data.total_money_client);
+          this.total_client = response.data.total_money_client; 
+          this.calculateTotalCash(); 
         
         }
       },
@@ -87,7 +137,6 @@ export class UpdateShiftWorkerComponent implements OnInit {
   }
   
 
- 
   
   addOnlinePayment(): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
@@ -108,8 +157,30 @@ export class UpdateShiftWorkerComponent implements OnInit {
     });
 
     onlinePaymentsFormArray.push(newPaymentGroup);
+    this.calculateTotalAmount()
   }
+  calculateTotalAmount(): void {
+    this.totalAmount = this.onlinePayments.controls.reduce((sum, paymentGroup) => {
+      const totalMoney = paymentGroup.get('total_money')?.value || 0;
+      return sum + totalMoney;
+    }, 0);
+    this.calculateTotalCash();
+  }
+  
+  calculateTotalCash(): void {
+    const totalOnline = this.shiftForm.get('total_online')?.value || 0;
+    console.log(this.totalAmount)
+    console.log(totalOnline)
+    console.log(this.total_client)
+    this.totalCash = +this.totalAmount-(+this.total_client+totalOnline );
 
+    const maxAllowedTotalOnline = this.totalAmount - this.total_client;
+    if (totalOnline > maxAllowedTotalOnline) {
+      this.totalOnlineLimitExceeded = true;
+    } else {
+      this.totalOnlineLimitExceeded = false;
+    }
+  }
   updateTotalLiters(paymentGroup: FormGroup): void {
     const startAmount = paymentGroup.get('start_amount')?.value || 0;
     const closeAmount = paymentGroup.get('close_amount')?.value || 0;
@@ -119,22 +190,14 @@ export class UpdateShiftWorkerComponent implements OnInit {
     paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
     paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
     console.log(`Total liters calculated: ${totalLiters}`);
+    this.calculateTotalAmount();
   }
   
- 
-
- 
-  
-
-
-  
- 
- 
   
   removeOnlinePayment(index: number): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
     onlinePaymentsFormArray.removeAt(index);
-    
+    this.calculateTotalAmount();
    
   }
   
@@ -166,17 +229,23 @@ export class UpdateShiftWorkerComponent implements OnInit {
       
     });
   
-   
-  
+    if (this.selectedFile) {
+      console.log("online_image",this.selectedFile)
+      formData.append('online_image', this.selectedFile);
+    }
+    formData.append('total_online', this.shiftForm.get('total_online')?.value || '');
+    formData.append('total_money',this.totalAmount.toString());
+    formData.append('total_client',this.total_client.toString());
+    formData.append('total_cash',this.totalCash.toString());
     // Debugging: Log the FormData
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);
     }
+   
   
-  
-    const shiftId = this.route.snapshot.paramMap.get('id');
-    if (shiftId) {
-      this._ShiftService.updateShift(shiftId, formData).subscribe({
+    // const shiftId = this.route.snapshot.paramMap.get('id');
+    // if (shiftId) {
+      this._ShiftService.updateShiftWorker( formData).subscribe({
         next: (response) => {
           this.isLoading = false;
           if (response) {
@@ -192,7 +261,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
 
         }
       });
-    }
+    // }
     console.log('Form values before submitting:', this.shiftForm.value);
   }
   

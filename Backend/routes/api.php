@@ -21,6 +21,7 @@ use App\Http\Controllers\MainShiftController;
 Route::get('machines/get-machines-by-product/{product_id}', [MachineController::class , 'getMachineByProduct'])->middleware('auth:sanctum');
 
 Route::post('main-shifts', [MainShiftController::class , 'store'])->middleware('auth:sanctum');
+Route::get('main-shifts/get_my_shift', [MainShiftController::class , 'getMyShift'])->middleware('auth:sanctum');
 
 Route::delete('shifts/delete-online-client/{item_id}', [ShiftController::class , 'deleteOnlineClient']);
 
