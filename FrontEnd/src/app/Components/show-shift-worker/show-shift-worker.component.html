@@ -1,13 +1,26 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة الورديات</h5>
+      <h5>إدارة الورديات</h5>
       <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الورديات</span>
     </div>
-    <a class="nav-link bg-primary text-white p-3 rounded" routerLink="/dashboard/updateShiftWorker">
-        إضافة ورديه جديده
-      <!-- <i class="fa-solid fa-plus text-white iconPlus rounded"></i> -->
-    </a>
+    <button class="btn btn-primary text-white p-3 rounded" (click)="openModal('shiftModal')">
+      إضافة ورديه جديده
+    </button>
   </div>
   
- 
+  <!-- Modal for Shift Selection -->
+  <div class="modal fade" id="shiftModal" tabindex="-1" aria-labelledby="shiftModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shiftModalLabel">اختر الوردية</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal('shiftModal')"></button>
+        </div>
+        <div class="modal-body">
+          <button class="btn btn-primary w-100 mb-2" (click)="chooseShift(1)">Shift 1</button>
+          <button class="btn btn-secondary w-100" (click)="chooseShift(2)">Shift 2</button>
+        </div>
+      </div>
+    </div>
+  </div>
   

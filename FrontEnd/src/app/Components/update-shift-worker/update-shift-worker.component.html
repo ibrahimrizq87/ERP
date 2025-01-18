@@ -24,9 +24,10 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="client_name"> عداد الافتتاح </label>
-                    <input formControlName="client_name" type="text" class="form-control" />
-                </div>
+                    <label for="start_amount">عداد الافتتاح</label>
+                    <input formControlName="start_amount" type="number" class="form-control" readonly />
+                  </div>
+                  
 
                 <!-- تحميل الصورة -->
                 <div class="col-md-4">
@@ -34,21 +35,22 @@
                     <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
                 </div>
                 <div class="col-md-4">
-                    <label for="client_name"> عداد الاغلاق </label>
-                    <input formControlName="client_name" type="text" class="form-control" />
+                    <label for="close_amount"> عداد الاغلاق </label>
+                    <input formControlName="close_amount" type="number" class="form-control" />
                 </div>
                 <div class="col-md-4">
-                    <label for="client_name"> الكميه باللتر </label>
-                    <input formControlName="client_name" type="text" class="form-control" />
+                    <label for="total_liters"> الكميه باللتر </label>
+                    <input formControlName="total_liters" type="number" class="form-control" readonly />
+                  </div>
+                  
+                 <div class="col-md-4">
+                    <label for="price"> سعر البيع </label>
+                    <input formControlName="price" type="number" class="form-control" readonly/>
                 </div>
                 <div class="col-md-4">
-                    <label for="client_name"> سعر البيع </label>
-                    <input formControlName="client_name" type="text" class="form-control" />
-                </div>
-                <div class="col-md-4">
-                    <label for="client_name"> الاجمالى بالريال</label>
-                    <input formControlName="client_name" type="text" class="form-control" />
-                </div>
+                    <label for="total_money"> الاجمالى بالريال</label>
+                    <input formControlName="total_money" type="number" class="form-control" readonly />
+                </div> 
                 <!-- زر إزالة -->
                 <div class="col-md-12">
                     <button type="button" class="btn btn-danger mt-2" (click)="removeOnlinePayment(i)">

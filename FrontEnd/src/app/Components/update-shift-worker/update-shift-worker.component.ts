@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShiftService } from '../../shared/services/shift.service';
 import { ToastrService } from 'ngx-toastr';
-import { AccountingService } from '../../shared/services/accounts.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../shared/services/product.service';
@@ -32,7 +31,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
     this.shiftForm = this.fb.group({
      
       
-      online_payments: this.fb.array([]),  // FormArray for online payments
+      online_payments: this.fb.array([]),  
         
     });
   }
@@ -62,12 +61,22 @@ export class UpdateShiftWorkerComponent implements OnInit {
   onProductChange(product_id: string, index: number): void {
     if (!product_id) return;
   
+    // Find the selected product by ID
+    const selectedProduct = this.products.find((product: any) => product.id === parseInt(product_id));
+    if (selectedProduct) {
+      // Set the start_amount in the form
+      const paymentControl = this.onlinePayments.at(index) as FormGroup;
+      paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
+      paymentControl.get('price')?.setValue(selectedProduct.price || 0);
+    }
+  
+    // Fetch machines related to the product (if applicable)
     this._ShiftService.getMachineByProduct(product_id).subscribe({
       next: (response) => {
-        console.log(response)
+        console.log(response);
         this.machines = response.data || [];
-
-        // Assign machines to the corresponding form group's metadata
+  
+        // Update machines in the form group
         const paymentControl = this.onlinePayments.at(index) as FormGroup;
         paymentControl.addControl('machines', this.fb.control(this.machines));
       },
@@ -78,33 +87,40 @@ export class UpdateShiftWorkerComponent implements OnInit {
   }
   
 
-  setOnlinePayments(onlinePayments: any[]): void {
-    const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
-    if (!Array.isArray(onlinePayments)) {
-      onlinePayments = [];
-    }
-  
-    // Populate the FormArray with valid data
-    onlinePayments.forEach(payment => {
-      onlinePaymentsFormArray.push(this.fb.group({
-        product_id:[payment.product_id],
-        client_name: [payment.client_name || null, [Validators.maxLength(255)]],
-        image: [payment.image || null]
-      }));
-    });
-   
-  }
+ 
   
   addOnlinePayment(): void {
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
-    onlinePaymentsFormArray.push(this.fb.group({
+    const newPaymentGroup = this.fb.group({
       product_id: [null, [Validators.required]],
-      machine_id: [null, [Validators.required]], 
-      client_name: [null, [Validators.maxLength(255)]],
+      machine_id: [null, [Validators.required]],
+      start_amount: [0], 
+      total_money:[0],
+      price: [0], 
+      close_amount: [null, [Validators.required]],
+      total_liters: [0], 
       image: [null],
-      machines: [[]], // Initialize empty machines list
-    }));
+
+    });
+
+    newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
+      this.updateTotalLiters(newPaymentGroup);
+    });
+
+    onlinePaymentsFormArray.push(newPaymentGroup);
   }
+
+  updateTotalLiters(paymentGroup: FormGroup): void {
+    const startAmount = paymentGroup.get('start_amount')?.value || 0;
+    const closeAmount = paymentGroup.get('close_amount')?.value || 0;
+    const price=paymentGroup.get('price')?.value || 0;
+    const totalLiters = closeAmount - startAmount;
+    const total_money=totalLiters*price
+    paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
+    paymentGroup.get('total_money')?.setValue(total_money, { emitEvent: false });
+    console.log(`Total liters calculated: ${totalLiters}`);
+  }
+  
  
 
  
@@ -135,17 +151,19 @@ export class UpdateShiftWorkerComponent implements OnInit {
     this.isLoading = true;
     const formData = new FormData();
   
-    
   
-    // Append Online Payments
     this.onlinePayments.controls.forEach((paymentControl, index) => {
-      formData.append(`online_payments[${index}][product_id]`, paymentControl.get('product_id')?.value || '');
-      formData.append(`online_payments[${index}][machine_id]`, paymentControl.get('machine_id')?.value || '');
-  
+      formData.append(`machines[${index}][product_id]`, paymentControl.get('product_id')?.value || '');
+      formData.append(`machines[${index}][machine_id]`, paymentControl.get('machine_id')?.value || '');
+      formData.append(`machines[${index}][close_amount]`, paymentControl.get('close_amount')?.value || '');
+      formData.append(`machines[${index}][total_liters]`, paymentControl.get('total_liters')?.value || '');
+      formData.append(`machines[${index}][total_money]`, paymentControl.get('total_money')?.value || '');
       const image = this.selectedImages[`online_payment_${index}`];
+      console.log("image", image);
       if (image) {
-        formData.append(`online_payments[${index}][image]`, image);
+        formData.append(`machines[${index}][close_image]`, image);
       }
+      
     });
   
    
@@ -192,7 +210,10 @@ export class UpdateShiftWorkerComponent implements OnInit {
   onFileSelected(event: any, formName: string, index: number): void {
     const file = event.target.files[0];
     if (file) {
+      // Store the file with a consistent key format
       this.selectedImages[`${formName}_${index}`] = file;
+      // console.log(`Selected image for ${formName}_${index}:`, file);
     }
   }
+  
 }
