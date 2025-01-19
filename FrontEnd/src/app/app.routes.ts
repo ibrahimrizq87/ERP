@@ -53,6 +53,10 @@ import { DashboardRedirectComponent } from './Components/dashboard-redirect/dash
 import { UpdateShiftWorkerComponent } from './Components/update-shift-worker/update-shift-worker.component';
 import { ShowShiftWorkerComponent } from './Components/show-shift-worker/show-shift-worker.component';
 import { UpdateSettingComponent } from './Components/update-setting/update-setting.component';
+import { SalesInvoicesComponent } from './Components/sales-invoices/sales-invoices.component';
+import { AddSalesInvoiceComponent } from './Components/add-sales-invoice/add-sales-invoice.component';
+import { UpdateSalesInvoiceComponent } from './Components/update-sales-invoice/update-sales-invoice.component';
+import { ShowSalesInvoiceComponent } from './Components/show-sales-invoice/show-sales-invoice.component';
 
 
 export const routes: Routes = [
@@ -162,7 +166,15 @@ export const routes: Routes = [
     {path:"showExpensesInvoices/:id",component:ShowExpensesInvoicesComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
      
-
+    
+    {path:"salesInvoices",component:SalesInvoicesComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},  
+    {path:"addSalesInvoice",component:AddSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
+    {path:"updateSalesInvoice/:id",component:UpdateSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
+    {path:"showSalesInvoice/:id",component:ShowSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
 
     {path:"equations",component:EquationsComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},  
