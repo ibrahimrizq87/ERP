@@ -49,22 +49,23 @@ export class SalesInvoicesComponent implements OnInit {
     );
   }
   deleteSale(salesId: number): void {
-    if (confirm('هل أنت متأكد أنك تريد حذف هذه Sales')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الفاتورة؟')) {
       this._SalesService.deleteSalesInvoice(salesId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/salesInvoices`]);
             this.loadAllExpenses();
-            this.toastr.success("تم حذف sales بنجاح");
+            this.toastr.success("تم حذف الفاتورة بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error('حدث خطأ أثناء حذف sales')
+          this.toastr.error('حدث خطأ أثناء حذف الفاتورة');
         }
       });
     }
   }
+
 }
 
 

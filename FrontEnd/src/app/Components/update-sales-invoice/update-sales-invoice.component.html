@@ -1,1 +1,136 @@
-<p>update-sales-invoice works!</p>
+<div class="mt-3 mb-3">
+    <h5>إدارة فواتير المبيعات</h5>
+    <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> المبيعات <i class="fa-solid fa-angle-right"></i>  تعديل مبيعات </span>
+  </div>
+  <!-- <div *ngIf="noShiftOpened" class="alert alert-warning text-center">
+    <strong>يجب فتح وردية تعديل فاتورة .</strong>
+  </div> -->
+  <div class="mt-4 mb-4">
+  <form [formGroup]="salesForm" (ngSubmit)="handleForm()">
+    <div class="container">
+        <div class="row">
+        
+          <div class="col-md-12">
+            <div class="card shadow em-card rounded-lg">
+              <div class="card-header bg-white text-black rounded-top pt-3 ">
+                <h5>تعديل مبيعات</h5>
+              </div>
+            
+              <div class="card-body pb-5">
+               
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="tax_no" class="form-label">رقم الضريبة</label>
+                        <input id="tax_no" formControlName="tax_no" type="text" class="form-control" placeholder="أدخل رقم الضريبة من فضلك" required />
+                        <div class="alert alert-danger" *ngIf="salesForm.get('tax_no')?.errors && salesForm.get('tax_no')?.touched">
+                          <p *ngIf="salesForm.get('tax_no')?.getError('maxLength')">الحد الأقصى هو 255</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="tax_name" class="form-label">اسم الضريبة</label>
+                        <input id="tax_name" formControlName="tax_name" type="text" class="form-control" placeholder="أدخل اسم الضريبة من فضلك" required />
+                        <div class="alert alert-danger" *ngIf="salesForm.get('tax_name')?.errors && salesForm.get('tax_name')?.touched">
+                          <p *ngIf="salesForm.get('tax_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="client_name" class="form-label">اسم العميل</label>
+                        <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخل اسم العميل من فضلك" required />
+                        <div class="alert alert-danger" *ngIf="salesForm.get('client_name')?.errors && salesForm.get('client_name')?.touched">
+                          <p *ngIf="salesForm.get('client_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phone" class="form-label">رقم الهاتف</label>
+                        <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخل رقم الهاتف من فضلك" required />
+                        <div class="alert alert-danger" *ngIf="salesForm.get('phone')?.errors && salesForm.get('phone')?.touched">
+                          <p *ngIf="salesForm.get('phone')?.getError('maxLength')">الحد الأقصى هو 20</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="number" class="form-label">الرقم</label>
+                      <input id="number" formControlName="number" type="text" class="form-control" placeholder="أدخل الرقم من فضلك" required />
+                      <div class="alert alert-danger" *ngIf="salesForm.get('number')?.errors && salesForm.get('number')?.touched">
+                        <p *ngIf="salesForm.get('number')?.hasError('required')">الرقم مطلوب</p>
+                        <p *ngIf="salesForm.get('number')?.getError('maxLength')">الحد الأقصى هو 255</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="product_id">اختيار المنتج</label>
+                      <select id="product_id" formControlName="product_id" class="form-control">
+                        <option *ngFor="let product of products" [value]="product.id">
+                          {{ product.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group mt-2">
+                      <p>سعر المنتج المختار: {{selectedProductPrice}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="date" class="form-label">التاريخ</label>
+                        <input id="date" formControlName="date" type="date" class="form-control" />
+                        <div class="alert alert-danger" *ngIf="salesForm.get('date')?.errors && salesForm.get('date')?.touched">
+                          <p *ngIf="salesForm.get('date')?.hasError('required')">التاريخ مطلوب</p>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="type" class="form-label">نوع الدفع</label>
+                        <select id="type" formControlName="type" class="form-control">
+                          <option value="cash">نقدًا</option>
+                          <option value="debit">دفع إلكتروني</option>
+                        </select>
+                        <div class="alert alert-danger" *ngIf="salesForm.get('type')?.errors && salesForm.get('type')?.touched">
+                          <p *ngIf="salesForm.get('type')?.hasError('required')">نوع الدفع مطلوب</p>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6" *ngIf="salesForm.get('type')?.value === 'debit'">
+                        <label class="form-label">اختر الحساب</label>
+                        <select class="form-control" formControlName="account_id">
+                          <option value="" disabled>اختار الحساب</option>
+                          <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="liters" class="form-label">اللترات</label>
+                        <input id="liters" formControlName="liters" type="number" class="form-control" placeholder="يرجى إدخال إجمالي المبلغ النقدي" required/>
+                        <div class="alert alert-danger" *ngIf="salesForm.get('liters')?.errors && salesForm.get('liters')?.touched">
+                          <p *ngIf="salesForm.get('liters')?.getError('required')">اللترات مطلوبة</p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-label">الكميه</label>
+                        <p>{{ amount }}</p> 
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-label">نسبة الضريبة</label>
+                        <p>{{ taxRate }} %</p>
+                    </div>
+                     
+                    <div class="form-group col-md-6">
+                        <label class="form-label">الإجمالي بعد الضريبة</label>
+                        <p>{{ taxAmount | number: '1.2-2' }}</p> 
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="address" class="form-label">العنوان</label>
+                    <textarea id="address" formControlName="address" rows="4" class="form-control" placeholder="أدخل العنوان"></textarea>
+                </div>
+            </div>
+          </div>
+          <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">
+            <ul>
+              <li *ngFor="let error of msgError">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="mt-4 mb-4 d-flex justify-content-around w-25">
+            <button [disabled]="salesForm.invalid" type="submit" class="btn btn-primary px-4"><i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> حفظ</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">إلغاء</button>
+        </div>
+        </div>
+    </div>
+    </div>
+  </form>
+  </div>
+  
