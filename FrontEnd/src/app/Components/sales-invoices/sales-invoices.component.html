@@ -1,1 +1,52 @@
-<p>sales-invoices works!</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h5>إدارة فواتير Sales</h5>
+        <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> فواتير sales</span>
+    </div>
+    <a class="nav-link" routerLink="/dashboard/addExpensesInvoices">
+        <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
+    </a>
+</div>
+
+<div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold">قائمة sales</span>
+            <input class="form-control search w-25" type="search" placeholder="بحث بالتاريخ أو نوع الدفع..." aria-label="Search" [(ngModel)]="searchQuery" (input)="filteredExpense()">
+        </div>
+    </div>
+    <div class="table-responsive">
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th class="bg-light" scope="col">#</th>
+                <th class="bg-light" scope="col">التاريخ</th>
+                <th class="bg-light" scope="col">الحساب من</th>
+                <th class="bg-light" scope="col">المصروف</th>
+                <th class="bg-light" scope="col">نوع الدفع</th>
+                <th class="bg-light" scope="col">الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let sale of filteredSales; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ sale.date }}</td>
+                <td>{{ sale.account.account_name }}</td>
+                <td>{{ sale.expense.account_name }}</td>
+                <td>{{ sale.payment_type }}</td>
+                <td>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <a class="nav-link" [routerLink]="['/dashboard/showSalesInvoice', sale.id]">
+                            <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
+                        </a>
+                        <a class="nav-link" [routerLink]="['/dashboard/updateSalesInvoice', sale.id]">
+                            <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
+                        </a>
+                        <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteSale(sale.id)"></i>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
