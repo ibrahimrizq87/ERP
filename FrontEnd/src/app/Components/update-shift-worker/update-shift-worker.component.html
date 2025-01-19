@@ -2,10 +2,10 @@
 
   <!-- المدفوعات عبر الإنترنت -->
   <div formArrayName="online_payments" class="mt-4">
-    <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="mb-3">
+    <div *ngFor="let payment of onlinePayments.controls; let i = index" [formGroupName]="i" class="payment-card mb-3">
       <div class="row align-items-center">
         <!-- حقل نوع المنتج -->
-        <div class="col-md-2">
+        <div class="col-md-3">
             <label for="product_id">نوع المنتج</label>
             <select class="form-control" formControlName="product_id" (change)="onProductChange(payment.get('product_id')?.value, i)">
               <option value="" disabled>اختر المنتج</option>
@@ -14,7 +14,7 @@
           </div>
     
           <!-- حقل نوع الطرمبة -->
-          <div class="col-md-1">
+          <div class="col-md-3">
             <label for="machine_id">نوع الطرمبة</label>
             <select class="form-control" formControlName="machine_id">
               <option value="" disabled>اختر الطرمبة</option>
@@ -23,31 +23,33 @@
           </div>
 
         <!-- حقل عداد الافتتاح -->
-        <div class="col-md-1">
-          <label for="start_amount">عداد الافتتاح</label>
-          <input formControlName="start_amount" type="number" class="form-control" readonly />
-        </div>
+       
 
         <!-- حقل صوره الاغلاق -->
-        <div class="col-md-2">
-          <label for="image">صوره الاغلاق</label>
-          <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
-        </div>
+      
 
         <!-- حقل عداد الاغلاق -->
-        <div class="col-md-1">
+        <div class="col-md-3">
           <label for="close_amount">عداد الاغلاق</label>
           <input formControlName="close_amount" type="number" class="form-control" />
         </div>
 
+        <div class="col-md-3">
+          <label for="image">صوره الاغلاق</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event, 'online_payment', i)" />
+        </div>
+
         <!-- حقل الكمية باللتر -->
-        <div class="col-md-1">
+        <div class="col-md-3">
           <label for="total_liters">الكمية باللتر</label>
           <input formControlName="total_liters" type="number" class="form-control" readonly />
         </div>
-
+        <div class="col-md-3">
+          <label for="start_amount">عداد الافتتاح</label>
+          <input formControlName="start_amount" type="number" class="form-control" readonly />
+        </div>
         <!-- حقل سعر البيع -->
-        <div class="col-md-1">
+        <div class="col-md-3">
           <label for="price">سعر البيع</label>
           <input formControlName="price" type="number" class="form-control" readonly />
         </div>
@@ -64,26 +66,35 @@
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
+
+
+
+
+
       </div>
     </div>
 
     <!-- زر إضافة دفعة عبر الإنترنت -->
-    <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment()">
-      <i class="fa-solid fa-plus"></i> إضافة دفع  
+    <button type="button" class="btn btn-primary mt-3" (click)="addOnlinePayment(null)">
+      <i class="fa-solid fa-plus"></i>  
     </button>
   </div>
 <!-- Table to display selected products -->
-<table class="table mt-3">
+<table class="table mt-3  custom-table">
     <thead>
       <tr>
         <th>اسم المنتج</th>
         <th>إجمالي اللترات</th>
+        <!-- <th>إجمالي المبلغ بالريال</th> -->
+
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of selectedProducts">
         <td>{{ product.product_name }}</td>
         <td>{{ product.total_liters || 0 }}</td>
+        <!-- <td>{{ product.total_liters* product.price || 0 }}</td> -->
+
       </tr>
     </tbody>
   </table>
@@ -91,13 +102,13 @@
   
   
   <!-- حقل الصورة عبر الإنترنت -->
-  <div class="col-md-4">
+  <div class="col-md-4 custom-section">
     <label for="image">Online Image</label>
     <input type="file" class="custom-file-input" id="online_image" (change)="onFileSelect($event)" accept="image/*" />
   </div>
 
   <!-- حقل المجموع المدفوع عبر الإنترنت -->
-  <div class="col-md-4">
+  <div class="col-md-4 custom-card">
     <label for="total_online">المجموع المدفوع عبر الإنترنت</label>
     <input formControlName="total_online" type="number" class="form-control" />
     <div *ngIf="totalOnlineLimitExceeded" class="text-danger mt-2">
@@ -106,13 +117,16 @@
   </div>
 
   <!-- عرض الإجمالي بالريال -->
-  <div class="total-amount mt-4">
+  <div class="custom-card total-amount mt-4">
     <h5>الإجمالي بالريال: {{ totalAmount | number:'1.2-2' }}</h5>
   </div>
 
   <!-- عرض المجموع النقدي -->
-  <div class="mt-3">
-    <h4>Total Cash: {{ totalCash }}</h4>
+  <div class="mt-3 custom-card ">
+    <h5>الاجمالى كاش: {{ totalCash }}</h5>
+  </div>
+  <div class="mt-3 custom-card ">
+    <h5>الاجمالى دفع العملاء: {{ total_client }}</h5>
   </div>
 
   <!-- زر الحفظ -->

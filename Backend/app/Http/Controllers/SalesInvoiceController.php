@@ -73,6 +73,8 @@ class SalesInvoiceController extends Controller
             'tax_rate' => 'required|numeric',
             'number' => 'required|string|max:255',
             'account_id' => 'nullable|exists:accounts,id',
+            // 'product_id' => 'required|exists:products,id',
+
             'main_shift_id' => 'required|exists:main_shifts,id',
         ]);
         DB::beginTransaction();

@@ -25,7 +25,7 @@ class ShiftMachineResource extends JsonResource
             'product_id' => $this->product_id,
             'machine_id' => $this->machine_id,
             'shift' => new MainShiftResource($this->whenLoaded('shift')),  
-            'product' => new ProductResource($this->whenLoaded('product')), 
+            'product' => new ProductResource($this->product), 
             'machine' => new MachineResource($this->whenLoaded('machine')), 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

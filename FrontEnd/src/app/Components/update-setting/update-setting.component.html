@@ -13,20 +13,91 @@
               </div>
               <div class="card-body pb-5">
                 <div class="row">
-                  <div *ngFor="let setting of settings" class="form-group col-md-6">
-                    <label [for]="setting.key" class="form-label">{{ setting.key  }}</label>
+                  
+                  <div class="form-group col-md-6">
+                    
+                      <label for="address" class="form-label">{{ getLableByKey('address')  }}</label>
                     <input
-                      [id]="setting.key"
+                      id="address"
                       type="text"
                       class="form-control"
-                      [placeholder]="'أدخل ' + setting.key"
+                      formControlName="address" 
+                      [placeholder]="'أدخل ' + getLableByKey('address')"
                       required
                     />
-                    <div class="alert alert-danger" *ngIf="machineForm.get(setting.key)?.errors && machineForm.get(setting.key)?.touched">
-                      <p *ngIf="machineForm.get(setting.key)?.getError('required')">{{ setting.key }} مطلوب</p>
                     </div>
+                    <div class="form-group col-md-6">
+                    
+                      <label  for="phone"  class="form-label">{{ getLableByKey('phone')  }}</label>
+                    <input
+                      id="phone"
+                      type="text"
+                      class="form-control"
+                      formControlName="phone" 
+                      [placeholder]="'أدخل ' + getLableByKey('phone')"
+                      required
+                    />
+                    </div>
+                    <div class="form-group col-md-6">
+                    
+                      <label for="tax_number"  class="form-label">{{ getLableByKey('tax_number')  }}</label>
+                    <input
+                      id="tax_number"
+                      type="text"
+                      class="form-control"
+                      formControlName="tax_number" 
+                      [placeholder]="'أدخل ' + getLableByKey('tax_number')"
+                      required
+                    />
+                    </div>
+                    <div class="form-group col-md-6">
+                    
+                      <label for="tax_name"  class="form-label">{{ getLableByKey('tax_name')  }}</label>
+                    <input
+                      id="tax_name"
+                      type="text"
+                      class="form-control"
+                      formControlName="tax_name" 
+                      [placeholder]="'أدخل ' + getLableByKey('tax_name')"
+                      required
+                    />
+                    </div>
+                    <div class="form-group col-md-6">
+                    
+                      <label for="invoice_message" class="form-label">{{ getLableByKey('invoice_message')  }}</label>
+                    <input
+                      id="invoice_message"
+                      type="text"
+                      class="form-control"
+                      formControlName="invoice_message" 
+                      [placeholder]="'أدخل ' + getLableByKey('invoice_message')"
+                      required
+                    />
+                    </div>
+                    <div class="form-group col-md-6">
+                   
+
+                      <label for="logo" class="form-label">{{ getLableByKey('logo')  }}</label>
+                    <input
+                    (change)="onFileSelected($event)" accept="image/*" 
+                      id="logo"
+                      type="file"
+                      class="form-control"
+                      required
+                    />
+                   
+                   
                   </div>
-                </div>
+                  <div *ngIf="logo" class="form-group col-md-12 mt-3">
+                    
+                    <img [src]="logo" alt="Logo" class="centered-logo">
+                  </div>
+                  
+                    
+                  </div>
+
+
+                
               </div>
             </div>
           </div>

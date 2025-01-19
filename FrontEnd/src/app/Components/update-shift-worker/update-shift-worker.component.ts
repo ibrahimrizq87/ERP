@@ -21,6 +21,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   selectedImages: { [key: string]: File | null } = {}; 
   products: any;
   machines: any;
+  old_machines:any;
+  total_online_value:any;
   totalAmount: number = 0;
   totalCash: number = 0;
   readonly maxImageSize = 2048 * 1024;
@@ -42,7 +44,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
      
       online_image: this.fb.control(null, [this.validateImage.bind(this)]),
       online_payments: this.fb.array([]),  
-      total_online:this.fb.control(null,[Validators.required,Validators.min(0)])  
+      total_online:this.fb.control(this.total_online_value,[Validators.required,Validators.min(0)])  
       
     });
     
@@ -104,6 +106,13 @@ export class UpdateShiftWorkerComponent implements OnInit {
         if (response) {
           console.log(response.data);
           this.total_client = response.data.total_money_client; 
+          this.old_machines =response.data.shiftMachines;
+          // this.total_online_value=response.data.total_money_online;
+          // this.shiftForm.get('total_online')?.setValue(response.data.total_money_online || 0);
+          const shitMachiens :Machine[]= this.old_machines ;
+          shitMachiens.forEach((ele)=>{
+          this.addOnlinePayment(ele);
+          })
           this.calculateTotalCash(); 
           this.shift_id=response.data.id
         }
@@ -145,7 +154,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   }
   
   
-  addOnlinePayment(): void {
+  addOnlinePayment(payment:any|null): void {
+  if (payment == null){
     const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
     const newPaymentGroup = this.fb.group({
       product_id: [null, [Validators.required]],
@@ -156,6 +166,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
       close_amount: [null, [Validators.required]],
       total_liters: [0], 
       image: [null],
+      id: [-1],
       machines: [[]], // Initialize machines as an empty array
     });
   
@@ -172,6 +183,49 @@ export class UpdateShiftWorkerComponent implements OnInit {
     });
     onlinePaymentsFormArray.push(newPaymentGroup);
     this.calculateTotalAmount();
+  }else{
+    // const onlinePaymentsFormArray = this.shiftForm.get('online_payments') as FormArray;
+   
+    // const newPaymentGroup = this.fb.group({
+    //   product_id: [payment.product_id, [Validators.required]],
+    //   machine_id: [payment.machine_id, [Validators.required]],
+    //   start_amount: [payment.open_amount], 
+    //   total_money: [payment.total_money],
+    //   price: [payment.product.price], 
+    //   close_amount: [payment.close_amount, [Validators.required]],
+    //   total_liters: [payment.total_liters_amount], 
+    //   id: [payment.id],
+
+    //   image: [null],
+    //   machines: [[]], // Initialize machines as an empty array
+    // });
+    // this._ShiftService.getMachineByProduct(payment.product_id).subscribe({
+    //   next: (response) => {
+    //     console.log(response);
+    //     // Store machines for this specific row
+    //     const machines = response.data || [];
+    //     newPaymentGroup.get('machines')?.setValue(machines)
+        
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching machines:', err);
+    //   },
+    // });
+  
+    // // newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
+    // //   this.updateTotalLiters(newPaymentGroup);
+    // // });
+    // newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
+    //   const index = this.onlinePayments.controls.indexOf(newPaymentGroup);
+    //   if (index !== -1) {
+    //     this.updateTotalLiters(newPaymentGroup, index);
+    //   } else {
+    //     console.error('Payment group not found in the form array.');
+    //   }
+    // });
+    // onlinePaymentsFormArray.push(newPaymentGroup);
+    // this.calculateTotalAmount();
+  }
   }
   
   calculateTotalAmount(): void {
@@ -271,7 +325,7 @@ aggregateProducts(): void {
 
   handleForm(): void {
     if (this.shiftForm.invalid) {
-      // Log and return errors for debugging
+      this.toastr.error('يرجى ادخال جميع المعلومات لإتمام العملية');
       console.log('Form validation failed:', this.shiftForm.errors);
       this.shiftForm.markAllAsTouched(); // Highlight errors in form
       return;
@@ -324,7 +378,13 @@ aggregateProducts(): void {
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;
           this.msgError = err.error.error;
-          this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
+          if(err.status == 422){
+            this.toastr.error('يرجى ادخال جميع المعلومات لإتمام العملية');
+
+          }else{
+            this.toastr.error('حدث خطأ، يرجى المحاولة مرة أخرى');
+
+          }
 
         }
       });
@@ -352,4 +412,11 @@ aggregateProducts(): void {
     }
   }
   
+}
+interface Machine {
+  id: number;
+  product_id: number;
+  machine_id: number;
+
+  // Other properties...
 }
