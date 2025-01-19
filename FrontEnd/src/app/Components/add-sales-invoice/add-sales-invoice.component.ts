@@ -42,7 +42,7 @@ export class AddSalesInvoiceComponent implements OnInit{
     date: new FormControl(this.getTodayDate()),
     type: new FormControl(null, [Validators.required]),
     number: new FormControl(null, [Validators.required]),
-    account_id: new FormControl(null, [Validators.required]),
+    account_id: new FormControl(null),
     liters: new FormControl(null, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
     
@@ -187,11 +187,7 @@ export class AddSalesInvoiceComponent implements OnInit{
     const taxRate = this.taxRate || 0; 
     return (amount * taxRate / 100); 
   }
-  // get totalAfterTax(): number {
-  //   const total = this.total_cash; 
-  //   const taxAmount = this.taxAmount;
-  //   return total - taxAmount; 
-  // }
+
   onInvoiceFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -210,6 +206,7 @@ export class AddSalesInvoiceComponent implements OnInit{
       formData.append('client_name', this.salesForm.get('client_name')?.value);
       formData.append('phone', this.salesForm.get('phone')?.value);
       formData.append('date', this.salesForm.get('date')?.value);
+      formData.append('product_id', this.salesForm.get('product_id')?.value);
       formData.append('main_shift_id', this.shiftDataId.toString());
       formData.append('number', this.salesForm.get('number')?.value);
       formData.append('type', this.salesForm.get('type')?.value);
@@ -225,9 +222,9 @@ export class AddSalesInvoiceComponent implements OnInit{
         next: (response) => {
           console.log(response);
           if (response) {
-            this.toastr.success("تم إنشاء فاتورة المصاريف بنجاح");
+            this.toastr.success("تم إنشاء فاتورة بنجاح");
             this.isLoading = false;
-            this._Router.navigate(['/dashboard/expensesInvoices']);
+            this._Router.navigate(['/dashboard/salesInvoices']);
           }
         },
         error: (err: HttpErrorResponse) => {

@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة فواتير Sales</h5>
-        <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> فواتير sales</span>
+        <h5>إدارة فواتير المبيعات</h5>
+        <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> فواتير المبيعات</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addSalesInvoice">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
@@ -11,7 +11,7 @@
 <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold">قائمة sales</span>
+            <span class="fw-bold">قائمة المبيعات</span>
             <input class="form-control search w-25" type="search" placeholder="بحث بالتاريخ أو نوع الدفع..." aria-label="Search" [(ngModel)]="searchQuery" (input)="filteredExpense()">
         </div>
     </div>
@@ -21,9 +21,8 @@
             <tr>
                 <th class="bg-light" scope="col">#</th>
                 <th class="bg-light" scope="col">التاريخ</th>
-                <th class="bg-light" scope="col">الحساب من</th>
-               
                 <th class="bg-light" scope="col">نوع الدفع</th>
+                <th class="bg-light" scope="col">الكمية بعد الضريبة</th>
                 <th class="bg-light" scope="col">الإجراءات</th>
             </tr>
         </thead>
@@ -31,9 +30,8 @@
             <tr *ngFor="let sale of filteredSales; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ sale.date }}</td>
-                <td>{{ sale.account.account_name }}</td>
-               
                 <td>{{ sale.type }}</td>
+                <td>{{ sale.tax_amount }}</td>
                 <td>
                     <div class="d-flex justify-content-around align-items-center">
                         <a class="nav-link" [routerLink]="['/dashboard/showSalesInvoice', sale.id]">

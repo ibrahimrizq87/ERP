@@ -30,5 +30,6 @@ class SalesInvoiceResource extends JsonResource
             'number' => $this->number,
             'account' => new AccountResource($this->account),
             'main_shift' => new MainShiftResource($this->mainShift),
+            'product_id' => $this->product_id,
         ];    }
 }

@@ -45,26 +45,28 @@ export class SalesInvoicesComponent implements OnInit {
     const query = this.searchQuery.toLowerCase();
     this.filteredSales = this.sales.filter(sale => 
       sale.date.toLowerCase().includes(query) || 
-      sale.payment_type.toLowerCase().includes(query)
+      sale.type.toLowerCase().includes(query)||
+      sale.tax_amount.toLowerCase().includes(query)
     );
   }
   deleteSale(salesId: number): void {
-    if (confirm('هل أنت متأكد أنك تريد حذف هذه Sales')) {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الفاتورة؟')) {
       this._SalesService.deleteSalesInvoice(salesId).subscribe({
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/salesInvoices`]);
             this.loadAllExpenses();
-            this.toastr.success("تم حذف sales بنجاح");
+            this.toastr.success("تم حذف الفاتورة بنجاح");
           }
         },
         error: (err) => {
           console.error(err);
-          this.toastr.error('حدث خطأ أثناء حذف sales')
+          this.toastr.error('حدث خطأ أثناء حذف الفاتورة');
         }
       });
     }
   }
+
 }
 
 
