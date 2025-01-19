@@ -24,6 +24,7 @@ class SalesInvoice extends Model
         'number',
         'account_id',
         'main_shift_id',
+        'product_id',
     ];
 
     public function account()
