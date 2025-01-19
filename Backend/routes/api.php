@@ -19,7 +19,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SalesInvoiceController;
 
 
-
+Route::put('main-shifts/update/{shift_id}', [MainShiftController::class , 'update'])->middleware('auth:sanctum');
 Route::get('sales-invoices/by-shift/{shift_id}', [SalesInvoiceController::class , 'getByShift'])->middleware('auth:sanctum');
 Route::put('sales-invoices/{id}', [SalesInvoiceController::class , 'update'])->middleware('auth:sanctum');
 Route::delete('sales-invoices/{id}', [SalesInvoiceController::class , 'delete'])->middleware('auth:sanctum');
@@ -37,12 +37,13 @@ Route::get('main-shifts/get-approved-shifts/{shift_id}/{status}', [MainShiftCont
 Route::get('main-shifts/get-my-shifts', [MainShiftController::class , 'getMyAllOldShifts'])->middleware('auth:sanctum');
 Route::get('main-shifts/close-shift/{shift_id}', [MainShiftController::class , 'closeShift'])->middleware('auth:sanctum');
 Route::get('main-shifts/approve-shift/{shift_id}', [MainShiftController::class , 'ApproveShift'])->middleware('auth:sanctum');
-Route::put('main-shifts/update', [MainShiftController::class , 'update'])->middleware('auth:sanctum');
+
 
 
 Route::get('machines/get-machines-by-product/{product_id}', [MachineController::class , 'getMachineByProduct'])->middleware('auth:sanctum');
 
 Route::post('main-shifts', [MainShiftController::class , 'store'])->middleware('auth:sanctum');
+Route::get('main-shifts/get_my_shift', [MainShiftController::class , 'getMyShift'])->middleware('auth:sanctum');
 
 Route::delete('shifts/delete-online-client/{item_id}', [ShiftController::class , 'deleteOnlineClient']);
 

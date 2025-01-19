@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MainShiftResource;
 use App\Http\Resources\ShiftMachineResource;
-
+use Illuminate\Support\Facades\DB;
 class MainShiftController extends Controller
 {
 
@@ -211,22 +211,22 @@ class MainShiftController extends Controller
 
         'machines' => 'nullable|array',
         'update_machines' => 'nullable|array',
-        'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'total_online' => 'required|numeric|min:0',
-        'total_cash' => 'required|numeric|min:0',
-        'total_money' => 'required|numeric|min:0',
-        'total_client' => 'required|numeric|min:0',
+        'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',//image
+        'total_online' => 'required|numeric|min:0',//text input
+        'total_cash' => 'required|numeric|min:0',//totalmoney-(totalclient+totalonline)
+        'total_money' => 'required|numeric|min:0',//total الاجمالى بالريال
+        'total_client' => 'required|numeric|min:0',// invoice
 
-        'machines.*.product_id' => 'required|numeric|exists:products,id',
-        'machines.*.machien_id' => 'required|numeric|exists:machines,id',
-        'machines.*.close_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'machines.*.product_id' => 'required|numeric|exists:products,id',//product
+        'machines.*.machine_id' => 'required|numeric|exists:machines,id',//machine
+        'machines.*.close_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',//image
         'machines.*.close_amount' => 'required|numeric|min:0',
         'machines.*.total_liters' => 'required|numeric|min:0',
         'machines.*.total_money' => 'required|numeric|min:0',
 
         'update_machines.*.id' => 'required|numeric|exists:shift_machines,id',
         'update_machines.*.product_id' => 'required|numeric|exists:products,id',
-        'update_machines.*.machien_id' => 'required|numeric|exists:machines,id',
+        'update_machines.*.machine_id' => 'required|numeric|exists:machines,id',
         'update_machines.*.close_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'update_machines.*.close_amount' => 'required|numeric|min:0',
         'update_machines.*.total_liters' => 'required|numeric|min:0',
@@ -272,12 +272,14 @@ class MainShiftController extends Controller
              $_machine= new ShiftMachine();
 
             $_machine->main_shift_id = $shift->id;
-            $_machine->product_id =  $payment['product_id'];
-            $_machine->machien_id = $payment['machien_id'];
-            $_machine->close_amount = $payment['close_amount'];
+            $_machine->open_amount = 0;
+            $_machine->product_id =  $machine['product_id'];
+            $_machine->machine_id = $machine['machine_id'];
+            $_machine->close_amount = $machine['close_amount'];
             $_machine->close_image = $image_path;
-            $_machine->total_money = $payment['total_money'];
-            $_machine->total_liters =$payment['total_liters'];
+            $_machine->total_money = $machine['total_money'];
+       
+            $_machine->total_liters_amount =$machine['total_liters'];
             $_machine->save();
         }
     }
@@ -308,12 +310,12 @@ class MainShiftController extends Controller
                 );
             }
             $_machine->main_shift_id = $shift->id;
-            $_machine->product_id =  $payment['product_id'];
-            $_machine->machien_id = $payment['machien_id'];
-            $_machine->close_amount = $payment['close_amount'];
+            $_machine->product_id =  $machine['product_id'];
+            $_machine->machine_id = $machine['machine_id'];
+            $_machine->close_amount = $machine['close_amount'];
             $_machine->close_image = $image_path;
-            $_machine->total_money = $payment['total_money'];
-            $_machine->total_liters =$payment['total_liters'];
+            $_machine->total_money = $machine['total_money'];
+            $_machine->total_liters_amount =$machine['total_liters'];
             $_machine->save();
         }
     }

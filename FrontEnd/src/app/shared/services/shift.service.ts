@@ -62,16 +62,42 @@ export class ShiftService {
     return this._HttpClient.post(`${this.baseURL}/shifts/closeShift/${shiftId}`, shiftData, { headers })
   }
   approveStatus(shift_Id:number){
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this._HttpClient.get(`${this.baseURL}/shifts/approve/${shift_Id}`, { headers })
    }
    getShiftByStatus(status:string): Observable<any>{
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
  
     return this._HttpClient.get(`${this.baseURL}/shifts/by-status/${status}`, { headers })
 
   }
+  updateShiftWorker( shiftData: FormData,shift_id:string): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    shiftData.append('_method', 'PUT');
+    return this._HttpClient.post(`${this.baseURL}/main-shifts/update/${shift_id}`, shiftData, { headers })
+  }
+  addShiftWorker( shiftData: FormData): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.post(`${this.baseURL}/main-shifts`, shiftData, { headers })
+  }
+  // shiftData.append('_method', 'PUT');
+  // machines/get-machines-by-product/{product_id}
+  getMachineByProduct(product_id:string): Observable<any>{
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   
+    return this._HttpClient.get(`${this.baseURL}/machines/get-machines-by-product/${product_id}`, { headers })
 
+  }
+  getMyshift(): Observable<any>{
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   
+    return this._HttpClient.get(`${this.baseURL}/main-shifts/get_my_shift`, { headers })
+
+  }
 }

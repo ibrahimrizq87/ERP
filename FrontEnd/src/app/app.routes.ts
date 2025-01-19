@@ -50,7 +50,13 @@ import { HistoryOfEquationComponent } from './Components/history-of-equation/his
 import { Report5Component } from './Components/report5/report5.component';
 import { RoleGuard } from './shared/guards/role.guard';
 import { DashboardRedirectComponent } from './Components/dashboard-redirect/dashboard-redirect.component';
+import { UpdateShiftWorkerComponent } from './Components/update-shift-worker/update-shift-worker.component';
+import { ShowShiftWorkerComponent } from './Components/show-shift-worker/show-shift-worker.component';
 import { UpdateSettingComponent } from './Components/update-setting/update-setting.component';
+import { SalesInvoicesComponent } from './Components/sales-invoices/sales-invoices.component';
+import { AddSalesInvoiceComponent } from './Components/add-sales-invoice/add-sales-invoice.component';
+import { UpdateSalesInvoiceComponent } from './Components/update-sales-invoice/update-sales-invoice.component';
+import { ShowSalesInvoiceComponent } from './Components/show-sales-invoice/show-sales-invoice.component';
 
 
 export const routes: Routes = [
@@ -98,7 +104,7 @@ export const routes: Routes = [
     {path:"editTaxRate",component:EditTaxRateComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},
 
-        {path:"updateSettings",component:UpdateSettingComponent,canActivate: [RoleGuard],
+    {path:"updateSettings",component:UpdateSettingComponent,canActivate: [RoleGuard],
             data: { roles: ['admin'] }},
         
     {path:"paymentDocument/:type",component:PaymentDocumentComponent,canActivate: [RoleGuard],
@@ -130,7 +136,12 @@ export const routes: Routes = [
         data: { roles: ['admin','accountant','worker','supervisor'] }},
     {path:"closeShift/:id",component:CloseShiftComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','worker','supervisor'] }},
-
+    
+    {path:"updateShiftWorker",component:UpdateShiftWorkerComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','worker'] }}, 
+    {path:"showShiftWorker",component:ShowShiftWorkerComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','worker'] }},
+  
     // {path:"recieptDocuments",component:RecieptDocumentsComponent},  
     // {path:"addReciept",component:AddRecieptComponent},
     // {path:"updateReciept/:id",component:UpdateRecieptComponent},
@@ -155,7 +166,15 @@ export const routes: Routes = [
     {path:"showExpensesInvoices/:id",component:ShowExpensesInvoicesComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
      
-
+    
+    {path:"salesInvoices",component:SalesInvoicesComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},  
+    {path:"addSalesInvoice",component:AddSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
+    {path:"updateSalesInvoice/:id",component:UpdateSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
+    {path:"showSalesInvoice/:id",component:ShowSalesInvoiceComponent,canActivate: [RoleGuard],
+        data: { roles: ['admin','accountant'] }},
 
     {path:"equations",component:EquationsComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},  
