@@ -45,7 +45,8 @@ export class SalesInvoicesComponent implements OnInit {
     const query = this.searchQuery.toLowerCase();
     this.filteredSales = this.sales.filter(sale => 
       sale.date.toLowerCase().includes(query) || 
-      sale.payment_type.toLowerCase().includes(query)
+      sale.type.toLowerCase().includes(query)||
+      sale.tax_amount.toLowerCase().includes(query)
     );
   }
   deleteSale(salesId: number): void {
