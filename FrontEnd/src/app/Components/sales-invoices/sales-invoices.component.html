@@ -3,7 +3,7 @@
         <h5>إدارة فواتير Sales</h5>
         <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> فواتير sales</span>
     </div>
-    <a class="nav-link" routerLink="/dashboard/addExpensesInvoices">
+    <a class="nav-link" routerLink="/dashboard/addSalesInvoice">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
     </a>
 </div>
@@ -22,7 +22,7 @@
                 <th class="bg-light" scope="col">#</th>
                 <th class="bg-light" scope="col">التاريخ</th>
                 <th class="bg-light" scope="col">الحساب من</th>
-                <th class="bg-light" scope="col">المصروف</th>
+               
                 <th class="bg-light" scope="col">نوع الدفع</th>
                 <th class="bg-light" scope="col">الإجراءات</th>
             </tr>
@@ -32,8 +32,8 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ sale.date }}</td>
                 <td>{{ sale.account.account_name }}</td>
-                <td>{{ sale.expense.account_name }}</td>
-                <td>{{ sale.payment_type }}</td>
+               
+                <td>{{ sale.type }}</td>
                 <td>
                     <div class="d-flex justify-content-around align-items-center">
                         <a class="nav-link" [routerLink]="['/dashboard/showSalesInvoice', sale.id]">

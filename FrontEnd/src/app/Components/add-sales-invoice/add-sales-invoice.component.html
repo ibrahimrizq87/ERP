@@ -1,7 +1,10 @@
 <div class="mt-3 mb-3">
-    <h5> إدارة فواتير النفقات </h5>
-    <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> النفقات <i class="fa-solid fa-angle-right"></i> إضافة نفقات </span>
+    <h5> إدارة فواتير Sales </h5>
+    <span class="text-muted">اللوحة الرئيسية <i class="fa-solid fa-angle-right"></i> sales <i class="fa-solid fa-angle-right"></i> إضافة نفقات </span>
   </div>
+  <div *ngIf="noShiftOpened" class="alert alert-warning text-center">
+    <strong>يجب فتح وردية لإضافة فاتورة جديدة.</strong>
+   </div>
   <div class="mt-4 mb-4">
   <form  [formGroup]="salesForm" (ngSubmit)="handleForm()">
     <div class="container">
@@ -10,7 +13,7 @@
           <div class="col-md-12">
             <div class="card shadow em-card rounded-lg">
               <div class="card-header bg-white text-black rounded-top pt-3 ">
-                <h5>إضافة نفقات</h5>
+                <h5>إضافة Sales </h5>
               </div>
             
               <div class="card-body pb-5">
@@ -33,20 +36,47 @@
                      </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="client_name" class="form-label">عدد اللترات</label>
-                        <input id="client_name" formControlName="client_name" type="number" class="form-control" placeholder="أدخلClient Name  من فضلك" required />
+                        <label for="client_name" class="form-label">Client Name </label>
+                        <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخلClient Name  من فضلك" required />
                         <div class="alert alert-danger" *ngIf="salesForm.get('client_name')?.errors && salesForm.get('client_name')?.touched">
                           
                           <p *ngIf="salesForm.get('client_name')?.getError('maxLength')">الحد الأدنى هو 255</p>
-                     </div>
+                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">Phone </label>
-                        <input id="phone" formControlName="phone" type="number" class="form-control" placeholder="أدخلPhone   من فضلك" required />
+                        <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخلPhone   من فضلك" required />
                         <div class="alert alert-danger" *ngIf="salesForm.get('phone')?.errors && salesForm.get('phone')?.touched">
                           
                           <p *ngIf="salesForm.get('phone')?.getError('maxLength')">الحد الأدنى هو 20</p>
                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="number" class="form-label">Number </label>
+                      <input id="number" formControlName="number" type="text" class="form-control" placeholder="أدخلnumber   من فضلك" required />
+                      <div class="alert alert-danger" *ngIf="salesForm.get('number')?.errors && salesForm.get('number')?.touched">
+                        <p *ngIf="salesForm.get('number')?.hasError('required')"> Number مطلوب</p>
+                        <p *ngIf="salesForm.get('number')?.getError('maxLength')">الحد الأدنى هو 255</p>
+                   </div>
+                  </div>
+                    <div class="form-group">
+                      <label for="product_id">Select Product</label>
+                      <select id="product_id" formControlName="product_id" class="form-control">
+                        <option *ngFor="let product of products" [value]="product.id">
+                          {{ product.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group mt-2">
+                      <!-- <label for="price"></label> -->
+                      <p>Selected Product Price: {{selectedProductPrice}}</p>
+                      <!-- <input
+                        id="price"
+                        type="text"
+                        class="form-control"
+                        [value]="selectedProductPrice"
+                        readonly
+                      /> -->
                     </div>
                     <div class="form-group col-md-6">
                         <label for="date" class="form-label">التاريخ</label>
@@ -61,59 +91,53 @@
                         <label for="type" class="form-label">نوع الدفع</label>
                         <select id="type" formControlName="type" class="form-control">
                           <option value="cash">نقدًا</option>
-                          <option value="online">دفع إلكتروني</option>
+                          <option value="debit">دفع إلكتروني</option>
                          
                         </select>
                         <div class="alert alert-danger" *ngIf="salesForm.get('type')?.errors && salesForm.get('type')?.touched">
                           <p *ngIf="salesForm.get('type')?.hasError('required')">نوع الدفع مطلوب</p>
                         </div>
                       </div> 
-                      <div class="form-group col-md-6">
-                        <label class="form-label">اختار الحساب</label>
-                        <select class="form-control" formControlName="account_id">
-                          <option value="" disabled>اختار الحساب</option>
-                          <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
-                        </select>
-                      </div> 
-                      <div class="form-group col-md-6" *ngIf="salesForm.get('type')?.value === 'online'">
-                        <label for="image" class="form-label">رفع صورة الدفع الإلكتروني</label>
-                        <input
-                          id="image"
-                          type="file"
-                          class="form-control"
-                          (change)="onFileChange($event)"
-                        />
-                      </div> 
-                            
+                   
+                      <div class="form-group col-md-6" *ngIf="salesForm.get('type')?.value === 'debit'">
+                        <div class="form-group col-md-6">
+                            <label class="form-label">اختار الحساب</label>
+                            <select class="form-control" formControlName="account_id">
+                              <option value="" disabled>اختار الحساب</option>
+                              <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
+                            </select>
+                          </div> 
                 </div>  
+            </div>
                 <div class="row">
                    
                       <div class="form-group col-md-6">
-                        <label for="total_cash"  class="form-label">إجمالي المبلغ النقدي</label>
-                        <input id="total_cash" formControlName="total_cash" type="number" class="form-control" placeholder="يرجى إدخال إجمالي المبلغ النقدي" required/>
-                        <div class="alert alert-danger" *ngIf="salesForm.get('total_cash')?.errors && salesForm.get('total_cash')?.touched">
-                          <p *ngIf="salesForm.get('total_cash')?.getError('required')">إجمالي المبلغ النقدي مطلوب</p>
-                          <p *ngIf="salesForm.get('total_cash')?.getError('min')">الحد الأدنى هو 0</p>
+                        <label for="liters"  class="form-label">  Liters</label>
+                        <input id="liters" formControlName="liters" type="number" class="form-control" placeholder="يرجى إدخال إجمالي المبلغ النقدي" required/>
+                        <div class="alert alert-danger" *ngIf="salesForm.get('liters')?.errors && salesForm.get('liters')?.touched">
+                          <p *ngIf="salesForm.get('liters')?.getError('required')">Liters</p>
+                         
                         </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label class="form-label"> Amount </label>
+                        <p>{{ amount  }} </p> 
                       </div>
                       <div class="form-group col-md-6">
                         <label class="form-label">نسبة الضريبة</label>
                         <p>{{ taxRate  }} %</p>
                       </div>
                       
-                      <div class="form-group col-md-6">
-                        <label class="form-label">مبلغ الضريبة</label>
-                        <p>{{ taxAmount | number: '1.2-2' }} </p> 
-                      </div>
+                      
                       <div class="form-group col-md-6">
                         <label class="form-label">إجمالي بعد الضريبة</label>
-                        <p>{{ totalAfterTax | number: '1.2-2' }} </p> 
+                        <p>{{ taxAmount | number: '1.2-2' }} </p> 
                       </div>
                 </div>
                
                 <div class="form-group col-md-12">
-                    <label for="address" class="form-label">ملاحظة</label>
-                    <textarea id="address" formControlName="address" rows="4" class="form-control" placeholder="أدخل أي ملاحظات أو تفاصيل إضافية"></textarea>
+                    <label for="address" class="form-label">address</label>
+                    <textarea id="address" formControlName="address" rows="4" class="form-control" placeholder="أدخل address"></textarea>
                   </div>
                   
             </div>

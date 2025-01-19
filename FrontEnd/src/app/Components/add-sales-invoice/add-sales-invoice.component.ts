@@ -7,6 +7,7 @@ import { ProductService } from '../../shared/services/product.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ShiftService } from '../../shared/services/shift.service';
 
 @Component({
   selector: 'app-add-sales-invoice',
@@ -24,23 +25,14 @@ export class AddSalesInvoiceComponent implements OnInit{
   suppliers: any;
   accounts: any;
   expensesAccounts: any;
-  constructor(private _SalesService:SalesService , private _Router: Router,private toastr:ToastrService,private _ProductService:ProductService,private _AccountingService:AccountingService) {
+  shiftDataId: any = null;
+  noShiftOpened: boolean = false; 
+  selectedProductPrice: string = '';
+  amount: number = 0;
+  constructor(private _SalesService:SalesService , private _Router: Router,private toastr:ToastrService,private _ProductService:ProductService,private _AccountingService:AccountingService,private _ShiftService:ShiftService) {
    
   }
-//             'address' => 'nullable|string|max:255',
-//             'tax_no' => 'nullable|string|max:255',
-//             'tax_name' => 'nullable|string|max:255',
-//             'client_name' => 'nullable|string|max:255',
-//             'phone' => 'nullable|string|max:20',
-//             'type' => 'required|in:cash,debit',
-//             'date' => 'required|date',
-//             'liters' => 'required|integer',
-//             'amount' => 'required|numeric',
-//             'tax_amount' => 'required|numeric',
-//             'tax_rate' => 'required|numeric',
-//             'number' => 'required|string|max:255',
-//             'account_id' => 'nullable|exists:accounts,id',
-//             'main_shift_id' => 'required|exists:main_shifts,id',
+
   salesForm: FormGroup = new FormGroup({
     address: new FormControl(null, [Validators.maxLength(255)]),
     tax_no: new FormControl(null, [Validators.maxLength(255)]),
@@ -49,40 +41,82 @@ export class AddSalesInvoiceComponent implements OnInit{
     phone: new FormControl(null, [Validators.maxLength(20)]),
     date: new FormControl(this.getTodayDate()),
     type: new FormControl(null, [Validators.required]),
-    main_shift_id: new FormControl(null, [Validators.required]),
+    number: new FormControl(null, [Validators.required]),
     account_id: new FormControl(null, [Validators.required]),
-   
+    liters: new FormControl(null, [Validators.required]),
+    product_id: new FormControl(null, [Validators.required]),
+    
   });
   ngOnInit(): void {
     this.loadProducts(); 
     this.getTaxRate();
-  
+    this.loadMyShift()
+    this.trackProductSelection();
+    this.updateAmount();
     this.salesForm.addControl(
       'tax_rate',
       new FormControl(null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]) // Accepts numbers with up to 2 decimals
     );
     this.salesForm.get('type')?.valueChanges.subscribe((type) => {
-      if (type === 'cash') {
-        this.getAccountsByParent('10');
-      } else if (type === 'online') {
-        this.getAccountsByParent('11'); 
-      }
+      if (type === 'debit') {
+        this.getAccountsByParent('12');
+      } 
     });
   }
   loadProducts(): void {
     this._ProductService.viewAllProducts().subscribe({
       next: (response) => {
-        if (response) {
-          console.log(response);
-          this.products = response; 
-        
-        }
+        this.products = response;
+
       },
       error: (err) => {
-        console.error(err);
+        console.error('Error loading products:', err);
+      },
+    });
+  }
+
+  trackProductSelection(): void {
+    this.salesForm.get('product_id')?.valueChanges.subscribe((selectedProductId) => {
+      console.log('Selected Product ID:', selectedProductId);
+      
+      if (!this.products || this.products.length === 0) {
+        console.error('Products are not loaded or empty.');
+        return;
+      }
+  
+      const selectedProduct = this.products.find(
+        (product: { id: any }) => product.id === +selectedProductId 
+      );
+  
+      if (selectedProduct) {
+        this.selectedProductPrice = selectedProduct.price;
+        this.updateAmount()
+        console.log('Selected Product Price:', +this.selectedProductPrice);
+      } else {
+        console.error('Selected product not found.');
       }
     });
   }
+
+
+  updateAmount(): void {
+    // Update the amount whenever liters or product price changes
+    this.salesForm.get('liters')?.valueChanges.subscribe((liters) => {
+      this.calculateAmount(liters, this.selectedProductPrice);
+      console.log(liters)
+    });
+  }
+
+  calculateAmount(liters: string, price: string): void {
+    const parsedPrice = parseFloat(price || '0');
+    const parsedLiters = parseFloat(liters ||'0' );
+    this.amount = parsedLiters * parsedPrice;
+    console.log('Calculated Amount:', this.amount);
+  }
+
+  
+  
+
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -112,6 +146,24 @@ export class AddSalesInvoiceComponent implements OnInit{
       },
     });
   }
+  loadMyShift(): void {
+    this._ShiftService.getMyshift().subscribe({
+      next: (response) => {
+        console.log(response.data)
+        this.shiftDataId = response.data.id;
+        console.log(this.shiftDataId)
+        this.noShiftOpened = false; 
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.noShiftOpened = true; 
+        } else {
+          console.error(err);
+          this.toastr.error('حدث خطأ أثناء جلب البيانات');
+        }
+      }
+    });
+  }
    getAccountsByParent(parentId: string): void {
     this._AccountingService.getAccountsByParent(parentId).subscribe({
       next: (response) => {
@@ -129,20 +181,17 @@ export class AddSalesInvoiceComponent implements OnInit{
 
   
   
-  get total_cash(): number {
-    const total_cash = this.salesForm.get('total_cash')?.value || 0;
-    return total_cash;
-  }
+
   get taxAmount(): number {
-    const total = this.total_cash; 
+    const amount = this.amount; 
     const taxRate = this.taxRate || 0; 
-    return (total * taxRate / 100); 
+    return (amount * taxRate / 100); 
   }
-  get totalAfterTax(): number {
-    const total = this.total_cash; 
-    const taxAmount = this.taxAmount;
-    return total - taxAmount; 
-  }
+  // get totalAfterTax(): number {
+  //   const total = this.total_cash; 
+  //   const taxAmount = this.taxAmount;
+  //   return total - taxAmount; 
+  // }
   onInvoiceFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -150,16 +199,7 @@ export class AddSalesInvoiceComponent implements OnInit{
     }
   }
   handleForm() {
-    // address: new FormControl(null, [Validators.maxLength(255)]),
-    // tax_no: new FormControl(null, [Validators.maxLength(255)]),
-    // tax_name: new FormControl(null, [Validators.maxLength(255)]),
-    // client_name: new FormControl(null, [Validators.maxLength(255)]),
-    // phone: new FormControl(null, [Validators.maxLength(20)]),
-    // date: new FormControl(this.getTodayDate()),
-    // total_cash: new FormControl(null, [Validators.required]),
-    // type: new FormControl(null, [Validators.required]),
-    // main_shift_id: new FormControl(null, [Validators.required]),
-    // account_id: new FormControl(null, [Validators.required]),
+  
     if (this.salesForm.valid) {
       this.isLoading = true;
 
@@ -170,16 +210,17 @@ export class AddSalesInvoiceComponent implements OnInit{
       formData.append('client_name', this.salesForm.get('client_name')?.value);
       formData.append('phone', this.salesForm.get('phone')?.value);
       formData.append('date', this.salesForm.get('date')?.value);
-      formData.append('main_shift_id', this.salesForm.get('main_shift_id')?.value);
-      formData.append('account_id', this.salesForm.get('account_id')?.value);
+      formData.append('main_shift_id', this.shiftDataId.toString());
+      formData.append('number', this.salesForm.get('number')?.value);
       formData.append('type', this.salesForm.get('type')?.value);
-     
+      formData.append('liters', this.salesForm.get('liters')?.value);
+      formData.append('amount', this.amount.toString());
       formData.append('tax_rate', this.taxRate.toString());
       formData.append('tax_amount', this.taxAmount.toString());
-      
-      if (this.selectedInvoiceImage) {
-        formData.append('invoice_image', this.selectedInvoiceImage);
+      if (this.salesForm.get('type')?.value === 'debit') {
+        formData.append('account_id', this.salesForm.get('account_id')?.value);
       }
+     
       this._SalesService.addSalesInvoice(formData).subscribe({
         next: (response) => {
           console.log(response);
