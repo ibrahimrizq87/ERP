@@ -152,6 +152,18 @@ class SalesInvoiceController extends Controller
 
         $newAmount = $request->amount;
         $salesInvoice->amount = $newAmount;
+        $salesInvoice->address = $request->address;
+        $salesInvoice->tax_no = $tax_no;
+        $salesInvoice->tax_name = $tax_name;
+        $salesInvoice->client_name = $client_name;
+        $salesInvoice->phone = $phone;
+        $salesInvoice->type = $type;
+        $salesInvoice->date = $date;
+        $salesInvoice->tax_amount = $tax_amount;
+        $salesInvoice->tax_rate = $tax_rate;
+        $salesInvoice->number = $number;
+        $salesInvoice->account_id = $account_id ?? null;
+
         $salesInvoice->save();
 
         if ($request->account_id && $request->type == 'debit') {
