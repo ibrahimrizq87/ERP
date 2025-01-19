@@ -57,6 +57,7 @@ import { SalesInvoicesComponent } from './Components/sales-invoices/sales-invoic
 import { AddSalesInvoiceComponent } from './Components/add-sales-invoice/add-sales-invoice.component';
 import { UpdateSalesInvoiceComponent } from './Components/update-sales-invoice/update-sales-invoice.component';
 import { ShowSalesInvoiceComponent } from './Components/show-sales-invoice/show-sales-invoice.component';
+import { ShowSupervisorShiftComponent } from './Components/show-supervisor-shift/show-supervisor-shift.component';
 
 
 export const routes: Routes = [
@@ -136,6 +137,10 @@ export const routes: Routes = [
         data: { roles: ['admin','accountant','worker','supervisor'] }},
     {path:"closeShift/:id",component:CloseShiftComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','worker','supervisor'] }},
+
+        {path:"show-supervisor-shift/:id",component:ShowSupervisorShiftComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','supervisor'] }},
+        
     
     {path:"updateShiftWorker",component:UpdateShiftWorkerComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','worker'] }}, 

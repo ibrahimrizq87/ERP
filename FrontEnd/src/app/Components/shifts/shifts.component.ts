@@ -17,7 +17,7 @@ export class ShiftsComponent implements OnInit {
   shifts: any[] = []; 
   filteredShifts: any[] = [];  
   searchQuery: string = ''; 
-  currentStatus: string = '';
+  currentStatus: string = 'open';
   userRole: string | null = null;
   private statusFlow: string[] = ['open', 'closed', 'approved'];
   constructor(private _ShiftService: ShiftService, private router: Router,private toastr :ToastrService) {}
@@ -47,7 +47,7 @@ export class ShiftsComponent implements OnInit {
 
   loadShifts(status: string): void {
     this.currentStatus = status;
-    this._ShiftService.getShiftByStatus(status).subscribe({
+    this._ShiftService.getMainShiftByStatus(status).subscribe({
       next: (response) => {
         if (response) {
           console.log(response);

@@ -6,20 +6,39 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Product;  
 use App\Models\Account;  
-
 use App\Models\MainShift;  
 use App\Models\ShiftMachine;  
+use App\Models\TaxRate;  
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MainShiftResource;
 use App\Http\Resources\ShiftMachineResource;
 use Illuminate\Support\Facades\DB;
+
+
 class MainShiftController extends Controller
 {
 
+    
 
-    public function getAllShiftsByStatus($shift_id , $status){
+    public function getShiftById($shift_id){
+      
+
+        $shift =  MainShift::find($shift_id);
+   
+        if(!$shift){
+            return response()->json([
+                'success' => false,
+                'message' => 'لم يتم فتح وردية بعد'
+            ], 404);
+        }
+       return new MainShiftResource($shift);
+    }
+
+
+    public function getAllShiftsByStatus( $status){
         $shifts =  MainShift::where('status' , $status)->get();
        return MainShiftResource::collection($shifts);
     }
@@ -45,6 +64,8 @@ class MainShiftController extends Controller
 
 
     public function closeShift($shift_id){
+      
+
         $shift =  MainShift::find($shift_id);
    
         if(!$shift){
@@ -93,7 +114,7 @@ class MainShiftController extends Controller
     
         try { 
 
-            $shiftMachines = ShiftMachine::where('smain_hift_id' , $shift->id)->get();
+            $shiftMachines = ShiftMachine::where('main_shift_id' , $shift->id)->get();
             foreach ($shiftMachines as $machine) {
                 $product = Product::find($machine->product_id);
                 if( $product){
@@ -116,6 +137,7 @@ class MainShiftController extends Controller
                 $this->updateCredit($salesAccount , $total_money);
 
                 $shift->status = 'approved';
+                $shift->supervisor_id =Auth::id();
                 $shift->save();
 
          DB::commit();

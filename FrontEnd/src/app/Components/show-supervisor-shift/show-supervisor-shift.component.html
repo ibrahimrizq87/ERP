@@ -1,19 +1,7 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-      <h5>إدارة الورديات</h5>
-      <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الورديات</span>
-    </div>
-    <button *ngIf="noShiftOpened" class="btn btn-primary text-white p-3 rounded" (click)="openModal('shiftModal')">
-      إضافة ورديه جديده
-    </button>
-  </div>
-  <div *ngIf="noShiftOpened" class="alert alert-warning">
-    لا توجد ورديات مفتوحة
-  </div>
-  <div *ngIf="shiftData && !noShiftOpened" class="card p-4 shadow-sm">
+
+  <div class="card p-4 shadow-sm">
     <h5 class="card-title mb-4 text-center text-primary">تفاصيل الوردية</h5>
     
-    <!-- Basic Shift Information -->
     <div class="row mb-3">
       <div class="col-12 col-md-6">
         <p><strong>رقم الوردية:</strong> {{ shiftData.shift }}</p>
@@ -93,31 +81,13 @@
     <!-- Last Updated -->
     <p class="text-muted"><strong>تم آخر تحديث في:</strong> {{ shiftData.updated_at | date: 'yyyy-MM-dd HH:mm' }}</p>
     <div class="text-center">
-    <a class="btn btn-success w-25 text-white" routerLink="/dashboard/updateShiftWorker">
-        اعادة ادخال بيانات الوردية
-      </a>
+    
 
-
-      <a class="btn btn-warning w-25 text-white me-5" (click)="closeShift()">
-ترحيل الوردية للمشرف
+      <a *ngIf="shiftData.status != 'approved'" class="btn btn-warning w-25 text-white me-5" (click)="approve()">
+        الموافقة , ترحيل الوردية للمحاسب
       </a>
     </div>  
   </div>
   
-  
-  <!-- Modal for Shift Selection -->
-  <div class="modal fade" id="shiftModal" tabindex="-1" aria-labelledby="shiftModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="shiftModalLabel">اختر الوردية</h5>
-          <button type="button" class="btn-close" aria-label="Close" (click)="closeModal('shiftModal')"></button>
-        </div>
-        <div class="modal-body">
-          <button class="btn btn-primary w-100 mb-2" (click)="chooseShift(1)">Shift 1</button>
-          <button class="btn btn-secondary w-100" (click)="chooseShift(2)">Shift 2</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
   

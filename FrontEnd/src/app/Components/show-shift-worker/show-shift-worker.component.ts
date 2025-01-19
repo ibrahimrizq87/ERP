@@ -31,6 +31,24 @@ ngOnInit(): void {
     }
   }
 
+
+  closeShift() {
+    this.shiftService.closeMainShift(this.shiftData.id).subscribe({
+      next: (response) => {
+        this.noShiftOpened = true; 
+        this.toastr.success('  تم ترحيل الوردية بنجاح  ');
+
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.noShiftOpened = true; 
+        } else {
+          console.error(err);
+          this.toastr.error(' حدث مشكلة اثناء ترحيل الوردية ');
+        }
+      }
+    });
+}
   closeModal(modalId: string) {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
