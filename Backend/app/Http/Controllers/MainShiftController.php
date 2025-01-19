@@ -256,6 +256,9 @@ class MainShiftController extends Controller
     if ($request->has('machines')) {
 
 
+
+$shift->shiftMachines()->delete();
+
         foreach ($request->machines as $machine) {
 
         
