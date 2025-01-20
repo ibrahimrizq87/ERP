@@ -23,6 +23,30 @@ class MainShiftController extends Controller
 
     
 
+
+
+    public function deletShift($shift_id){
+      
+
+        $shift =  MainShift::find($shift_id);
+   
+        if(!$shift){
+            return response()->json([
+                'success' => false,
+                'message' => 'لم يتم فتح وردية بعد'
+            ], 404);
+        }
+
+
+        $shift->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'deleted successfully'
+        ], 200);   
+    
+    }
+
+
     public function getShiftById($shift_id){
       
 
