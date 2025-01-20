@@ -3,9 +3,9 @@
       <h5>إدارة الورديات</h5>
       <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> الورديات</span>
   </div>
-  <a class="nav-link" routerLink="/dashboard/addShift">
+  <!-- <a class="nav-link" routerLink="/dashboard/addShift">
     <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
-  </a>
+  </a> -->
 </div>
 <div class="d-flex justify-content-around align-items-center w-50">
   <button *ngIf="userRole !== 'accountant'" class="btn bg-warning rounded btn1" (click)="loadShifts('open')">الوردية المفتوحة</button>
@@ -58,6 +58,7 @@
                   <a class="nav-link" [routerLink]="['/dashboard/show-supervisor-shift', shift.id]">
                     <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
                   </a>
+                  <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteShift(shift.id)"></i> 
                   <!-- <a *ngIf="currentStatus !== 'closed' && currentStatus !== 'approved' " class="nav-link" [routerLink]="['/dashboard/closeShift', shift.id]">
                   <i class="fa-solid fa-lock btn1 bg-warning rounded"   ></i>
                    </a> -->
@@ -66,7 +67,7 @@
                     <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
                   </a> -->
                
-                  <!-- <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteShift(shift.id)"></i> -->
+                  <!-- -->
                  </div>
               </td>
           </tr>

@@ -24,7 +24,6 @@ export class ShiftsComponent implements OnInit {
 
   ngOnInit(): void {
     // this.loadShifts(); 
-    this.loadShifts(this.currentStatus);
     this.getUserRole();
   }
 
@@ -92,9 +91,9 @@ export class ShiftsComponent implements OnInit {
   //   );
   // }
 
-  deleteShift(shiftId: number): void {
+  deleteShift(shiftId: string): void {
     if (confirm('هل أنت متأكد أنك تريد حذف هذه الوردية؟')) { // "Are you sure you want to delete this Shift?"
-      this._ShiftService.deleteShift(shiftId).subscribe({
+      this._ShiftService.deleteMainShiftById(shiftId).subscribe({
         next: (response) => {
           if (response) {
             this.toastr.success("تم حذف الوردية بنجاح") // "Delete Shift Successfully"
@@ -149,6 +148,15 @@ export class ShiftsComponent implements OnInit {
       this.userRole = Base64.decode(encodedRole);
     } else {
       this.userRole = null;
+    }
+
+
+    if( this.userRole == 'admin' || this.userRole == 'supervisor'){
+      this.loadShifts('open');
+
+    }else if (this.userRole == 'accountant'){
+      this.loadShifts('approved');
+
     }
   }
   

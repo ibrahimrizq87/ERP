@@ -19,6 +19,12 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SalesInvoiceController;
 
 
+
+
+Route::delete('main-shifts/{id}', [MainShiftController::class , 'deletShift'])->middleware('auth:sanctum');
+
+
+
 Route::put('main-shifts/update/{shift_id}', [MainShiftController::class , 'update'])->middleware('auth:sanctum');
 Route::get('sales-invoices/by-shift/{shift_id}', [SalesInvoiceController::class , 'getByShift'])->middleware('auth:sanctum');
 Route::put('sales-invoices/{id}', [SalesInvoiceController::class , 'update'])->middleware('auth:sanctum');

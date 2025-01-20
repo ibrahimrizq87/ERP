@@ -21,6 +21,13 @@ export class ShiftService {
 
   
   
+
+  deleteMainShiftById(id:string): Observable<any>{
+    const token = localStorage.getItem('Gtoken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._HttpClient.delete(`${this.baseURL}/main-shifts/${id}`, { headers })
+  }
+
   
   getMainShiftById(id:string): Observable<any>{
     const token = localStorage.getItem('Gtoken');
