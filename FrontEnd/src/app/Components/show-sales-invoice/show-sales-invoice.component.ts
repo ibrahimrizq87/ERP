@@ -26,7 +26,14 @@ export class ShowSalesInvoiceComponent implements OnInit {
       this.fetchSalesData(saleId);
     }
   }
+getPaymentType(type:string){
+if(type == 'debit'){
+return 'آجل';
+}else{
+  return 'كاش';
 
+}
+}
  
   fetchSalesData (saleId: string): void {
     this._SalesService.getSalesInvoice(saleId).subscribe({

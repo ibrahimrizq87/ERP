@@ -30,7 +30,7 @@
             <tr *ngFor="let sale of filteredSales; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ sale.date }}</td>
-                <td>{{ sale.type }}</td>
+                <td>{{ getPaymentType(sale.type) }}</td>
                 <td>{{ sale.tax_amount }}</td>
                 <td>
                     <div class="d-flex justify-content-around align-items-center">

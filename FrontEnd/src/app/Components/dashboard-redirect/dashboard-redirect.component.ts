@@ -16,9 +16,11 @@ export class DashboardRedirectComponent implements OnInit {
 
     if (userRole === 'admin') {
       this.router.navigate(['/dashboard/users']);
-    } else if (userRole === 'worker' || userRole === 'supervisor'||userRole === 'accountant') {
+    } else if ( userRole === 'supervisor'||userRole === 'accountant') {
       this.router.navigate(['/dashboard/shifts']);
-    } else {
+    }else  if (userRole === 'worker') {
+      this.router.navigate(['/dashboard/showShiftWorker']);
+    }else {
       this.router.navigate(['/login']);
     }
   }}

@@ -154,13 +154,13 @@ export const routes: Routes = [
 
 
     {path:"purchaseInvoices",component:PurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }}, 
+        data: { roles: ['admin','accountant', 'supervisor'] }}, 
     {path:"addPurchaseInvoice",component:AddPurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
     {path:"updatePurchase/:id",component:UpdatePurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
     {path:"showPurchase/:id",component:ShowPurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
 
     {path:"expensesInvoices",component:ExpensesInvoicesComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},  
@@ -173,13 +173,13 @@ export const routes: Routes = [
      
     
     {path:"salesInvoices",component:SalesInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},  
+        data: { roles: ['admin','accountant','worker'] }},  
     {path:"addSalesInvoice",component:AddSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
     {path:"updateSalesInvoice/:id",component:UpdateSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
     {path:"showSalesInvoice/:id",component:ShowSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
 
     {path:"equations",component:EquationsComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},  

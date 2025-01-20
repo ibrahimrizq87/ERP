@@ -16,6 +16,8 @@ export class ShowSupervisorShiftComponent {
 
 
   shiftData: any = null;
+  showInvoice: boolean = false; 
+
   constructor(
     private shiftService: ShiftService,
     private toastr: ToastrService,
@@ -39,7 +41,9 @@ ngOnInit(): void {
     }
   }
 
-
+  showInvoices(){
+    this.showInvoice = !this.showInvoice;
+  }
   approve() {
     this.shiftService.approveMainShift(this.shiftData.id).subscribe({
       next: (response) => {
@@ -56,6 +60,15 @@ ngOnInit(): void {
         }
       }
     });
+}
+
+getPaymentType(type:string){
+  if(type == 'debit'){
+  return 'آجل';
+  }else{
+    return 'كاش';
+  
+  }
 }
 
   loadShift(shiftId:string): void {
