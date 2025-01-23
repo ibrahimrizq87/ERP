@@ -10,6 +10,14 @@ use App\Http\Resources\PurchaseInvoiceResource;
 use App\Http\Resources\ExpenseInvoiceResource;
 use App\Models\ExpenseInvoice;
 use App\Models\Shift;  
+use App\Models\SalesInvoice;  
+use App\Models\ProductMove;  
+use App\Models\MainShift;  
+
+use App\Http\Resources\MainShiftResource;  
+use App\Http\Resources\ProductMoveResource;  
+use App\Http\Resources\SalesInvoiceResource;  
+
 
 class ReportsController extends Controller
 {
@@ -38,8 +46,8 @@ class ReportsController extends Controller
             ], 404);
         }
 
-        $page = $request->input('page', 1);
-        $itemsPerPage = $request->input('itemsPerPage', 10);
+        // $page = $request->input('page', 1);
+        // $itemsPerPage = $request->input('itemsPerPage', 10);
     
 
         $startDate = $request->input('startDate', null);
@@ -65,7 +73,264 @@ class ReportsController extends Controller
         return PurchaseInvoiceResource::collection($paginatedInvoices)
             ->additional(['total' => $paginatedInvoices->total()]);
     }
+
+
+
+
+
+    public function getProductsReports(Request $request)
+    {
+        
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+
+        $query = ProductMove::query();
+
+
+        if (!empty($today)) {
+            $query->whereDate('date', '=', now()->toDateString());
+        } elseif (!empty($thisYear)) {
+            $query->whereYear('date', '=', now()->year);
+        } else {
+            if (!empty($startDate)) {
+                $query->whereDate('date', '>=', $startDate);
+            }
+            if (!empty($endDate)) {
+                $query->whereDate('date', '<=', $endDate);
+            }
+        }
+
+        $totalCount = $query->count();
+        $totalAmountMoney = $query->sum('total_price');
+        $totalAmountLiters = $query->sum('liters');
+
+        $moves = $query->get();
+     
+
+        return response()->json([
+            'expense_invoices' => ProductMoveResource::collection($moves),
+            'totalCount' => $totalCount,
+            'totalAmountMoney' => $totalAmountMoney,
+            'totalAmountLiters' => $totalAmountLiters,       
+        
+        ]);
+
+    }
+
+
+    public function getSalesInvoicesReports(Request $request)
+    {
+
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+        $account_id = $request->input('account_id', null);
+
+        $accounts = Account::where('parent_id', 12)->get();
+
+
+
+        foreach ($accounts as $account) {
+            $query = SalesInvoice::where('account_id', $account->id);
+            if (!empty($today)) {
+                $query->whereDate('date', '=', now()->toDateString());
+            } elseif (!empty($thisYear)) {
+                $query->whereYear('date', '=', now()->year);
+            } else {
+                if (!empty($startDate)) {
+                    $query->whereDate('date', '>=', $startDate);
+                }
+                if (!empty($endDate)) {
+                    $query->whereDate('date', '<=', $endDate);
+                }
+            }
     
+            $totalCount = $query->count();
+            $totalAmount = $query->sum('amount');
+            $totalAmountLiters = $query->sum('liters');
+
+            $saleInvoices = $query->get();
+            $accountDetails[$account->account_name] = [
+                'account_name' => $account->account_name,
+                'expense_invoices' => SalesInvoiceResource::collection($saleInvoices),
+                'totalCount' => $totalCount,
+                'totalAmount' => $totalAmount,
+                'totalAmountLiters' => $totalAmountLiters,
+
+
+                
+            ];
+        }
+
+        return response()->json([
+            $accountDetails
+        ]);
+    }
+    
+    public function getShiftsReports(Request $request)
+    {
+
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+        $account_id = $request->input('account_id', null);
+
+        $query = MainShift::where('status' , 'approved');
+            if (!empty($today)) {
+                $query->whereDate('date', '=', now()->toDateString());
+            } elseif (!empty($thisYear)) {
+                $query->whereYear('date', '=', now()->year);
+            } else {
+                if (!empty($startDate)) {
+                    $query->whereDate('date', '>=', $startDate);
+                }
+                if (!empty($endDate)) {
+                    $query->whereDate('date', '<=', $endDate);
+                }
+            }
+    
+            $totalCount = $query->count();
+            $totalAmount = $query->sum('total_shift_money');
+            $totalAmountCash = $query->sum('total_money_cash');
+            $totalAmountClient = $query->sum('total_money_client');
+            $totalAmountOnline = $query->sum('total_money_online');
+
+            $shifts= $query->get();
+
+
+         return response()->json([
+                // 'account_name' => $account->name,
+                'shifts' => MainShiftResource::collection($shifts),
+                'totalCount' => $totalCount,
+                'totalAmount' => $totalAmount,
+                'totalAmountCash' => $totalAmountCash,
+                'totalAmountClient' => $totalAmountClient,
+                'totalAmountOnline' => $totalAmountOnline,
+            ]);
+        
+
+     
+    }
+    
+    public function getPurchaseInvoicesReports(Request $request)
+    {
+
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+        // $year = $request->input('endDate', null);
+        $supplierId = $request->input('supplier_id', null);
+        $accountId = $request->input('account_id', null);
+
+
+
+
+        $query = PurchaseInvoice::with(['product', 'account', 'supplier']);
+
+
+        if (!empty($today)) {
+            $query->whereDate('date', '=', now()->toDateString());
+        } elseif (!empty($thisYear)) {
+            $query->whereYear('date', '=', now()->year);
+        } else {
+            if (!empty($startDate)) {
+                $query->whereDate('date', '>=', $startDate);
+            }
+            if (!empty($endDate)) {
+                $query->whereDate('date', '<=', $endDate);
+            }
+        }
+
+
+
+    if (!empty($supplierId)) {
+        $query->where('supplier_id', '=', $supplierId);
+    }
+
+
+    if (!empty($accountId)) {
+        $query->where('account_id', '=', $accountId);
+    }
+
+
+        $totalCount = $query->count();
+        $totalAmount = $query->sum('total_cash');
+        $totalLiters = $query->sum('amount_letters');
+        $invoices = $query->get();
+    
+        return response()->json([
+            'totalCount' => $totalCount,
+            'totalAmount' => $totalAmount,
+            'totalLiters' => $totalLiters,
+            'invoices' => $invoices,
+        ]);
+    
+    }
+
+
+    public function getExpenseInvoicesReports(Request $request)
+    {
+
+
+        $accounts = Account::whereIn('parent_id', [32,33])->get();
+        $accountDetails = [];
+
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+        // $supplierId = $request->input('expense_id', null);
+        // $accountId = $request->input('account_id', null);
+
+        foreach ($accounts as $account) {
+            $query = ExpenseInvoice::with(['account' , 'expense'])->where('account_id', $account->id);
+            if (!empty($today)) {
+                $query->whereDate('date', '=', now()->toDateString());
+            } elseif (!empty($thisYear)) {
+                $query->whereYear('date', '=', now()->year);
+            } else {
+                if (!empty($startDate)) {
+                    $query->whereDate('date', '>=', $startDate);
+                }
+                if (!empty($endDate)) {
+                    $query->whereDate('date', '<=', $endDate);
+                }
+            }
+    
+            $totalCount = $query->count();
+            $totalAmount = $query->sum('total_cash');
+            $expenseInvoices = $query->get();
+            $accountDetails[$account->account_name] = [
+                'account_name' => $account->account_name,
+                'expense_invoices' => ExpenseInvoiceResource::collection($expenseInvoices),
+                'totalCount' => $totalCount,
+                'totalAmount' => $totalAmount,
+            ];
+        }
+     
+    
+        return response()->json([
+            $accountDetails
+        ]);
+    
+    }
+
+
 
     public function getAllPurchaseInvoicesByDate(Request $request)
     {
@@ -91,6 +356,8 @@ class ReportsController extends Controller
         if (!empty($endDate)) {
             $query->whereDate('date', '<=', $endDate);
         }
+
+
     
 
         if (!empty($searchTerm)) {
@@ -109,10 +376,9 @@ class ReportsController extends Controller
             }
         }
     
-        $paginatedInvoices = $query->paginate($itemsPerPage, ['*'], 'page', $page);
+        $paginatedInvoices = $query->get();
     
-        return PurchaseInvoiceResource::collection($paginatedInvoices)
-            ->additional(['total' => $paginatedInvoices->total()]);
+        return PurchaseInvoiceResource::collection($paginatedInvoices);
     }
     
 

@@ -17,6 +17,7 @@ use App\Http\Resources\MainShiftResource;
 use App\Http\Resources\ShiftMachineResource;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\ProductMove;  
 
 class MainShiftController extends Controller
 {
@@ -139,10 +140,24 @@ class MainShiftController extends Controller
         try { 
 
             $shiftMachines = ShiftMachine::where('main_shift_id' , $shift->id)->get();
+
+          
             foreach ($shiftMachines as $machine) {
+                
+    
                 $product = Product::find($machine->product_id);
                 if( $product){
                     $product->amount -= $machine->total_liters_amount;
+                    $move = new ProductMove();  
+                    $move->date = $shift->date;
+                    $move->liters =  $machine->total_liters_amount;
+                    $move->total_price =  $machine->total_liters_amount * $product->price;
+                    $move->product_id =  $product->id;
+                    $move->main_shift_id = $shift->id;
+                    $move->type = 'from_us';
+                    $move->save();
+
+                    
                     $product->start_amount = $machine->close_amount;
                     $product->save();
                 }

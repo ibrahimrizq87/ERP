@@ -20,6 +20,11 @@ use App\Http\Controllers\SalesInvoiceController;
 
 
 
+Route::get('reports/expense-invoice-reports', [ReportsController::class , 'getExpenseInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/purchase-invoice-reports', [ReportsController::class , 'getPurchaseInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/shifts-reports', [ReportsController::class , 'getShiftsReports'])->middleware('auth:sanctum');
+Route::get('reports/sales-invoice-reports', [ReportsController::class , 'getSalesInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/product-reports', [ReportsController::class , 'getProductsReports'])->middleware('auth:sanctum');
 
 Route::delete('main-shifts/{id}', [MainShiftController::class , 'deletShift'])->middleware('auth:sanctum');
 

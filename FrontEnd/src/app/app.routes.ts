@@ -58,6 +58,7 @@ import { AddSalesInvoiceComponent } from './Components/add-sales-invoice/add-sal
 import { UpdateSalesInvoiceComponent } from './Components/update-sales-invoice/update-sales-invoice.component';
 import { ShowSalesInvoiceComponent } from './Components/show-sales-invoice/show-sales-invoice.component';
 import { ShowSupervisorShiftComponent } from './Components/show-supervisor-shift/show-supervisor-shift.component';
+import { ProductReportsComponent } from './Components/product-reports/product-reports.component';
 
 
 export const routes: Routes = [
@@ -95,6 +96,14 @@ export const routes: Routes = [
 
     {path:"accounting/:id",component:AccountingComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
+
+
+
+        {path:"product/reports",component:ProductReportsComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','accountant'] }},
+        
+
+
     {path:"addAccount/:id",component:AddAccountComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
     {path:"accounting/:id/showAccount/:accountId",component:ShowAccountComponent,canActivate: [RoleGuard],
