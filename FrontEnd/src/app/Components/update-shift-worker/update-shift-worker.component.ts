@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../shared/services/product.service';
+import { MachineService } from '../../shared/services/machine.service';
 
 @Component({
   selector: 'app-update-shift-worker',
@@ -32,6 +33,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
   totalLiterForEachProduct: any;
   shift_id: any;
   constructor(
+    private _MachineService:MachineService,
     private fb: FormBuilder,
     private router: Router,
     private _ShiftService: ShiftService,
@@ -123,7 +125,29 @@ export class UpdateShiftWorkerComponent implements OnInit {
     });
   }
  
+  onMachineChange( index: number , machine_id:string): void{
+    const paymentControl = this.onlinePayments.at(index) as FormGroup;
+    this._MachineService.getMachineById(machine_id).subscribe({
+      next: (response) => {
+        console.log(response);
+        paymentControl.get('start_amount')?.setValue(response.start_amount || 0);
+
+      },
+      error: (err) => {
+        console.error('Error fetching machines:', err);
+      },
+    });
+
+  //   const machines2 =         paymentControl.get('machines');
+
+  //   const selectedMachine = machines2.find((machine: any) => machine.id === parseInt(machine_id));
+  //   if (selectedMachine) {
+  // console.log("testeregrefv" ,selectedMachine.start_amount );
+  //   }
   
+  
+   
+  }
   onProductChange(product_id: string, index: number): void {
     if (!product_id) return;
   
@@ -132,7 +156,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
     if (selectedProduct) {
       // Set the start_amount in the form
       const paymentControl = this.onlinePayments.at(index) as FormGroup;
-      paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
+      // paymentControl.get('start_amount')?.setValue(selectedProduct.start_amount || 0);
       paymentControl.get('price')?.setValue(selectedProduct.price || 0);
     }
   

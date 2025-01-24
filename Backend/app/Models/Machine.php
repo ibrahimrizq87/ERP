@@ -14,6 +14,7 @@ class Machine extends Model
     protected $fillable = [
         'product_id',
         'machine_number',
+        'start_amount'
 
         
      

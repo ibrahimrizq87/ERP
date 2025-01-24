@@ -28,6 +28,8 @@
               <th class="bg-light" scope="col">#</th>
               <th class="bg-light" scope="col">رقم الطرمبة</th>
               <th class="bg-light" scope="col">المنتج</th>
+              <th class="bg-light" scope="col">رقم الافتتاح</th>
+
               <th class="bg-light" scope="col">الإجراءات</th>
           </tr>
       </thead>
@@ -36,6 +38,8 @@
               <th scope="row">{{ i + 1 }}</th>
               <td>{{ machine.machine_number }}</td>
               <td>{{ machine.product?.name }}</td>
+              <td>{{ machine.start_amount }}</td>
+
               <td>
                   <div class="d-flex justify-content-around align-items-center">
                       <a class="nav-link" [routerLink]="['/dashboard/showMachine', machine.id]">

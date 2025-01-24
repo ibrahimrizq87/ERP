@@ -6,6 +6,8 @@ import { ShiftService } from '../../shared/services/shift.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { SalesService } from '../../shared/services/sales.service';
+
 @Component({
   selector: 'app-show-supervisor-shift',
   imports: [RouterModule,CommonModule],
@@ -17,19 +19,39 @@ export class ShowSupervisorShiftComponent {
 
   shiftData: any = null;
   showInvoice: boolean = false; 
+  filteredSales:any;
 
   constructor(
     private shiftService: ShiftService,
     private toastr: ToastrService,
     private router: Router,
-        private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private salesService:SalesService
     
   ) {}
+
+
+  loadInvoices(id:string){
+    this.salesService.viewsalesInvoicesByShift(id).subscribe({
+      next: (response) => {
+        console.log(response.data);
+        this.filteredSales = response.data;
+  
+      },
+      error: (err: HttpErrorResponse) => {
+        
+          console.error(err);
+          this.toastr.error(' حدث مشكلة اثناء ترحيل الوردية ');
+        
+      }
+    });
+  }
 ngOnInit(): void {
 
   const shiftId = this.route.snapshot.paramMap.get('id');
   if (shiftId) {
     this.loadShift(shiftId);
+
   }
     
 }
@@ -76,6 +98,7 @@ getPaymentType(type:string){
       next: (response) => {
         console.log(response.data)
         this.shiftData = response.data;
+        this.loadInvoices(this.shiftData.id);
       },
       error: (err: HttpErrorResponse) => {
         if (err.status === 404) {

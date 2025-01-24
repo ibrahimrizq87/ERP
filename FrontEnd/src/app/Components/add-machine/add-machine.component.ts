@@ -25,7 +25,7 @@ export class AddMachineComponent implements OnInit {
   machineForm: FormGroup = new FormGroup({
     machine_number:new FormControl(null, [Validators.required,Validators.maxLength(255)]),
     product_id: new FormControl(null, [Validators.required]),
-  
+    start_amount: new FormControl(null, [Validators.required,Validators.min(0)]),
    
   });
 
@@ -56,8 +56,8 @@ export class AddMachineComponent implements OnInit {
       const formData = new FormData();
       formData.append('machine_number', this.machineForm.get('machine_number')?.value);
       formData.append('product_id', this.machineForm.get('product_id')?.value);
-     
     
+      formData.append('start_amount', this.machineForm.get('start_amount')?.value);
      
       this._MachineService.addMachine(formData).subscribe({
         next: (response) => {

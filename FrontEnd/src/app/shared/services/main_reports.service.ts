@@ -64,4 +64,17 @@ export class MainReportsService {
    
   }
   
+  getPaymentDocumentReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
+    const token = localStorage.getItem('Gtoken');
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const params = new HttpParams({ fromObject: filters });
+
+    return this._HttpClient.get(this.baseURL+"reports/payment-document-reports", { headers })
+   
+  }
+  
+
+  
+
 }
