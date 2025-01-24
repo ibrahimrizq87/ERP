@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة المنتجات</h5>
-        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+        <h5>إدارة التقارير</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المصروفات</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addProduct">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
@@ -39,12 +39,12 @@
             </select>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <label for="selectedMonth" class="me-2">Invoice:</label>
+            <label for="selectedMonth" class="me-2">حساب المصروف:</label>
           <select 
           class="form-select me-3" 
           [(ngModel)]="selectedProduct" 
           (change)="filterDisplayedProducts()">
-          <option value="">اختر Invoice</option>
+          <option value="">اختر حساب المصروف</option>
           <option *ngFor="let product of products" [value]="product?.account?.id">{{ product?.account?.account_name }}</option>
           </select>
         </div>
@@ -70,17 +70,17 @@
                 <!-- العمود الأيسر -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>current_balance:</strong> {{ product?.account?.current_balance }}
+                    <strong>رصيد الحساب الحالى:</strong> {{ product?.account?.current_balance }}
                   </p>
                  
                   <p class="mb-2">
-                    <strong> totalAmount:</strong> {{ product?.totalAmount }}
+                    <strong> اجمالى مبلغ الحركات:</strong> {{ product?.totalAmount }}
                   </p>
                 </div>
                 <!-- العمود الأيمن -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>totalCount :</strong> {{ product?.totalCount }}
+                    <strong>عدد الحركات :</strong> {{ product?.totalCount }}
                   </p>
                  
                 </div>
@@ -95,21 +95,20 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">التاريخ</th>
-                  <th scope="col">النوع</th>
-                  <th scope="col">account</th>
-                  <th scope="col"> tax_amount</th>
-                  <th scope="col"> tax_rate</th>
-                  <th scope="col"> total_cash</th>
+                  <th scope="col">نوع الدفع</th>
+                  <th scope="col">تم الدفع من حساب</th>
+                  <th scope="col"> قيمة الضريبة المضافه</th>
+                 
+                  <th scope="col"> مبلغ الحركة</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let move of product.expense_invoices; let j = index">
                   <th scope="row">{{ j + 1 }}</th>
                   <td>{{ move?.date }}</td>
-                  <td>{{ move?.payment_type }}</td>
+                  <td>{{ paymentType(move?.payment_type) }}</td>
                   <td>{{ move?.account?.account_name }}</td>
                   <td>{{ move?.tax_amount }}</td>
-                  <td>{{ move?.tax_rate }}</td>
                   <td>{{ move?.total_cash }}</td>
                 </tr>
               </tbody>
