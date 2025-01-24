@@ -53,9 +53,9 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center">
-                <a class="btn btn-success ms-5"> هذه السنه </a>
-                <a class="btn btn-success">  اليوم </a>
-
+              <button (click)="filterThisYear()"  class="btn btn-success ms-5">هذه السنه</button>
+              <button (click)="filterToday()" class="btn btn-success">اليوم</button>
+              
             </div>
            
         </div>
@@ -85,7 +85,7 @@
                     <strong>إجمالي الأموال:</strong> {{ product?.totalAmountMoney }}
                   </p>
                   <p class="mb-2">
-                    <strong>الكمية المبدئية:</strong> {{ product.product.start_amount }}
+                    <strong>الكمية المبدئية:</strong> {{ product?.product?.start_amount }}
                   </p>
                 </div>
               </div>
@@ -107,10 +107,10 @@
               <tbody>
                 <tr *ngFor="let move of product.moves; let j = index">
                   <th scope="row">{{ j + 1 }}</th>
-                  <td>{{ move.date }}</td>
-                  <td>{{ move.type }}</td>
-                  <td>{{ move.liters }}</td>
-                  <td>{{ move.total_price }}</td>
+                  <td>{{ move?.date }}</td>
+                  <td>{{ move?.type }}</td>
+                  <td>{{ move?.liters }}</td>
+                  <td>{{ move?.total_price }}</td>
                 </tr>
               </tbody>
             </table>

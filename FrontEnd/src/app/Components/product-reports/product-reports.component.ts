@@ -102,7 +102,17 @@ filterDisplayedProducts() {
 
 
 
+filterToday() {
+  const filters = { today: true }; 
+  console.log('Today filter applied:', filters); 
+  this.loadReports(filters);
+}
 
+filterThisYear() {
+  const filters = { thisYear: true }; 
+  console.log('This Year filter applied:', filters); 
+  this.loadReports(filters);
+}
 
 
 
