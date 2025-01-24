@@ -14,8 +14,8 @@ import { MainReportsService } from '../../shared/services/main_reports.service';
   styleUrl: './product-reports.component.css'
 })
 export class ProductReportsComponent {
-
-  products = []; // List of all products fetched from the API
+  moves: any[] = [];  
+  products: any[] = [];  // List of all products fetched from the API
   filteredProducts = []; // Filtered list of products
   searchQuery = ''; // Search input
   startDate: string | null = null; // Selected start date
@@ -35,6 +35,7 @@ export class ProductReportsComponent {
     { value: '11', label: 'نوفمبر' },
     { value: '12', label: 'ديسمبر' }
   ];
+ 
   searchDate(){}
   filterByMonth() {
     const year = new Date().getFullYear(); 
@@ -42,6 +43,7 @@ export class ProductReportsComponent {
     const endDate = new Date(startDate); 
     endDate.setMonth(startDate.getMonth() + 1); 
     endDate.setDate(0); 
+
   
   }
   constructor(private _ReportsService: MainReportsService) {
@@ -119,9 +121,9 @@ export class ProductReportsComponent {
     this._ReportsService.getProductReports(filters).subscribe({
       next: (response) => {
         if (response) {
-          console.log(response);
-   
-        
+          console.log("hi",response);
+           this.products=response
+           this.moves
         }
       },
       error: (err) => {
@@ -130,28 +132,8 @@ export class ProductReportsComponent {
     });
   }
 
-  onSearch() {
-    
-  }
-
-  filterByDate() {
-    // this.filteredProducts = this.products.filter(product => {
-    //   // const productDate = new Date(product.date);
-    //   const start = this.startDate ? new Date(this.startDate) : null;
-    //   const end = this.endDate ? new Date(this.endDate) : null;
-
-    //   return (
-    //     (!start || productDate >= start) &&
-    //     (!end || productDate <= end)
-    //   );
-    // });
-  }
+ 
 
 
-
-  deleteProduct(id: number) {
-    // Implement product deletion logic here
-    // this.products = this.products.filter(product => product.id !== id);
-    // this.filteredProducts = [...this.products];
-  }
+ 
 }
