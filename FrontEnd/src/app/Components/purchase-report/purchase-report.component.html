@@ -1,0 +1,128 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h5>إدارة المنتجات</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+    </div>
+    <a class="nav-link" routerLink="/dashboard/addProduct">
+        <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
+    </a>
+  </div>
+  
+  <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
+    <div class="container">
+        <!-- Filters Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Date Filters -->
+            <div class="d-flex align-items-center">
+              <label for="startDate" class="me-2">من:</label>
+              <input 
+                type="date" 
+                id="startDate" 
+                class="form-control me-3" 
+                [(ngModel)]="startDate">
+              <label for="endDate" class="me-2">إلى:</label>
+              <input 
+                type="date" 
+                id="endDate" 
+                class="form-control me-3" 
+                [(ngModel)]="endDate">
+              <button (click)="searchDate()" class="btn btn-warning">بحث</button>
+            </div>
+          </div>
+          
+          <!-- Month Filter -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">الشهر:</label>
+            <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
+              <option value="">اختر الشهر</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+            </select>
+          </div>
+        
+        
+          
+          
+  
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center">
+              <button (click)="filterThisYear()"  class="btn btn-success ms-5">هذه السنه</button>
+              <button (click)="filterToday()" class="btn btn-success">اليوم</button>
+              
+            </div>
+           
+        </div>
+    </div>
+ 
+        <div class="card shadow-sm border-0 rounded">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body">
+                    <!-- totalAmount
+                    : 
+                    "24.00"
+                    totalCount
+                    : 
+                    1
+                    totalLiters
+                    : 
+                    "2" -->
+                  <div class="row">
+                    <!-- العمود الأيسر -->
+                    <div class="col-md-6">
+                      <p class="mb-2">
+                        <strong>totalAmount:</strong> {{ shift?.totalAmount }}
+                      </p>
+                     
+                      <p class="mb-2">
+                        <strong> totalLiters:</strong> {{ shift?.totalLiters }}
+                      </p>
+                    
+                    </div>
+                    <!-- العمود الأيمن -->
+                    <div class="col-md-6">
+                    
+                    
+                      <p class="mb-2">
+                        <strong>totalCount :</strong> {{ shift?.totalCount }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          <div class="table-responsive mt-4">
+            <table class="table table-striped border rounded shadow-sm">
+              <thead class="table-light">
+                <tr>
+                   
+                  <th scope="col">#</th>
+                  <th scope="col">التاريخ</th>
+                  <th scope="col">payment_type</th>
+                  <th scope="col">product</th>
+                
+                  <th scope="col">amount_letters</th>
+                  <th scope="col">tax_amount</th>
+                  <th scope="col">total_cash</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let shift of products; let j = index">
+                  <th scope="row">{{ j + 1 }}</th>
+                  <td>{{ shift?.date }}</td>
+                  <td>{{ shift?.payment_type }}</td>
+                  <td>{{ shift?.product?.name }}</td>
+                  <td>{{ shift?.amount_letters }}</td>
+                  <td>{{ shift?.tax_amount }}</td>
+                  <td>{{ shift?.total_cash }}</td>
+                 
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+      
+      
+  </div>
+  
