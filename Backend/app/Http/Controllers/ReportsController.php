@@ -13,7 +13,7 @@ use App\Models\Shift;
 use App\Models\SalesInvoice;  
 use App\Models\ProductMove;  
 use App\Models\MainShift;  
-
+use App\Models\Product;  
 use App\Http\Resources\MainShiftResource;  
 use App\Http\Resources\ProductMoveResource;  
 use App\Http\Resources\SalesInvoiceResource;  
@@ -75,6 +75,57 @@ class ReportsController extends Controller
     }
 
 
+    public function getAccountReportsByParent(Request $request)
+    {
+
+
+        $accounts = Account::whereIn('parent_id', [32,33])->get();
+        $accountDetails = [];
+
+        $startDate = $request->input('startDate', null);
+        $endDate = $request->input('endDate', null);
+
+        $today = $request->input('today', null);
+        $thisYear = $request->input('thisYear', null);
+
+        // $supplierId = $request->input('expense_id', null);
+        // $accountId = $request->input('account_id', null);
+
+        foreach ($accounts as $account) {
+            $query = ExpenseInvoice::with(['account' , 'expense'])->where('account_id', $account->id);
+            if (!empty($today)) {
+                $query->whereDate('date', '=', now()->toDateString());
+            } elseif (!empty($thisYear)) {
+                $query->whereYear('date', '=', now()->year);
+            } else {
+                if (!empty($startDate)) {
+                    $query->whereDate('date', '>=', $startDate);
+                }
+                if (!empty($endDate)) {
+                    $query->whereDate('date', '<=', $endDate);
+                }
+            }
+    
+            $totalCount = $query->count();
+            $totalAmount = $query->sum('total_cash');
+            $expenseInvoices = $query->get();
+            $accountDetails[$account->account_name] = [
+                'account_name' => $account->account_name,
+                'expense_invoices' => ExpenseInvoiceResource::collection($expenseInvoices),
+                'totalCount' => $totalCount,
+                'totalAmount' => $totalAmount,
+            ];
+        }
+     
+    
+        return response()->json([
+            $accountDetails
+        ]);
+    
+    }
+
+
+
 
 
 
@@ -86,9 +137,13 @@ class ReportsController extends Controller
 
         $today = $request->input('today', null);
         $thisYear = $request->input('thisYear', null);
+        $products = Product::all();
 
+        $accountDetails = [];
 
-        $query = ProductMove::query();
+     foreach ($products as $product) {
+
+        $query = ProductMove::where('product_id' , $product->id);
 
 
         if (!empty($today)) {
@@ -109,16 +164,17 @@ class ReportsController extends Controller
         $totalAmountLiters = $query->sum('liters');
 
         $moves = $query->get();
-     
 
-        return response()->json([
+        $accountDetails[] = [
+            'product' => $product,
             'expense_invoices' => ProductMoveResource::collection($moves),
-            'totalCount' => $totalCount,
             'totalAmountMoney' => $totalAmountMoney,
-            'totalAmountLiters' => $totalAmountLiters,       
-        
-        ]);
+            'totalAmountLiters' => $totalAmountLiters, 
+            'totalCount' => $totalCount, 
 
+        ];
+     }
+        return response()->json($accountDetails);
     }
 
 
