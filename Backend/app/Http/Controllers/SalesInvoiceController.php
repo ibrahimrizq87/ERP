@@ -28,8 +28,8 @@ class SalesInvoiceController extends Controller
 
     public function getByShift($shift_id)
     {
-        $invoice =SalesInvoice::where('shift_id',$shift_id);
-        return new SalesInvoiceResource($invoice);
+        $invoice =SalesInvoice::where('main_shift_id',$shift_id)->get();
+        return  SalesInvoiceResource::collection($invoice);
     }
 
     public function updateDebit($account ,  $amount)
@@ -102,7 +102,8 @@ class SalesInvoiceController extends Controller
 
             $this->updateDebit($account ,$request->amount);
             $shift->total_money_client += $request->amount;
-
+            $shift->total_shift_money += $request->amount;
+            $shift->save();
         }
         DB::commit();
         return new SalesInvoiceResource($salesInvoice);
@@ -179,6 +180,8 @@ class SalesInvoiceController extends Controller
         $shift = MainShift::find($salesInvoice->main_shift_id);
         if ($shift) {
             $shift->total_money_client += ($newAmount - $prevAmount); 
+            $shift->total_shift_money += ($newAmount - $prevAmount);
+
             $shift->save();
         }
 
@@ -201,8 +204,16 @@ public function delete($id)
         }
 
 
+
+
+
         if ($salesInvoice->account_id && $salesInvoice->type == 'debit') {
-            $this->updateDebitRev($account, $salesInvoice->amount); 
+
+            $account = Account::find($salesInvoice->account_id);
+            if($account){
+                $this->updateDebitRev($account, $salesInvoice->amount); 
+
+            }
         }
 
         $salesInvoice->delete();
@@ -211,6 +222,8 @@ public function delete($id)
         $shift = MainShift::find($salesInvoice->main_shift_id);
         if ($shift) {
             $shift->total_money_client -= $salesInvoice->amount; 
+            $shift->total_shift_money -= $salesInvoice->amount;
+
             $shift->save();
         }
 

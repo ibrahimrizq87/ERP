@@ -27,6 +27,10 @@
                                     <p>{{ salesData?.phone }}</p>
                                 </div>
                                 <div class="mb-3">
+                                    <strong> السجل التجارى:</strong>
+                                    <p>{{ salesData?.tax_name }}</p>
+                                </div>
+                                <div class="mb-3">
                                     <strong>العنوان:</strong>
                                     <p>{{ salesData?.address }}</p>
                                 </div>
@@ -44,18 +48,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <strong>نوع الدفع:</strong>
-                                    <p>{{ salesData?.type }}</p>
+                                    <p>{{ getPaymentType(salesData?.type) }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong>رقم الضريبة:</strong>
+                                    <strong> الرقم الضريبى:</strong>
                                     <p>{{ salesData?.tax_no }}</p>
                                 </div>
+                               
                                 <div class="mb-3">
-                                    <strong>اسم الضريبة:</strong>
-                                    <p>{{ salesData?.tax_name }}</p>
-                                </div>
-                                <div class="mb-3">
-                                    <strong>نسبة الضريبة:</strong>
+                                    <strong>نسبة الضريبة المضافة:</strong>
                                     <p>{{ salesData?.tax_rate }}%</p>
                                 </div>
                             </div>
@@ -71,15 +72,15 @@
                                     <p>{{ salesData?.main_shift?.shift }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong>مجموع المال (نقدي):</strong>
+                                    <strong>مجموع المال (كاش):</strong>
                                     <p>{{ salesData?.main_shift?.total_money_cash }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong>مجموع المال (عميل):</strong>
+                                    <strong>مجموع المال (آجل عملاء):</strong>
                                     <p>{{ salesData?.main_shift?.total_money_client }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong>مجموع المال (عبر الإنترنت):</strong>
+                                    <strong>مجموع المال (عبر الشبكة):</strong>
                                     <p>{{ salesData?.main_shift?.total_money_online  }}</p>
                                 </div>
                                 <div class="mb-3">

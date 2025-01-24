@@ -5,7 +5,7 @@
 <div *ngIf="noShiftOpened" class="alert alert-warning text-center">
   <strong>يجب فتح وردية لإضافة فاتورة جديدة.</strong>
 </div>
-<div class="mt-4 mb-4">
+<div *ngIf="!noShiftOpened" class="mt-4 mb-4">
 <form [formGroup]="salesForm" (ngSubmit)="handleForm()">
   <div class="container">
       <div class="row">
@@ -20,35 +20,35 @@
              
               <div class="row">
                   <div class="form-group col-md-6">
-                      <label for="tax_no" class="form-label">رقم الضريبة</label>
-                      <input id="tax_no" formControlName="tax_no" type="text" class="form-control" placeholder="أدخل رقم الضريبة من فضلك" required />
+                      <label for="tax_no" class="form-label">الرقم الضريبى</label>
+                      <input id="tax_no" formControlName="tax_no" type="text" class="form-control" placeholder="أدخل رقم الضريبة من فضلك"  />
                       <div class="alert alert-danger" *ngIf="salesForm.get('tax_no')?.errors && salesForm.get('tax_no')?.touched">
                         <p *ngIf="salesForm.get('tax_no')?.getError('maxLength')">الحد الأقصى هو 255</p>
                       </div>
                   </div>
                   <div class="form-group col-md-6">
-                      <label for="tax_name" class="form-label">اسم الضريبة</label>
-                      <input id="tax_name" formControlName="tax_name" type="text" class="form-control" placeholder="أدخل اسم الضريبة من فضلك" required />
+                      <label for="tax_name" class="form-label"> السجل التجارى</label>
+                      <input id="tax_name" formControlName="tax_name" type="text" class="form-control" placeholder="أدخل اسم الضريبة من فضلك"  />
                       <div class="alert alert-danger" *ngIf="salesForm.get('tax_name')?.errors && salesForm.get('tax_name')?.touched">
                         <p *ngIf="salesForm.get('tax_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
                       </div>
                   </div>
                   <div class="form-group col-md-6">
                       <label for="client_name" class="form-label">اسم العميل</label>
-                      <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخل اسم العميل من فضلك" required />
+                      <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخل اسم العميل من فضلك"  />
                       <div class="alert alert-danger" *ngIf="salesForm.get('client_name')?.errors && salesForm.get('client_name')?.touched">
                         <p *ngIf="salesForm.get('client_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
                       </div>
                   </div>
                   <div class="form-group col-md-6">
                       <label for="phone" class="form-label">رقم الهاتف</label>
-                      <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخل رقم الهاتف من فضلك" required />
+                      <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخل رقم الهاتف من فضلك"  />
                       <div class="alert alert-danger" *ngIf="salesForm.get('phone')?.errors && salesForm.get('phone')?.touched">
                         <p *ngIf="salesForm.get('phone')?.getError('maxLength')">الحد الأقصى هو 20</p>
                       </div>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="number" class="form-label">الرقم</label>
+                    <label for="number" class="form-label">رقم الفاتورة</label>
                     <input id="number" formControlName="number" type="text" class="form-control" placeholder="أدخل الرقم من فضلك" required />
                     <div class="alert alert-danger" *ngIf="salesForm.get('number')?.errors && salesForm.get('number')?.touched">
                       <p *ngIf="salesForm.get('number')?.hasError('required')">الرقم مطلوب</p>
@@ -77,7 +77,7 @@
                       <label for="type" class="form-label">نوع الدفع</label>
                       <select id="type" formControlName="type" class="form-control">
                         <option value="cash">نقدًا</option>
-                        <option value="debit">دفع إلكتروني</option>
+                        <option value="debit">آجل</option>
                       </select>
                       <div class="alert alert-danger" *ngIf="salesForm.get('type')?.errors && salesForm.get('type')?.touched">
                         <p *ngIf="salesForm.get('type')?.hasError('required')">نوع الدفع مطلوب</p>
@@ -90,6 +90,10 @@
                         <option *ngFor="let account of accounts" [value]="account.id">{{ account.account_name }}</option>
                       </select>
                     </div>
+                    <div class="form-group col-md-12">
+                      <label for="address" class="form-label">العنوان</label>
+                      <textarea id="address" formControlName="address" rows="4" class="form-control" placeholder="أدخل العنوان"></textarea>
+                  </div>
               </div>
               <div class="row">
                   <div class="form-group col-md-6">
@@ -100,7 +104,7 @@
                       </div>
                   </div>
                   <div class="form-group col-md-6">
-                      <label class="form-label">الكميه</label>
+                      <label class="form-label">مبلغ الضريبة</label>
                       <p>{{ amount }}</p> 
                   </div>
                   <div class="form-group col-md-6">
@@ -109,14 +113,15 @@
                   </div>
                    
                   <div class="form-group col-md-6">
-                      <label class="form-label">الإجمالي بعد الضريبة</label>
+                      <label class="form-label">اجمالى  الضريبة</label>
                       <p>{{ taxAmount | number: '1.2-2' }}</p> 
                   </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label">  الاجمالى بعد الضريبة</label>
+                    <p>{{ amount - taxAmount | number: '1.2-2' }}</p> 
+                </div>
               </div>
-              <div class="form-group col-md-12">
-                  <label for="address" class="form-label">العنوان</label>
-                  <textarea id="address" formControlName="address" rows="4" class="form-control" placeholder="أدخل العنوان"></textarea>
-              </div>
+             
           </div>
         </div>
         <div *ngIf="msgError && msgError.length > 0" class="alert alert-danger">

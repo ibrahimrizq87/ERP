@@ -19,6 +19,17 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SalesInvoiceController;
 
 
+
+Route::get('reports/expense-invoice-reports', [ReportsController::class , 'getExpenseInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/purchase-invoice-reports', [ReportsController::class , 'getPurchaseInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/shifts-reports', [ReportsController::class , 'getShiftsReports'])->middleware('auth:sanctum');
+Route::get('reports/sales-invoice-reports', [ReportsController::class , 'getSalesInvoicesReports'])->middleware('auth:sanctum');
+Route::get('reports/product-reports', [ReportsController::class , 'getProductsReports'])->middleware('auth:sanctum');
+
+Route::delete('main-shifts/{id}', [MainShiftController::class , 'deletShift'])->middleware('auth:sanctum');
+
+
+
 Route::put('main-shifts/update/{shift_id}', [MainShiftController::class , 'update'])->middleware('auth:sanctum');
 Route::get('sales-invoices/by-shift/{shift_id}', [SalesInvoiceController::class , 'getByShift'])->middleware('auth:sanctum');
 Route::put('sales-invoices/{id}', [SalesInvoiceController::class , 'update'])->middleware('auth:sanctum');
@@ -32,8 +43,9 @@ Route::get('sales-invoices/{id}', [SalesInvoiceController::class , 'show'])->mid
 
 Route::post('settings', [SettingController::class , 'update']);
 Route::get('settings', [SettingController::class , 'getAllSettings']);
+Route::get('main-shifts/get-shift-by-id/{shift_id}', [MainShiftController::class , 'getShiftById'])->middleware('auth:sanctum');
 
-Route::get('main-shifts/get-approved-shifts/{shift_id}/{status}', [MainShiftController::class , 'getAllShiftsByStatus'])->middleware('auth:sanctum');
+Route::get('main-shifts/get-shifts-by-status/{status}', [MainShiftController::class , 'getAllShiftsByStatus'])->middleware('auth:sanctum');
 Route::get('main-shifts/get-my-shifts', [MainShiftController::class , 'getMyAllOldShifts'])->middleware('auth:sanctum');
 Route::get('main-shifts/close-shift/{shift_id}', [MainShiftController::class , 'closeShift'])->middleware('auth:sanctum');
 Route::get('main-shifts/approve-shift/{shift_id}', [MainShiftController::class , 'ApproveShift'])->middleware('auth:sanctum');

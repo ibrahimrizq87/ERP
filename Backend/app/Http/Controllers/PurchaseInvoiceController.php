@@ -68,6 +68,18 @@ class PurchaseInvoiceController extends Controller
         $product = Product::find($validated['product_id']);
 
         $product->amount += $validated['amount_letters'];
+
+        $move = new ProductMove();  
+        $move->data = $validated['date'];
+        $move->liters =  $validated['amount_letters'];
+        $move->total_price =  $validated['amount_letters'] * $product->price;
+        $move->product_id =  $product->id;
+        $move->main_shift_id = null;
+        $move->type = 'to_us';
+        $move->save();
+
+
+
         $product->save();
 
            $invoice = PurchaseInvoice::create(

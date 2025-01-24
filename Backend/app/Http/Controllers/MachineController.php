@@ -7,6 +7,8 @@ use App\Http\Resources\MachineResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Machine;  
 use App\Models\Product;  
+use App\Models\ProductMove;  
+
 
 class MachineController extends Controller
 {

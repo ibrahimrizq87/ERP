@@ -58,6 +58,9 @@ import { AddSalesInvoiceComponent } from './Components/add-sales-invoice/add-sal
 import { UpdateSalesInvoiceComponent } from './Components/update-sales-invoice/update-sales-invoice.component';
 import { ShowSalesInvoiceComponent } from './Components/show-sales-invoice/show-sales-invoice.component';
 import { InvoiceComponent } from './Components/invoice/invoice.component';
+import { ShowSupervisorShiftComponent } from './Components/show-supervisor-shift/show-supervisor-shift.component';
+import { ProductReportsComponent } from './Components/product-reports/product-reports.component';
+import { ShiftReportComponent } from './Components/shift-report/shift-report.component';
 
 
 export const routes: Routes = [
@@ -95,6 +98,15 @@ export const routes: Routes = [
 
     {path:"accounting/:id",component:AccountingComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
+
+
+
+        {path:"product/reports",component:ProductReportsComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','accountant'] }},
+        {path:"shift/reports",component:ShiftReportComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','accountant'] }},
+
+
     {path:"addAccount/:id",component:AddAccountComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
     {path:"accounting/:id/showAccount/:accountId",component:ShowAccountComponent,canActivate: [RoleGuard],
@@ -137,6 +149,10 @@ export const routes: Routes = [
         data: { roles: ['admin','accountant','worker','supervisor'] }},
     {path:"closeShift/:id",component:CloseShiftComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','worker','supervisor'] }},
+
+        {path:"show-supervisor-shift/:id",component:ShowSupervisorShiftComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','supervisor'] }},
+        
     
     {path:"updateShiftWorker",component:UpdateShiftWorkerComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','worker'] }}, 
@@ -150,13 +166,13 @@ export const routes: Routes = [
 
 
     {path:"purchaseInvoices",component:PurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }}, 
+        data: { roles: ['admin','accountant', 'supervisor'] }}, 
     {path:"addPurchaseInvoice",component:AddPurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
     {path:"updatePurchase/:id",component:UpdatePurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
     {path:"showPurchase/:id",component:ShowPurchaseInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant', 'supervisor'] }},
 
     {path:"expensesInvoices",component:ExpensesInvoicesComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},  
@@ -169,15 +185,15 @@ export const routes: Routes = [
      
     
     {path:"salesInvoices",component:SalesInvoicesComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},  
+        data: { roles: ['admin','accountant','worker'] }},  
     {path:"addSalesInvoice",component:AddSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
     {path:"updateSalesInvoice/:id",component:UpdateSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
     {path:"showSalesInvoice/:id",component:ShowSalesInvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }},
+        data: { roles: ['admin','accountant','worker'] }},
     {path:"invoice/:id",component:InvoiceComponent,canActivate: [RoleGuard],
-        data: { roles: ['admin','accountant'] }}, 
+        data: { roles: ['admin','accountant','worker'] }}, 
 
     {path:"equations",component:EquationsComponent,canActivate: [RoleGuard],
         data: { roles: ['admin'] }},  

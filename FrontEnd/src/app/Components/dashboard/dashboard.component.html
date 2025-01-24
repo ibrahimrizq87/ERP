@@ -58,11 +58,11 @@
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('Shifts')">
-              <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="shifts">الورديات</a>
+              <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='supervisor'">
+                <a class="nav-link" routerLinkActive="active" routerLink="shifts">جميع الورديات</a>
               </li>
-              <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="showShiftWorker">الورديات</a>
+              <li class="nav-item nested" *ngIf="userRole==='worker'">
+                <a class="nav-link" routerLinkActive="active" routerLink="showShiftWorker">الورديات الخاصة بالعامل</a>
               </li>
             </ul>
           </li>
@@ -185,7 +185,7 @@
 
 
 
-          <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'">
+          <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('invoices')">
                 <i class="fa-solid fa-file-invoice"></i>
@@ -194,13 +194,13 @@
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('invoices')">
-              <li class="nav-item nested">
+              <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='accountant'">
                 <a class="nav-link" routerLinkActive="active" routerLink="purchaseInvoices">المشتريات</a>
               </li>
-              <li class="nav-item nested">
+              <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='accountant'">
                 <a class="nav-link" routerLinkActive="active" routerLink="expensesInvoices">المصاريف</a>
               </li>
-              <li class="nav-item nested">
+              <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
                 <a class="nav-link" routerLinkActive="active" routerLink="salesInvoices">المبيعات</a>
               </li>
             </ul>
@@ -219,6 +219,25 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'accountant'">
+            <a class="nav-link">
+              <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('reports')">
+                <i class="fa-solid fa-equals"></i>
+                <span>التقارير</span>
+                <i [ngClass]="isDropdownOpen('reports') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+              </div>
+            </a>
+            <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('reports')">
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="product/reports">تقارير المنتجات</a>
+              </li>
+              <li class="nav-item nested">
+                <a class="nav-link" routerLinkActive="active" routerLink="shift/reports">تقارير shifts </a>
+              </li>
+            </ul>
+          </li>
+          
 
           <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'">
             <a class="nav-link">

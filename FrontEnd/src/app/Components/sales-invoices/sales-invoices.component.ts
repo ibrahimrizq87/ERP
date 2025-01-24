@@ -4,6 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Base64 } from 'js-base64';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ShiftService } from '../../shared/services/shift.service';
 
 @Component({
   selector: 'app-sales-invoices',
@@ -16,29 +19,100 @@ export class SalesInvoicesComponent implements OnInit {
   sales: any[] = []; 
   filteredSales: any[] = [];
   searchQuery: string = '';
+  userRole: string | null = null;
+
   constructor(
   
     private _SalesService: SalesService
     , private router: Router,
     private toastr :ToastrService
+    ,private shiftService:ShiftService
   ) {}
   ngOnInit(): void {
- 
-    this.loadAllExpenses()
+    this.getUserRole();
   }
-  loadAllExpenses(): void {
-    this._SalesService.viewAllSalesInvoices().subscribe({
+
+
+  getUserRole() {
+    const encodedRole = localStorage.getItem('userRole');
+    if (encodedRole) {
+      this.userRole = Base64.decode(encodedRole);
+      this.loadAllExpenses(this.userRole);
+
+    } else {
+      this.userRole = null;
+    }
+  }
+
+  loadMyShift(): void {
+    this.shiftService.getMyshift().subscribe({
       next: (response) => {
-        if (response) {
-          console.log(response.data);
-          this.sales = response.data; 
-          this.filteredSales = this.sales;
-        }
+        console.log(response.data)
+        this.loadInvoicesForMe(response.data.id);
+
       },
-      error: (err) => {
-        console.error(err);
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 404) {
+          this.toastr.warning('لم يتم فتح وردية بعد');
+
+        } else {
+          console.error(err);
+          this.toastr.error('حدث خطأ أثناء جلب البيانات');
+        }
       }
     });
+  }
+
+
+  getPaymentType(type:string){
+    if(type == 'debit'){
+    return 'آجل';
+    }else{
+      return 'كاش';
+    
+    }
+  }
+
+loadInvoicesForMe(id:string){
+
+  this._SalesService.viewsalesInvoicesByShift(id).subscribe({
+    next: (response) => {
+     
+      this.sales = response.data; 
+            this.filteredSales = this.sales;
+
+    },
+    error: (err: HttpErrorResponse) => {
+      if (err.status === 404) {
+      } else {
+        console.error(err);
+        this.toastr.error(' حدث مشكلة اثناء ترحيل الوردية ');
+      }
+    }
+  });
+}
+
+
+
+
+  loadAllExpenses(role:string): void {
+    if(role == 'worker'){
+      this.loadMyShift();
+    }else{
+      this._SalesService.viewAllSalesInvoices().subscribe({
+        next: (response) => {
+          if (response) {
+            console.log(response.data);
+            this.sales = response.data; 
+            this.filteredSales = this.sales;
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+    }
+
   }
  
   filteredExpense(): void {
@@ -55,7 +129,7 @@ export class SalesInvoicesComponent implements OnInit {
         next: (response) => {
           if (response) {
             this.router.navigate([`/dashboard/salesInvoices`]);
-            this.loadAllExpenses();
+            this.loadAllExpenses(this.userRole||'');
             this.toastr.success("تم حذف الفاتورة بنجاح");
           }
         },
