@@ -112,12 +112,17 @@ class ReportsController extends Controller
             }
     
             $totalCount = $query->count();
-            $totalAmount = $query->sum('amount');
             $documents = $query->get();
+            $totalAmountDebit = $query->where('type','payment')->sum('amount');
+            
+            $totalAmountCredit = $query->where('type','receipt')->sum('amount');
+
             $accountDetails1[] = [
                 'documents' => PaymentDocumentResource::collection($documents),
                 'totalCount' => $totalCount,
-                'totalAmount' => $totalAmount,
+                'totalAmountDebit' => $totalAmountDebit,
+                'totalAmountCredit' => $totalAmountCredit,
+
             ];
         }
 
@@ -140,12 +145,17 @@ class ReportsController extends Controller
             }
     
             $totalCount = $query->count();
-            $totalAmount = $query->sum('amount');
             $documents = $query->get();
-            $accountDetails1[] = [
+            $totalAmountDebit = $query->where('type','payment')->sum('amount');
+            
+            $totalAmountCredit = $query->where('type','receipt')->sum('amount');
+
+            $accountDetails2[] = [
                 'documents' => PaymentDocumentResource::collection($documents),
                 'totalCount' => $totalCount,
-                'totalAmount' => $totalAmount,
+                'totalAmountDebit' => $totalAmountDebit,
+                'totalAmountCredit' => $totalAmountCredit,
+
             ];
         }
 

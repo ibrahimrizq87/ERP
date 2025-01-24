@@ -1,0 +1,136 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h5>إدارة المنتجات</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+    </div>
+    <a class="nav-link" routerLink="/dashboard/addProduct">
+        <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
+    </a>
+  </div>
+  
+  <div class="vendortable rounded mt-4 shadow-sm p-4 bg-white">
+    <div class="container">
+        <!-- Filters Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Date Filters -->
+            <div class="d-flex align-items-center">
+              <label for="startDate" class="me-2">من:</label>
+              <input 
+                type="date" 
+                id="startDate" 
+                class="form-control me-3" 
+                [(ngModel)]="startDate">
+              <label for="endDate" class="me-2">إلى:</label>
+              <input 
+                type="date" 
+                id="endDate" 
+                class="form-control me-3" 
+                [(ngModel)]="endDate">
+              <button (click)="searchDate()" class="btn btn-warning">بحث</button>
+            </div>
+          </div>
+          
+          <!-- Month Filter -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">الشهر:</label>
+            <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
+              <option value="">اختر الشهر</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+            </select>
+          </div>
+        
+        
+          
+          
+  
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center">
+              <button (click)="filterThisYear()"  class="btn btn-success ms-5">هذه السنه</button>
+              <button (click)="filterToday()" class="btn btn-success">اليوم</button>
+              
+            </div>
+           
+        </div>
+    </div>
+ 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <label for="viewSelector" class="me-2">عرض:</label>
+        <select class="form-select me-3" id="viewSelector" [(ngModel)]="selectedView">
+          <option value="both">كلاهما</option>
+          <option value="bank">البنك</option>
+          <option value="box">الصندوق</option>
+        </select>
+      </div>
+  
+      <!-- Conditional rendering of the selected type -->
+      <div *ngIf="selectedView === 'both' || selectedView === 'bank'" class="card shadow-sm border-0 rounded">
+        <div class="card shadow-sm border-0 rounded">
+          <div class="card-body">
+            <h5 class="card-title text-primary mb-3">Bank</h5>
+            <p><strong>Total Amount Credit:</strong> {{ bank?.totalAmountCredit }}</p>
+            <p><strong>Total Amount Debit:</strong> {{ bank?.totalAmountDebit }}</p>
+            <p><strong>Total Count:</strong> {{ bank?.totalCount }}</p>
+          </div>
+        </div>
+  
+        <table class="table table-striped border rounded shadow-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>التاريخ</th>
+              <th>Type</th>
+              <th>Company Account</th>
+              <th>Customer Account</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shift of bank?.documents; let j = index">
+              <td>{{ j + 1 }}</td>
+              <td>{{ shift?.created_at }}</td>
+              <td>{{ shift?.type }}</td>
+              <td>{{ shift?.company_account?.account_name }}</td>
+              <td>{{ shift?.customer_account?.account_name }}</td>
+              <td>{{ shift?.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div *ngIf="selectedView === 'both' || selectedView === 'box'" class="card shadow-sm border-0 rounded">
+        <div class="card shadow-sm border-0 rounded">
+          <div class="card-body">
+            <h5 class="card-title text-primary mb-3">Box</h5>
+            <p><strong>Total Amount Credit:</strong> {{ box?.totalAmountCredit }}</p>
+            <p><strong>Total Amount Debit:</strong> {{ box?.totalAmountDebit }}</p>
+            <p><strong>Total Count:</strong> {{ box?.totalCount }}</p>
+          </div>
+        </div>
+  
+        <table class="table table-striped border rounded shadow-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>التاريخ</th>
+              <th>Type</th>
+              <th>Company Account</th>
+              <th>Customer Account</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shift of box?.documents; let j = index">
+              <td>{{ j + 1 }}</td>
+              <td>{{ shift?.created_at }}</td>
+              <td>{{ shift?.type }}</td>
+              <td>{{ shift?.company_account?.account_name }}</td>
+              <td>{{ shift?.customer_account?.account_name }}</td>
+              <td>{{ shift?.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      
+  </div>
+  
