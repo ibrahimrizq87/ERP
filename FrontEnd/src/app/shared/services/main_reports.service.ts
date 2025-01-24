@@ -14,15 +14,15 @@ export class MainReportsService {
 
 
 
-  getSalesInvoicesReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
-    const token = localStorage.getItem('Gtoken');
+  // getSalesInvoicesReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
+  //   const token = localStorage.getItem('Gtoken');
 
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const params = new HttpParams({ fromObject: filters });
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   const params = new HttpParams({ fromObject: filters });
 
-    return this._HttpClient.get(this.baseURL+"/reports/sales-invoice-reports", { headers })
+  //   return this._HttpClient.get(this.baseURL+"/reports/sales-invoice-reports", { headers })
    
-  }
+  // }
 
  
   //   getProductReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
@@ -70,6 +70,13 @@ export class MainReportsService {
     const params = new HttpParams({ fromObject: filters });
     console.log('Filters sent to API:', filters); // Debugging
     return this._HttpClient.get(this.baseURL + "/reports/expense-invoice-reports", { headers, params });
+}
+getSalesInvoicesReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any> {
+  const token = localStorage.getItem('Gtoken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const params = new HttpParams({ fromObject: filters });
+  console.log('Filters sent to API:', filters); // Debugging
+  return this._HttpClient.get(this.baseURL + "/reports/sales-invoice-reports", { headers, params });
 }
   getPaymentDocumentReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
     const token = localStorage.getItem('Gtoken');

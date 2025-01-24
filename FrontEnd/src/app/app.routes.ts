@@ -62,6 +62,7 @@ import { ShowSupervisorShiftComponent } from './Components/show-supervisor-shift
 import { ProductReportsComponent } from './Components/product-reports/product-reports.component';
 import { ShiftReportComponent } from './Components/shift-report/shift-report.component';
 import { ExpensesReportComponent } from './Components/expenses-report/expenses-report.component';
+import { SalesReportComponent } from './Components/sales-report/sales-report.component';
 
 
 export const routes: Routes = [
@@ -107,6 +108,9 @@ export const routes: Routes = [
         {path:"shift/reports",component:ShiftReportComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','accountant'] }},
         {path:"expenses/reports",component:ExpensesReportComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','accountant'] }},
+
+        {path:"sales/reports",component:SalesReportComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','accountant'] }},
 
 
