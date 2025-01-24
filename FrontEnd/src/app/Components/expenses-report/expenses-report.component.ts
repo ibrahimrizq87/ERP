@@ -1,19 +1,15 @@
-import { Component} from '@angular/core';
-import { ProductService } from '../../shared/services/product.service';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { MainReportsService } from '../../shared/services/main_reports.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { MainReportsService } from '../../shared/services/main_reports.service';
-
-
 @Component({
-  selector: 'app-product-reports',
-  imports: [CommonModule,RouterModule,FormsModule],
-  templateUrl: './product-reports.component.html',
-  styleUrl: './product-reports.component.css'
+  selector: 'app-expenses-report',
+  imports: [CommonModule,FormsModule],
+  templateUrl: './expenses-report.component.html',
+  styleUrl: './expenses-report.component.css'
 })
-export class ProductReportsComponent {
+export class ExpensesReportComponent {
   moves: any[] = [];  
   products: any[] = [];  
   filteredProducts :any[]=[]; 
@@ -39,7 +35,7 @@ export class ProductReportsComponent {
 
  
  
-  constructor(private _ReportsService: MainReportsService ,private _ProductService:ProductService) {
+  constructor(private _ReportsService: MainReportsService ) {
 
   }
 
@@ -63,15 +59,6 @@ export class ProductReportsComponent {
   //     }
   //   });
   // }
-
-  productType(type:string){
-    if(type == 'from_us'){
-      return 'من المخزن' ;
-    }else{
-      return 'الى المخزن' ;
-
-    }
-  }
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {
@@ -101,15 +88,12 @@ filterByMonth() {
 filterDisplayedProducts() {
   if (this.selectedProduct) {
     this.filteredProducts = this.products.filter(
-      product => product.product.id === +this.selectedProduct // Ensure type match
+      product => product.account.id === +this.selectedProduct // Ensure type match
     );
   } else {
     this.filteredProducts = [...this.products]; // Reset to the full list
   }
 }
-
-
-
 
 filterToday() {
   const filters = { today: true }; 
@@ -128,11 +112,11 @@ filterThisYear() {
 
 loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
   console.log('Filters applied in loadReports:', filters); // Debugging
-  this._ReportsService.getProductReports(filters).subscribe({
+  this._ReportsService.getExpencesInvoicesReports(filters).subscribe({
     next: (response) => {
       if (response) {
-        console.log('Product reports data:', response);
-        this.products = response; // Update the full list
+        console.log('Product reports data:', response[0]);
+        this.products = response[0]; // Update the full list
         this.filteredProducts = [...this.products]; // Initialize filtered list
       }
     },
