@@ -196,15 +196,18 @@ class ReportsController extends Controller
 
         $totalCount = $query->count();
         $totalAmountMoney = $query->sum('total_price');
-        $totalAmountLiters = $query->sum('liters');
-
         $moves = $query->get();
+
+        $totalAmountLitersFromUs = $query->where('type' , 'from_us')->sum('liters');
+        $totalAmountLitersToUs = $query->where('type' , 'to_us')->sum('liters');
+
 
         $accountDetails[] = [
             'product' => $product,
             'moves' => ProductMoveResource::collection($moves),
             'totalAmountMoney' => $totalAmountMoney,
-            'totalAmountLiters' => $totalAmountLiters, 
+            'totalAmountLitersFromUs' => $totalAmountLitersFromUs, 
+            'totalAmountLitersToUs' => $totalAmountLitersToUs, 
             'totalCount' => $totalCount, 
 
         ];

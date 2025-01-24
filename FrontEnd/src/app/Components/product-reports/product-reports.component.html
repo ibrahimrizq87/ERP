@@ -70,22 +70,18 @@
                 <!-- العمود الأيسر -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>السعر:</strong> {{ product?.product?.price }}
+                    <strong>عدد الحركات:</strong> {{ product?.totalCount }}
                   </p>
-                  <p class="mb-2">
-                    <strong>الكمية:</strong> {{ product?.product?.amount }}
-                  </p>
-                  <p class="mb-2">
-                    <strong>إجمالي اللترات:</strong> {{ product?.totalAmountLiters }}
-                  </p>
+                 
+                 
                 </div>
                 <!-- العمود الأيمن -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>إجمالي الأموال:</strong> {{ product?.totalAmountMoney }}
+                    <strong>إجمالي عدد اللترات الداخلة الى المخزن:</strong> {{ product?.totalAmountLitersToUs }}
                   </p>
                   <p class="mb-2">
-                    <strong>الكمية المبدئية:</strong> {{ product?.product?.start_amount }}
+                    <strong>اجمالى عدد اللترات الخارجة من المخزن :</strong> {{ product?.totalAmountLitersFromUs }}
                   </p>
                 </div>
               </div>
@@ -99,7 +95,7 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">التاريخ</th>
-                  <th scope="col">النوع</th>
+                  <th scope="col">نوع الحركة</th>
                   <th scope="col">اللترات</th>
                   <th scope="col">إجمالي السعر</th>
                 </tr>
@@ -108,7 +104,7 @@
                 <tr *ngFor="let move of product.moves; let j = index">
                   <th scope="row">{{ j + 1 }}</th>
                   <td>{{ move?.date }}</td>
-                  <td>{{ move?.type }}</td>
+                  <td>{{ productType(move?.type) }}</td>
                   <td>{{ move?.liters }}</td>
                   <td>{{ move?.total_price }}</td>
                 </tr>
