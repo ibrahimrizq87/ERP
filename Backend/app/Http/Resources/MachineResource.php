@@ -17,6 +17,7 @@ class MachineResource extends JsonResource
         return [
             'id' => $this->id,
             'machine_number' => $this->machine_number,
+            'start_amount' => $this->start_amount,
             'product' => new ProductResource($this->whenLoaded('product')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

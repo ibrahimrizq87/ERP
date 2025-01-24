@@ -20,6 +20,8 @@ use App\Http\Controllers\SalesInvoiceController;
 
 
 
+Route::get('reports/payment-document-reports', [ReportsController::class , 'getPaymentDucumentsReports'])->middleware('auth:sanctum');
+
 Route::get('reports/expense-invoice-reports', [ReportsController::class , 'getExpenseInvoicesReports'])->middleware('auth:sanctum');
 Route::get('reports/purchase-invoice-reports', [ReportsController::class , 'getPurchaseInvoicesReports'])->middleware('auth:sanctum');
 Route::get('reports/shifts-reports', [ReportsController::class , 'getShiftsReports'])->middleware('auth:sanctum');

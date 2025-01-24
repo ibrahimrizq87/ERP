@@ -16,7 +16,7 @@
           <!-- حقل نوع الطرمبة -->
           <div class="col-md-3">
             <label for="machine_id">نوع الطرمبة</label>
-            <select class="form-control" formControlName="machine_id">
+            <select class="form-control"  (change)="onMachineChange( i ,payment.get('machine_id')?.value)" formControlName="machine_id">
               <option value="" disabled>اختر الطرمبة</option>
               <option *ngFor="let machine of payment.get('machines')?.value" [value]="machine.id">{{ machine.machine_number }}</option>
             </select>

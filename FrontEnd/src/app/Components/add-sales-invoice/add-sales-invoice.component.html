@@ -47,14 +47,14 @@
                         <p *ngIf="salesForm.get('phone')?.getError('maxLength')">الحد الأقصى هو 20</p>
                       </div>
                   </div>
-                  <div class="form-group col-md-6">
+                  <!-- <div class="form-group col-md-6">
                     <label for="number" class="form-label">رقم الفاتورة</label>
                     <input id="number" formControlName="number" type="text" class="form-control" placeholder="أدخل الرقم من فضلك" required />
                     <div class="alert alert-danger" *ngIf="salesForm.get('number')?.errors && salesForm.get('number')?.touched">
                       <p *ngIf="salesForm.get('number')?.hasError('required')">الرقم مطلوب</p>
                       <p *ngIf="salesForm.get('number')?.getError('maxLength')">الحد الأقصى هو 255</p>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-group">
                     <label for="product_id">اختيار المنتج</label>
                     <select id="product_id" formControlName="product_id" class="form-control">

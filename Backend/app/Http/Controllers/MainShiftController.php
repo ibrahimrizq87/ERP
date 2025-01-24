@@ -10,6 +10,7 @@ use App\Models\MainShift;
 use App\Models\ShiftMachine;  
 use App\Models\TaxRate;  
 
+use App\Models\Machine;  
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -157,8 +158,17 @@ class MainShiftController extends Controller
                     $move->type = 'from_us';
                     $move->save();
 
+
                     
-                    $product->start_amount = $machine->close_amount;
+                    $thisMachine = Machine::find($machine->machine_id);
+                    if($thisMachine){
+                        $thisMachine->start_amount = $machine->close_amount;
+                        // return response()->json(['message'=>'hererereree'],400);
+                        $thisMachine->save();
+                    }
+        
+                    
+                    // $product->start_amount = $machine->close_amount;
                     $product->save();
                 }
             }
@@ -331,12 +341,20 @@ $shift->shiftMachines()->delete();
             }
 
 
-            
+            $thisMachine = Machine::find($machine['machine_id']);
+            if(!$thisMachine){
+                return response()->json(
+                    [
+                        'status' => false,
+                        'message' => 'يوجد خطأ فى المعلومات المدخلة',
+                    ] , 404
+                );
+            }
 
              $_machine= new ShiftMachine();
 
             $_machine->main_shift_id = $shift->id;
-            $_machine->open_amount = 0;
+            $_machine->open_amount = $thisMachine->start_amount;
             $_machine->product_id =  $machine['product_id'];
             $_machine->machine_id = $machine['machine_id'];
             $_machine->close_amount = $machine['close_amount'];

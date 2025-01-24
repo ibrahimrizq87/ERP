@@ -45,24 +45,24 @@ export class ProductReportsComponent {
 
   ngOnInit() {
     this.loadReports();
-    this.loadProducts();
+    // this.loadProducts();
    
   }
-  loadProducts(): void {
-    this._ProductService.viewAllProducts().subscribe({
-      next: (response) => {
-        if (response) {
-          console.log(response);
+  // loadProducts(): void {
+  //   this._ProductService.viewAllProducts().subscribe({
+  //     next: (response) => {
+  //       if (response) {
+  //         console.log(response);
         
-          this.filteredProducts = response;
+  //         this.filteredProducts = response;
         
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error(err);
+  //     }
+  //   });
+  // }
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {

@@ -71,7 +71,7 @@ class SalesInvoiceController extends Controller
             'amount' => 'required|numeric',
             'tax_amount' => 'required|numeric',
             'tax_rate' => 'required|numeric',
-            'number' => 'required|string|max:255',
+            // 'number' => 'required|string|max:255',
             'account_id' => 'nullable|exists:accounts,id',
             'product_id' => 'required|exists:products,id',
 
@@ -80,8 +80,29 @@ class SalesInvoiceController extends Controller
         DB::beginTransaction();
 
         try {
-    
-        $salesInvoice = SalesInvoice::create($validated);
+
+
+
+            // $count = SalesInvoice::count();
+            $lastInvoiceNumber = SalesInvoice::max('number') ?? 1;
+
+        $salesInvoice = SalesInvoice::create([
+            'address'=> $validated['address'] ?? null,
+            'tax_no'=> $validated['tax_no'] ?? null,
+            'tax_name'=> $validated['tax_name'] ?? null,
+            'client_name'=> $validated['client_name'] ?? null,
+            'phone'=> $validated['phone'] ?? null,
+            'type'=> $validated['type'],
+            'date'=> $validated['date'],
+            'liters'=> $validated['liters'],
+            'amount'=> $validated['amount'],
+            'tax_amount'=> $validated['tax_amount'],
+            'tax_rate'=> $validated['tax_rate'],
+            'number'=> $lastInvoiceNumber+1,
+            'account_id'=>$validated['account_id'] ?? null,
+            'main_shift_id'=>$validated['main_shift_id'],
+            'product_id'=>$validated['product_id'],
+        ]);
 
 
         $shift =  MainShift::find($request->main_shift_id);
@@ -129,7 +150,7 @@ class SalesInvoiceController extends Controller
             'amount' => 'required|numeric',
             'tax_amount' => 'required|numeric',
             'tax_rate' => 'required|numeric',
-            'number' => 'required|string|max:255',
+            // 'number' => 'required|string|max:255',
             'account_id' => 'nullable|exists:accounts,id',
         ]);
     DB::beginTransaction();
@@ -162,7 +183,7 @@ class SalesInvoiceController extends Controller
         $salesInvoice->date = $request->date;
         $salesInvoice->tax_amount = $request->tax_amount;
         $salesInvoice->tax_rate = $request->tax_rate;
-        $salesInvoice->number = $request->number;
+        // $salesInvoice->number = $salesInvoice->;
         $salesInvoice->account_id = $request->account_id ?? null;
 
         $salesInvoice->save();

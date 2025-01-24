@@ -24,7 +24,7 @@ export class AddProductComponent {
     name:new FormControl(null, [Validators.required,Validators.maxLength(255)]),
     price: new FormControl(null, [Validators.required,Validators.min(0)]),
     amount: new FormControl(null, [Validators.required,Validators.min(0)]),
-    start_amount: new FormControl(null, [Validators.required,Validators.min(0)]),
+    // start_amount: new FormControl(null, [Validators.required,Validators.min(0)]),
   });
 
 
@@ -38,7 +38,7 @@ export class AddProductComponent {
       formData.append('name', this.productForm.get('name')?.value);
       formData.append('price', this.productForm.get('price')?.value);
       formData.append('amount', this.productForm.get('amount')?.value);
-      formData.append('start_amount', this.productForm.get('start_amount')?.value);
+      // formData.append('start_amount', this.productForm.get('start_amount')?.value);
      
       this._ProductService.addProduct(formData).subscribe({
         next: (response) => {

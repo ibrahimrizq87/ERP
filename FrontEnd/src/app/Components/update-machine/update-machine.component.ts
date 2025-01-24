@@ -30,7 +30,8 @@ export class UpdateMachineComponent implements OnInit {
     this.machineForm = new FormGroup({
       machine_number: this.fb.control(null, [Validators.required,Validators.maxLength(255)]),
       product_id: this.fb.control(null, [Validators.required]),
-      
+      start_amount: this.fb.control(null, [Validators.required]),
+
     });
   }
  
@@ -50,7 +51,8 @@ export class UpdateMachineComponent implements OnInit {
           this.machineForm.patchValue({
             machine_number:machineData.machine_number,
             product_id:machineData.product.id,
-              
+            start_amount:machineData.start_amount,
+
           });
        
         }
@@ -84,14 +86,16 @@ export class UpdateMachineComponent implements OnInit {
 
       formData.append('machine_number', this.machineForm.get('machine_number')?.value);
       formData.append('product_id', this.machineForm.get('product_id')?.value);
- 
+      formData.append('start_amount', this.machineForm.get('start_amount')?.value);
+
+      
       const machineId = this.route.snapshot.paramMap.get('id');
       if (machineId){
       this._MachineService.updateMachine(machineId,formData).subscribe({
         next: (response) => {
           this.isLoading = false;
           if (response) {
-            this.toastr.success("تم تحديث الآلة بنجاح");
+            this.toastr.success("تم تحديث الطرمبة بنجاح");
 
             this.router.navigate(['/dashboard/machines']);
           }

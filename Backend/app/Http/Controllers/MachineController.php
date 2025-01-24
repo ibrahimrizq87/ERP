@@ -44,6 +44,7 @@ class MachineController extends Controller
             $rules = [
                 'machine_number' => 'required|string|max:255',
                 'product_id' => 'required|exists:products,id',
+                'start_amount' => 'required|integer|min:0',
             ];
     
             $validator = Validator::make($request->all(), $rules);
@@ -56,7 +57,7 @@ class MachineController extends Controller
                 ], 422);
             }
     
-            $machine = Machine::create($request->only(['machine_number', 'product_id']));
+            $machine = Machine::create($request->only(['machine_number', 'product_id' , 'start_amount']));
             return response()->json(new MachineResource($machine), 201);
         }
     
@@ -71,6 +72,8 @@ class MachineController extends Controller
             $rules = [
                 'machine_number' => 'required|string|max:255',
                 'product_id' => 'required|exists:products,id',
+                'start_amount' => 'required|integer|min:0',
+
             ];
     
             $validator = Validator::make($request->all(), $rules);
@@ -83,7 +86,7 @@ class MachineController extends Controller
                 ], 422);
             }
     
-            $machine->update($request->only(['machine_number', 'product_id']));
+            $machine->update($request->only(['machine_number', 'product_id' , 'start_amount']));
             return response()->json(new MachineResource($machine));
         }
     

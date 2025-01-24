@@ -41,7 +41,7 @@ export class AddSalesInvoiceComponent implements OnInit{
     phone: new FormControl(null, [Validators.maxLength(20)]),
     date: new FormControl(this.getTodayDate()),
     type: new FormControl(null, [Validators.required]),
-    number: new FormControl(null, [Validators.required]),
+    // number: new FormControl(null, [Validators.required]),
     account_id: new FormControl(null),
     liters: new FormControl(null, [Validators.required]),
     product_id: new FormControl(null, [Validators.required]),
@@ -208,7 +208,7 @@ export class AddSalesInvoiceComponent implements OnInit{
       formData.append('date', this.salesForm.get('date')?.value);
       formData.append('product_id', this.salesForm.get('product_id')?.value);
       formData.append('main_shift_id', this.shiftDataId.toString());
-      formData.append('number', this.salesForm.get('number')?.value);
+      // formData.append('number', this.salesForm.get('number')?.value);
       formData.append('type', this.salesForm.get('type')?.value);
       formData.append('liters', this.salesForm.get('liters')?.value);
       formData.append('amount', this.amount.toString());

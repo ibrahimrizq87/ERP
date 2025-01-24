@@ -17,6 +17,8 @@ use App\Models\Product;
 use App\Http\Resources\MainShiftResource;  
 use App\Http\Resources\ProductMoveResource;  
 use App\Http\Resources\SalesInvoiceResource;  
+use App\Models\PaymentDocument;
+use App\Http\Resources\PaymentDocumentResource;  
 
 
 class ReportsController extends Controller
@@ -75,12 +77,15 @@ class ReportsController extends Controller
     }
 
 
-    public function getAccountReportsByParent(Request $request)
+    public function getPaymentDucumentsReports(Request $request)
     {
 
 
-        $accounts = Account::whereIn('parent_id', [32,33])->get();
-        $accountDetails = [];
+        $box_accounts = Account::where('parent_id', 10)->get();
+        $bank_account = Account::where('parent_id', 11)->get();
+
+        $accountDetails1 = [];
+        $accountDetails2 = [];
 
         $startDate = $request->input('startDate', null);
         $endDate = $request->input('endDate', null);
@@ -88,11 +93,11 @@ class ReportsController extends Controller
         $today = $request->input('today', null);
         $thisYear = $request->input('thisYear', null);
 
-        // $supplierId = $request->input('expense_id', null);
-        // $accountId = $request->input('account_id', null);
 
-        foreach ($accounts as $account) {
-            $query = ExpenseInvoice::with(['account' , 'expense'])->where('account_id', $account->id);
+        foreach ($box_accounts as $account) {
+            $query = PaymentDocument::with(['companyAccount' , 'customerAccount'])
+            ->where('company_account_id', $account->id);
+
             if (!empty($today)) {
                 $query->whereDate('date', '=', now()->toDateString());
             } elseif (!empty($thisYear)) {
@@ -107,19 +112,49 @@ class ReportsController extends Controller
             }
     
             $totalCount = $query->count();
-            $totalAmount = $query->sum('total_cash');
-            $expenseInvoices = $query->get();
-            $accountDetails[$account->account_name] = [
-                'account_name' => $account->account_name,
-                'expense_invoices' => ExpenseInvoiceResource::collection($expenseInvoices),
+            $totalAmount = $query->sum('amount');
+            $documents = $query->get();
+            $accountDetails1[] = [
+                'documents' => PaymentDocumentResource::collection($documents),
                 'totalCount' => $totalCount,
                 'totalAmount' => $totalAmount,
             ];
         }
+
+
+        foreach ($bank_account as $account) {
+            $query = PaymentDocument::with(['companyAccount' , 'customerAccount'])
+            ->where('company_account_id', $account->id);
+
+            if (!empty($today)) {
+                $query->whereDate('date', '=', now()->toDateString());
+            } elseif (!empty($thisYear)) {
+                $query->whereYear('date', '=', now()->year);
+            } else {
+                if (!empty($startDate)) {
+                    $query->whereDate('date', '>=', $startDate);
+                }
+                if (!empty($endDate)) {
+                    $query->whereDate('date', '<=', $endDate);
+                }
+            }
+    
+            $totalCount = $query->count();
+            $totalAmount = $query->sum('amount');
+            $documents = $query->get();
+            $accountDetails1[] = [
+                'documents' => PaymentDocumentResource::collection($documents),
+                'totalCount' => $totalCount,
+                'totalAmount' => $totalAmount,
+            ];
+        }
+
      
     
         return response()->json([
-            $accountDetails
+            'box'=>$accountDetails1,
+            'bank'=>$accountDetails2,
+
         ]);
     
     }
@@ -213,8 +248,8 @@ class ReportsController extends Controller
             $totalAmountLiters = $query->sum('liters');
 
             $saleInvoices = $query->get();
-            $accountDetails[$account->account_name] = [
-                'account_name' => $account->account_name,
+            $accountDetails[] = [
+                'account' => $account,
                 'expense_invoices' => SalesInvoiceResource::collection($saleInvoices),
                 'totalCount' => $totalCount,
                 'totalAmount' => $totalAmount,
@@ -354,7 +389,7 @@ class ReportsController extends Controller
         // $accountId = $request->input('account_id', null);
 
         foreach ($accounts as $account) {
-            $query = ExpenseInvoice::with(['account' , 'expense'])->where('account_id', $account->id);
+            $query = ExpenseInvoice::with(['account' , 'expense'])->where('expense_id', $account->id);
             if (!empty($today)) {
                 $query->whereDate('date', '=', now()->toDateString());
             } elseif (!empty($thisYear)) {
@@ -371,8 +406,8 @@ class ReportsController extends Controller
             $totalCount = $query->count();
             $totalAmount = $query->sum('total_cash');
             $expenseInvoices = $query->get();
-            $accountDetails[$account->account_name] = [
-                'account_name' => $account->account_name,
+            $accountDetails[] = [
+                'account' => $account,
                 'expense_invoices' => ExpenseInvoiceResource::collection($expenseInvoices),
                 'totalCount' => $totalCount,
                 'totalAmount' => $totalAmount,
