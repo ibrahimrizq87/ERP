@@ -25,15 +25,23 @@ export class MainReportsService {
   }
 
  
-    getProductReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
-    const token = localStorage.getItem('Gtoken');
+  //   getProductReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
+  //   const token = localStorage.getItem('Gtoken');
 
+  //   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  //   const params = new HttpParams({ fromObject: filters });
+
+  //   return this._HttpClient.get(this.baseURL+"/reports/product-reports", { headers })
+   
+  // }
+  getProductReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any> {
+    const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const params = new HttpParams({ fromObject: filters });
+    console.log('Filters sent to API:', filters); // Debugging
+    return this._HttpClient.get(this.baseURL + "/reports/product-reports", { headers, params });
+}
 
-    return this._HttpClient.get(this.baseURL+"/reports/product-reports", { headers })
-   
-  }
 
   getShiftReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any>{
     const token = localStorage.getItem('Gtoken');

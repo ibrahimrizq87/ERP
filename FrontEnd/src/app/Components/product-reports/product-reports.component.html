@@ -12,54 +12,46 @@
     <div class="container">
         <!-- Filters Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Date Filters -->
             <div class="d-flex align-items-center">
-               
-  
-                <!-- Date Pickers -->
-                <div class="d-flex align-items-center">
-                    <label for="startDate" class="me-2">من:</label>
-                    <input 
-                        type="date" 
-                        id="startDate" 
-                        class="form-control me-3" 
-                        [(ngModel)]="startDate" 
-                       >
-                    <label for="endDate" class="me-2">إلى:</label>
-                    <input 
-                        type="date" 
-                        id="endDate" 
-                        class="form-control" 
-                        [(ngModel)]="endDate" 
-                      >
-                </div>
-
-                <a (click)="searchDate()" class="btn btn-warning me-5">  بحث </a>
-
+              <label for="startDate" class="me-2">من:</label>
+              <input 
+                type="date" 
+                id="startDate" 
+                class="form-control me-3" 
+                [(ngModel)]="startDate">
+              <label for="endDate" class="me-2">إلى:</label>
+              <input 
+                type="date" 
+                id="endDate" 
+                class="form-control me-3" 
+                [(ngModel)]="endDate">
+              <button (click)="searchDate()" class="btn btn-warning">بحث</button>
             </div>
-        
-        </div>
-
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center">
-                <label for="endDate" class="me-2">البحث بالشهر:</label>
-                <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
-                    <option value="">اختر الشهر</option>
-                    <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
-                </select>
-
-            </div>
-            <div class="d-flex align-items-center">
-                <label for="endDate" class="me-2">البحث عن المنتج:</label>
-                <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
-                  <option disabled value="">اختر المنتج</option>
-                  <option *ngFor="let product of products" [value]="product.product.id">{{ product.product.name }}</option>
-                </select>
-                
-
-            </div>
-           
-        </div>
+          </div>
+          
+          <!-- Month Filter -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">الشهر:</label>
+            <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
+              <option value="">اختر الشهر</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+            </select>
+          </div>
+          
+          <!-- Product Filter -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedProduct" class="me-2">المنتج:</label>
+            <select 
+              class="form-select me-3" 
+              [(ngModel)]="selectedProduct" 
+              >
+              <option value="">اختر المنتج</option>
+              <option *ngFor="let product of products" [value]="product.product.id">{{ product.product.name }}</option>
+            </select>
+          </div>
+          
+          
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center">
