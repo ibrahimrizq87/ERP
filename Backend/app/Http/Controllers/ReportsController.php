@@ -167,7 +167,7 @@ class ReportsController extends Controller
 
         $accountDetails[] = [
             'product' => $product,
-            'expense_invoices' => ProductMoveResource::collection($moves),
+            'moves' => ProductMoveResource::collection($moves),
             'totalAmountMoney' => $totalAmountMoney,
             'totalAmountLiters' => $totalAmountLiters, 
             'totalCount' => $totalCount, 
