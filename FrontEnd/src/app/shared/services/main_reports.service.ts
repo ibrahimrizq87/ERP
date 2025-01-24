@@ -34,6 +34,7 @@ export class MainReportsService {
   //   return this._HttpClient.get(this.baseURL+"/reports/product-reports", { headers })
    
   // }
+  
   getProductReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean }): Observable<any> {
     const token = localStorage.getItem('Gtoken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

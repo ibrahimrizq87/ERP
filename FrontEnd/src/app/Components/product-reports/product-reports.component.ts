@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+
 import { MainReportsService } from '../../shared/services/main_reports.service';
 
 
@@ -15,9 +15,9 @@ import { MainReportsService } from '../../shared/services/main_reports.service';
 })
 export class ProductReportsComponent {
   moves: any[] = [];  
-  products: any[] = [];  // List of all products fetched from the API
-  filteredProducts = []; // Filtered list of products
-  searchQuery = ''; // Search input
+  products: any[] = [];  
+  filteredProducts :any[]=[]; 
+  searchQuery = ''; 
   startDate: string | null = null; // Selected start date
   endDate: string | null = null; // Selected end date
   selectedMonth: string | null = null; // Selected month from the dropdown
@@ -39,18 +39,30 @@ export class ProductReportsComponent {
 
  
  
-  constructor(private _ReportsService: MainReportsService) {
+  constructor(private _ReportsService: MainReportsService ,private _ProductService:ProductService) {
 
   }
 
   ngOnInit() {
     this.loadReports();
-    // this.loadSalesReports();
-    // this.loadhiftsReports();
-    // this.loadPurchaseInvoiceReports();
-    // this.loadExpenceInvoiceReports();
+    this.loadProducts();
+   
   }
-  
+  loadProducts(): void {
+    this._ProductService.viewAllProducts().subscribe({
+      next: (response) => {
+        if (response) {
+          console.log(response);
+        
+          this.filteredProducts = response;
+        
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {
@@ -77,17 +89,13 @@ filterByMonth() {
       console.warn('Month must be selected.');
   }
 }
-
-filterByProduct() {
+filterDisplayedProducts() {
   if (this.selectedProduct) {
-    const productId = this.selectedProduct;
-    const filters = { productId };
-    console.log('Product filter applied:', filters); // Debugging
-
-    // Load reports but ensure `selectedProduct` is preserved
-    this.loadReports(filters);
+    this.filteredProducts = this.products.filter(
+      product => product.product.id === +this.selectedProduct // Ensure type match
+    );
   } else {
-    console.warn('Product must be selected.');
+    this.filteredProducts = [...this.products]; // Reset to the full list
   }
 }
 
@@ -96,18 +104,17 @@ filterByProduct() {
 
 
 
-loadReports(filters: { startDate?: string; endDate?: string; productId?: string; today?: boolean; thisYear?: boolean } = {}) {
+
+
+
+loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
   console.log('Filters applied in loadReports:', filters); // Debugging
   this._ReportsService.getProductReports(filters).subscribe({
     next: (response) => {
       if (response) {
         console.log('Product reports data:', response);
-        this.products = response;
-
-        // If `selectedProduct` is set, ensure it matches one of the updated products
-        if (this.selectedProduct && !this.products.some(p => p.product.id === this.selectedProduct)) {
-          this.selectedProduct = '';
-        }
+        this.products = response; // Update the full list
+        this.filteredProducts = [...this.products]; // Initialize filtered list
       }
     },
     error: (err) => {
@@ -115,6 +122,8 @@ loadReports(filters: { startDate?: string; endDate?: string; productId?: string;
     }
   });
 }
+
+
 
 
  

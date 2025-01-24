@@ -38,18 +38,16 @@
               <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
             </select>
           </div>
-          
-          <!-- Product Filter -->
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <label for="selectedProduct" class="me-2">المنتج:</label>
-            <select 
-              class="form-select me-3" 
-              [(ngModel)]="selectedProduct" 
-              >
-              <option value="">اختر المنتج</option>
-              <option *ngFor="let product of products" [value]="product.product.id">{{ product.product.name }}</option>
-            </select>
-          </div>
+            <label for="selectedMonth" class="me-2">المنتج:</label>
+          <select 
+          class="form-select me-3" 
+          [(ngModel)]="selectedProduct" 
+          (change)="filterDisplayedProducts()">
+          <option value="">اختر المنتج</option>
+          <option *ngFor="let product of products" [value]="product.product.id">{{ product?.product?.name }}</option>
+          </select>
+        </div>
           
           
 
@@ -62,29 +60,29 @@
            
         </div>
     </div>
-    <div *ngFor="let product of products; let i = index" class="mb-5">
+    <div *ngFor="let product of filteredProducts; let i = index" class="mb-5">
         <div class="card shadow-sm border-0 rounded">
           <!-- بطاقة المنتج -->
           <div class="card shadow-sm border-0 rounded">
             <div class="card-body">
-              <h5 class="card-title text-primary mb-3">{{ product.product.name }}</h5>
+              <h5 class="card-title text-primary mb-3">{{ product?.product?.name }}</h5>
               <div class="row">
                 <!-- العمود الأيسر -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>السعر:</strong> {{ product.product.price }}
+                    <strong>السعر:</strong> {{ product?.product?.price }}
                   </p>
                   <p class="mb-2">
-                    <strong>الكمية:</strong> {{ product.product.amount }}
+                    <strong>الكمية:</strong> {{ product?.product?.amount }}
                   </p>
                   <p class="mb-2">
-                    <strong>إجمالي اللترات:</strong> {{ product.totalAmountLiters }}
+                    <strong>إجمالي اللترات:</strong> {{ product?.totalAmountLiters }}
                   </p>
                 </div>
                 <!-- العمود الأيمن -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>إجمالي الأموال:</strong> {{ product.totalAmountMoney }}
+                    <strong>إجمالي الأموال:</strong> {{ product?.totalAmountMoney }}
                   </p>
                   <p class="mb-2">
                     <strong>الكمية المبدئية:</strong> {{ product.product.start_amount }}
