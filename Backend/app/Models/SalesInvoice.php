@@ -27,6 +27,18 @@ class SalesInvoice extends Model
         'product_id',
     ];
 
+    protected $casts = [
+        'amount' => 'float',
+        'tax_amount' => 'float',
+
+      
+    ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+
     public function account()
     {
         return $this->belongsTo(Account::class);

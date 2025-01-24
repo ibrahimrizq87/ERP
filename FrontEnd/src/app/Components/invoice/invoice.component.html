@@ -1,6 +1,8 @@
 <div class="container" id="invoice-details">
 <div class="invoice">
-    <div class="logo mb-3">الشعار</div>
+    <div class="logo mb-3">
+        <img *ngIf="setting.logo" [src]="setting.logo" alt="">
+    </div>
 
     <div class="details">
         <div class="row ">
@@ -16,7 +18,7 @@
         <div class="row">
          
             <div class="col-6 ">
-                <div>النوع: {{salesData?.type}} </div>
+                <div>النوع: {{getType(salesData?.type)}} </div>
                 <div class="col-6">التاريخ:{{salesData?.date}}</div>
             </div>
             <div class="col-6 ">
@@ -29,11 +31,11 @@
 
     <div class="details">
         <div class="row">
-            <div >اسم العميل:{{salesData?.client_name}}</div>
-            <div >الرقم الضريبي:{{salesData?.tax_no}}</div>
-            <div >السجل التجاري:{{salesData?.tax_name}}</div>
-            <div >رقم الهاتف:{{salesData?.phone}}</div>
-            <div>عنوان العميل:{{salesData?.address}}</div>
+            <div>اسم العميل: {{ salesData?.client_name != "null" ? salesData.client_name : '' }}</div>
+            <div >الرقم الضريبي:{{salesData?.tax_no != "null" ? salesData.tax_no : ''}}</div>
+            <div >السجل التجاري:{{salesData?.tax_name != "null" ? salesData.tax_name : ''}}</div>
+            <div >رقم الهاتف:{{salesData?.phone != "null" ? salesData.phone : '' }}</div>
+            <div>عنوان العميل:{{salesData?.address != "null" ? salesData.address : '' }}</div>
         </div>
         
     </div>
@@ -48,34 +50,38 @@
             </tr>
         </thead>
         <tbody>
-           
+           <td>{{salesData?.product.name}}</td>
+           <td>{{salesData?.liters}}</td>
+           <td>{{salesData?.product.price}}</td>
+           <td>{{salesData?.amount}}</td>
+
         </tbody>
     </table>
 
     <div class="details">
         <div class="row">
-            <div class="col-6">إجمالي:</div>
+            <div class="col-6">إجمالي:  {{salesData?.amount}}</div>
            
         </div>
         <div class="row">
-            <div class="col-6">ضريبة 15%:</div>
+            <div class="col-6">ضريبة {{taxRate}}%: {{salesData?.tax_amount}}</div>
           
         </div>
         <div class="row">
-            <div class="col-6">صافي الفاتورة:</div>
+            <div class="col-6">صافي الفاتورة: {{salesData.amount}}</div>
           
         </div>
         <div class="row">
-            <div class="col-6">المدفوع:</div>
+            <div class="col-6">المدفوع: {{salesData?.type  == 'debit' ? 0 : salesData?.amount}}</div>
           
         </div>
         <div class="row">
-            <div class="col-6">الباقي:</div>
+            <div class="col-6">الباقي: {{salesData?.type  == 'debit' ? salesData?.amount : 0}}</div>
             
         </div>
     </div>
 
-    <div class="text-center">المبلغ شامل ضريبة القيمة المضافة 15%</div>
+    <div class="text-center">المبلغ شامل ضريبة القيمة المضافة {{taxRate}}%</div>
 
    
 

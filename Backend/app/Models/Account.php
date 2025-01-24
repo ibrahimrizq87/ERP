@@ -25,6 +25,15 @@ class Account extends Model
  ];
 
 
+ protected $casts = [
+    'net_debit' => 'float',
+    'net_credit' => 'float',
+    'start_amount' => 'float',
+    'current_balance' => 'float',
+
+  
+];
+
     public function parent()
     {
         return $this->belongsTo(Account::class, 'parent_id');

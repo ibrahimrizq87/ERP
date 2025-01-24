@@ -6,10 +6,12 @@ import { SalesService } from '../../shared/services/sales.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SettingsService } from '../../shared/services/settings.service';
 import * as QRCode from 'qrcode';
+import { AccountingService } from '../../shared/services/accounts.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-invoice',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './invoice.component.html',
   styleUrl: './invoice.component.css'
 })
@@ -17,20 +19,43 @@ export class InvoiceComponent implements OnInit {
   currentTime: string = '';
   salesData: any;
   setting:any;
-  constructor(
+  constructor(private _AccountingService:AccountingService,
     private _SalesService:SalesService ,
     private _SettingsService:SettingsService ,
     private router: Router,
     private route: ActivatedRoute
   ) {}
+  taxRate: any;
 
   ngOnInit(): void {
+    this.getTaxRate();
+
     const salesId = this.route.snapshot.paramMap.get('id');
     if (salesId) {
       this.fetchInvoiceData(salesId);
     }
     this.fetchSettingData();
     this.setCurrentTime();
+  }
+
+  getTaxRate(): void {
+    this._AccountingService.getTaxRate().subscribe({
+      next: (response) => {
+        if (response) {
+          this.taxRate = parseFloat(response.rate); 
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+  getType(type:string){
+    if(type == 'debit'){
+      return 'اجل';
+    }else{
+      return 'كاش';
+    }
   }
 
   setCurrentTime(): void {
@@ -89,7 +114,7 @@ export class InvoiceComponent implements OnInit {
   
     // URL that opens the invoice
     const salesId = this.route.snapshot.paramMap.get('id');
-    const qrData = `${window.location.origin}/dashboard/invoice/${salesId}`;
+    const qrData = `سعر الفاتورة: ${this.salesData.amount}`;
   
     QRCode.toCanvas(qrCanvas, qrData, { width: 150 }, (error) => {
       if (error) {

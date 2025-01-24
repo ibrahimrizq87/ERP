@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 import { MainReportsService } from '../../shared/services/main_reports.service';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../shared/services/product.service';
+import { FormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-shift-report',
-  imports: [FormsModule ,CommonModule],
-  templateUrl: './shift-report.component.html',
-  styleUrl: './shift-report.component.css'
+  selector: 'app-sales-report',
+  imports: [CommonModule,FormsModule],
+  templateUrl: './sales-report.component.html',
+  styleUrl: './sales-report.component.css'
 })
-export class ShiftReportComponent {
-
+export class SalesReportComponent {
   moves: any[] = [];  
   products: any[] = [];  
   filteredProducts :any[]=[]; 
@@ -34,34 +32,19 @@ export class ShiftReportComponent {
     { value: '11', label: 'نوفمبر' },
     { value: '12', label: 'ديسمبر' }
   ];
-  shift: any;
 
  
  
-  constructor(private _ReportsService: MainReportsService ,private _ProductService:ProductService) {
+  constructor(private _ReportsService: MainReportsService ) {
 
   }
 
   ngOnInit() {
     this.loadReports();
-    // this.loadProducts();
+   
    
   }
-  // loadProducts(): void {
-  //   this._ProductService.viewAllProducts().subscribe({
-  //     next: (response) => {
-  //       if (response) {
-  //         console.log(response);
-        
-  //         this.filteredProducts = response;
-        
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //     }
-  //   });
-  // }
+  
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {
@@ -88,10 +71,15 @@ filterByMonth() {
       console.warn('Month must be selected.');
   }
 }
-
-
-
-
+filterDisplayedProducts() {
+  if (this.selectedProduct) {
+    this.filteredProducts = this.products.filter(
+      product => product.account.id === +this.selectedProduct // Ensure type match
+    );
+  } else {
+    this.filteredProducts = [...this.products]; // Reset to the full list
+  }
+}
 
 filterToday() {
   const filters = { today: true }; 
@@ -110,13 +98,12 @@ filterThisYear() {
 
 loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
   console.log('Filters applied in loadReports:', filters); // Debugging
-  this._ReportsService.getShiftReports(filters).subscribe({
+  this._ReportsService.getSalesInvoicesReports(filters).subscribe({
     next: (response) => {
       if (response) {
-        console.log('Product reports data:', response);
-        this.shift=response
-        this.products = response.shifts; // Update the full list
-       
+        console.log('Product reports data:', response[0]);
+        this.products = response[0]; // Update the full list
+        this.filteredProducts = [...this.products]; // Initialize filtered list
       }
     },
     error: (err) => {
@@ -131,5 +118,4 @@ loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; th
  
 
 
- 
 }

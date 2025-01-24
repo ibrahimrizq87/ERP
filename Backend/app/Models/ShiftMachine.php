@@ -21,6 +21,11 @@ class ShiftMachine extends Model
         'product_id',
         'machine_id',
     ];
+    protected $casts = [
+        'total_money' => 'float',
+
+      
+    ];
 
     public function shift()
     {

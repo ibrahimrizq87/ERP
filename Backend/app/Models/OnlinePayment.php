@@ -18,6 +18,11 @@ class OnlinePayment extends Model
         'image',
     ];
 
+    protected $casts = [
+        'amount' => 'float',
+    ];
+
+
     public function shift()
     {
         return $this->belongsTo(Shift::class, 'shift_id');

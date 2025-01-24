@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة المنتجات</h5>
-        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+        <h5>إدارة التقارير</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> مبيعات العملاء</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addProduct">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
@@ -38,11 +38,19 @@
               <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
             </select>
           </div>
-        
-        
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">حساب العميل:</label>
+          <select 
+          class="form-select me-3" 
+          [(ngModel)]="selectedProduct" 
+          (change)="filterDisplayedProducts()">
+          <option value="">اختر حساب العميل</option>
+          <option *ngFor="let product of products" [value]="product?.account?.id">{{ product?.account?.account_name }}</option>
+          </select>
+        </div>
           
           
-  
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center">
               <button (click)="filterThisYear()"  class="btn btn-success ms-5">هذه السنه</button>
@@ -52,72 +60,63 @@
            
         </div>
     </div>
- 
+    <div *ngFor="let product of filteredProducts; let i = index" class="mb-5">
         <div class="card shadow-sm border-0 rounded">
-            <div class="card shadow-sm border-0 rounded">
-                <div class="card-body">
-                  
-                  <div class="row">
-                    <!-- العمود الأيسر -->
-                    <div class="col-md-6">
-                      <p class="mb-2">
-                        <strong>اجمالى مبلغ المبيعات:</strong> {{ shift?.totalAmount }}
-                      </p>
-                     
-                      <p class="mb-2">
-                        <strong> اجمالى المبيعات كاش:</strong> {{ shift?.totalAmountCash }}
-                      </p>
-                      <p class="mb-2">
-                        <strong> اجمالى المبيعات شبكة:</strong> {{ shift?.totalAmountOnline }}
-                      </p>
-                    </div>
-                    <!-- العمود الأيمن -->
-                    <div class="col-md-6">
-                      <p class="mb-2">
-                        <strong>اجمالى المبيعات آجل :</strong> {{ shift?.totalAmountClient }}
-                      </p>
-                    
-                      <p class="mb-2">
-                        <strong>عدد الورديات :</strong> {{ shift?.totalCount }}
-                      </p>
-                    </div>
-                  </div>
+          <!-- بطاقة المنتج -->
+          <div class="card shadow-sm border-0 rounded">
+            <div class="card-body">
+              <h5 class="card-title text-primary mb-3">{{ product?.account?.account_name }}</h5>
+              <div class="row">
+                <!-- العمود الأيسر -->
+                <div class="col-md-6">
+                  <p class="mb-2">
+                    <strong>رصيد الحساب الحالى:</strong> {{ product?.account?.current_balance }}
+                  </p>
+                 
+                  <p class="mb-2">
+                    <strong> اجمالى مبالغ الحركات:</strong> {{ product?.totalAmount }}
+                  </p>
+                </div>
+                <!-- العمود الأيمن -->
+                <div class="col-md-6">
+                  <p class="mb-2">
+                    <strong>عدد الحركات :</strong> {{ product?.totalCount }}
+                  </p>
+                
                 </div>
               </div>
-            
+            </div>
+          </div>
+        
+          <!-- جدول التحركات -->
           <div class="table-responsive mt-4">
             <table class="table table-striped border rounded shadow-sm">
               <thead class="table-light">
                 <tr>
-                   
                   <th scope="col">#</th>
                   <th scope="col">التاريخ</th>
-                  <th scope="col">مشرف الوردية</th>
-                  <th scope="col">عامل الوردية</th>
-                
-                  <th scope="col">اجمالى المبلغ الكاش</th>
-                  <th scope="col">اجمالى آجل العملاء</th>
-                  <th scope="col">اجمالى المدفوع شبكة</th>
-                  <th scope="col">اجمالى مبلغ الوردية</th>
+                  <th scope="col">عدد اللترات</th>
+                  <th scope="col">اسم الحساب</th>
+                  <th scope="col"> المبلغ</th>
+                  <th scope="col"> قيمة الضريبة المضافة</th>
+                 
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let shift of products; let j = index">
+                <tr *ngFor="let move of product.expense_invoices; let j = index">
                   <th scope="row">{{ j + 1 }}</th>
-                  <td>{{ shift?.date }}</td>
-                  <td>{{ shift?.supervisor?.name }}</td>
-                  <td>{{ shift?.worker?.name }}</td>
-                  <td>{{ shift?.total_money_cash }}</td>
-                  <td>{{ shift?.total_money_client }}</td>
-                  <td>{{ shift?.total_money_online }}</td>
-                  <td>{{ shift?.total_shift_money }}</td>
-                  
+                  <td>{{ move?.date }}</td>
+                  <td>{{ move?.liters }}</td>
+                  <td>{{ move?.account?.account_name }}</td>
+                  <td>{{ move?.amount }}</td>
+                  <td>{{ move?.tax_amount }}</td>
+                 
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-    
+      </div>
       
       
   </div>
