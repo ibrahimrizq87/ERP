@@ -248,8 +248,8 @@ class ReportsController extends Controller
             $totalAmountLiters = $query->sum('liters');
 
             $saleInvoices = $query->get();
-            $accountDetails[$account->account_name] = [
-                'account_name' => $account->account_name,
+            $accountDetails[] = [
+                'account' => $account,
                 'expense_invoices' => SalesInvoiceResource::collection($saleInvoices),
                 'totalCount' => $totalCount,
                 'totalAmount' => $totalAmount,
@@ -406,8 +406,8 @@ class ReportsController extends Controller
             $totalCount = $query->count();
             $totalAmount = $query->sum('total_cash');
             $expenseInvoices = $query->get();
-            $accountDetails[$account->account_name] = [
-                'account_name' => $account->account_name,
+            $accountDetails[] = [
+                'account' => $account,
                 'expense_invoices' => ExpenseInvoiceResource::collection($expenseInvoices),
                 'totalCount' => $totalCount,
                 'totalAmount' => $totalAmount,

@@ -12,45 +12,44 @@
     <div class="container">
         <!-- Filters Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Date Filters -->
             <div class="d-flex align-items-center">
-               
-  
-                <!-- Date Pickers -->
-                <div class="d-flex align-items-center">
-                    <label for="startDate" class="me-2">من:</label>
-                    <input 
-                        type="date" 
-                        id="startDate" 
-                        class="form-control me-3" 
-                        [(ngModel)]="startDate" 
-                        (change)="filterByDate()">
-                    <label for="endDate" class="me-2">إلى:</label>
-                    <input 
-                        type="date" 
-                        id="endDate" 
-                        class="form-control" 
-                        [(ngModel)]="endDate" 
-                        (change)="filterByDate()">
-                </div>
-
-                <a (click)="searchDate()" class="btn btn-warning me-5">  بحث </a>
-
+              <label for="startDate" class="me-2">من:</label>
+              <input 
+                type="date" 
+                id="startDate" 
+                class="form-control me-3" 
+                [(ngModel)]="startDate">
+              <label for="endDate" class="me-2">إلى:</label>
+              <input 
+                type="date" 
+                id="endDate" 
+                class="form-control me-3" 
+                [(ngModel)]="endDate">
+              <button (click)="searchDate()" class="btn btn-warning">بحث</button>
             </div>
-        
+          </div>
+          
+          <!-- Month Filter -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">الشهر:</label>
+            <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
+              <option value="">اختر الشهر</option>
+              <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <label for="selectedMonth" class="me-2">المنتج:</label>
+          <select 
+          class="form-select me-3" 
+          [(ngModel)]="selectedProduct" 
+          (change)="filterDisplayedProducts()">
+          <option value="">اختر المنتج</option>
+          <option *ngFor="let product of products" [value]="product.product.id">{{ product?.product?.name }}</option>
+          </select>
         </div>
-
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center">
-                <label for="endDate" class="me-2">البحث بالشهر:</label>
-                <select class="form-select me-3" [(ngModel)]="selectedMonth" (change)="filterByMonth()">
-                    <option value="">اختر الشهر</option>
-                    <option *ngFor="let month of months" [value]="month.value">{{ month.label }}</option>
-                </select>
-
-            </div>
-           
-        </div>
+          
+          
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="d-flex align-items-center">
@@ -61,39 +60,64 @@
            
         </div>
     </div>
-  
-    <!-- Table Section -->
-    <div class="table-responsive">
-        <table class="table mt-3">
-            <thead>
+    <div *ngFor="let product of filteredProducts; let i = index" class="mb-5">
+        <div class="card shadow-sm border-0 rounded">
+          <!-- بطاقة المنتج -->
+          <div class="card shadow-sm border-0 rounded">
+            <div class="card-body">
+              <h5 class="card-title text-primary mb-3">{{ product?.product?.name }}</h5>
+              <div class="row">
+                <!-- العمود الأيسر -->
+                <div class="col-md-6">
+                  <p class="mb-2">
+                    <strong>السعر:</strong> {{ product?.product?.price }}
+                  </p>
+                  <p class="mb-2">
+                    <strong>الكمية:</strong> {{ product?.product?.amount }}
+                  </p>
+                  <p class="mb-2">
+                    <strong>إجمالي اللترات:</strong> {{ product?.totalAmountLiters }}
+                  </p>
+                </div>
+                <!-- العمود الأيمن -->
+                <div class="col-md-6">
+                  <p class="mb-2">
+                    <strong>إجمالي الأموال:</strong> {{ product?.totalAmountMoney }}
+                  </p>
+                  <p class="mb-2">
+                    <strong>الكمية المبدئية:</strong> {{ product.product.start_amount }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- جدول التحركات -->
+          <div class="table-responsive mt-4">
+            <table class="table table-striped border rounded shadow-sm">
+              <thead class="table-light">
                 <tr>
-                    <th class="bg-light" scope="col">#</th>
-                    <th class="bg-light" scope="col">الاسم</th>
-                    <th class="bg-light" scope="col">السعر</th>
-                    <th class="bg-light" scope="col">الكمية</th>
-                    <th class="bg-light" scope="col">الإجراءات</th>
+                  <th scope="col">#</th>
+                  <th scope="col">التاريخ</th>
+                  <th scope="col">النوع</th>
+                  <th scope="col">اللترات</th>
+                  <th scope="col">إجمالي السعر</th>
                 </tr>
-            </thead>
-            <tbody>
-                <!-- <tr *ngFor="let product of filteredProducts; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.amount }}</td>
-                    <td>
-                        <div class="d-flex justify-content-around align-items-center">
-                            <a class="nav-link" [routerLink]="['/dashboard/showProduct', product.id]">
-                                <i class="fa-solid fa-eye btn1 bg-primary rounded"></i>
-                            </a>
-                            <a class="nav-link" [routerLink]="['/dashboard/updateProduct', product.id]">
-                                <i class="fa-solid fa-pencil btn1 bg-success rounded"></i>
-                            </a>
-                            <i class="fa-solid fa-trash-can btn1 bg-danger rounded" (click)="deleteProduct(product.id)"></i>
-                        </div>
-                    </td>
-                </tr> -->
-            </tbody>
-        </table>
-    </div>
+              </thead>
+              <tbody>
+                <tr *ngFor="let move of product.moves; let j = index">
+                  <th scope="row">{{ j + 1 }}</th>
+                  <td>{{ move.date }}</td>
+                  <td>{{ move.type }}</td>
+                  <td>{{ move.liters }}</td>
+                  <td>{{ move.total_price }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      
   </div>
   

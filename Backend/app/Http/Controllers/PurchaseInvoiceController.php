@@ -10,7 +10,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PurchaseInvoiceResource;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\ProductMove;
 class PurchaseInvoiceController extends Controller
 {
 
@@ -70,7 +70,7 @@ class PurchaseInvoiceController extends Controller
         $product->amount += $validated['amount_letters'];
 
         $move = new ProductMove();  
-        $move->data = $validated['date'];
+        $move->date = $validated['date'];
         $move->liters =  $validated['amount_letters'];
         $move->total_price =  $validated['amount_letters'] * $product->price;
         $move->product_id =  $product->id;

@@ -1,0 +1,90 @@
+<div class="container" id="invoice-details">
+<div class="invoice">
+    <div class="logo mb-3">الشعار</div>
+
+    <div class="details">
+        <div class="row ">
+            <div >العنوان:{{setting?.address}}</div>
+            <div>رقم الهاتف:{{setting?.phone}}</div>
+            <div>الرقم الضريبي:{{setting?.tax_number}}</div>
+            <div >السجل التجاري:{{setting?.tax_name}}</div>
+        </div>
+        <div class="row">
+           
+            <div  class="text-center">فاتورة ضريبية</div>
+        </div>
+        <div class="row">
+         
+            <div class="col-6 ">
+                <div>النوع: {{salesData?.type}} </div>
+                <div class="col-6">التاريخ:{{salesData?.date}}</div>
+            </div>
+            <div class="col-6 ">
+                <div>الرقم: {{salesData?.number}} </div>
+                <div class=" text-end">الوقت:{{currentTime}}</div>
+            </div>
+        </div>
+      
+    </div>
+
+    <div class="details">
+        <div class="row">
+            <div >اسم العميل:{{salesData?.client_name}}</div>
+            <div >الرقم الضريبي:{{salesData?.tax_no}}</div>
+            <div >السجل التجاري:{{salesData?.tax_name}}</div>
+            <div >رقم الهاتف:{{salesData?.phone}}</div>
+            <div>عنوان العميل:{{salesData?.address}}</div>
+        </div>
+        
+    </div>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th>المنتج</th>
+                <th>الكمية</th>
+                <th>السعر</th>
+                <th>الإجمالي</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+
+    <div class="details">
+        <div class="row">
+            <div class="col-6">إجمالي:</div>
+           
+        </div>
+        <div class="row">
+            <div class="col-6">ضريبة 15%:</div>
+          
+        </div>
+        <div class="row">
+            <div class="col-6">صافي الفاتورة:</div>
+          
+        </div>
+        <div class="row">
+            <div class="col-6">المدفوع:</div>
+          
+        </div>
+        <div class="row">
+            <div class="col-6">الباقي:</div>
+            
+        </div>
+    </div>
+
+    <div class="text-center">المبلغ شامل ضريبة القيمة المضافة 15%</div>
+
+   
+
+    <div class="qr">
+        <canvas id="invoice-qr"></canvas>
+      </div>
+</div>
+</div>
+<div class="mt-4 text-center">
+    <button (click)="exportToPDF()" class="btn btn-primary">Download as PDF</button>
+  </div> 
+  

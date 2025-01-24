@@ -1,0 +1,32 @@
+.invoice {
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
+.logo {
+    text-align: center;
+    
+}
+.details {
+    margin-bottom: 20px;
+}
+.details .row {
+    margin-bottom: 10px;
+}
+.table {
+    margin-bottom: 20px;
+}
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+.footer .btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+.qr {
+    text-align: center;
+    margin-top: 20px;
+}

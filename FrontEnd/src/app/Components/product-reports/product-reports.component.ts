@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+
 import { MainReportsService } from '../../shared/services/main_reports.service';
 
 
@@ -14,13 +14,14 @@ import { MainReportsService } from '../../shared/services/main_reports.service';
   styleUrl: './product-reports.component.css'
 })
 export class ProductReportsComponent {
-
-  products = []; // List of all products fetched from the API
-  filteredProducts = []; // Filtered list of products
-  searchQuery = ''; // Search input
+  moves: any[] = [];  
+  products: any[] = [];  
+  filteredProducts :any[]=[]; 
+  searchQuery = ''; 
   startDate: string | null = null; // Selected start date
   endDate: string | null = null; // Selected end date
   selectedMonth: string | null = null; // Selected month from the dropdown
+  selectedProduct: any;  //// Selected month from the dropdown
   months = [
     { value: '01', label: 'يناير' },
     { value: '02', label: 'فبراير' },
@@ -35,92 +36,25 @@ export class ProductReportsComponent {
     { value: '11', label: 'نوفمبر' },
     { value: '12', label: 'ديسمبر' }
   ];
-  searchDate(){}
-  filterByMonth() {
-    const year = new Date().getFullYear(); 
-    const startDate = new Date(`${year}-${this.selectedMonth}-01`); 
-    const endDate = new Date(startDate); 
-    endDate.setMonth(startDate.getMonth() + 1); 
-    endDate.setDate(0); 
-  
-  }
-  constructor(private _ReportsService: MainReportsService) {
+
+ 
+ 
+  constructor(private _ReportsService: MainReportsService ,private _ProductService:ProductService) {
 
   }
 
   ngOnInit() {
     this.loadReports();
-    this.loadSalesReports();
-    this.loadhiftsReports();
-    this.loadPurchaseInvoiceReports();
-    this.loadExpenceInvoiceReports();
-  }
-  
-  
-  loadExpenceInvoiceReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
-    this._ReportsService.getExpencesInvoicesReports(filters).subscribe({
-      next: (response) => {
-        if (response) {
-          console.log('expense invoice data: ',response);
+    this.loadProducts();
    
-        
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
   }
-  loadPurchaseInvoiceReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
-    this._ReportsService.getPurchaseInvoicesReports(filters).subscribe({
-      next: (response) => {
-        if (response) {
-          console.log('purchase invoice data: ',response);
-   
-        
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
-  
-  loadhiftsReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
-    this._ReportsService.getShiftReports(filters).subscribe({
-      next: (response) => {
-        if (response) {
-          console.log('shifts data: ',response);
-   
-        
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
-  loadSalesReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
-    this._ReportsService.getSalesInvoicesReports(filters).subscribe({
-      next: (response) => {
-        if (response) {
-          console.log('sales: ',response);
-   
-        
-        }
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
-
-  loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
-    this._ReportsService.getProductReports(filters).subscribe({
+  loadProducts(): void {
+    this._ProductService.viewAllProducts().subscribe({
       next: (response) => {
         if (response) {
           console.log(response);
-   
+        
+          this.filteredProducts = response;
         
         }
       },
@@ -129,29 +63,71 @@ export class ProductReportsComponent {
       }
     });
   }
+  searchDate() {
+    if (this.startDate && this.endDate) {
+        if (new Date(this.startDate) > new Date(this.endDate)) {
+            console.error('Start date must be before the end date.');
+            return;
+        }
+        const filters = { startDate: this.startDate, endDate: this.endDate };
+        this.loadReports(filters);
+    } else {
+        console.warn('Both start date and end date must be selected.');
+    }
+}
 
-  onSearch() {
-    
+filterByMonth() {
+  if (this.selectedMonth) {
+      const year = new Date().getFullYear();
+      const startDate = `${year}-${this.selectedMonth}-01`;
+      const lastDay = new Date(year, parseInt(this.selectedMonth, 10), 0).getDate();
+      const endDate = `${year}-${this.selectedMonth}-${lastDay}`;
+      const filters = { startDate, endDate };
+      console.log('Month filters:', filters); // Debugging
+      this.loadReports(filters);
+  } else {
+      console.warn('Month must be selected.');
   }
-
-  filterByDate() {
-    // this.filteredProducts = this.products.filter(product => {
-    //   // const productDate = new Date(product.date);
-    //   const start = this.startDate ? new Date(this.startDate) : null;
-    //   const end = this.endDate ? new Date(this.endDate) : null;
-
-    //   return (
-    //     (!start || productDate >= start) &&
-    //     (!end || productDate <= end)
-    //   );
-    // });
+}
+filterDisplayedProducts() {
+  if (this.selectedProduct) {
+    this.filteredProducts = this.products.filter(
+      product => product.product.id === +this.selectedProduct // Ensure type match
+    );
+  } else {
+    this.filteredProducts = [...this.products]; // Reset to the full list
   }
+}
 
 
 
-  deleteProduct(id: number) {
-    // Implement product deletion logic here
-    // this.products = this.products.filter(product => product.id !== id);
-    // this.filteredProducts = [...this.products];
-  }
+
+
+
+
+
+
+loadReports(filters: { startDate?: string; endDate?: string; today?: boolean; thisYear?: boolean } = {}) {
+  console.log('Filters applied in loadReports:', filters); // Debugging
+  this._ReportsService.getProductReports(filters).subscribe({
+    next: (response) => {
+      if (response) {
+        console.log('Product reports data:', response);
+        this.products = response; // Update the full list
+        this.filteredProducts = [...this.products]; // Initialize filtered list
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching reports:', err);
+    }
+  });
+}
+
+
+
+
+ 
+
+
+ 
 }
