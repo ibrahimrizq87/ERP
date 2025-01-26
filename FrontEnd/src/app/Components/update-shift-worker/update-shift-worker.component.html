@@ -103,16 +103,16 @@
   
   <!-- حقل الصورة عبر الإنترنت -->
   <div class="col-md-4 custom-section">
-    <label for="image">Online Image</label>
+    <label for="image">الموازنة</label>
     <input type="file" class="custom-file-input" id="online_image" (change)="onFileSelect($event)" accept="image/*" />
   </div>
 
   <!-- حقل المجموع المدفوع عبر الإنترنت -->
   <div class="col-md-4 custom-card">
-    <label for="total_online">المجموع المدفوع عبر الإنترنت</label>
+    <label for="total_online">المجموع المدفوع عبر الشبكة</label>
     <input formControlName="total_online" type="number" class="form-control" />
     <div *ngIf="totalOnlineLimitExceeded" class="text-danger mt-2">
-      لا يمكن أن يكون المبلغ المدفوع عبر الإنترنت أكبر من (إجمالي المبلغ - المبلغ المدفوع من العميل).
+      لا يمكن أن يكون المبلغ المدفوع عبر الشبكة أكبر من (إجمالي المبلغ - المبلغ المدفوع من العميل).
     </div>
   </div>
 
