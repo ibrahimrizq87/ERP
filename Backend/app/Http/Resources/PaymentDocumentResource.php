@@ -27,8 +27,8 @@ return[
     'company_account_id' => $this->company_account_id,
     'customer_account_id' => $this->customer_account_id,
     'image' => $this->image,
-    'created_at' => $this->created_at,
-    'updated_at' => $this->updated_at,
+    'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : null,
+    'updated_at' => $this->updated_at? $this->updated_at->format('Y-m-d') : null,
     'company_account' => new AccountResource($this->whenLoaded('companyAccount')),//
     'customer_account' => new AccountResource($this->whenLoaded('customerAccount')),//
 ];

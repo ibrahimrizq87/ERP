@@ -99,25 +99,33 @@ class ReportsController extends Controller
             ->where('company_account_id', $account->id);
 
             if (!empty($today)) {
-                $query->whereDate('date', '=', now()->toDateString());
+                $query->whereDate('created_at', '=', now()->toDateString());
             } elseif (!empty($thisYear)) {
-                $query->whereYear('date', '=', now()->year);
+                $query->whereYear('created_at', '=', now()->year);
             } else {
                 if (!empty($startDate)) {
-                    $query->whereDate('date', '>=', $startDate);
+                    $query->whereDate('created_at', '>=', $startDate);
                 }
                 if (!empty($endDate)) {
-                    $query->whereDate('date', '<=', $endDate);
+                    $query->whereDate('created_at', '<=', $endDate);
                 }
             }
     
             $totalCount = $query->count();
-            $totalAmount = $query->sum('amount');
             $documents = $query->get();
+
+            // $totalAmountDebit = $query->where('type','payment')->sum('amount');
+            
+            // $totalAmountCredit = $query->where('type','receipt')->sum('amount');
+            $totalAmountDebit = (clone $query)->where('type', 'payment')->sum('amount');
+            $totalAmountCredit = (clone $query)->where('type', 'receipt')->sum('amount');
+        
             $accountDetails1[] = [
                 'documents' => PaymentDocumentResource::collection($documents),
                 'totalCount' => $totalCount,
-                'totalAmount' => $totalAmount,
+                'totalAmountDebit' => $totalAmountDebit,
+                'totalAmountCredit' => $totalAmountCredit,
+
             ];
         }
 
@@ -127,25 +135,29 @@ class ReportsController extends Controller
             ->where('company_account_id', $account->id);
 
             if (!empty($today)) {
-                $query->whereDate('date', '=', now()->toDateString());
+                $query->whereDate('created_at', '=', now()->toDateString());
             } elseif (!empty($thisYear)) {
-                $query->whereYear('date', '=', now()->year);
+                $query->whereYear('created_at', '=', now()->year);
             } else {
                 if (!empty($startDate)) {
-                    $query->whereDate('date', '>=', $startDate);
+                    $query->whereDate('created_at', '>=', $startDate);
                 }
                 if (!empty($endDate)) {
-                    $query->whereDate('date', '<=', $endDate);
+                    $query->whereDate('created_at', '<=', $endDate);
                 }
             }
     
             $totalCount = $query->count();
-            $totalAmount = $query->sum('amount');
+            $totalAmountDebit = (clone $query)->where('type', 'payment')->sum('amount');
+            $totalAmountCredit = (clone $query)->where('type', 'receipt')->sum('amount');
             $documents = $query->get();
-            $accountDetails1[] = [
+
+            $accountDetails2[] = [
                 'documents' => PaymentDocumentResource::collection($documents),
                 'totalCount' => $totalCount,
-                'totalAmount' => $totalAmount,
+                'totalAmountDebit' => $totalAmountDebit,
+                'totalAmountCredit' => $totalAmountCredit,
+
             ];
         }
 
@@ -198,8 +210,8 @@ class ReportsController extends Controller
         $totalAmountMoney = $query->sum('total_price');
         $moves = $query->get();
 
-        $totalAmountLitersFromUs = $query->where('type' , 'from_us')->sum('liters');
-        $totalAmountLitersToUs = $query->where('type' , 'to_us')->sum('liters');
+        $totalAmountLitersFromUs = (clone $query)->where('type' , 'from_us')->sum('liters');
+        $totalAmountLitersToUs = (clone $query)->where('type' , 'to_us')->sum('liters');
 
 
         $accountDetails[] = [

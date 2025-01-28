@@ -63,6 +63,8 @@ import { ProductReportsComponent } from './Components/product-reports/product-re
 import { ShiftReportComponent } from './Components/shift-report/shift-report.component';
 import { ExpensesReportComponent } from './Components/expenses-report/expenses-report.component';
 import { SalesReportComponent } from './Components/sales-report/sales-report.component';
+import { PurchaseReportComponent } from './Components/purchase-report/purchase-report.component';
+import { DocumentReportComponent } from './Components/document-report/document-report.component';
 
 
 export const routes: Routes = [
@@ -114,7 +116,10 @@ export const routes: Routes = [
 
         {path:"sales/reports",component:SalesReportComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','accountant'] }},
-
+        {path:"purchase/reports",component:PurchaseReportComponent,canActivate: [RoleGuard],
+            data: { roles: ['admin','accountant'] }},
+        {path:"document/reports",component:DocumentReportComponent,canActivate: [RoleGuard],
+                data: { roles: ['admin','accountant'] }},
 
     {path:"addAccount/:id",component:AddAccountComponent,canActivate: [RoleGuard],
         data: { roles: ['admin','accountant'] }},
