@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة المنتجات</h5>
-        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+        <h5>إدارة التقارير</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> مبيعات العملاء</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addProduct">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
@@ -39,12 +39,12 @@
             </select>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <label for="selectedMonth" class="me-2">Invoice:</label>
+            <label for="selectedMonth" class="me-2">حساب العميل:</label>
           <select 
           class="form-select me-3" 
           [(ngModel)]="selectedProduct" 
           (change)="filterDisplayedProducts()">
-          <option value="">اختر Invoice</option>
+          <option value="">اختر حساب العميل</option>
           <option *ngFor="let product of products" [value]="product?.account?.id">{{ product?.account?.account_name }}</option>
           </select>
         </div>
@@ -70,21 +70,19 @@
                 <!-- العمود الأيسر -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>current_balance:</strong> {{ product?.account?.current_balance }}
+                    <strong>رصيد الحساب الحالى:</strong> {{ product?.account?.current_balance }}
                   </p>
                  
                   <p class="mb-2">
-                    <strong> totalAmount:</strong> {{ product?.totalAmount }}
+                    <strong> اجمالى مبالغ الحركات:</strong> {{ product?.totalAmount }}
                   </p>
                 </div>
                 <!-- العمود الأيمن -->
                 <div class="col-md-6">
                   <p class="mb-2">
-                    <strong>totalCount :</strong> {{ product?.totalCount }}
+                    <strong>عدد الحركات :</strong> {{ product?.totalCount }}
                   </p>
-                  <p class="mb-2">
-                    <strong>totalAmountLiters :</strong> {{ product?.totalAmountLiters }}
-                  </p>
+                
                 </div>
               </div>
             </div>
@@ -97,10 +95,10 @@
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">التاريخ</th>
-                  <th scope="col">liters</th>
-                  <th scope="col">account</th>
-                  <th scope="col"> amount</th>
-                  <th scope="col"> tax_amount</th>
+                  <th scope="col">عدد اللترات</th>
+                  <th scope="col">اسم الحساب</th>
+                  <th scope="col"> المبلغ</th>
+                  <th scope="col"> قيمة الضريبة المضافة</th>
                  
                 </tr>
               </thead>

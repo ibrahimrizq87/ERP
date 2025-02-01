@@ -23,6 +23,10 @@ class PaymentDocument extends Model
         'statement'
     ];
 
+    protected $casts = [
+        'amount' => 'float',
+    ];
+
     // Relationships
     public function user()
     {

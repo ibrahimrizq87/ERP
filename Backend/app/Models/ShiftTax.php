@@ -16,7 +16,11 @@ class ShiftTax extends Model
         'tax_rate',
     ];
 
-   
+    protected $casts = [
+        'tax_amount' => 'float',
+
+      
+    ];
 
     public function shift()
     {

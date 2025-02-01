@@ -18,6 +18,10 @@ class ProductMove extends Model
         'main_shift_id',
     ];
 
+    protected $casts = [
+        'total_price' => 'float',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

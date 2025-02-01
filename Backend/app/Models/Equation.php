@@ -17,6 +17,13 @@ class Equation extends Model
         'number_of_periods',
     ];
 
+    protected $casts = [
+        'current_price' => 'float',
+        'first_price' => 'float',
+
+      
+    ];
+
     public function collection()
     {
         return $this->belongsTo(Account::class, 'collection_id');

@@ -107,6 +107,8 @@ export const routes: Routes = [
 
         {path:"product/reports",component:ProductReportsComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','accountant'] }},
+
+            
         {path:"shift/reports",component:ShiftReportComponent,canActivate: [RoleGuard],
             data: { roles: ['admin','accountant'] }},
         {path:"expenses/reports",component:ExpensesReportComponent,canActivate: [RoleGuard],

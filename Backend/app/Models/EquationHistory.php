@@ -18,6 +18,13 @@ class EquationHistory extends Model
         'period_number',
     ];
 
+
+    protected $casts = [
+        'amount' => 'float',
+
+      
+    ];
+
     public function equation()
     {
         return $this->belongsTo(Equation::class);

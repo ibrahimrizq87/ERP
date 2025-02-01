@@ -4,10 +4,11 @@ import jsPDF from 'jspdf';
 import { ReportsService } from '../../shared/services/reports.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-test2',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './test2.component.html',
   styleUrl: './test2.component.css'
 })
@@ -25,6 +26,7 @@ export class Test2Component implements OnInit{
   net_income:number=0;
   id25:number=0;
   final_net_income:number=0;
+  currentYear: number = 0;
   constructor(
   
     private _ReportsService:ReportsService
@@ -35,6 +37,11 @@ export class Test2Component implements OnInit{
   ngOnInit(): void {
  
     this.loadAllequationHistory()
+    this.getCurrentYear()
+  }
+  getCurrentYear(): void {
+    const now = new Date();
+    this.currentYear = now.getFullYear();
   }
   loadAllequationHistory(): void {
     this._ReportsService.yearReport().subscribe({

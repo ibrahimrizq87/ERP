@@ -49,7 +49,13 @@ export class DocumentReportComponent {
    
    
   }
- 
+ getType(type:string){
+  if(type == 'payment'){
+    return 'صرف';
+  }else{
+    return 'قبض';
+  }
+ }
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {

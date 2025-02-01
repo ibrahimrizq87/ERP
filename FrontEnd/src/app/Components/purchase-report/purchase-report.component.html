@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h5>إدارة المنتجات</h5>
-        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المنتجات</span>
+        <h5>إدارة المشتريات</h5>
+        <span class="text-muted">لوحة التحكم <i class="fa-solid fa-angle-right"></i> المشتريات</span>
     </div>
     <a class="nav-link" routerLink="/dashboard/addProduct">
         <i class="fa-solid fa-plus text-white iconPlus rounded"></i>
@@ -56,24 +56,16 @@
         <div class="card shadow-sm border-0 rounded">
             <div class="card shadow-sm border-0 rounded">
                 <div class="card-body">
-                    <!-- totalAmount
-                    : 
-                    "24.00"
-                    totalCount
-                    : 
-                    1
-                    totalLiters
-                    : 
-                    "2" -->
+               
                   <div class="row">
                     <!-- العمود الأيسر -->
                     <div class="col-md-6">
                       <p class="mb-2">
-                        <strong>totalAmount:</strong> {{ shift?.totalAmount }}
+                        <strong>اجمالى مبلغ الحركات:</strong> {{ shift?.totalAmount }}
                       </p>
                      
                       <p class="mb-2">
-                        <strong> totalLiters:</strong> {{ shift?.totalLiters }}
+                        <strong>  اجمالى عدد اللترات:</strong> {{ shift?.totalLiters }}
                       </p>
                     
                     </div>
@@ -82,7 +74,7 @@
                     
                     
                       <p class="mb-2">
-                        <strong>totalCount :</strong> {{ shift?.totalCount }}
+                        <strong>اجمالى الحركات :</strong> {{ shift?.totalCount }}
                       </p>
                     </div>
                   </div>
@@ -96,12 +88,12 @@
                    
                   <th scope="col">#</th>
                   <th scope="col">التاريخ</th>
-                  <th scope="col">payment_type</th>
-                  <th scope="col">product</th>
+                  <th scope="col">نوع الدفع</th>
+                  <th scope="col">اسم المنتج</th>
                 
-                  <th scope="col">amount_letters</th>
-                  <th scope="col">tax_amount</th>
-                  <th scope="col">total_cash</th>
+                  <th scope="col">عدد اللترات</th>
+                  <th scope="col">قيمة الضريبة </th>
+                  <th scope="col">مبلغ الحركة</th>
                  
                 </tr>
               </thead>
@@ -109,7 +101,7 @@
                 <tr *ngFor="let shift of products; let j = index">
                   <th scope="row">{{ j + 1 }}</th>
                   <td>{{ shift?.date }}</td>
-                  <td>{{ shift?.payment_type }}</td>
+                  <td>{{ getType(shift?.payment_type) }}</td>
                   <td>{{ shift?.product?.name }}</td>
                   <td>{{ shift?.amount_letters }}</td>
                   <td>{{ shift?.tax_amount }}</td>

@@ -24,6 +24,15 @@ class PurchaseInvoice extends Model
         'tax_rate',
     ];
 
+
+    protected $casts = [
+        'total_cash' => 'float',
+        'tax_amount' => 'float',
+        'price' => 'float',
+
+      
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);

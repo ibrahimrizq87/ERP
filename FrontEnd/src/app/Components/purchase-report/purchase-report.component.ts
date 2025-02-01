@@ -36,7 +36,13 @@ export class PurchaseReportComponent {
   ];
   shift: any;
 
- 
+  getType(type:string){
+    if(type == 'cash'){
+      return 'كاش';
+    }else{
+      return 'شبكة';
+    }
+  }
  
   constructor(private _ReportsService: MainReportsService) {
 

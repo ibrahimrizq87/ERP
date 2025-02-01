@@ -18,6 +18,10 @@ class Product extends Model
     ];
 
 
+    protected $casts = [
+        'price' => 'float',
+    ];
+
     public function machines()
     {
         return $this->hasMany(Machine::class, 'product_id');

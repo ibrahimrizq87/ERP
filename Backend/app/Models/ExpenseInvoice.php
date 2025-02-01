@@ -22,6 +22,14 @@ class ExpenseInvoice extends Model
         'invoice_image',
     ];
 
+    protected $casts = [
+        'total_cash' => 'float',
+
+        'tax_amount' => 'float',
+      
+    ];
+
+
     public function account()
     {
         return $this->belongsTo(Account::class);

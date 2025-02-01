@@ -39,6 +39,16 @@ export class ExpensesReportComponent {
 
   }
 
+
+  paymentType(type:string) {
+if(type == 'cash'){
+return 'كاش';
+}else{
+  return 'شبكة';
+
+}
+
+  }
   ngOnInit() {
     this.loadReports();
     // this.loadProducts();

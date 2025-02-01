@@ -63,6 +63,15 @@ export class ProductReportsComponent {
   //     }
   //   });
   // }
+
+  productType(type:string){
+    if(type == 'from_us'){
+      return 'من المخزن' ;
+    }else{
+      return 'الى المخزن' ;
+
+    }
+  }
   searchDate() {
     if (this.startDate && this.endDate) {
         if (new Date(this.startDate) > new Date(this.endDate)) {

@@ -67,7 +67,7 @@ class SalesInvoiceController extends Controller
             'phone' => 'nullable|string|max:20',
             'type' => 'required|in:cash,debit',
             'date' => 'required|date',
-            'liters' => 'required|integer',
+            'liters' => 'required|numeric',
             'amount' => 'required|numeric',
             'tax_amount' => 'required|numeric',
             'tax_rate' => 'required|numeric',

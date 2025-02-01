@@ -2,7 +2,7 @@
     <div class="mb-4">
       <h5 class="table-title">اسم المؤسسة</h5>
       <div class="table-title">س.ت/...................</div>
-      <p class="table-title">قائمة الدخل العام <br>عن السنة المنتهية في ٣١ ديسمبر ٢٠٢٣</p>
+      <p class="table-title">قائمة الدخل العام <br>عن السنة المنتهية في ٣١ ديسمبر {{currentYear}}</p>
     </div>
     <hr>
     <table class="table  ">
@@ -13,66 +13,89 @@
           <th class="fw-bold text-center">ريال سعودي</th>
         </tr>
       </thead>
+      <!-- <td  *ngIf="account.current_balance < 0" class="currency" style="color: red;">{{ account.current_balance * -1 }}</td>
+      <td *ngIf="account.current_balance >= 0" class="currency">{{ account.current_balance  }}</td> -->
       <tbody>
         <tr>
           <td>صافي الإيرادات التشغيلية</td>
           <td></td>
-          <td class="text-center">{{id18}}</td>
+           <td *ngIf='id18 < 0'class="text-center"style="color: red;">{{id18 * -1 }}</td>
+          <td *ngIf='id18 >= 0' class="text-center">{{id18}}</td>
         </tr>
         <tr>
           <td>تكلفة الإيرادات</td>
           <td class="text-info text-center">1</td>
-          <td class="text-center text-danger">{{id19}}</td>
+          <td *ngIf='id19 < 0'class="text-center"style="color: red;">{{id19 * -1 }}</td>
+          <td *ngIf='id19 >= 0' class="text-center">{{id19}}</td>
         </tr>
         <tr class="highlight">
           <td class="fw-bold">مجمل الربح من الأنشطة الرئيسية</td>
           <td></td>
-          <td class="fw-bold text-center">{{id18And19Sum}}</td>
+          <td *ngIf='id18And19Sum < 0'class="text-center fw-bold"style="color: red;">{{id18And19Sum * -1 }}</td>
+          <td *ngIf='id18And19Sum >= 0' class="text-center fw-bold">{{id18And19Sum}}</td>
+         
         </tr>
         <tr>
           <td> التكاليف التشغيلية</td>
           <td class="text-info text-center">2</td>
-          <td class="text-center text-danger" >{{id20}}</td>
+          <td *ngIf='id20 < 0'class="text-center"style="color: red;">{{id20 * -1 }}</td>
+          <td *ngIf='id20 >= 0' class="text-center">{{id20}}</td>
+        
         </tr>
         <tr>
           <td> مصاريف بيع وتوزيع</td>
           <td class="text-info text-center">3</td>
-          <td class="text-center text-danger">{{id21}}</td>
+          <td *ngIf='id21 < 0'class="text-center"style="color: red;">{{id21 * -1 }}</td>
+          <td *ngIf='id21 >= 0' class="text-center">{{id21}}</td>
+        
         </tr>
         <tr>
           <td> مخصصات اهلاك الأصول الثابتة </td>
           <td class="text-info text-center">4</td>
-          <td class="text-center text-danger" >{{id22}}</td>
+          <td *ngIf='id22 < 0'class="text-center"style="color: red;">{{id22 * -1 }}</td>
+          <td *ngIf='id22 >= 0' class="text-center">{{id22}}</td>
+        
         </tr>
         <tr>
           <td>مصاريف اداريه وعمومية  </td>
           <td></td>
-          <td class="text-center text-danger">{{id23}}</td>
+          <td *ngIf='id23 < 0'class="text-center"style="color: red;">{{id23 * -1 }}</td>
+          <td *ngIf='id23 >= 0' class="text-center">{{id23}}</td>
+       
         </tr>
         <tr class="highlight">
           <td class="fw-bold">  صافى الدخل الشامل من الأنشطة الرئيسية </td>
           <td></td>
-          <td class="fw-bold text-center">{{main_activities}}</td>
+          <td *ngIf='main_activities < 0'class="text-center fw-bold"style="color: red;">{{main_activities * -1 }}</td>
+          <td *ngIf='main_activities >= 0' class="text-center fw-bold">{{main_activities}}</td>
         </tr>
         <tr>
           <td>إيرادات آخرى </td>
           <td></td>
-          <td class="text-center" >{{id24}}</td>
+         
+          <td *ngIf='id24 < 0'class="text-center"style="color: red;">{{id24 * -1 }}</td>
+          <td *ngIf='id24 >= 0' class="text-center">{{id24}}</td>
         </tr>
         <tr class="highlight">
           <td class="fw-bold">صافى دخل السنه قبل الزكاه الشرعية</td>
           <td></td>
-          <td class="fw-bold text-center">{{this.net_income}}</td>
+          <td *ngIf='net_income < 0'class="text-center fw-bold"style="color: red;">{{net_income * -1 }}</td>
+          <td *ngIf='net_income >= 0' class="text-center fw-bold">{{net_income}}</td>
+        
         </tr>
         <tr>
           <td> الزكاة التقديرية </td>
           <td></td>
-          <td class="text-center" >{{id25}}</td>
+          <td *ngIf='id25 < 0'class="text-center"style="color: red;">{{id25 * -1 }}</td>
+          <td *ngIf='id25 >= 0' class="text-center">{{id25}}</td>
+         
         </tr>
         <tr class="highlight">
           <td class="fw-bold"> صافى الدخل الشامل بعد الزكاة    </td>
           <td></td>
-          <td class="fw-bold text-center">{{final_net_income}}</td>
+          <td *ngIf='final_net_income < 0'class="text-center fw-bold"style="color: red;">{{final_net_income * -1 }}</td>
+          <td *ngIf='final_net_income >= 0' class="text-center fw-bold">{{final_net_income}}</td>
+         
         </tr>
       </tbody>
     </table>

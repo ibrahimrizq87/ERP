@@ -22,6 +22,9 @@ class MainShift extends Model
         'date',
     ];
 
+ 
+
+
     /**
      * Relationships.
      */
