@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../shared/services/product.service';
 import { MachineService } from '../../shared/services/machine.service';
+import { AccountingService } from '../../shared/services/accounts.service';
 
 @Component({
   selector: 'app-update-shift-worker',
@@ -32,6 +33,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   totalOnlineLimitExceeded: boolean = false;
   totalLiterForEachProduct: any;
   shift_id: any;
+  taxRate: any;
+
   constructor(
     private _MachineService:MachineService,
     private fb: FormBuilder,
@@ -40,7 +43,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr:ToastrService,
     private _ProductService:ProductService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private _AccountingService:AccountingService
   ) {
     this.shiftForm = this.fb.group({
      
@@ -53,7 +57,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+    this.getTaxRate();
     this.loadProducts()
     this.loadMyShift()
     this.shiftForm.get('total_online')?.valueChanges.subscribe(() => {
@@ -61,6 +65,22 @@ export class UpdateShiftWorkerComponent implements OnInit {
     });
     
   }
+
+
+  getTaxRate(): void {
+    this._AccountingService.getTaxRate().subscribe({
+      next: (response) => {
+        if (response) {
+          this.taxRate = parseFloat(response.rate); 
+          // console.log(this.taxRate);
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
   selectedFile: File | null = null;
 
   onFileSelect(event: any): void {
@@ -262,6 +282,7 @@ export class UpdateShiftWorkerComponent implements OnInit {
   
   calculateTotalCash(): void {
     const totalOnline = this.shiftForm.get('total_online')?.value || 0;
+    this.totalAmount = this.totalAmount ;
     console.log(this.totalAmount)
     console.log(totalOnline)
     console.log(this.total_client)
@@ -282,7 +303,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   const closeAmount = paymentGroup.get('close_amount')?.value || 0;
   const price = paymentGroup.get('price')?.value || 0;
   const totalLiters = closeAmount - startAmount;
-  const totalMoney = totalLiters * price;
+  const totalMoneyWithoutTax = totalLiters * price;
+  const totalMoney = totalMoneyWithoutTax +(totalMoneyWithoutTax * (this.taxRate/100));
 
   // Update total liters and money in the form group
   paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });

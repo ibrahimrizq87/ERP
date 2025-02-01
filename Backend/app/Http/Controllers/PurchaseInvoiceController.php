@@ -227,6 +227,17 @@ public function updateCreditRev($account ,  $amount)
                $product->amount -= $purchaseInvoice->amount_letters;
                $product->save();
 
+               ProductMove::where('date', $purchaseInvoice->date)
+               ->where('liters', $purchaseInvoice->amount_letters)
+               ->where('product_id', $purchaseInvoice->product_id)
+               ->delete();
+
+
+              
+           
+
+
+
                $product = Product::find($validated['product_id']);
                $product->amount += $validated['amount_letters'];
                $product->save();
@@ -245,6 +256,15 @@ public function updateCreditRev($account ,  $amount)
                    'tax_amount' => $validated['tax_amount'],
                    'tax_rate' => $validated['tax_rate'],
                ]);
+
+               $move = new ProductMove();  
+               $move->date = $validated['date'];
+               $move->liters =  $validated['amount_letters'];
+               $move->total_price =  $validated['amount_letters'] * $product->price;
+               $move->product_id =  $product->id;
+               $move->main_shift_id = null;
+               $move->type = 'to_us';
+               $move->save();
 
               
        
@@ -284,9 +304,27 @@ public function updateCreditRev($account ,  $amount)
         $this->updateCreditRev($supplier , $invoice->total_cash);
         $this->updateCreditRev($tax , $invoice->tax_amount);
 
-        // $product = Product::find($invoice->product_id);
-        // $product->amount -= $invoice->amount_letters;
-        // $product->save();
+        $product = Product::find($invoice->product_id);
+
+        $product->amount -= $invoice->amount_letters;
+
+        // $move = new ProductMove();  
+        // $move->date = $validated['date'];
+        // $move->liters =  $validated['amount_letters'];
+        // $move->total_price =  $validated['amount_letters'] * $product->price;
+        // $move->product_id =  $product->id;
+        // $move->main_shift_id = null;
+        // $move->type = 'to_us';
+        // $move->save();
+        ProductMove::where('date', $invoice->date)
+    ->where('liters', $invoice->amount_letters)
+    ->where('product_id', $invoice->product_id)
+    ->delete();
+
+
+
+
+        $product->save();
      
 
 

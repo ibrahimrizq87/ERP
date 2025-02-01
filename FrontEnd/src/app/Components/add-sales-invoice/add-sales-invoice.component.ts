@@ -211,7 +211,7 @@ export class AddSalesInvoiceComponent implements OnInit{
       // formData.append('number', this.salesForm.get('number')?.value);
       formData.append('type', this.salesForm.get('type')?.value);
       formData.append('liters', this.salesForm.get('liters')?.value);
-      formData.append('amount', this.amount.toString());
+      formData.append('amount', (this.amount + this.taxAmount).toString());
       formData.append('tax_rate', this.taxRate.toString());
       formData.append('tax_amount', this.taxAmount.toString());
       if (this.salesForm.get('type')?.value === 'debit') {

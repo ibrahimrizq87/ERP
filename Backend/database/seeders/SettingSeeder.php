@@ -70,6 +70,15 @@ class SettingSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ], 
+
+            [
+                'id' => 7,
+                'key' => 'company_name',
+                'value' => 'اسم الشركة الافتراضى',
+
+                'created_at' => now(),
+                'updated_at' => now(),
+            ], 
         ]);
 
     }

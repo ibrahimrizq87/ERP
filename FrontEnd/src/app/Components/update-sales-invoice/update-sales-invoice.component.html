@@ -21,28 +21,28 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="tax_no" class="form-label">رقم الضريبة</label>
-                        <input id="tax_no" formControlName="tax_no" type="text" class="form-control" placeholder="أدخل رقم الضريبة من فضلك" required />
+                        <input id="tax_no" formControlName="tax_no" type="text" class="form-control" placeholder="أدخل رقم الضريبة من فضلك"  />
                         <div class="alert alert-danger" *ngIf="salesForm.get('tax_no')?.errors && salesForm.get('tax_no')?.touched">
                           <p *ngIf="salesForm.get('tax_no')?.getError('maxLength')">الحد الأقصى هو 255</p>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="tax_name" class="form-label">اسم الضريبة</label>
-                        <input id="tax_name" formControlName="tax_name" type="text" class="form-control" placeholder="أدخل اسم الضريبة من فضلك" required />
+                        <input id="tax_name" formControlName="tax_name" type="text" class="form-control" placeholder="أدخل اسم الضريبة من فضلك"  />
                         <div class="alert alert-danger" *ngIf="salesForm.get('tax_name')?.errors && salesForm.get('tax_name')?.touched">
                           <p *ngIf="salesForm.get('tax_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="client_name" class="form-label">اسم العميل</label>
-                        <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخل اسم العميل من فضلك" required />
+                        <input id="client_name" formControlName="client_name" type="text" class="form-control" placeholder="أدخل اسم العميل من فضلك"  />
                         <div class="alert alert-danger" *ngIf="salesForm.get('client_name')?.errors && salesForm.get('client_name')?.touched">
                           <p *ngIf="salesForm.get('client_name')?.getError('maxLength')">الحد الأقصى هو 255</p>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="phone" class="form-label">رقم الهاتف</label>
-                        <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخل رقم الهاتف من فضلك" required />
+                        <input id="phone" formControlName="phone" type="text" class="form-control" placeholder="أدخل رقم الهاتف من فضلك"  />
                         <div class="alert alert-danger" *ngIf="salesForm.get('phone')?.errors && salesForm.get('phone')?.touched">
                           <p *ngIf="salesForm.get('phone')?.getError('maxLength')">الحد الأقصى هو 20</p>
                         </div>
@@ -92,7 +92,7 @@
                       </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label for="liters" class="form-label">اللترات</label>
                         <input id="liters" formControlName="liters" type="number" class="form-control" placeholder="يرجى إدخال إجمالي المبلغ النقدي" required/>
                         <div class="alert alert-danger" *ngIf="salesForm.get('liters')?.errors && salesForm.get('liters')?.touched">
@@ -100,8 +100,8 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="form-label">الكميه</label>
-                        <p>{{ amount }}</p> 
+                        <label class="form-label">الاجمالى</label>
+                        <p>{{ amount  + taxAmount}}</p> 
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label">نسبة الضريبة</label>
@@ -109,9 +109,14 @@
                     </div>
                      
                     <div class="form-group col-md-6">
-                        <label class="form-label">الإجمالي بعد الضريبة</label>
+                        <label class="form-label"> قيمة الضريبة</label>
                         <p>{{ taxAmount | number: '1.2-2' }}</p> 
                     </div>
+
+                    <div class="form-group col-md-6">
+                      <label class="form-label">  الاجمالى قبل الضريبة</label>
+                      <p>{{ amount | number: '1.2-2' }}</p> 
+                  </div>
                 </div>
                 <div class="form-group col-md-12">
                     <label for="address" class="form-label">العنوان</label>

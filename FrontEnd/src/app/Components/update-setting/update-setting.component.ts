@@ -88,6 +88,8 @@ if (key == 'logo'){
   return ' السجل التجارى' ;
 }else if (key == 'invoice_message'){
   return ' الرسالة المكتوبه آخر الفتورة' ;
+}else if (key == 'company_name'){
+  return 'اسم الشركة' ;
 }else {
   return "ادخل المعلومات" ;
 }

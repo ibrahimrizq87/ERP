@@ -375,6 +375,10 @@ public function closeShift(Request $request ,$shift_id)
     $shift->save();
 
     $tax =Account::find(54);
+    $bank =Account::find(57);
+    $cash_box =Account::find(58);
+
+    
     $salesAccount =Account::find(47);
 
     
@@ -382,7 +386,8 @@ public function closeShift(Request $request ,$shift_id)
     $precentage =$tax_rate->rate /100;
     $total = $data['total_money'] *  $precentage;
     
-
+    $this->updateCredit($cash_box ,$data['total_cash'] );
+    $this->updateCredit($bank ,$data['total_payed_online'] );
     $this->updateCredit($tax ,$total );
     $this->updateCredit($salesAccount , $data['total_money']);
 

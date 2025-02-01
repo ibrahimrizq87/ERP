@@ -888,6 +888,37 @@ class AccountsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'id' =>57,
+                'account_name' => 'حساب البنك العام',
+                'phone' => null,
+                'parent_id' => 11, 
+                'type'=>'none',
+                'start_amount' => 0,
+
+                'can_delete' => 0,
+                'current_balance' => 0.00,
+                'net_debit' => 0.00,
+                'net_credit' => 0.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'id' =>58,
+                'account_name' => 'حساب الخزينة الرئيسية',
+                'phone' => null,
+                'parent_id' => 10, 
+                'type'=>'none',
+                'start_amount' => 0,
+
+                'can_delete' => 0,
+                'current_balance' => 0.00,
+                'net_debit' => 0.00,
+                'net_credit' => 0.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             // [
             //     'id' => 1,
             //     'account_name' => 'الخزينه',

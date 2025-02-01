@@ -87,11 +87,11 @@ class SalesInvoiceController extends Controller
             $lastInvoiceNumber = SalesInvoice::max('number') ?? 1;
 
         $salesInvoice = SalesInvoice::create([
-            'address'=> $validated['address'] ?? null,
-            'tax_no'=> $validated['tax_no'] ?? null,
-            'tax_name'=> $validated['tax_name'] ?? null,
-            'client_name'=> $validated['client_name'] ?? null,
-            'phone'=> $validated['phone'] ?? null,
+            'address'=> $validated['address'] ?? '',
+            'tax_no'=> $validated['tax_no'] ?? '',
+            'tax_name'=> $validated['tax_name'] ?? '',
+            'client_name'=> $validated['client_name'] ?? '',
+            'phone'=> $validated['phone'] ?? '',
             'type'=> $validated['type'],
             'date'=> $validated['date'],
             'liters'=> $validated['liters'],
@@ -194,17 +194,18 @@ class SalesInvoiceController extends Controller
             $account = Account::find($request->account_id);
             if($account){
                 $this->updateDebit($account, $newAmount);
+                $shift = MainShift::find($salesInvoice->main_shift_id);
+                if ($shift) {
+                    $shift->total_money_client += ($newAmount - $prevAmount); 
+                    $shift->total_shift_money += ($newAmount - $prevAmount);
+        
+                    $shift->save();
+                }
             }
         }
 
 
-        $shift = MainShift::find($salesInvoice->main_shift_id);
-        if ($shift) {
-            $shift->total_money_client += ($newAmount - $prevAmount); 
-            $shift->total_shift_money += ($newAmount - $prevAmount);
-
-            $shift->save();
-        }
+     
 
         DB::commit();
         return response()->json(['success' => true, 'message' => 'Sales Invoice updated successfully'], 200);
@@ -233,6 +234,13 @@ public function delete($id)
             $account = Account::find($salesInvoice->account_id);
             if($account){
                 $this->updateDebitRev($account, $salesInvoice->amount); 
+                $shift = MainShift::find($salesInvoice->main_shift_id);
+                if ($shift) {
+                    $shift->total_money_client -= $salesInvoice->amount; 
+                    $shift->total_shift_money -= $salesInvoice->amount;
+        
+                    $shift->save();
+                }
 
             }
         }
@@ -240,13 +248,7 @@ public function delete($id)
         $salesInvoice->delete();
 
 
-        $shift = MainShift::find($salesInvoice->main_shift_id);
-        if ($shift) {
-            $shift->total_money_client -= $salesInvoice->amount; 
-            $shift->total_shift_money -= $salesInvoice->amount;
-
-            $shift->save();
-        }
+    
 
         DB::commit();
         return response()->json(['success' => true, 'message' => 'Sales Invoice deleted successfully'], 200);

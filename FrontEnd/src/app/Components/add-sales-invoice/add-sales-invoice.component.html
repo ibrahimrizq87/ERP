@@ -96,7 +96,7 @@
                   </div>
               </div>
               <div class="row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                       <label for="liters" class="form-label">اللترات</label>
                       <input id="liters" formControlName="liters" type="number" class="form-control" placeholder="يرجى إدخال إجمالي المبلغ النقدي" required/>
                       <div class="alert alert-danger" *ngIf="salesForm.get('liters')?.errors && salesForm.get('liters')?.touched">
@@ -104,8 +104,8 @@
                       </div>
                   </div>
                   <div class="form-group col-md-6">
-                      <label class="form-label">مبلغ الضريبة</label>
-                      <p>{{ amount }}</p> 
+                      <label class="form-label"> الاجمالى</label>
+                      <p>{{ amount +  taxAmount }}</p> 
                   </div>
                   <div class="form-group col-md-6">
                       <label class="form-label">نسبة الضريبة</label>
@@ -117,8 +117,8 @@
                       <p>{{ taxAmount | number: '1.2-2' }}</p> 
                   </div>
                   <div class="form-group col-md-6">
-                    <label class="form-label">  الاجمالى بعد الضريبة</label>
-                    <p>{{ amount - taxAmount | number: '1.2-2' }}</p> 
+                    <label class="form-label">  الاجمالى قبل الضريبة</label>
+                    <p>{{ amount  | number: '1.2-2' }}</p> 
                 </div>
               </div>
              

@@ -16,11 +16,11 @@ class SalesInvoiceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'address' => $this->address,
-            'tax_no' => $this->tax_no,
-            'tax_name' => $this->tax_name,
-            'client_name' => $this->client_name,
-            'phone' => $this->phone,
+            'address' => $this->address == 'null' ? '' : $this->address,
+            'tax_no' => $this->tax_no == 'null' ? '' : $this->tax_no,
+            'tax_name' => $this->tax_name == 'null' ? '' : $this->tax_name,
+            'client_name' => $this->client_name == 'null' ? '' : $this->client_name,
+            'phone' => $this->phone == 'null' ? '' : $this->phone,
             'type' => $this->type,
             'date' => $this->date,
             'liters' => $this->liters,

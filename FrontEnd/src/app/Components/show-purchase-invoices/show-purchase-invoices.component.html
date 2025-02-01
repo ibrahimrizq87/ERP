@@ -14,7 +14,7 @@
                               <h6 class="fw-bold">حساب العميل</h6>
                               <div class="mb-3">
                                   <label class="fw-bold">الاسم:</label>
-                                  <p class="text-muted">{{ purchaseData?.account?.account_name || 'غير متوفر' }}</p>
+                                  <p class="text-muted">{{ purchaseData?.account?.account_name  || 'غير متوفر' }}</p>
                               </div>
                               <div class="mb-3">
                                   <label class="fw-bold">الهاتف:</label>
@@ -60,9 +60,13 @@
                                   <p class="text-muted">{{ purchaseData?.date || 'غير متوفر' }}</p>
                               </div>
                               <div class="mb-3">
-                                  <label class="fw-bold">المبلغ الإجمالي بعد الضريبة:</label>
+                                  <label class="fw-bold">المبلغ الإجمالي قبل الضريبة:</label>
                                   <p class="text-muted">{{ totalAfterTax }}</p>
                               </div>
+                              <div class="mb-3">
+                                <label class="fw-bold">المبلغ الإجمالي  :</label>
+                                <p class="text-muted">{{ purchaseData.total_cash  }}</p>
+                            </div>
                               
                           </div>
                       </div>

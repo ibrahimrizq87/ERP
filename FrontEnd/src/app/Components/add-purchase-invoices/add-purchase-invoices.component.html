@@ -90,7 +90,7 @@
 
                 <div class="form-group col-md-6">
                   <label class="form-label">الإجمالي</label>
-                  <p>{{ total | number: '1.2-2' }}</p>
+                  <p>{{ total + taxAmount  | number: '1.2-2' }}</p>
                 </div>
 
                 <div class="form-group col-md-6">
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label class="form-label">الإجمالي بعد الضريبة</label>
+                  <label class="form-label">الإجمالي قبل الضريبة</label>
                   <p>{{ totalAfterTax | number: '1.2-2' }}</p>
                 </div>
               </div>

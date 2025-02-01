@@ -12,27 +12,26 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <strong>اسم العميل:</strong>
-                                    <p>{{ salesData?.client_name }}</p>
+                                    <p>{{ salesData?.client_name != "null" ? salesData?.client_name : ''   }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong>التاريخ:</strong>
-                                    <p>{{ salesData?.date }}</p>
+                                    <strong> الرقم الضريبى:</strong>
+                                    <p>{{ salesData?.tax_no != "null" ? salesData?.tax_no : '' }}</p>
                                 </div>
-                                <div class="mb-3">
-                                    <strong>رقم الفاتورة:</strong>
-                                    <p>{{ salesData?.number }}</p>
-                                </div>
+                               
+                              
+                                
                                 <div class="mb-3">
                                     <strong>رقم الهاتف:</strong>
-                                    <p>{{ salesData?.phone }}</p>
+                                    <p>{{salesData?.phone != "null" ? salesData?.phone : ''    }}</p>
                                 </div>
                                 <div class="mb-3">
                                     <strong> السجل التجارى:</strong>
-                                    <p>{{ salesData?.tax_name }}</p>
+                                    <p>{{ salesData?.tax_name != "null" ? salesData?.tax_name : ''   }}</p>
                                 </div>
                                 <div class="mb-3">
                                     <strong>العنوان:</strong>
-                                    <p>{{ salesData?.address }}</p>
+                                    <p>{{ salesData?.address != "null" ? salesData?.address : ''   }}</p>
                                 </div>
                             </div>
 
@@ -51,13 +50,18 @@
                                     <p>{{ getPaymentType(salesData?.type) }}</p>
                                 </div>
                                 <div class="mb-3">
-                                    <strong> الرقم الضريبى:</strong>
-                                    <p>{{ salesData?.tax_no }}</p>
-                                </div>
-                               
-                                <div class="mb-3">
                                     <strong>نسبة الضريبة المضافة:</strong>
                                     <p>{{ salesData?.tax_rate }}%</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>التاريخ:</strong>
+                                    <p>{{ salesData?.date }}</p>
+                                </div>
+                              
+                                <div class="mb-3">
+                                    <strong>رقم الفاتورة:</strong>
+                                    <p>{{ salesData?.number }}</p>
                                 </div>
                             </div>
                         </div>

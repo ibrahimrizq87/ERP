@@ -165,8 +165,7 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
   }
   get totalAfterTax(): number {
     const total = this.total; 
-    const taxAmount = this.taxAmount;
-    return total - taxAmount; 
+    return total ; 
   }
  
   handleForm() {
@@ -179,7 +178,7 @@ export class UpdatePurchaseInvoicesComponent implements OnInit{
       formData.append('product_id', this.purchasesForm.get('product_id')?.value);
       formData.append('amount_letters', this.purchasesForm.get('amount')?.value);
       formData.append('price', this.purchasesForm.get('price')?.value);
-      formData.append('total_cash', this.total.toString());
+      formData.append('total_cash', (this.total + this.taxAmount).toString());
       formData.append('supplier_id', this.purchasesForm.get('supplier_id')?.value);
       formData.append('account_id', this.purchasesForm.get('account_id')?.value);
       formData.append('payment_type', this.purchasesForm.get('payementType')?.value);

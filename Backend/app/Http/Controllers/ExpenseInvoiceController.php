@@ -61,38 +61,6 @@ class ExpenseInvoiceController extends Controller
             $this->updateCredit($expense , $validated['total_cash']);
             $this->updateCredit($tax , $validated['tax_amount']);
 
-            // $account_parent =Account::find($account->parent_id);
-            // $expense_parent =Account::find($expense->parent_id);
-            // $tax_parent =Account::find($tax->parent_id);
-            
-
-            // $account->net_debit += $validated['total_cash'];
-            // $account->current_balance -= $validated['total_cash'];
-    
-            // $account_parent->net_debit += $validated['total_cash'];
-            // $account_parent->current_balance -= $validated['total_cash'];
-    
-            // $expense->net_credit += $validated['total_cash'];
-            // $expense->current_balance += $validated['total_cash'];
-    
-            // $expense_parent->net_credit += $validated['total_cash'];
-            // $expense_parent->current_balance += $validated['total_cash'];
-    
-
-
-            // $tax->net_credit += $validated['tax_amount'];
-            // $tax->current_balance += $validated['tax_amount'];
-    
-            // $tax_parent->net_credit += $validated['tax_amount'];
-            // $tax_parent->current_balance += $validated['tax_amount'];
-
-            // $tax_parent->save();
-            // $tax->save();
-            // $expense_parent->save();
-            // $expense->save();
-            // $account->save();
-            // $expense_parent->save();
-
 
             $invoice = ExpenseInvoice::create([
                 'date' => $validated['date'],
@@ -159,28 +127,10 @@ class ExpenseInvoiceController extends Controller
             $oldExpense = Account::find($invoice->expense_id);
             $oldTax = Account::find(54);
 
-            // $oldAccount_parent =Account::find($oldAccount->parent_id);
-
-            // $oldAccount_parent->net_debit -= $invoice->total_cash;
-            // $oldAccount_parent->current_balance += $invoice->total_cash;
 
             $this->updateDebitRev($oldAccount , $invoice->total_cash);
             $this->updateCreditRev($oldExpense , $invoice->total_cash);
             $this->updateCreditRev($oldTax , $invoice->tax_amount);
-
-            // $oldAccount->net_debit -= $invoice->total_cash;
-            // $oldAccount->current_balance += $invoice->total_cash;
-    
-            // $oldExpense->net_credit -= $invoice->total_cash;
-            // $oldExpense->current_balance -= $invoice->total_cash;
-    
-            // $oldTax->net_credit -= $invoice->tax_amount;
-            // $oldTax->current_balance -= $invoice->tax_amount;
-    
-            // $oldAccount->save();
-            // $oldExpense->save();
-            // $oldTax->save();
-    
 
             $account = Account::find($validated['account_id']);
             $expense = Account::find($validated['expense_id']);
@@ -190,23 +140,6 @@ class ExpenseInvoiceController extends Controller
             $this->updateDebit($account , $validated['total_cash']);
             $this->updateCredit($expense , $validated['total_cash']);
             $this->updateCredit($tax , $validated['tax_amount']);
-
-
-            // $account_parent->net_debit += $validated['total_cash'];
-            // $account_parent->current_balance -= $validated['total_cash'];
-
-            // $account->net_debit += $validated['total_cash'];
-            // $account->current_balance -= $validated['total_cash'];
-    
-            // $expense->net_credit += $validated['total_cash'];
-            // $expense->current_balance += $validated['total_cash'];
-    
-            // $tax->net_credit += $validated['tax_amount'];
-            // $tax->current_balance += $validated['tax_amount'];
-    
-            // $account->save();
-            // $expense->save();
-            // $tax->save();
     
 
             $invoice->update([
@@ -238,60 +171,26 @@ class ExpenseInvoiceController extends Controller
         return new ExpenseInvoiceResource($expenseInvoice);
     }
 
-    // public function destroy(ExpenseInvoice $expenseInvoice)
-    // {
-    //     $expenseInvoice->delete();
-    //     return response()->json(['message' => 'Expense Invoice deleted successfully.']);
-    // }
+
     public function destroy($id)
 {
     DB::beginTransaction();
 
     try {
-        // Find the invoice
-        $invoice = ExpenseInvoice::findOrFail($id);
 
-        // Retrieve related accounts
+        $invoice = ExpenseInvoice::findOrFail($id);
         $account = Account::find($invoice->account_id);
         $expense = Account::find($invoice->expense_id);
         $tax = Account::find(54);
 
-        // $account_parent = Account::find($account->parent_id);
-        // $expense_parent = Account::find($expense->parent_id);
-        // $tax_parent = Account::find($tax->parent_id);
-
+    
 
 
         $this->updateDebitRev($account , $invoice->total_cash);
         $this->updateCreditRev($expense , $invoice->total_cash);
         $this->updateCreditRev($tax , $invoice->tax_amount);
         
-        // $account->net_debit -= $invoice->total_cash;
-        // $account->current_balance += $invoice->total_cash;
-
-        // $account_parent->net_debit -= $invoice->total_cash;
-        // $account_parent->current_balance += $invoice->total_cash;
-
-        // $expense->net_credit -= $invoice->total_cash;
-        // $expense->current_balance -= $invoice->total_cash;
-
-        // $expense_parent->net_credit -= $invoice->total_cash;
-        // $expense_parent->current_balance -= $invoice->total_cash;
-
-        // $tax->net_credit -= $invoice->tax_amount;
-        // $tax->current_balance -= $invoice->tax_amount;
-
-        // $tax_parent->net_credit -= $invoice->tax_amount;
-        // $tax_parent->current_balance -= $invoice->tax_amount;
-
-
-        // $tax_parent->save();
-        // $tax->save();
-        // $expense_parent->save();
-        // $expense->save();
-        // $account_parent->save();
-        // $account->save();
-
+      
         if ($invoice->online_payment_image) {
             $onlinePaymentImagePath = str_replace(asset('uploads'), 'uploads', $invoice->online_payment_image);
             Storage::disk('uploads')->delete($onlinePaymentImagePath);
@@ -302,7 +201,7 @@ class ExpenseInvoiceController extends Controller
             Storage::disk('uploads')->delete($invoiceImagePath);
         }
 
-        // Delete the invoice
+
         $invoice->delete();
 
         DB::commit();
