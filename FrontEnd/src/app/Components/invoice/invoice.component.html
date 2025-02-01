@@ -1,8 +1,9 @@
 <div class="container" id="invoice-details">
 <div class="invoice">
     <div class="logo mb-3">
-        <img [src]=logo alt="logo" class="fixed-img">
-
+        <!-- <img [src]=logo alt="logo" class="fixed-img"> -->
+        <!-- <img [src]="logo" alt="logo" class="fixed-img" (load)="onImageLoad()" #invoiceImage> -->
+        <img src='images/login.jpg' alt="logo" class="fixed-img">
     </div>
 
     <div class="details">
@@ -20,7 +21,7 @@
          
             <div class="col-6 ">
                 <div>النوع: {{getType(salesData?.type)}} </div>
-                <div class="col-6">التاريخ:{{salesData?.date}}</div>
+                <div >التاريخ:{{salesData?.date}}</div>
             </div>
             <div class="col-6 ">
                 <div>الرقم: {{salesData?.number}} </div>

@@ -158,3 +158,182 @@ export class InvoiceComponent implements OnInit {
     }
   }
 }
+// import { HttpErrorResponse } from '@angular/common/http';
+// import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+// import html2canvas from 'html2canvas';
+// import jsPDF from 'jspdf';
+// import { SalesService } from '../../shared/services/sales.service';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { SettingsService } from '../../shared/services/settings.service';
+// import * as QRCode from 'qrcode';
+// import { AccountingService } from '../../shared/services/accounts.service';
+// import { CommonModule } from '@angular/common';
+
+// @Component({
+//   selector: 'app-invoice',
+//   imports: [CommonModule],
+//   templateUrl: './invoice.component.html',
+//   styleUrl: './invoice.component.css'
+// })
+// export class InvoiceComponent implements OnInit {
+//   currentTime: string = '';
+//   salesData: any;
+//   setting: any;
+//   logo: any;
+//   isImageLoaded: boolean = false;
+
+//   @ViewChild('invoiceImage') invoiceImage!: ElementRef;
+
+//   constructor(
+//     private _AccountingService: AccountingService,
+//     private _SalesService: SalesService,
+//     private _SettingsService: SettingsService,
+//     private router: Router,
+//     private route: ActivatedRoute
+//   ) {}
+
+//   taxRate: any;
+
+//   ngOnInit(): void {
+//     this.getTaxRate();
+
+//     const salesId = this.route.snapshot.paramMap.get('id');
+//     if (salesId) {
+//       this.fetchInvoiceData(salesId);
+//     }
+//     this.fetchSettingData();
+//     this.setCurrentTime();
+//   }
+
+//   getTaxRate(): void {
+//     this._AccountingService.getTaxRate().subscribe({
+//       next: (response) => {
+//         if (response) {
+//           this.taxRate = parseFloat(response.rate);
+//         }
+//       },
+//       error: (err) => {
+//         console.error(err);
+//       },
+//     });
+//   }
+
+//   getType(type: string) {
+//     if (type == 'debit') {
+//       return 'اجل';
+//     } else {
+//       return 'كاش';
+//     }
+//   }
+
+//   setCurrentTime(): void {
+//     const now = new Date();
+//     this.currentTime = now.toLocaleString();
+//   }
+
+//   fetchSettingData(): void {
+//     this._SettingsService.getSettings().subscribe({
+//       next: (response) => {
+//         console.log("setting", response);
+//         this.setting = response.data || {};
+//         this.convertImageToBase64(response.data.logo).then((base64Url: string) => {
+//           this.logo = base64Url;
+//         });
+//       },
+//       error: (err: HttpErrorResponse) => {
+//         console.error('Error fetching Sales data:', err.message);
+//       }
+//     });
+//   }
+  
+//   convertImageToBase64(url: string): Promise<string> {
+//     return new Promise((resolve, reject) => {
+//       const img = new Image();
+//       img.setAttribute('crossOrigin', 'anonymous'); // Fix CORS issue
+//       img.src = url;
+//       img.onload = () => {
+//         const canvas = document.createElement('canvas');
+//         canvas.width = img.width;
+//         canvas.height = img.height;
+//         const ctx = canvas.getContext('2d');
+//         if (ctx) {
+//           ctx.drawImage(img, 0, 0);
+//           resolve(canvas.toDataURL('image/png'));
+//         } else {
+//           reject(new Error('Could not create canvas context'));
+//         }
+//       };
+//       img.onerror = (error) => {
+//         reject(error);
+//       };
+//     });
+//   }
+  
+
+//   fetchInvoiceData(equationId: string): void {
+//     this._SalesService.getSalesInvoice(equationId).subscribe({
+//       next: (response) => {
+//         console.log(response.data);
+//         this.salesData = response.data || {};
+//         this.generateQRCode();
+//       },
+//       error: (err: HttpErrorResponse) => {
+//         console.error('Error fetching Sales data:', err.message);
+//       }
+//     });
+//   }
+
+//   generateQRCode(): void {
+//     const qrCanvas: HTMLCanvasElement | null = document.getElementById('invoice-qr') as HTMLCanvasElement;
+//     if (!qrCanvas) return;
+
+//     // URL that opens the invoice
+//     const salesId = this.route.snapshot.paramMap.get('id');
+//     const qrData = `سعر الفاتورة: ${this.salesData.amount}`;
+
+//     QRCode.toCanvas(qrCanvas, qrData, { width: 150 }, (error) => {
+//       if (error) {
+//         console.error('Error generating QR code:', error);
+//       }
+//     });
+//   }
+
+//   onImageLoad(): void {
+//     this.isImageLoaded = true;
+//   }
+
+//   exportToPDF(): void {
+//     if (!this.isImageLoaded) {
+//       alert('Please wait for the image to load before generating the PDF.');
+//       return;
+//     }
+  
+//     const content: HTMLElement | null = document.getElementById('invoice-details');
+//     if (content) {
+//       html2canvas(content, { useCORS: true }).then((canvas: { toDataURL: (arg0: string) => any; height: number; width: number; }) => {
+//         const imgData = canvas.toDataURL('image/png');
+//         const pdf = new jsPDF('p', 'mm', 'a4');
+//         const imgWidth = 190;
+//         const pageHeight = 297;
+//         const imgHeight = (canvas.height * imgWidth) / canvas.width;
+//         let heightLeft = imgHeight;
+  
+//         let position = 0;
+  
+//         pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+//         heightLeft -= pageHeight;
+  
+//         while (heightLeft >= 0) {
+//           position = heightLeft - imgHeight;
+//           pdf.addPage();
+//           pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+//           heightLeft -= pageHeight;
+//         }
+  
+//         pdf.save('invoice.pdf');
+//       }).catch((error: any) => {
+//         console.error('Error generating PDF:', error);
+//       });
+//     }
+//   }
+// }
