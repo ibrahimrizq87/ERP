@@ -5,6 +5,8 @@ import { ReportsService } from '../../shared/services/reports.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { SettingsService } from '../../shared/services/settings.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-test2',
@@ -27,21 +29,34 @@ export class Test2Component implements OnInit{
   id25:number=0;
   final_net_income:number=0;
   currentYear: number = 0;
+  setting: any;
   constructor(
   
     private _ReportsService:ReportsService
-    , private router: Router,
-    private toastr :ToastrService
+    , private _SettingsService:SettingsService
+   
   ) {}
  
   ngOnInit(): void {
  
     this.loadAllequationHistory()
     this.getCurrentYear()
+    this.fetchSettingData()
   }
   getCurrentYear(): void {
     const now = new Date();
     this.currentYear = now.getFullYear();
+  }
+  fetchSettingData(): void {
+    this._SettingsService.getSettings().subscribe({
+      next: (response) => {
+        console.log("setting",response);
+        this.setting = response.data|| {};
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error fetching Sales data:', err.message);
+      }
+    });
   }
   loadAllequationHistory(): void {
     this._ReportsService.yearReport().subscribe({

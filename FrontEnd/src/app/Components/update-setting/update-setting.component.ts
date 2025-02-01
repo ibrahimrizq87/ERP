@@ -31,7 +31,7 @@ export class UpdateSettingComponent {
       tax_number: ['', Validators.required],
       tax_name: ['', Validators.required],
       invoice_message: ['' ,Validators.required],
-
+      company_name:['',Validators.required]
          
     });
   }
@@ -61,6 +61,7 @@ export class UpdateSettingComponent {
             tax_number:productData.tax_number,
             tax_name:productData.tax_name,
             invoice_message:productData.invoice_message,
+            company_name:productData.company_name
           });
 
           if(productData.logo != 'none'){
@@ -107,7 +108,7 @@ if (key == 'logo'){
     formData.append('tax_number', this.machineForm.get('tax_number')?.value );
     formData.append('tax_name', this.machineForm.get('tax_name')?.value );
     formData.append('invoice_message', this.machineForm.get('invoice_message')?.value );
-
+    formData.append('company_name', this.machineForm.get('company_name')?.value );
    
 
     // this.settings.forEach( (setting, index) => {

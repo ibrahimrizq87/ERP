@@ -35,6 +35,7 @@ class SettingController extends Controller
         $rules = [
             'phone' => 'required|string',
             'address' => 'required|string',
+            'company_name' => 'required|string',
             'tax_number' => 'required|string',
             'tax_name' => 'required|string',
             'invoice_message' => 'required|string',
@@ -64,6 +65,7 @@ class SettingController extends Controller
             $tax_number =Setting::find(4);
             $tax_name =Setting::find(5);
             $invoice_message =Setting::find(6);
+            $company_name=Setting::find(7);
           if($phone){
             $phone->value = $request->phone;
             $phone->save();
@@ -98,6 +100,10 @@ class SettingController extends Controller
           if($invoice_message){
             $invoice_message->value = $request->invoice_message;
             $invoice_message->save();
+          }
+          if($company_name){
+            $company_name->value = $request->company_name;
+            $company_name->save();
           }
            
             

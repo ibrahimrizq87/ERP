@@ -1,6 +1,6 @@
-.logoimg{
+/* .logoimg{
     width:11%;
-}
+} */
 .dropdown{
     background-color: #F5F5F5;
 }
@@ -10,18 +10,18 @@
 .stylish-navbar {
     width: 90%;
     margin: 20px auto;
-    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+    background: linear-gradient(90deg, #4e75c8, #8fb1fb);
     border-radius: 10px;
     padding: 10px 20px;
   }
   
-  .stylish-logo {
+  /* .stylish-logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: #fff;
     text-transform: uppercase;
     text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
-  }
+  } */
   
   .navbar-nav {
     display: flex;
@@ -54,4 +54,9 @@
     transform: scale(0.95);
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
   }
-  
+  .fixed-img {
+    width: 70px;  
+    height: 70px; 
+    border-radius: 50%; 
+    object-fit: cover;
+}
