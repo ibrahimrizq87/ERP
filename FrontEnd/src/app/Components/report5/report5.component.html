@@ -28,10 +28,18 @@
       <ng-container *ngFor="let group of reportYear">
         <tr>
           <td>{{ group.equation_id.base_id.account_name }}</td>
-          <td>{{ group.equation_id.first_price }}</td>
-          <td>{{ group.last_price }}</td>
-          <td>{{ group.equation_id.first_price }}</td>
-          <td>{{ group.equation_id.number_of_periods }}</td>
+          <td *ngIf='group.equation_id.first_price < 0'class="text-center "style="color: red;">{{group.equation_id.first_price * -1 }}</td>
+          <td *ngIf='group.equation_id.first_price >= 0' class="text-center ">{{group.equation_id.first_price}}</td>
+         
+          <td *ngIf='group.last_price < 0'class="text-center "style="color: red;">{{group.last_price * -1 }}</td>
+          <td *ngIf='group.last_price >= 0' class="text-center ">{{group.last_price}}</td>
+        
+          <td *ngIf='group.equation_id.first_price < 0'class="text-center "style="color: red;">{{group.equation_id.first_price * -1 }}</td>
+          <td *ngIf='group.equation_id.first_price >= 0' class="text-center ">{{group.equation_id.first_price}}</td>
+         
+          <td *ngIf='group.equation_id.number_of_periods < 0'class="text-center "style="color: red;">{{group.equation_id.number_of_periods * -1 }}</td>
+          <td *ngIf='group.equation_id.number_of_periods >= 0' class="text-center ">{{group.equation_id.number_of_periods}}</td>
+        
           <td>{{ (100 / group.equation_id.number_of_periods).toFixed(2) }}%</td>
           <td>
             <table class="table table-borderless m-0">
@@ -41,20 +49,34 @@
               </tr>
             </table>
           </td>
-          <td>{{ group.amount }}</td>
-          <td>{{group.equation_id.first_price-group.amount}}</td>
+          <td *ngIf='group.amount < 0'class="text-center "style="color: red;">{{group.amount * -1 }}</td>
+          <td *ngIf='group.amount >= 0' class="text-center ">{{group.amount}}</td>
+        
+          <td *ngIf='group.equation_id.first_price-group.amount < 0'class="text-center "style="color: red;">{{group.equation_id.first_price-group.amount * -1 }}</td>
+          <td *ngIf='group.equation_id.first_price-group.amount >= 0' class="text-center ">{{group.equation_id.first_price-group.amount}}</td>
+        
         </tr>
       </ng-container>
     </tbody>
     <tfoot>
       <tr>
         <th>الإجمالي</th>
-        <th>{{ totalFirstPrice }}</th>
-        <th>{{ totalCurrentPrice }}</th>
-        <th>{{ totalNetFirstPrice }}</th>
+        <th *ngIf=' totalFirstPrice  < 0'class="text-center "style="color: red;">{{ totalFirstPrice  * -1 }}</th>
+        <th *ngIf=' totalFirstPrice  >= 0' class="text-center ">{{ totalFirstPrice }}</th>
+        
+        <th *ngIf=' totalCurrentPrice  < 0'class="text-center "style="color: red;">{{ totalCurrentPrice  * -1 }}</th>
+        <th *ngIf=' totalCurrentPrice  >= 0' class="text-center ">{{ totalCurrentPrice }}</th>
+       
+        <th *ngIf=' totalNetFirstPrice  < 0'class="text-center "style="color: red;">{{ totalNetFirstPrice  * -1 }}</th>
+        <th *ngIf=' totalNetFirstPrice  >= 0' class="text-center ">{{ totalNetFirstPrice }}</th>
+      
         <th colspan="3"></th>
-        <th>{{ totalDepreciation }}</th>
-        <th>{{ totalNetBookValue }}</th>
+        <th *ngIf=' totalDepreciation  < 0'class="text-center "style="color: red;">{{ totalDepreciation  * -1 }}</th>
+        <th *ngIf=' totalDepreciation  >= 0' class="text-center ">{{ totalDepreciation }}</th>
+       
+        <th *ngIf=' totalNetBookValue  < 0'class="text-center "style="color: red;">{{ totalNetBookValue  * -1 }}</th>
+        <th *ngIf=' totalNetBookValue  >= 0' class="text-center ">{{ totalNetBookValue }}</th>
+       
       </tr>
     </tfoot>
   </table>

@@ -24,37 +24,51 @@
             <tr>
                 <td>النقدية وما في حكمها</td>
                 <td class="text-info text-center fw-bold">5</td>
-                <td class="text-center">{{id1}}</td>
+                <td *ngIf='id1 < 0'class="text-center"style="color: red;">{{id1 * -1 }}</td>
+                <td *ngIf='id1 >= 0' class="text-center ">{{id1}}</td>
+               
             </tr>
             <tr>
                 <td>المخزون  </td>
                 <td></td>
-                <td class="text-center">{{id2}}</td>
+                <td *ngIf='id2 < 0'class="text-center"style="color: red;">{{id2 * -1 }}</td>
+                <td *ngIf='id2 >= 0' class="text-center">{{id2}}</td>
+               
             </tr>
             <tr>
                 <td>الذمم المدينة التجارية</td>
                 <td></td>
-                <td class="text-center">{{id3}}</td>
+                <td *ngIf='id3 < 0'class="text-center"style="color: red;">{{id3 * -1 }}</td>
+                <td *ngIf='id3 >= 0' class="text-center">{{id3}}</td>
+               
             </tr>
             <tr>
                 <td>  مصروفات مدفوعة مقدمه</td>
                 <td></td>
-                <td class="text-center">{{id4}}</td>
+                <td *ngIf='id4 < 0'class="text-center"style="color: red;">{{id4 * -1 }}</td>
+                <td *ngIf='id4 >= 0' class="text-center">{{id4}}</td>
+            
             </tr>
             <tr>
                 <td> ارصدة مدينة تجارية </td>
                 <td class="text-info text-center fw-bold">6</td>
-                <td class="text-center">{{id5}}</td>
+                <td *ngIf='id5 < 0'class="text-center "style="color: red;">{{id5 * -1 }}</td>
+                <td *ngIf='id5 >= 0' class="text-center ">{{id5}}</td>
+               
             </tr>
             <tr>
                 <td>  أطراف ذات علاقه مدينة  </td>
                 <td></td>
-                <td class="text-center">{{id6}}</td>
+                
+                <td *ngIf='id6 < 0'class="text-center"style="color: red;">{{id6 * -1 }}</td>
+                <td *ngIf='id6 >= 0' class="text-center">{{id6}}</td>
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">{{assetsSum}}</td>
+                <td *ngIf='assetsSum < 0'class="text-center fw-bold"style="color: red;">{{assetsSum * -1 }}</td>
+                <td *ngIf='assetsSum >= 0' class="text-center fw-bold">{{assetsSum}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold">الموجودات غير المتداولة</td>
@@ -64,22 +78,30 @@
             <tr>
                 <td>ممتلكات، آلات ومعدات، صافي</td>
                 <td class="text-info text-center fw-bold">7</td>
-                <td class="text-center">{{id7}}</td>
+                <td *ngIf='id7 < 0'class="text-center "style="color: red;">{{id7 * -1 }}</td>
+                <td *ngIf='id7 >= 0' class="text-center ">{{id7}}</td>
+            
             </tr>
             <tr>
                 <td>مشروعات تحت التنفيذ</td>
                 <td></td>
-                <td class="text-center">{{id8}}</td>
+                <td *ngIf='id8 < 0'class="text-center"style="color: red;">{{id8 * -1 }}</td>
+                <td *ngIf='id8 >= 0' class="text-center">{{id8}}</td>
+                
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات غير المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">{{notAssetsSum}}</td>
+                <td *ngIf='notAssetsSum < 0'class="text-center fw-bold"style="color: red;">{{notAssetsSum * -1 }}</td>
+                <td *ngIf='notAssetsSum >= 0' class="text-center fw-bold">{{notAssetsSum}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold">مجموع الموجودات</td>
                 <td></td>
-                <td class="fw-bold text-center">{{allAssetsSum}}</td>
+              
+                <td *ngIf='allAssetsSum < 0'class="text-center fw-bold"style="color: red;">{{allAssetsSum * -1 }}</td>
+                <td *ngIf='allAssetsSum >= 0' class="text-center fw-bold">{{allAssetsSum}}</td>
             </tr>
             <tr>
                 <td colspan="3" class="fw-bold">المطلوبات</td>
@@ -92,27 +114,37 @@
             <tr>
                 <td>ذمم دائنة تجارية</td>
                 <td></td>
-                <td class="text-center">{{id9}}</td>
+                <td *ngIf='id9 < 0'class="text-center"style="color: red;">{{id9 * -1 }}</td>
+                <td *ngIf='id9 >= 0' class="text-center">{{id9}}</td>
+              
             </tr>
             <tr>
                 <td>أطراف ذات علاقة دائنة  </td>
                 <td></td>
-                <td class="text-center">{{id10}}</td>
+                <td *ngIf='id10 < 0'class="text-center"style="color: red;">{{id10 * -1 }}</td>
+                <td *ngIf='id10 >= 0' class="text-center">{{id10}}</td>
+              
             </tr>
             <tr>
                 <td> ارصده دائنة آخرى</td>
                 <td></td>
-                <td class="text-center">{{id11}}</td>
+                <td *ngIf='id11 < 0'class="text-center"style="color: red;">{{id11 * -1 }}</td>
+                <td *ngIf='id11 >= 0' class="text-center">{{id11}}</td>
+               
             </tr>
             <tr>
                 <td>المصروفات المستحقة</td>
                 <td></td>
-                <td class="text-center">{{id13}}</td>
+                <td *ngIf='id13 < 0'class="text-center"style="color: red;">{{id13 * -1 }}</td>
+                <td *ngIf='id13 >= 0' class="text-center">{{id13}}</td>
+              
             </tr>
             <tr>
                 <td class="fw-bold"> مجموع المتطلبات المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">{{requirmentsSum}}</td>
+                <td *ngIf='requirmentsSum < 0'class="text-center fw-bold"style="color: red;">{{requirmentsSum * -1 }}</td>
+                <td *ngIf='requirmentsSum >= 0' class="text-center fw-bold">{{requirmentsSum}}</td>
+             
             </tr>
             <tr>
                 <td class="fw-bold">المطلوبات غير المتداولة</td>
@@ -122,17 +154,23 @@
             <tr>
                 <td>قروض طويله الاجل </td>
                 <td></td>
-                <td class="text-center">{{id14}}</td>
+                <td *ngIf='id14 < 0'class="text-center"style="color: red;">{{id14 * -1 }}</td>
+                <td *ngIf='id14 >= 0' class="text-center">{{id14}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold"> مجموع المتطلبات غير المتداولة</td>
                 <td></td>
-                <td class="fw-bold text-center">{{notRequirmentsSum}}</td>
+                <td *ngIf='notRequirmentsSum < 0'class="text-center fw-bold"style="color: red;">{{notRequirmentsSum * -1 }}</td>
+                <td *ngIf='notRequirmentsSum >= 0' class="text-center fw-bold">{{notRequirmentsSum}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold">  اجمالى المطلوبات </td>
                 <td></td>
-                <td class="fw-bold text-center">{{allRequirmentsSum}}</td>
+                <td *ngIf='allRequirmentsSum < 0'class="text-center fw-bold"style="color: red;">{{allRequirmentsSum * -1 }}</td>
+                <td *ngIf='allRequirmentsSum >= 0' class="text-center fw-bold">{{allRequirmentsSum}}</td>
+              
             </tr>
             <tr>
                 <td colspan="3" class="fw-bold">حقوق الشركاء</td>
@@ -140,27 +178,37 @@
             <tr>
                 <td>  راس المال </td>
                 <td></td>
-                <td class="text-center">{{id15}}</td>
+                <td *ngIf='id15 < 0'class="text-center"style="color: red;">{{id15 * -1 }}</td>
+                <td *ngIf='id15 >= 0' class="text-center">{{id15}}</td>
+                
             </tr>
             <tr>
                 <td>   جارى الشركاء </td>
                 <td></td>
-                <td class="text-center">{{id16}}</td>
+                <td *ngIf='id16 < 0'class="text-center"style="color: red;">{{id16 * -1 }}</td>
+                <td *ngIf='id16 >= 0' class="text-center">{{id16}}</td>
+                
             </tr>
             <tr>
                 <td>  أرباح العام  </td>
                 <td></td>
-                <td class="text-center">{{id17}}</td>
+                <td *ngIf='id17 < 0'class="text-center"style="color: red;">{{id17 * -1 }}</td>
+                <td *ngIf='id17 >= 0' class="text-center">{{id17}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold">مجموع حقوق الشركاء </td>
                 <td></td>
-                <td class="text-center fw-bold">{{partnersSum}}</td>
+                <td *ngIf='partnersSum < 0'class="text-center fw-bold"style="color: red;">{{partnersSum * -1 }}</td>
+                <td *ngIf='partnersSum >= 0' class="text-center fw-bold">{{partnersSum}}</td>
+               
             </tr>
             <tr>
                 <td class="fw-bold">مجموع حقوق الشركاء والمطلوبات</td>
                 <td></td>
-                <td class="text-center fw-bold">{{ partnersAndRequirmentsSum}}</td>
+                <td *ngIf='partnersAndRequirmentsSum < 0'class="text-center fw-bold"style="color: red;">{{partnersAndRequirmentsSum * -1 }}</td>
+                <td *ngIf='partnersAndRequirmentsSum >= 0' class="text-center fw-bold">{{partnersAndRequirmentsSum}}</td>
+                
             </tr>
         </tbody>
     </table>

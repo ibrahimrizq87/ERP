@@ -4,10 +4,11 @@ import jsPDF from 'jspdf';
 import { ReportsService } from '../../shared/services/reports.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-test4',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './test4.component.html',
   styleUrl: './test4.component.css'
 })

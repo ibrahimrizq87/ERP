@@ -22,12 +22,16 @@
           <tr *ngFor="let account of accounts1">
             <td></td>
             <td>{{ account.account_name }}</td>
-            <td class="currency">{{ account.current_balance }}</td>
+            <!-- <td class="currency">{{ account.current_balance }}</td> -->
+            <td  *ngIf="account.current_balance < 0" class="currency" style="color: red;">{{ account.current_balance * -1 }} </td>
+            <td *ngIf="account.current_balance >= 0" class="currency">{{ account.current_balance  }}</td>
           </tr>
           <tr class="total-row">
             <td></td>
             <td>الإجمالي</td>
-            <td class="currency">{{ totalBalance1 | number: '1.2-2' }}</td>
+            <td  *ngIf="totalBalance1 < 0" class="currency" style="color: red;">{{ totalBalance1 * -1 }} </td>
+            <td *ngIf="totalBalance1 >= 0" class="currency">{{ totalBalance1  }}</td>
+            <!-- <td class="currency">{{ totalBalance1 | number: '1.2-2' }}</td> -->
           </tr>
         </tbody>
       </table>
@@ -53,12 +57,16 @@
           <tr *ngFor="let account of accounts5">
             <td></td>
             <td>{{ account.account_name }}</td>
-            <td class="currency">{{ account.current_balance }}</td>
+            <td  *ngIf="account.current_balance< 0" class="currency" style="color: red;">{{ account.current_balance* -1 }} </td>
+            <td *ngIf="account.current_balance>= 0" class="currency">{{ account.current_balance }}</td>
+           
           </tr>
           <tr class="total-row">
             <td></td>
             <td>الإجمالي</td>
-            <td class="currency">{{ totalBalance5 | number: '1.2-2' }}</td>
+            <td  *ngIf="totalBalance5< 0" class="currency" style="color: red;">{{ totalBalance5* -1 }} </td>
+            <td *ngIf="totalBalance5>= 0" class="currency">{{ totalBalance5 }}</td>
+          
           </tr>
         </tbody>
       </table>
@@ -84,12 +92,16 @@
           <tr *ngFor="let account of accounts7">
             <td></td>
             <td>{{ account.account_name }}</td>
-            <td class="currency">{{ account.current_balance }}</td>
+            <td  *ngIf="account.current_balance < 0" class="currency" style="color: red;">{{ account.current_balance * -1 }} </td>
+            <td *ngIf="account.current_balance >= 0" class="currency">{{ account.current_balance  }}</td>
+           
           </tr>
           <tr class="total-row">
             <td></td>
             <td>الإجمالي</td>
-            <td class="currency">{{ totalBalance7 | number: '1.2-2' }}</td>
+            <td  *ngIf="totalBalance7 < 0" class="currency" style="color: red;">{{ totalBalance7 * -1 }} </td>
+            <td *ngIf="totalBalance7 >= 0" class="currency">{{ totalBalance7  }}</td>
+           
           </tr>
         </tbody>
       </table>
