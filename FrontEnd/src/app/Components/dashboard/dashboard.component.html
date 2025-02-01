@@ -223,7 +223,7 @@
           <li class="nav-item" *ngIf="userRole === 'admin' || userRole === 'accountant'">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('main_reports')">
-                <i class="fa-solid fa-equals"></i>
+                <i class="fa-solid fa-chart-simple"></i>
                 <span>التقارير</span>
                 <i [ngClass]="isDropdownOpen('main_reports') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
@@ -292,7 +292,7 @@
           <li class="nav-item" *ngIf="userRole === 'admin'">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('updateSettings')">
-                <i class="fa-solid fa-shuffle"></i>
+                <i class="fa-solid fa-gear"></i>
                 <span>اعدادات النظام</span>
                 <i [ngClass]="isDropdownOpen('updateSettings') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
               </div>
