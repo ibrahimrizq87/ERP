@@ -11,6 +11,8 @@ use App\Models\ShiftMachine;
 use App\Models\TaxRate;  
 
 use App\Models\Machine;  
+use App\Models\MainShiftOnlineImage;  
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -177,12 +179,12 @@ class MainShiftController extends Controller
                 $salesAccount =Account::find(47);
 
                 
-                $tax_rate  =TaxRate::find(1);
-                $precentage =$tax_rate->rate /100;
-                $total = $total_money *  $precentage;
+                // $tax_rate  =TaxRate::find(1);
+                // $precentage =$tax_rate->rate /100;
+                // $total = $total_money *  $precentage;
                 
 
-                $this->updateCredit($tax ,$total);
+                $this->updateCredit($tax ,$shift->total_tax);
                 $this->updateCredit($salesAccount , $total_money);
 
                 $shift->status = 'approved';
@@ -282,12 +284,14 @@ class MainShiftController extends Controller
 
         'machines' => 'nullable|array',
         'update_machines' => 'nullable|array',
-        'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',//image
+        // 'online_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',//image
+        'online_images' => 'nullable|array',
+        'online_images.*' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         'total_online' => 'required|numeric|min:0',//text input
         'total_cash' => 'required|numeric|min:0',//totalmoney-(totalclient+totalonline)
         'total_money' => 'required|numeric|min:0',//total الاجمالى بالريال
         'total_client' => 'required|numeric|min:0',// invoice
-
+        'total_tax'=> 'required|numeric|min:0',
         'machines.*.product_id' => 'required|numeric|exists:products,id',//product
         'machines.*.machine_id' => 'required|numeric|exists:machines,id',//machine
         'machines.*.close_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',//image
@@ -323,6 +327,31 @@ class MainShiftController extends Controller
         $total_money_cash = $request->total_cash;
         $total_money_client = $request->total_client;
         $total_money_online = $request->total_online;
+
+        $total_shift_tax = $request->total_tax;
+
+
+        
+        if ($request->hasFile('online_images')) {
+            $shift->OnlineImages()->delete();
+
+            foreach ($data['online_images'] as $image) {
+                $image_path = $image->store('onlinePamentImages', 'uploads'); 
+                $image_path = asset('uploads/' . $image_path);
+
+                $onlineImage = new MainShiftOnlineImage();
+                $onlineImage->main_shift_id =  $shift->id;
+                $onlineImage->image = $image_path;
+                $onlineImage->save();
+            }
+        }
+
+
+
+
+
+            
+
 
     if ($request->has('machines')) {
 
@@ -409,7 +438,9 @@ $shift->shiftMachines()->delete();
     $shift->total_money_cash = $total_money_cash; 
     $shift->total_money_client = $total_money_client; 
     $shift->total_money_online = $total_money_online; 
-     
+    $shift->total_tax = $total_shift_tax; 
+
+    
      $shift->save();
 
      DB::commit();

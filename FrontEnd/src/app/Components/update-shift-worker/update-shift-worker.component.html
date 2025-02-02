@@ -103,8 +103,8 @@
   
   <!-- حقل الصورة عبر الإنترنت -->
   <div class="col-md-4 custom-section">
-    <label for="image">الموازنة</label>
-    <input type="file" class="custom-file-input" id="online_image" (change)="onFileSelect($event)" accept="image/*" />
+    <label for="online_image">الموازنة</label>
+    <input type="file" class="custom-file-input" id="online_image" (change)="onFileSelect($event)" accept="image/*"   multiple />
   </div>
 
   <!-- حقل المجموع المدفوع عبر الإنترنت -->
@@ -117,16 +117,23 @@
   </div>
 
   <!-- عرض الإجمالي بالريال -->
-  <div class="custom-card total-amount mt-4">
-    <h5>الإجمالي بالريال: {{ totalAmount | number:'1.2-2' }}</h5>
-  </div>
+
 
   <!-- عرض المجموع النقدي -->
   <div class="mt-3 custom-card ">
     <h5>الاجمالى كاش: {{ totalCash }}</h5>
   </div>
   <div class="mt-3 custom-card ">
-    <h5>الاجمالى دفع العملاء: {{ total_client }}</h5>
+    <h5>الاجمالى آجل العملاء: {{ total_client }}</h5>
+  </div>
+
+
+
+  <div class="custom-card total-amount mt-4">
+    <h5>الإجمالي قبل الضريبة: {{ moneyWithoutTax | number:'1.2-2' }}</h5>
+  </div>
+  <div class="custom-card total-amount mt-4">
+    <h5>الإجمالي بالريال: {{ totalAmount | number:'1.2-2' }}</h5>
   </div>
 
   <!-- زر الحفظ -->

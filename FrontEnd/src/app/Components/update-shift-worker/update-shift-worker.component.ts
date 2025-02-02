@@ -27,6 +27,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   total_online_value:any;
   totalAmount: number = 0;
   totalCash: number = 0;
+  moneyWithoutTax: number = 0;
+
   readonly maxImageSize = 2048 * 1024;
   total_client: any;
   totalLiters: number = 0;
@@ -34,6 +36,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
   totalLiterForEachProduct: any;
   shift_id: any;
   taxRate: any;
+  selectedFiles: File[] = [];
+
 
   constructor(
     private _MachineService:MachineService,
@@ -84,10 +88,9 @@ export class UpdateShiftWorkerComponent implements OnInit {
   selectedFile: File | null = null;
 
   onFileSelect(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      this.shiftForm.patchValue({ online_image: file });
+    if (event.target.files.length > 0) {
+        this.selectedFiles = Array.from(event.target.files);
+      
     }
   }
 
@@ -212,6 +215,8 @@ export class UpdateShiftWorkerComponent implements OnInit {
       image: [null],
       id: [-1],
       machines: [[]], // Initialize machines as an empty array
+      total_money_without_tax: [0],
+
     });
   
     // newPaymentGroup.get('close_amount')?.valueChanges.subscribe(() => {
@@ -277,6 +282,13 @@ export class UpdateShiftWorkerComponent implements OnInit {
       const totalMoney = paymentGroup.get('total_money')?.value || 0;
       return sum + totalMoney;
     }, 0);
+    
+    this.moneyWithoutTax = this.onlinePayments.controls.reduce((sum, paymentGroup) => {
+      const totalMoney = paymentGroup.get('total_money_without_tax')?.value || 0;
+      return sum + totalMoney;
+    }, 0);
+
+
     this.calculateTotalCash();
   }
   
@@ -309,6 +321,9 @@ export class UpdateShiftWorkerComponent implements OnInit {
   // Update total liters and money in the form group
   paymentGroup.get('total_liters')?.setValue(totalLiters, { emitEvent: false });
   paymentGroup.get('total_money')?.setValue(totalMoney, { emitEvent: false });
+  paymentGroup.get('total_money_without_tax')?.setValue(totalMoneyWithoutTax, { emitEvent: false });
+
+  
 
   console.log(`Total liters calculated: ${totalLiters}`);
   this.calculateTotalAmount();
@@ -403,8 +418,12 @@ aggregateProducts(): void {
     formData.append('total_money',this.totalAmount.toString());
     formData.append('total_client',this.total_client.toString());
     formData.append('total_cash',this.totalCash.toString());
+    formData.append('total_tax',(this.totalAmount - this.moneyWithoutTax).toString());
+
+    this.selectedFiles.forEach((file, index) => {
+      formData.append('online_images[]', file);
+    });
     
-    // Debugging: Log the FormData
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);
     }
