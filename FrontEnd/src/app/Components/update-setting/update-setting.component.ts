@@ -87,7 +87,7 @@ if (key == 'logo'){
 }else if (key == 'tax_name)'){
   return ' السجل التجارى' ;
 }else if (key == 'invoice_message'){
-  return ' الرسالة المكتوبه آخر الفتورة' ;
+  return ' الرسالة المكتوبه آخر الفاتورة' ;
 }else if (key == 'company_name'){
   return 'اسم الشركة' ;
 }else {
