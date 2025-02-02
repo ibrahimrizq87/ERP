@@ -92,6 +92,21 @@
   
     <!-- Last Updated -->
     <p class="text-muted"><strong>تم آخر تحديث في:</strong> {{ shiftData.updated_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+    <h6 class="card-title text-primary"> صور الموازنه:</h6>
+    <div *ngIf="shiftData.OnlineImages" class="card bg-light mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div *ngFor="let image of shiftData.OnlineImages" class="col-4 col-md-4 mb-4">
+            <div class="card shadow-lg rounded">
+              <div class="mt-3 text-center">
+                <img [src]="image.image" alt="Close Image" class="img-fluid rounded" style="width:100%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="text-center">
     <a class="btn btn-success w-25 text-white" routerLink="/dashboard/updateShiftWorker">
         اعادة ادخال بيانات الوردية

@@ -20,6 +20,7 @@ class MainShift extends Model
         'status',
         'shift',
         'date',
+        'total_tax',
     ];
 
  
@@ -31,6 +32,13 @@ class MainShift extends Model
     public function worker()
     {
         return $this->belongsTo(User::class, 'worker_id');
+    }
+
+    
+
+    public function OnlineImages()
+    {
+        return $this->hasMany(MainShiftOnlineImage::class);
     }
 
     public function supervisor()
