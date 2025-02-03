@@ -85,9 +85,9 @@ export class DashboardComponent {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
   navigateAndCloseModal() {
-    setTimeout(() => {
+    // setTimeout(() => {
       this.closeModal('accountingModal');
-    }, 300);
+    // }, 300);
   }
 
 }
