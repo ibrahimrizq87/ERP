@@ -49,7 +49,8 @@
             </ul>
           </li>
 
-          <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
+          <li class="nav-item"
+            *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('Shifts')">
                 <i class="fa-solid fa-shuffle"></i>
@@ -93,20 +94,96 @@
             </a>
           </li>
 
-          <!-- Modal Triggered for Accounting Details -->
           <div class="modal fade" id="accountingModal" tabindex="-1" aria-labelledby="accountingModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg d-flex align-items-center justify-content-center">
               <div class="modal-content">
                 <div class="modal-header d-flex justify-content-between align-items-center w-100">
                   <h5 class="modal-title" id="accountingModalLabel">المحاسبة</h5>
-                  <!-- Added margin-right to button for spacing -->
                   <button type="button" class="btn-close ms-3" aria-label="Close"
                     (click)="closeModal('accountingModal')"></button>
                 </div>
 
                 <div class="modal-body">
-                  <!-- Nested Accounts -->
+                  <ul class="nav flex-column">
+                    <ng-container *ngFor="let account of accounts">
+
+                      <li class="nav-item" *ngIf="account.children?.length > 0; else directAccountLink">
+                        <div class="d-flex justify-content-between align-items-center"
+                          (click)="toggleDropdown(account.id)">
+                          <span>{{ account.account_name }}</span>
+                          <i [ngClass]="isDropdownOpen(account.id) ? 'fa-angle-down' : 'fa-chevron-left'"
+                            class="fa-solid"></i>
+                        </div>
+                        <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen(account.id)">
+                          <ng-container *ngFor="let child of account.children">
+                            <ng-template [ngTemplateOutlet]="accountTemplate"
+                              [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
+                          </ng-container>
+                        </ul>
+                      </li>
+
+
+                      <ng-template #directAccountLink>
+                        <li class="nav-item nested">
+                          <!-- <a class="nav-link" [routerLink]="'accounting/' + account.id">{{ account.account_name }}</a> 
+                      -->
+                          <a class="nav-link" [routerLink]="'accounting/' + account.id"
+                            (click)="navigateAndCloseModal()">
+                            {{ account.account_name }}
+                          </a>
+
+                        </li>
+                      </ng-template>
+                    </ng-container>
+                  </ul>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="closeModal('accountingModal')">إغلاق</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <ng-template #accountTemplate let-account>
+            <li class="nav-item" *ngIf="account.children?.length > 0; else nestedAccountLink">
+              <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown(account.id)">
+                <span>*{{ account.account_name }}</span>
+                <i [ngClass]="isDropdownOpen(account.id) ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+              </div>
+              <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen(account.id)">
+                <ng-container *ngFor="let child of account.children">
+                  <ng-template [ngTemplateOutlet]="accountTemplate"
+                    [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
+                </ng-container>
+              </ul>
+            </li>
+
+
+            <ng-template #nestedAccountLink>
+              <li class="nav-item nested">
+                <a class="nav-link" [routerLink]="'accounting/' + account.id" (click)="navigateAndCloseModal()">{{
+                  account.account_name }}</a>
+              </li>
+            </ng-template>
+          </ng-template>
+
+          <!-- Modal Triggered for Accounting Details -->
+          <!-- <div class="modal fade" id="accountingModal" tabindex="-1" aria-labelledby="accountingModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg d-flex align-items-center justify-content-center">
+              <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center w-100">
+                  <h5 class="modal-title" id="accountingModalLabel">المحاسبة</h5>
+                  
+                  <button type="button" class="btn-close ms-3" aria-label="Close"
+                    (click)="closeModal('accountingModal')"></button>
+                </div>
+
+                <div class="modal-body">
+                  
                   <ul class="nav flex-column">
                     <ng-container *ngFor="let account of accounts">
                       <li class="nav-item">
@@ -142,7 +219,7 @@
           </div>
 
 
-          <!-- Template for Nested Accounts -->
+         
           <ng-template #accountTemplate let-account>
             <li class="nav-item nested">
               <div class="d-flex justify-content-between align-items-center"
@@ -165,7 +242,7 @@
                 </ng-container>
               </ul>
             </li>
-          </ng-template>
+          </ng-template> -->
 
 
           <!-- <li class="nav-item">
@@ -185,7 +262,8 @@
 
 
 
-          <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
+          <li class="nav-item"
+            *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
             <a class="nav-link">
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('invoices')">
                 <i class="fa-solid fa-file-invoice"></i>
@@ -200,7 +278,8 @@
               <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='accountant'">
                 <a class="nav-link" routerLinkActive="active" routerLink="expensesInvoices">المصاريف</a>
               </li>
-              <li class="nav-item nested" *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
+              <li class="nav-item nested"
+                *ngIf="userRole === 'admin'||userRole==='accountant'||userRole==='worker'||userRole==='supervisor'">
                 <a class="nav-link" routerLinkActive="active" routerLink="salesInvoices">المبيعات</a>
               </li>
             </ul>
@@ -225,14 +304,15 @@
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('main_reports')">
                 <i class="fa-solid fa-chart-simple"></i>
                 <span>التقارير</span>
-                <i [ngClass]="isDropdownOpen('main_reports') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+                <i [ngClass]="isDropdownOpen('main_reports') ? 'fa-angle-down' : 'fa-chevron-left'"
+                  class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('main_reports')">
               <li class="nav-item nested">
                 <a class="nav-link" routerLinkActive="active" routerLink="product/reports">تقارير المخازن</a>
               </li>
-              
+
               <li class="nav-item nested">
                 <a class="nav-link" routerLinkActive="active" routerLink="shift/reports">تقارير المبيعات </a>
               </li>
@@ -248,10 +328,10 @@
               <li class="nav-item nested">
                 <a class="nav-link" routerLinkActive="active" routerLink="document/reports">تقارير السندات صرف/قبض </a>
               </li>
-              
+
             </ul>
           </li>
-          
+
 
           <li class="nav-item" *ngIf="userRole === 'admin'||userRole==='accountant'">
             <a class="nav-link">
@@ -275,7 +355,7 @@
                 <a class="nav-link" routerLinkActive="active" routerLink="report4">قائمة المركز المالي</a>
               </li>
               <li class="nav-item nested">
-                <a class="nav-link" routerLinkActive="active" routerLink="report5">  تقرير السنة</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="report5"> تقرير السنة</a>
               </li>
               <!-- <li class="nav-item nested">
                 <a class="nav-link" routerLinkActive="active">المبيعات</a>
@@ -294,7 +374,8 @@
               <div class="d-flex justify-content-between align-items-center" (click)="toggleDropdown('updateSettings')">
                 <i class="fa-solid fa-gear"></i>
                 <span>اعدادات النظام</span>
-                <i [ngClass]="isDropdownOpen('updateSettings') ? 'fa-angle-down' : 'fa-chevron-left'" class="fa-solid"></i>
+                <i [ngClass]="isDropdownOpen('updateSettings') ? 'fa-angle-down' : 'fa-chevron-left'"
+                  class="fa-solid"></i>
               </div>
             </a>
             <ul class="nav flex-column ms-3" *ngIf="isDropdownOpen('updateSettings')">

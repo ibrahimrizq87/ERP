@@ -13,7 +13,7 @@ import { Base64 } from 'js-base64';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  isSidebarOpen = false;  
+  isSidebarOpen = false;
 
 
 
@@ -84,4 +84,10 @@ export class DashboardComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+  navigateAndCloseModal() {
+    setTimeout(() => {
+      this.closeModal('accountingModal');
+    }, 300);
+  }
+
 }
